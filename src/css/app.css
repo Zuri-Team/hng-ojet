@@ -1,0 +1,110 @@
+/*
+    Document   : override
+    Created on : <date>
+    Author     : <author>
+    Description: 
+        This is where any of your application specific styles should be included
+*/
+
+/*style for the login form*/
+.form_container {
+  min-height: 70vh;
+  margin-bottom: 5ch;
+}
+
+#form_wrapper {
+  padding-bottom: 20px;
+  background: #ffffff;
+  box-shadow: 0px 0px 5px 0px rgba(83, 3, 97, 0.67);
+  border-radius: 3px;
+}
+
+.ftitle {
+  color: rgba(3, 2, 2, 0.7);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 49px;
+  text-align: center;
+}
+
+#logintitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 49px;
+  color: #9b51e0;
+}
+
+#lform_components {
+  width: 90%;
+  margin: auto;
+}
+
+.lform-ctrl {
+  background: #dedcdcc2;
+  border-radius: 500px;
+  padding: 17px 15px;
+  margin-bottom: 20px;
+}
+
+.lform-ctrl .oj-inputtext-input,
+.lform-ctrl .oj-inputpassword-input {
+  border: none;
+  padding: 0px 5px;
+  font-family: inherit;
+}
+
+.fbtn {
+  height: inherit;
+}
+
+.fbtn .oj-button-label {
+  border-radius: 100px;
+  font-weight: bold;
+  height: 45px !important;
+  width: 120px;
+  margin: 0px;
+  font-size: 13px;
+  background: #9b51e0;
+  text-align: center;
+  color: white;
+}
+
+.fbtn.oj-button.oj-default.oj-button-full-chrome .oj-button-button {
+  background: #9b51e0;
+  border-radius: 100px;
+  box-shadow: 0px 2px 5px #32023a;
+  border: none;
+}
+
+#accinfo {
+  display: none;
+}
+.register-form-layout > .oj-inputtext-input,
+.oj-inputpassword-input,
+.oj-select-choices {
+  border-radius: 20px;
+  padding: 5px;
+  height: 40px;
+  width: 350px;
+}
+.register-form-container {
+  padding: 100px;
+}
+.register-form-layout {
+  box-shadow: 2px 3px 0 #8d909b;
+  position: fixed;
+  z-index: 1;
+  background-color: darkred;
+  width: 500px;
+  height: 500px;
+  top: 15px;
+}
+
+.footer {
+  min-height: auto !important;
+  font-weight: bold;
+}
