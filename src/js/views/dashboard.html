@@ -1,36 +1,17 @@
 <!--
- Copyright (c) 2014, 2017, Oracle and/or its affiliates.
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
-<div class="oj-flex oj-sm-justify-content-center">
-    <div class="oj-panel">
-        <h1>HNGi6 TEAM 7 ORACLE JET APP</h1>
-        <div class="oj-panel">
-            <h1>Welcome, <span data-bind="text: fullname"></span></h1>
-            <div class="oj-panel">
-                <span class="oj-label"><b>UserID: </b></span>
-                <b>HNG_<span data-bind="text: userid"></span></b>
-            </div>
-            <div class="oj-panel">
-                <span class="oj-label"><b>Full Name: </b></span>
-                <b><span data-bind="text: fullname"></span></b>
-            </div>
-            <div class="oj-panel">
-                <span class="oj-label"><b>Email: </b></span>
-                <b><span data-bind="text: email"></span></b>
-            </div>
-            <div class="oj-panel">
-                <span class="oj-label"><b>Phone Number: </b></span>
-                <b><span data-bind="text: phone"></span></b>
-            </div>
-            <div class="oj-panel">
-                <span class="oj-label"><b>Stack: </b></span>
-                <b><span data-bind="text: stack"></span></b>
-            </div>
-            <div class="oj-panel">
-                <span class="oj-label"><b>Location: </b></span>
-                <b><span data-bind="text: location"></span></b>
-            </div>
-        </div>
-    </div>
+<div class="oj-hybrid-padding">
+  <h3>Welcome <oj-bind-text value="[[fullname]]"></oj-bind-text></h3>
+  <div id="profile"> 
+    <h3><oj-label for="userProfile">Your profile information</oj-label></h3>
+    <p>Id:<oj-bind-text value="[[id]]"></oj-bind-text></p>
+    <p>Username: <oj-bind-text value="[[username]]"></oj-bind-text></p>
+    <p>Email address: <oj-bind-text value="[[email]]"></oj-bind-text></p>
+    <p>Phone Number: <oj-bind-text value="[[phone]]"></oj-bind-text></p>
+    <p>Code stack: <oj-bind-text value="[[stack]]"></oj-bind-text></p>
+    <p>Location: <oj-bind-text value="[[location]]"></oj-bind-text></p>
+  </div>
+
 </div>
