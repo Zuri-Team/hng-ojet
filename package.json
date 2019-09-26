@@ -1,20 +1,15 @@
 {
-  "name": "my-ojet",
+  "name": "ojet-app",
   "version": "1.0.0",
-  "description": "A sample Oracle JavaScript Extension Toolkit (JET) web app",
-  "author": {
-    "name": "Oracle Jet Team",
-    "homepage": "http://www.oraclejet.org"
-  },
+  "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
-    "@oracle/grunt-oraclejet": "^6.2.0",
-    "oraclejet": "~3.2.0"
+    "@oracle/oraclejet": "~7.1.0",
+    "localforage": "^1.7.3"
   },
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-oraclejet": "~3.2.0",
-    "load-grunt-config": "0.19.2",
-    "oraclejet-tooling": "~3.2.0"
+    "@oracle/oraclejet-tooling": "~7.1.0",
+    "qunit-reporter-junit": "^1.1.1",
+    "qunit": "^2.4.1"
   },
   "engines": {
     "node": ">=0.10.0"
