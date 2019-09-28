@@ -1,0 +1,106 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<!--
+       ** Oracle JET V7.1.0 hybrid mobile application header pattern.
+       ** Please see the Oracle JET Cookbook App Shell: Hybrid Mobile demos for
+       ** more information on how to use this pattern.
+    -->
+<!--      <div class="oj-hybrid-padding">-->
+<div class="form_container oj-flex oj-helper-justify-content-center">
+  <div class="oj-md-5 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
+    <!-- <h5 class="ftitle">
+      Create an account
+    </h5> -->
+    <div id="form_wrapper">
+      <oj-form-layout id="formlayout">
+        <div id="lform_components">
+          <div class="form-header"><h2>Hello Newbie!</h2></div>
+          <div id="fbk"></div>
+          <div class="form-container">
+          <div id="profileinfo"> 
+            <h5 id="logintitle" class="oj-helper-text-align-left">
+              Profile Information
+            </h5>
+            <!-- <oj-bind-text value="[[fullname]]"></oj-bind-text> -->
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-text
+                placeholder="Fullname"
+                value="{{ fullname }}"
+              ></oj-input-text>
+            </div>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-text
+                placeholder="Phone number"
+                value="{{ phone }}"
+              ></oj-input-text>
+            </div>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-select-one value="{{ stack }}">
+                <oj-optgroup label="Dev stack">
+                <oj-option value="UI/UX Designer">UI/UX</oj-option>
+                <oj-option value="Front end">Front end</oj-option>
+                <oj-option value="Back end">Back end</oj-option>
+                <oj-option value="Mobile">Mobile</oj-option>
+                <oj-option value="Digital Marketing">Digital Marketing</oj-option>
+                </oj-optgroup>
+              </oj-select-one>
+            </div>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-text
+                placeholder="Location"
+                value="{{ location }}"
+              ></oj-input-text>
+            </div>
+            <oj-button class=" fbtn oj-button" id="next">
+              <span>Next</span>
+            </oj-button>
+          </div>
+          <div id="accinfo">
+            <h5 id="logintitle" class="oj-helper-text-align-left">
+              Account Information
+            </h5>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-text
+                placeholder="Username"
+                value="{{ username }}"
+              ></oj-input-text>
+            </div>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-text
+                placeholder="Email address"
+                value="{{ email }}"
+              ></oj-input-text>
+            </div>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-password
+                placeholder="Password"
+                value="{{ pass }}"
+              ></oj-input-password>
+            </div>
+            <div class="lform-ctrl oj-form-control-inherit">
+              <oj-input-password
+                placeholder="Confirm password"
+                value="{{ rpass }}"
+              ></oj-input-password>
+            </div>
+            <div class="oj-flex oj-helper-justify-content-space-between">
+              <div class="oj-flex-items-pad">
+                <oj-button class=" fbtn oj-button" id="prev">
+                  <span>Previous</span>
+                </oj-button>
+              </div>
+              <div class="oj-flex-items-pad">
+                <oj-button class=" fbtn oj-button" on-oj-action="[[signup]]">
+                  <span>Signup</span>
+                </oj-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </oj-form-layout>
+    </div>
+  </div>
+</div>
