@@ -1,39 +1,46 @@
 <div id="parentDiv">
 
     <!-- outer offcanvas wrapper -->
-    <div class="oj-offcanvas-outer-wrapper oj-panel-hybrid-padding" style="height: 800px;">
+    <div class="oj-offcanvas-outer-wrapper" style="height: 800px;">
 
         <!-- start offcanvas -->
-        <div id="drawer" class="oj-offcanvas-start oj-panel oj-panel-alt1" style="width: 20em">
+        <div id="drawer" class="oj-offcanvas-start oj-panel oj-panel-alt2" style="width: 20em">
             <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
                 <div class="oj-flex-item">
-                    <oj-avatar role="img" aria-label="Single Placeholder Avatar" size="lg">
+                    <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
                     </oj-avatar>
                 </div>
-                <span class="oj-flex-item" style="padding-top:10px">Seye Oyeniran</span>
+                <h3 data-bind="text: fullname"></h3>
             </div>
+            <hr/>
             <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
-                <span class="oj-flex-item" style="padding-top:10px">Stage 3 Intern</span>
-                <span class="oj-flex-item" style="padding-top:10px">Design Track</span>
-                <span class="oj-flex-item" style="padding-top:10px">Week 2 of 10</span>
-
+                <p>Stage <span data-bind="text: stage"></span> Intern</p>
+                <p><span data-bind="text: track"></span> Track</p>
+                <p>Week <span data-bind="text: currentweek"></span> of <span data-bind="text: totalweeks"></span></p>
             </div>
         </div>
+        <!-- End offcanvas -->
 
         <!-- main content -->
-        <div id="main" style="padding: 10px; height: 100%">
+        <div id="main">
             <!-- start offcanvas launch button -->
             <oj-button display='icons' chroming='half' on-click='[[toggleDrawer]]'>
-                <span slot='startIcon' class='oj-fwk-icon-hamburger oj-fwk-icon'></span> Toggle start offcanvas
+                <span slot='startIcon' class='oj-fwk-icon-hamburger oj-fwk-icon'></span> Menu
             </oj-button>
+            <!-- End offcanvas launch button -->
 
-            <h1>Welcome Intern</h1>
-            <oj-progress style="width:100%" value="20"></oj-progress>
+            <!-- Start main dashboard content -->
+            <h1>Welcome, Intern</h1>
+
+            <!-- Progress bar to show internship progression -->
+            <oj-progress style="width:100%" value="{{progress}}"></oj-progress>
+
+            <hr/>
+
             <div class="oj-flex">
-
-
+                <!-- Start tasks panel -->
                 <div class="oj-panel oj-flex-item">
-                    <h3>Tasks for the week</h3>
+                    <h3 class="oj-header-border">Tasks for the week</h3>
                     <oj-collapsible id="c1">
                         <h2 id="h1" slot="header">Create a chatbot App</h2>
                         <h5>Create ChatBot App</h5>

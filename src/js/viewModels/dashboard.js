@@ -5,13 +5,21 @@ define([
 
         function DashboardViewModel() {
             var self = this;
-            this.drawer = {
+
+            self.fullname = ko.observable('Seye Oyeniran');
+            self.stage = ko.observable(3);
+            self.track = ko.observable('Design');
+            self.currentweek = ko.observable(2);
+            self.totalweeks = ko.observable(10);
+            self.progress = ko.observable(30);
+
+            self.drawer = {
                 "displayMode": "overlay",
                 "selector": "#drawer",
                 "content": "#main"
             };
 
-            this.toggleDrawer = function() {
+            self.toggleDrawer = function() {
                 return oj.OffcanvasUtils.toggle(self.drawer);
             };
         }
