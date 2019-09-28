@@ -13,10 +13,22 @@
                 <h3 data-bind="text: fullname"></h3>
             </div>
             <hr/>
-            <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
-                <p>Stage <span data-bind="text: stage"></span> Intern</p>
-                <p><span data-bind="text: track"></span> Track</p>
-                <p>Week <span data-bind="text: currentweek"></span> of <span data-bind="text: totalweeks"></span></p>
+            <div class="oj-flex oj-sm-justify-content-center">
+                <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
+                    <div class="oj-flex-item">
+                        <span class="oj-fwk-icon-clock oj-fwk-icon oj-sm-margin-2x"></span>
+                        <span>Stage <span data-bind="text: stage"></span> Intern</span>
+                    </div>
+                    <div class="oj-flex-item">
+                        <span class="oj-fwk-icon-minimize oj-fwk-icon oj-sm-margin-2x"></span>
+                        <span><span data-bind="text: track"></span> Track</span>
+                    </div>
+
+                    <div class="oj-flex-item">
+                        <span class="oj-fwk-icon-calendar oj-fwk-icon oj-sm-margin-2x"></span>
+                        <span>Week <span data-bind="text: currentweek"></span> of <span data-bind="text: totalweeks"></span></span>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- End offcanvas -->
@@ -37,7 +49,7 @@
 
             <hr/>
 
-            <div class="oj-flex">
+            <div class="oj-flex oj-sm-flex-direction-row oj-sm-margin-2x">
                 <!-- Start tasks panel -->
                 <div class="oj-panel oj-flex-item">
                     <h3 class="oj-header-border">Tasks for the week</h3>
@@ -67,18 +79,19 @@
                     </oj-collapsible>
                 </div>
 
+                <div class="oj-flex oj-flex-item">
+                    <div class="oj-panel  oj-flex-item">
+                        <h3>Stage 3 Intern</h3>
+                        <h4>7 Stages to Completion</h4>
 
-                <div class="oj-panel  oj-flex-item">
-                    <h3>Stage 3 Intern</h3>
-                    <h4>7 Stages to Completion</h4>
-
-                </div>
-                <div class="oj-panel  oj-flex-item">
-                    <h3>Teams</h3>
-                    <ol>
-                        <li>Team Ojet</li>
-                        <li>Team Tesla</li>
-                    </ol>
+                    </div>
+                    <div class="oj-panel  oj-flex-item">
+                        <h3>Teams</h3>
+                        <ol>
+                            <li>Team Ojet</li>
+                            <li>Team Tesla</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
 

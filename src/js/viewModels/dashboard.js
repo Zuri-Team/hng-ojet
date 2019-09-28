@@ -16,7 +16,8 @@ define([
             self.drawer = {
                 "displayMode": "overlay",
                 "selector": "#drawer",
-                "content": "#main"
+                "content": "#main",
+                "modality": "modal"
             };
 
             self.toggleDrawer = function() {
