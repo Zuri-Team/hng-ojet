@@ -12,6 +12,7 @@ define([
             self.currentweek = ko.observable(2);
             self.totalweeks = ko.observable(10);
             self.progress = ko.observable(30);
+            self.slack = ko.observable('@shazomii');
 
             self.drawer = {
                 "displayMode": "overlay",
