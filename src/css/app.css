@@ -66,7 +66,7 @@
 .fbtn .oj-button-label {
   /* border-radius: 100px; */
   font-weight: bold;
-  height: 45px ;
+  height: 45px;
   width: 120px;
   /* margin: auto; */
   font-size: 13px;
@@ -112,7 +112,6 @@
   font-weight: bold;
 }
 
-
 /* =============== SUBMISION PAGE ================ */
 
 .task-submission {
@@ -123,6 +122,7 @@
 }
 
 .form {
+  background-color: #fff;
   display: flex !important;
   flex-direction: column !important;
   padding: 1rem 5rem;
@@ -131,8 +131,6 @@
   border: 1px solid white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
-
 
 /* End of Submission Page styling */
 
