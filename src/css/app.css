@@ -123,7 +123,7 @@
   display: flex !important;
   flex-direction: column !important;
   padding: 1rem 5rem;
-  max-height: 100vh;
+  max-height: auto;
   margin: 5em 0;
   border: 1px solid white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
