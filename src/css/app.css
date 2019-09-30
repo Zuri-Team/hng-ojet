@@ -116,7 +116,7 @@
 
 .task-submission {
   text-align: center;
-  margin-top: 3rem;
+  margin: 3rem 0;
   font-weight: bold;
   font-size: 2rem;
 }
@@ -126,10 +126,21 @@
   display: flex !important;
   flex-direction: column !important;
   padding: 1rem 5rem;
-  max-height: auto;
+  width: 100%;
+  height: auto;
   margin: 5em 0;
   border: 1px solid white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.form .oj-label-group {
+  font-weight: 900;
+}
+@media (max-width: 768px) {
+  .form {
+    padding: 1rem 2rem;
+    min-width: 100%;
+  }
 }
 
 /* End of Submission Page styling */
