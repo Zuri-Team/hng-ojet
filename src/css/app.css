@@ -13,7 +13,7 @@
 }
 
 #form_wrapper {
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   background: #ffffff;
   box-shadow: 0px 0px 5px 0px rgba(83, 3, 97, 0.67);
   border-radius: 3px;
@@ -39,14 +39,16 @@
 }
 
 #lform_components {
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
 
 .lform-ctrl {
-  background: #dedcdcc2;
-  border-radius: 500px;
-  padding: 17px 15px;
+  background: #ffffff;
+  border-radius: 10px;
+  width: 60%;
+  height: 40px;
+  /* padding: 17px 15px; */
   margin-bottom: 20px;
 }
 
@@ -62,20 +64,21 @@
 }
 
 .fbtn .oj-button-label {
-  border-radius: 100px;
+  /* border-radius: 100px; */
   font-weight: bold;
-  height: 45px !important;
+  height: 45px ;
   width: 120px;
-  margin: 0px;
+  /* margin: auto; */
   font-size: 13px;
   background: #9b51e0;
   text-align: center;
   color: white;
 }
 
-.fbtn.oj-button.oj-default.oj-button-full-chrome .oj-button-button {
+/* .fbtn.oj-button.oj-default.oj-button-full-chrome  */
+.oj-button-button {
   background: #9b51e0;
-  border-radius: 100px;
+  border-radius: 10px;
   box-shadow: 0px 2px 5px #32023a;
   border: none;
 }
@@ -86,7 +89,7 @@
 .register-form-layout > .oj-inputtext-input,
 .oj-inputpassword-input,
 .oj-select-choices {
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 5px;
   height: 40px;
   width: 350px;
@@ -132,3 +135,26 @@
 
 
 /* End of Submission Page styling */
+
+/*Added my edits here (@Codebug) */
+
+div.form-header {
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  background-color: #9b51e0;
+}
+div.form-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px 0;
+}
+oj-form-layout {
+  background-color: #dedcdcc2;
+}
+oj-input-text {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+}

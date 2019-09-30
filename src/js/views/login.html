@@ -8,7 +8,9 @@
     <div id="form_wrapper">
       <oj-form-layout>
         <div id="lform_components">
+            <div class="form-header"><h2>Welcome Back!</h2></div>
             <div id="fbk"></div>  
+            <div class="form-container">
             <h5 id="logintitle">
                 Login to your Account
               </h5>
@@ -19,9 +21,9 @@
           <div class="lform-ctrl oj-form-control-inherit">
             <oj-input-password placeholder="password" value="{{password}}"></oj-input-password>
           </div>
-          <oj-button class=" fbtn oj-button" on-oj-action=[[login]]>
-            <span>Login</span>
-          </oj-button>
+          <oj-button class=" fbtn oj-button" on-oj-action=[[login]]>Login</oj-button>
+           <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
         </div>
       </oj-form-layout>
     </div>

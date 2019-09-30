@@ -192,3 +192,4 @@ define([
 
   return new ControllerViewModel();
 });
+
