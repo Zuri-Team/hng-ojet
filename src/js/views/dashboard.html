@@ -1,8 +1,8 @@
 <!-- outer offcanvas wrapper -->
-<div class="oj-offcanvas-outer-wrapper" style="height: 800px;">
+<div class="oj-offcanvas-outer-wrapper">
 
     <!-- start offcanvas -->
-    <div id="drawer" class="oj-offcanvas-start oj-panel oj-panel-alt2" style="width: 20em">
+    <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
         <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
             <div class="oj-flex-item">
                 <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
@@ -45,56 +45,58 @@
         <!-- End offcanvas launch button -->
 
         <!-- Start main dashboard content -->
-        <h1>Welcome, Intern</h1>
+        <div class="oj-flex oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal">
+            <h1>Welcome, Intern</h1>
 
-        <!-- Progress bar to show internship progression -->
-        <oj-progress style="width:100%" value="{{progress}}"></oj-progress>
+            <!-- Progress bar to show internship progression -->
+            <oj-progress style="width:100%" value="{{progress}}"></oj-progress>
 
-        <hr/>
-
-        <div class="oj-flex oj-sm-flex-direction-row oj-sm-margin-2x">
-            <!-- Start tasks panel -->
-            <div class="oj-panel oj-flex-item">
-                <h3 class="oj-header-border">Tasks for the week 🚀</h3>
-                <oj-collapsible id="c1">
-                    <h2 id="h1" slot="header">Create a chatbot App</h2>
-                    <h5>Create ChatBot App</h5>
-                    <ul>
-                        <li>App should be able to answer question about HNG internship</li>
-                        <li>Design should be superb</li>
-                    </ul>
-                </oj-collapsible>
-                <oj-collapsible id="c2">
-                    <h2 id="h2" slot="header">Create a Mortgage Calculator</h2>
-                    <h5>Create ChatBot App</h5>
-                    <ul>
-                        <li>App should be able to answer question about HNG internship</li>
-                        <li>Design should be superb</li>
-                    </ul>
-                </oj-collapsible>
-                <oj-collapsible id="h3">
-                    <h2 id="h3" slot="header">Create a Gate App</h2>
-                    <h5>Create ChatBot App</h5>
-                    <ul>
-                        <li>App should be able to answer question about HNG internship</li>
-                        <li>Design should be superb</li>
-                    </ul>
-                </oj-collapsible>
-            </div>
-
-            <div class="oj-flex-item">
-                <div class="oj-panel  oj-flex-item">
-                    <h3>Stage 3 Intern 😎</h3>
-                    <h4>7 Stages to Completion</h4>
-
+            <hr/>
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-2 oj-sm-12">
+                <div>
+                    <h5>Stage 3 Intern 😎</h5>
+                    <h6>7 Stages to Completion</h6>
                 </div>
-                <div class="oj-panel  oj-flex-item">
-                    <h3>Teams 🚴‍♀️</h3>
+                <hr/>
+                <div>
+                    <h5>Teams 🚴‍♀️</h5>
                     <ol>
                         <li>Team Ojet</li>
                         <li>Team Tesla</li>
                     </ol>
                 </div>
             </div>
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-10 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
+
+                <!-- Start tasks panel -->
+                <div>
+                    <h3 class="oj-header-border">Tasks for the week 🚀</h3>
+                    <oj-collapsible id="c1">
+                        <h5 id="h1" slot="header">Create a chatbot App</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>App should be able to answer question about HNG internship</li>
+                            <li>Design should be superb</li>
+                        </ul>
+                    </oj-collapsible>
+                    <oj-collapsible id="c2">
+                        <h5 id="h2" slot="header">Create a Mortgage Calculator</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>App should be able to answer question about HNG internship</li>
+                            <li>Design should be superb</li>
+                        </ul>
+                    </oj-collapsible>
+                    <oj-collapsible id="h3">
+                        <h5 id="h3" slot="header">Create a Gate App</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>App should be able to answer question about HNG internship</li>
+                            <li>Design should be superb</li>
+                        </ul>
+                    </oj-collapsible>
+                </div>
+            </div>
         </div>
     </div>
+</div>
