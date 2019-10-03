@@ -14,7 +14,7 @@ define([
 
     function LoginViewModel() {
       var self = this;
-      self.email = ko.observable();
+      self.user = ko.observable();
       self.password = ko.observable();
       var router = oj.Router.rootInstance;
       var rootViewModel = ko.dataFor(document.getElementById('globalBody'));
@@ -23,29 +23,35 @@ define([
         <small>${text}</small>
       </div>`;
       };
+
+      self.register = function () {
+        router.go("register");
+      }
+
+      self.reset = function () {
+        router.go("password_reset");
+      }
+
       self.login = function () {
-        let userdb = db.transaction(["user"], "readwrite").objectStore("user");
-        var fetchuser = userdb.index("email");
-        fetchuser.get(`${self.email()}`).onsuccess = function (e) {
-          let { result } = e.target;
-          if (result != undefined) {
-            if (result.password == self.password()) {
-              localStorage.setItem("user", result.uname);
-              router.go('dashboard');
-              
-            } else {
-              document.querySelector("#fbk").innerHTML = feedback("Wrong email or password")
+        let email = self.user();
+        let password = self.password();
+        $.post(
+          "http://localhost:3000/api/login",
+          {
+            email,
+            password,
+          },
+          function (resp) {
+            if (resp.status == true) {
+              // start user session with token
+              console.log(resp.message);
             }
-          } else {
-            document.querySelector("#fbk").innerHTML = feedback("Please enter correct login details")
           }
-        }
+        );
+
       }
 
       self.connected = function () {
-        if (localStorage.getItem("user") != null) {
-          router.go("dashboard");
-        }
       };
 
       /**
