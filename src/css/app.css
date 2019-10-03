@@ -140,3 +140,38 @@ div.form-container {
   height: 100%;
   width: 100%;
 } */
+
+/* Dashboard page @shazomii-ojet */
+
+.oj-offcanvas-outer-wrapper {
+    height: 100%;
+}
+
+.oj-offcanvas-start {
+    width: 20em;
+}
+
+/* div.form-header {
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  background-color: #9b51e0;
+}
+
+div.form-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px 0;
+} */
+
+/* oj-form-layout {
+  background-color: #dedcdcc2;
+} */
+
+/* oj-input-text {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+} */
+
