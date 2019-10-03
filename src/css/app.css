@@ -6,16 +6,16 @@
         This is where any of your application specific styles should be included
 */
 
-/*style for the login form*/
+/*style for the form container*/
 .form_container {
-  min-height: 70vh;
+  min-height: 90vh;
   margin-bottom: 5ch;
 }
 
 #form_wrapper {
-  /* padding-bottom: 20px; */
+  padding-bottom: 20px;
   background: #ffffff;
-  box-shadow: 0px 0px 5px 0px rgba(83, 3, 97, 0.67);
+  box-shadow: 0px 0px 5px 0px rgba(16, 16, 16, 0.37);
   border-radius: 3px;
 }
 
@@ -29,7 +29,7 @@
   text-align: center;
 }
 
-#logintitle {
+.fhtitle {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
@@ -39,72 +39,42 @@
 }
 
 #lform_components {
-  width: 100%;
+  width: 90%;
   margin: auto;
 }
 
-.lform-ctrl {
-  background: #ffffff;
-  border-radius: 10px;
-  width: 60%;
-  height: 40px;
-  /* padding: 17px 15px; */
+.lform-ctrl > input,
+.select {
+  background: #dedcdcc2;
+  border-radius: 4px;
+  padding: 15px;
   margin-bottom: 20px;
+  width: 100%;
+  outline: none;
+  border: none;
 }
 
-.lform-ctrl .oj-inputtext-input,
-.lform-ctrl .oj-inputpassword-input {
-  border: none;
-  padding: 0px 5px;
-  font-family: inherit;
+.progress {
+  height: 25px;
+  display: none;
 }
 
 .fbtn {
-  height: inherit;
-}
-
-.fbtn .oj-button-label {
-  /* border-radius: 100px; */
-  font-weight: bold;
-  height: 45px ;
+  background-color: #9b51e0;
+  font-weight: bold !important;
+  height: 45px;
   width: 120px;
-  /* margin: auto; */
   font-size: 13px;
-  background: #9b51e0;
   text-align: center;
-  color: white;
-}
-
-/* .fbtn.oj-button.oj-default.oj-button-full-chrome  */
-.oj-button-button {
-  background: #9b51e0;
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px #32023a;
-  border: none;
+  color: white !important;
+  border-radius: 4px;
+  box-shadow: 0px 1px 5px #32023a !important;
+  border: none !important;
+  outline: none !important;
 }
 
 #accinfo {
   display: none;
-}
-.register-form-layout > .oj-inputtext-input,
-.oj-inputpassword-input,
-.oj-select-choices {
-  border-radius: 15px;
-  padding: 5px;
-  height: 40px;
-  width: 350px;
-}
-.register-form-container {
-  padding: 100px;
-}
-.register-form-layout {
-  box-shadow: 2px 3px 0 #8d909b;
-  position: fixed;
-  z-index: 1;
-  background-color: darkred;
-  width: 500px;
-  height: 500px;
-  top: 15px;
 }
 
 .footer {
@@ -112,25 +82,96 @@
   font-weight: bold;
 }
 
+/* =============== SUBMISION PAGE ================ */
+
+.task-submission {
+  text-align: center;
+  margin: 3rem 0;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.form {
+  background-color: #fff;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1rem 5rem;
+  width: 100%;
+  height: auto;
+  margin: 5em 0;
+  border: 1px solid white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.form .oj-label-group {
+  font-weight: 900;
+}
+@media (max-width: 768px) {
+  .form {
+    padding: 1rem 2rem;
+    min-width: 100%;
+  }
+}
+
+/* End of Submission Page styling */
+
 /*Added my edits here (@Codebug) */
 
-div.form-header {
+/* div.form-header {
   padding: 20px;
   width: 100%;
   text-align: center;
   color: #ffffff;
   background-color: #9b51e0;
 }
+
 div.form-container {
   width: 90%;
   margin: auto;
   padding: 20px 0;
-}
-oj-form-layout {
+} */
+
+/* oj-form-layout {
   background-color: #dedcdcc2;
-}
-oj-input-text {
+} */
+
+/* oj-input-text {
   background: transparent;
   height: 100%;
   width: 100%;
+} */
+
+/* Dashboard page @shazomii-ojet */
+
+.oj-offcanvas-outer-wrapper {
+    height: 100%;
 }
+
+.oj-offcanvas-start {
+    width: 20em;
+}
+
+/* div.form-header {
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  background-color: #9b51e0;
+}
+
+div.form-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px 0;
+} */
+
+/* oj-form-layout {
+  background-color: #dedcdcc2;
+} */
+
+/* oj-input-text {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+} */
+
