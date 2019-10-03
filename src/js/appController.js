@@ -24,6 +24,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojknockouttemplateutils',
       self.router = Router.rootInstance;
       self.router.configure({
         'dashboard': { label: 'Dashboard', },
+        'admin_dashboard':{label: 'Admin_dashboard'},
         'register': { label: 'Register' },
         'login': { label: 'Login', isDefault: true },
         'logout': { label: 'Logout' },
