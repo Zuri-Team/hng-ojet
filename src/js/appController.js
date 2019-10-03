@@ -49,7 +49,8 @@ define([
       register: { label: "Register" },
       submission: { label: "Submission" },
       login: { label: "Login", isDefault: true },
-      logout: { label: "Logout" }
+      logout: { label: "Logout" },
+      password_reset: {label: "Reset password"},
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
 
@@ -112,48 +113,17 @@ define([
       return OffcanvasUtils.toggle(self.drawerParams);
     };
     // Add a close listener so we can move focus back to the toggle button when the drawer closes
-    document
-      .getElementById("navDrawer")
-      .addEventListener(
-        "ojclose",
-        document.getElementById("drawerToggleButton").focus()
-      );
+    // document
+    //   .getElementById("navDrawer")
+    //   .addEventListener(
+    //     "ojclose",
+    //     document.getElementById("drawerToggleButton").focus()
+    //   );
 
     // Header
     // Application Name used in Branding Area
     self.appName = ko.observable("OJET Team 20");
     self.isLoggedIn = ko.observable(false);
-
-    // init database
-    var dbReq = window.indexedDB.open("ojetDb", 3);
-    (function initDb() {
-      if (!window.indexedDB) {
-        console.log(
-          "Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available."
-        );
-      }
-      dbReq.onsuccess = function(event) {
-        db = dbReq.result;
-      };
-      dbReq.onupgradeneeded = function(event) {
-        // Save the IDBDatabase interface
-        var db = event.target.result;
-        self.db = db;
-        // Create an objectStore for this database
-        let userTable;
-        if (!db.objectStoreNames.contains("user")) {
-          userTable = db.createObjectStore("user", {
-            keyPath: "id",
-            autoIncrement: true
-          });
-          userTable.createIndex("uname", "uname", { unique: true });
-          userTable.createIndex("email", "email", { unique: true });
-        }
-        userTable.transaction.oncomplete = function() {
-          console.log("database created successfully");
-        };
-      };
-    })();
 
     // Footer
     function footerLink(name, id, linkTarget) {
