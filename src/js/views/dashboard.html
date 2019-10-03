@@ -1,17 +1,102 @@
-<!--
- Copyright (c) 2014, 2019, Oracle and/or its affiliates.
- The Universal Permissive License (UPL), Version 1.0
- -->
-<div class="oj-hybrid-padding">
-  <h3>Welcome <oj-bind-text value="[[fullname]]"></oj-bind-text></h3>
-  <div id="profile"> 
-    <h3><oj-label for="userProfile">Your profile information</oj-label></h3>
-    <p>Id:<oj-bind-text value="[[id]]"></oj-bind-text></p>
-    <p>Username: <oj-bind-text value="[[username]]"></oj-bind-text></p>
-    <p>Email address: <oj-bind-text value="[[email]]"></oj-bind-text></p>
-    <p>Phone Number: <oj-bind-text value="[[phone]]"></oj-bind-text></p>
-    <p>Code stack: <oj-bind-text value="[[stack]]"></oj-bind-text></p>
-    <p>Location: <oj-bind-text value="[[location]]"></oj-bind-text></p>
-  </div>
+<!-- outer offcanvas wrapper -->
+<div class="oj-offcanvas-outer-wrapper">
 
+    <!-- start offcanvas -->
+    <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
+        <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
+            <div class="oj-flex-item">
+                <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                </oj-avatar>
+            </div>
+            <h3 data-bind="text: fullname"></h3>
+            <div class="oj-flex-item">
+                <span class="fa fa-slack"></span>
+                <span><span data-bind="text: slack"></span></span>
+            </div>
+        </div>
+
+        <hr/>
+        <div class="oj-flex oj-sm-justify-content-center">
+            <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
+                <div class="oj-flex-item">
+                    <span class="oj-fwk-icon-clock oj-fwk-icon oj-sm-margin-2x"></span>
+                    <span>Stage <span data-bind="text: stage"></span> Intern</span>
+                </div>
+                <div class="oj-flex-item">
+                    <span class="oj-fwk-icon-minimize oj-fwk-icon oj-sm-margin-2x"></span>
+                    <span><span data-bind="text: track"></span> Track</span>
+                </div>
+
+                <div class="oj-flex-item">
+                    <span class="oj-fwk-icon-calendar oj-fwk-icon oj-sm-margin-2x"></span>
+                    <span>Week <span data-bind="text: currentweek"></span> of <span data-bind="text: totalweeks"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End offcanvas -->
+
+    <!-- main content -->
+    <div class="main">
+        <!-- start offcanvas launch button -->
+        <oj-button display='icons' chroming='half' on-click='[[toggleDrawer]]'>
+            <span slot='startIcon' class='oj-fwk-icon-hamburger oj-fwk-icon'></span> Menu
+        </oj-button>
+        <!-- End offcanvas launch button -->
+
+        <!-- Start main dashboard content -->
+        <div class="oj-flex oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal">
+            <h1>Welcome, Intern</h1>
+
+            <!-- Progress bar to show internship progression -->
+            <oj-progress style="width:100%" value="{{progress}}"></oj-progress>
+
+            <hr/>
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-2 oj-sm-12">
+                <div>
+                    <h5>Stage 3 Intern 😎</h5>
+                    <h6>7 Stages to Completion</h6>
+                </div>
+                <hr/>
+                <div>
+                    <h5>Teams 🚴‍♀️</h5>
+                    <ol>
+                        <li>Team Ojet</li>
+                        <li>Team Tesla</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-10 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
+
+                <!-- Start tasks panel -->
+                <div>
+                    <h3 class="oj-header-border">Tasks for the week 🚀</h3>
+                    <oj-collapsible id="c1">
+                        <h5 id="h1" slot="header">Create a chatbot App</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>App should be able to answer question about HNG internship</li>
+                            <li>Design should be superb</li>
+                        </ul>
+                    </oj-collapsible>
+                    <oj-collapsible id="c2">
+                        <h5 id="h2" slot="header">Create a Mortgage Calculator</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>App should be able to answer question about HNG internship</li>
+                            <li>Design should be superb</li>
+                        </ul>
+                    </oj-collapsible>
+                    <oj-collapsible id="h3">
+                        <h5 id="h3" slot="header">Create a Gate App</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>App should be able to answer question about HNG internship</li>
+                            <li>Design should be superb</li>
+                        </ul>
+                    </oj-collapsible>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
