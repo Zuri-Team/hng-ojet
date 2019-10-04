@@ -13,7 +13,7 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojinputtext"
 ], function(ko, $) {
-  function ExampleComponentModel(context) {
+  function SubmissionComponentModel(context) {
     var self = this;
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
       oj.ResponsiveUtils.getFrameworkQuery(
@@ -67,10 +67,7 @@ define([
 
       //Then, we do some awesome validation just to make sure our database is not cluttered with unwanted info.
 
-      if (!/^[a-zA-Z]$/.test(self.firstName())) {
-        showMessage("Please fill in letters");
-        return null;
-      }
+      // This will be done when the endpoint is ready.
 
       // Store the submitted input values in an object. This will be sent to the backend.
       const task = {
@@ -89,5 +86,5 @@ define([
     };
   }
 
-  return new ExampleComponentModel();
+  return new SubmissionComponentModel();
 });
