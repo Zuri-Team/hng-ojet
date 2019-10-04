@@ -175,3 +175,76 @@ div.form-container {
   width: 100%;
 } */
 
+/* admin_dashboard page */
+body{
+  margin: 0;
+  padding: 0;
+}
+*{
+  box-sizing: border-box;
+}
+.header{
+  position: absolute;
+  height: 40px;
+  width: 100%;
+  background-color: rgb(40, 40, 75);
+  z-index: 4;
+}
+
+.side-nav{
+  position: absolute;
+  width: 100%;
+  background-color: darkblue;
+  height: 100vh;
+  z-index: 3;
+  padding-top: 44px;
+
+}
+
+.side-nav ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-nav ul li{
+  padding: 20px 10px;
+  border-bottom: 1px solid black;
+}
+
+.side-nav ul li a{
+  color: white;
+  text-decoration: none;
+}
+
+.side-nav ul li a i{
+  color: black;
+}
+@media screen and (min-width: 600px) {
+  .side-nav {
+      width: 80px;
+  }
+  .side-nav ul li{
+      text-align: center;    
+  }
+  .side-nav ul li span:nth-child(2) {
+      display: none;
+  }
+  .side-nav ul li i{
+      font-size: 26px;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .side-nav{
+      width: 200px;
+  }
+  .side-nav ul li{
+      text-align: left;
+  }
+  .side-nav ul li span:nth-child(2){
+      display: inline;
+  }
+  .side-nav ul li i{
+      font-size: 16px; 
+  }
+}
