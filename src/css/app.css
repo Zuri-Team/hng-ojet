@@ -175,3 +175,15 @@ div.form-container {
   width: 100%;
 } */
 
+
+.main-section {
+  border: #9b51e0 1px solid;
+  box-shadow: #32023a 3px 5px 15px;
+  padding: 20px;
+}
+.aside {
+  width: 30%;
+}
+.main-section {
+  width: 50%;
+}
