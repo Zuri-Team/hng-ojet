@@ -82,12 +82,9 @@
 }
 
 .footer {
-    <<<<<<< HEAD min-height: auto !important;
-    font-weight: bold;
-    =======min-height: auto !important;
+    min-height: auto !important;
     font-weight: bold;
     width: 100%;
-    >>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
 }
 
 
@@ -126,7 +123,7 @@
 
 /* End of Submission Page styling */
 
-<<<<<<< HEAD
+
 /*Added my edits here (@Codebug) */
 
 
@@ -156,7 +153,7 @@ div.form-container {
   width: 100%;
 } */
 
-=======>>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
+
 /* Dashboard page @shazomii-ojet */
 
 oj-offcanvas-outer-wrapper {
@@ -193,3 +190,18 @@ div.form-container {
   height: 100%;
   width: 100%;
 } */
+
+
+.main-section {
+  border: #9b51e0 1px solid;
+  box-shadow: #32023a 3px 5px 15px;
+  padding: 20px;
+}
+.aside {
+  width: 30%;
+}
+.main-section {
+  width: 50%;
+}
+} */
+

@@ -48,8 +48,10 @@ define([
       dashboard: { label: "Dashboard" },
       register: { label: "Register" },
       submission: { label: "Submission" },
-      login: { label: "Login", isDefault: true },
-      password_reset: { label: "Reset password" }
+      login: { label: "Login", isD
+      profile: { label: "User Profile" },
+      password_reset: {label: "Reset password"}
+  
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
 
