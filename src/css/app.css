@@ -98,19 +98,29 @@
 }
 
 .form {
-    background-color: #fff;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 1rem 5rem;
-    width: 100%;
-    height: auto;
-    margin: 5em 0;
-    border: 1px solid white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: #fff;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1rem 5rem;
+  width: 100%;
+  height: auto;
+  margin: 5em 0;
+  border: 1px solid white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  overflow: hidden;
 }
 
 .form .oj-label-group {
-    font-weight: 900;
+  font-weight: 1000;
+}
+.message {
+  display: none;
+}
+.error {
+  color: rgb(175, 5, 5);
+}
+.success {
+  color: rgb(111, 236, 111);
 }
 
 @media (max-width: 768px) {
@@ -124,12 +134,12 @@
 
 /* Dashboard page @shazomii-ojet */
 
-oj-offcanvas-outer-wrapper {
+.oj-offcanvas-outer-wrapper {
     height: 100%;
 }
 
 .oj-offcanvas-start {
-    width: 20em;
+  width: 20em;
 }
 
 
@@ -238,5 +248,10 @@ div.form-container {
 }
 .main-section {
   width: 50%;
+<<<<<<< HEAD
 } 
+=======
+}
+
+>>>>>>> f07a946c149d9141c2a23dc3a444b2d17ec3f919
 
