@@ -8,8 +8,9 @@
 
 /*style for the form container*/
 .form_container {
-  min-height: 90vh;
+  min-height: 100%;
   margin-bottom: 5ch;
+  padding: 0px 15px;
 }
 
 #form_wrapper {
@@ -56,7 +57,6 @@
 
 .progress {
   height: 25px;
-  display: none;
 }
 
 .fbtn {
@@ -80,6 +80,7 @@
 .footer {
   min-height: auto !important;
   font-weight: bold;
+  width: 100%;
 }
 
 /* =============== SUBMISION PAGE ================ */
@@ -115,31 +116,6 @@
 
 /* End of Submission Page styling */
 
-/*Added my edits here (@Codebug) */
-
-/* div.form-header {
-  padding: 20px;
-  width: 100%;
-  text-align: center;
-  color: #ffffff;
-  background-color: #9b51e0;
-}
-
-div.form-container {
-  width: 90%;
-  margin: auto;
-  padding: 20px 0;
-} */
-
-/* oj-form-layout {
-  background-color: #dedcdcc2;
-} */
-
-/* oj-input-text {
-  background: transparent;
-  height: 100%;
-  width: 100%;
-} */
 
 /* Dashboard page @shazomii-ojet */
 

@@ -1,11 +1,11 @@
 define([
-        'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'ojs/ojcollapsible'
-    ],
-    function(oj, ko) {
+    'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'ojs/ojcollapsible'
+],
+    function (oj, ko) {
 
         function DashboardViewModel() {
             var self = this;
-
+            var router = oj.Router.rootInstance;
             self.fullname = ko.observable('Seye Oyeniran');
             self.stage = ko.observable(3);
             self.track = ko.observable('Design');
@@ -21,9 +21,20 @@ define([
                 "modality": "modal"
             };
 
-            self.toggleDrawer = function() {
+            self.toggleDrawer = function () {
                 return oj.OffcanvasUtils.toggle(self.drawer);
             };
+
+            self.logout = function () {
+                sessionStorage.clear();
+                router.go("login")
+            }
+
+            self.connected = function () {
+                if(sessionStorage.getItem("user_token") == null){
+                    router.go("login");
+                }
+            }
         }
 
 
