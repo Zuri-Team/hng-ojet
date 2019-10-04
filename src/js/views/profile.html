@@ -1,0 +1,34 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="main-profile-update oj-flex oj-sm-flex-direction-column">
+    <div class="oj-flex-item aside">
+            <oj-file-picker on-oj-select='[[selectListener]]'>
+                <div tabindex='0' slot='trigger'
+                        class='oj-filepicker-dropzone'>
+                    <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                    </oj-avatar>
+                    <p class='oj-filepicker-text'>Pls click here or drag an image here to change progile picture</p>
+                </div>
+            </oj-file-picker>
+    </div>
+    <div class="main-section oj-flex-item">
+    <h1>Public profile settings</h1><hr>
+    <div class="oj-hybrid-padding center">
+        <oj-form-layout id="form-container" style="display: inline-block">
+            <oj-input-text id="input1" type="text" label-hint="Name" data-bind="textInput:name"></oj-input-text>
+            <oj-input-text id="input2" type="email" label-hint="Public email"></oj-input-text>
+            <oj-text-area id="text-area" label-hint="Bio">
+            </oj-text-area>
+            <oj-input-text id="input4" type="text" label-hint="URL"></oj-input-text>
+            <oj-input-text id="input5" type="text" label-hint="Location"></oj-input-text>
+            <h6>All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.</h6>
+    
+            <oj-button class="fbtn" id='profile__button' on-oj-action='[[buttonClick]]'>Update Profile</oj-button>
+        </oj-form-layout>
+    </div>
+    </div>
+    
+</div>
+  

@@ -46,11 +46,13 @@ define([
     self.router = Router.rootInstance;
     self.router.configure({
       dashboard: { label: "Dashboard" },
+      admin_dashboard: {label: "Admin_dashboard"},
       register: { label: "Register" },
       submission: { label: "Submission" },
-      login: { label: "Login", isDefault: true },
-      logout: { label: "Logout" },
-      password_reset: {label: "Reset password"},
+      login: { label: "Login", isD
+      profile: { label: "User Profile" },
+      password_reset: {label: "Reset password"}
+  
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
 
@@ -75,23 +77,15 @@ define([
     var navData = [
       {
         name: "Login",
-        id: "login",
-        loggedIn: false
+        id: "login"
       },
       {
         name: "Register",
-        id: "register",
-        loggedIn: false
+        id: "register"
       },
       {
         name: "Dashboard",
-        id: "dashboard",
-        loggedIn: true
-      },
-      {
-        id: "logout",
-        loggedIn: true,
-        iconClass: "fa fa-power-off"
+        id: "dashboard"
       }
     ];
     self.navDataProvider = new ArrayDataProvider(navData, {
@@ -162,4 +156,3 @@ define([
 
   return new ControllerViewModel();
 });
-
