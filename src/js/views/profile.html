@@ -4,8 +4,14 @@
  -->
 <div class="main-profile-update oj-flex oj-sm-flex-direction-column">
     <div class="oj-flex-item aside">
-            <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
-            </oj-avatar>
+            <oj-file-picker on-oj-select='[[selectListener]]'>
+                <div tabindex='0' slot='trigger'
+                        class='oj-filepicker-dropzone'>
+                    <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                    </oj-avatar>
+                    <p class='oj-filepicker-text'>Pls click here or drag an image here to change progile picture</p>
+                </div>
+            </oj-file-picker>
     </div>
     <div class="main-section oj-flex-item">
     <h1>Public profile settings</h1><hr>

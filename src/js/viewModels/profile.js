@@ -4,16 +4,22 @@ define(['ojs/ojcore',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
         'ojs/ojresponsiveknockoututils',
-        'ojs/ojknockout','ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'],
+        'ojs/ojknockout','ojs/ojavatar',  'ojs/ojfilepicker', 'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'],
  function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
-    function LoginViewModel() {
+    function ProfileViewModel() {
       var self = this;
 
-      self.userLogin = ko.observable("");
-      self.welcomeMessage = ko.computed(function(){
-        return "Welcome back "+self.userLogin();
-      }, self);
+
+        self.fileNames = ko.observableArray([]);
+  
+        self.selectListener = function(event) {
+          var files = event.detail.files;
+          for (var i = 0; i < files.length; i++) {
+            self.fileNames.push(files[i].name);
+          }
+        }
+      
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
       self.isSmall =responsiveKnockoutUtils.createMediaQueryObservable(
@@ -64,7 +70,7 @@ define(['ojs/ojcore',
      * each time the view is displayed.  Return an instance of the ViewModel if
      * only one instance of the ViewModel is needed.
      */
-    return new LoginViewModel();
+    return new ProfileViewModel();
   }
   
 );
