@@ -46,6 +46,7 @@ define([
     self.router = Router.rootInstance;
     self.router.configure({
       dashboard: { label: "Dashboard" },
+      admin_dashboard: {label: "Admin_dashboard"},
       register: { label: "Register" },
       submission: { label: "Submission" },
       login: { label: "Login", isD
