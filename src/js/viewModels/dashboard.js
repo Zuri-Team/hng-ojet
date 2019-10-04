@@ -1,5 +1,5 @@
 define([
-        'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'ojs/ojbutton', 'ojs/ojcollapsible'
+        'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'views/task-card/loader'
     ],
     function(oj, ko) {
 
@@ -13,6 +13,15 @@ define([
             self.totalweeks = ko.observable(10);
             self.progress = ko.observable(30);
             self.slack = ko.observable('@shazomii');
+            self.tasks = [{
+                    taskTitle: "Create a Chatbot App",
+                    details: "Here are details for the Chatbot App"
+                },
+                {
+                    taskTitle: "Deploy a Serverless App",
+                    details: "Here are the details for the Serverless App"
+                }
+            ];
 
             self.drawer = {
                 "displayMode": "overlay",

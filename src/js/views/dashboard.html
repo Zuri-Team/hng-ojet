@@ -69,7 +69,17 @@
                 <!-- Start tasks section -->
                 <div>
                     <h3 class="oj-header-border">Tasks for the week 🚀</h3>
-                    <div class="oj-panel oj-panel-shadow-sm">
+                    <template>
+                        <oj-bind-for-each data="[[tasks]]">
+                            <task-card taskTitle="[[$current.data.taskTitle]]" details="[[$current.data.details]]"></task-card>
+                        </oj-bind-for-each>
+                    </template>
+
+
+
+
+
+                    <!-- <div class="oj-panel oj-panel-shadow-sm">
                         <h5 id="h1" slot="header">Create a chatbot App</h5>
                         <h6>Create ChatBot App</h6>
                         <ul>
@@ -90,51 +100,9 @@
 
                             </div>
                         </div>
-                    </div>
-                    <div class="oj-panel oj-panel-shadow-sm">
-                        <h5 id="h1" slot="header">Create a chatbot App</h5>
-                        <h6>Create ChatBot App</h6>
-                        <ul>
-                            <li>App should be able to answer question about HNG internship</li>
-                            <li>Design should be superb</li>
-                        </ul>
+                    </div> -->
 
-                        <div class="oj-flex oj-sm-justify-content-flex-end">
-                            <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
-                                <oj-button class="oj-button-sm oj-button-primary" chroming="full">
-                                    View details
-                                </oj-button>
-                            </div>
-                            <div class="oj-flex-items-pad">
-                                <oj-button class="oj-button-sm oj-button-confirm" chroming="full">
-                                    Submit
-                                </oj-button>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="oj-panel oj-panel-shadow-sm">
-                        <h5 id="h1" slot="header">Create a chatbot App</h5>
-                        <h6>Create ChatBot App</h6>
-                        <ul>
-                            <li>App should be able to answer question about HNG internship</li>
-                            <li>Design should be superb</li>
-                        </ul>
-
-                        <div class="oj-flex oj-sm-justify-content-flex-end">
-                            <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
-                                <oj-button class="oj-button-sm oj-button-primary" chroming="full">
-                                    View details
-                                </oj-button>
-                            </div>
-                            <div class="oj-flex-items-pad">
-                                <oj-button class="oj-button-sm oj-button-confirm" chroming="full">
-                                    Submit
-                                </oj-button>
-
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
