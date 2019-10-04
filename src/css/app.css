@@ -10,14 +10,12 @@
 /*style for the form container*/
 
 .form_container {
-<<<<<<< HEAD
-    min-height: 90vh;
+    <<<<<<< HEAD min-height: 90vh;
     margin-bottom: 5ch;
-=======
-  min-height: 100%;
-  margin-bottom: 5ch;
-  padding: 0px 15px;
->>>>>>> da527469080bc06f7b82115bc99eb8f332308e8a
+    =======min-height: 100%;
+    margin-bottom: 5ch;
+    padding: 0px 15px;
+    >>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
 }
 
 #form_wrapper {
@@ -63,12 +61,7 @@
 }
 
 .progress {
-<<<<<<< HEAD
     height: 25px;
-    display: none;
-=======
-  height: 25px;
->>>>>>> da527469080bc06f7b82115bc99eb8f332308e8a
 }
 
 .fbtn {
@@ -90,14 +83,12 @@
 }
 
 .footer {
-<<<<<<< HEAD
-    min-height: auto !important;
+    <<<<<<< HEAD min-height: auto !important;
     font-weight: bold;
-=======
-  min-height: auto !important;
-  font-weight: bold;
-  width: 100%;
->>>>>>> da527469080bc06f7b82115bc99eb8f332308e8a
+    =======min-height: auto !important;
+    font-weight: bold;
+    width: 100%;
+    >>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
 }
 
 
@@ -137,7 +128,6 @@
 /* End of Submission Page styling */
 
 <<<<<<< HEAD
-
 /*Added my edits here (@Codebug) */
 
 
@@ -166,10 +156,8 @@ div.form-container {
   height: 100%;
   width: 100%;
 } */
-=======
->>>>>>> da527469080bc06f7b82115bc99eb8f332308e8a
 
-
+=======>>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
 /* Dashboard page @shazomii-ojet */
 
 oj-offcanvas-outer-wrapper {
