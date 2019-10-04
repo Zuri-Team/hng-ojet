@@ -1,10 +1,11 @@
 <h3 class="task-submission">Dear Intern, please Submit Your Task(s) Here</h3>
-
+<div>
 <oj-form-layout
   id="form-container"
   class="form oj-form-control-full-width"
-  style="max-width: 50%; margin: 0 auto;"
+  style="max-width: 50%; margin: 0 auto; max-height: 50%; "
 >
+  <span class="message"></span>
   <oj-input-text
     id="inputcontrol"
     value="{{ firstName }}"
@@ -26,7 +27,7 @@
     value="{{ hngCode }}"
     label-hint="HNGi Code"
   ></oj-input-text>
-  <oj-combobox-many id="combobox2" label-hint="Stack">
+  <oj-combobox-many id="combobox2" label-hint="Stack" value="{{ stack }}">
     <oj-option value="React">React</oj-option>
     <oj-option value="Vue">Vue</oj-option>
     <oj-option value="Angular">Angular</oj-option>
@@ -35,7 +36,7 @@
   </oj-combobox-many>
   <oj-text-area
     id="textareacontrol"
-    rows="6"
+    rows="4"
     value="{{ taskDescription }}"
     label-hint=" Your Task Description"
   ></oj-text-area>
@@ -49,3 +50,4 @@
     Submit
   </oj-button>
 </oj-form-layout>
+</div>
