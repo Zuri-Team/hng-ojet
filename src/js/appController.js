@@ -48,10 +48,10 @@ define([
       dashboard: { label: "Dashboard" },
       register: { label: "Register" },
       submission: { label: "Submission" },
-      login: { label: "Login", isDefault: true },
-      logout: { label: "Logout" },
+      login: { label: "Login", isD
       profile: { label: "User Profile" },
       password_reset: {label: "Reset password"}
+  
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
 
@@ -76,23 +76,15 @@ define([
     var navData = [
       {
         name: "Login",
-        id: "login",
-        loggedIn: false
+        id: "login"
       },
       {
         name: "Register",
-        id: "register",
-        loggedIn: false
+        id: "register"
       },
       {
         name: "Dashboard",
-        id: "dashboard",
-        loggedIn: true
-      },
-      {
-        id: "logout",
-        loggedIn: true,
-        iconClass: "fa fa-power-off"
+        id: "dashboard"
       }
     ];
     self.navDataProvider = new ArrayDataProvider(navData, {
@@ -163,4 +155,3 @@ define([
 
   return new ControllerViewModel();
 });
-

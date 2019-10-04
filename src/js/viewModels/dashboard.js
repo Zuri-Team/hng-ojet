@@ -1,11 +1,11 @@
 define([
-        'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'ojs/ojcollapsible'
+        'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'views/task-card/loader'
     ],
     function(oj, ko) {
 
         function DashboardViewModel() {
             var self = this;
-
+            var router = oj.Router.rootInstance;
             self.fullname = ko.observable('Seye Oyeniran');
             self.stage = ko.observable(3);
             self.track = ko.observable('Design');
@@ -13,6 +13,15 @@ define([
             self.totalweeks = ko.observable(10);
             self.progress = ko.observable(30);
             self.slack = ko.observable('@shazomii');
+            self.tasks = [{
+                    taskTitle: "Create a Chatbot App",
+                    details: "Here are details for the Chatbot App"
+                },
+                {
+                    taskTitle: "Deploy a Serverless App",
+                    details: "Here are the details for the Serverless App"
+                }
+            ];
 
             self.drawer = {
                 "displayMode": "overlay",
@@ -24,6 +33,17 @@ define([
             self.toggleDrawer = function() {
                 return oj.OffcanvasUtils.toggle(self.drawer);
             };
+
+            self.logout = function() {
+                sessionStorage.clear();
+                router.go("login")
+            }
+
+            self.connected = function() {
+                if (sessionStorage.getItem("user_token") == null) {
+                    router.go("login");
+                }
+            }
         }
 
 
