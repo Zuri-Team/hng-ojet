@@ -6,126 +6,130 @@
         This is where any of your application specific styles should be included
 */
 
+
 /*style for the form container*/
+
 .form_container {
-  min-height: 100%;
-  margin-bottom: 5ch;
-  padding: 0px 15px;
+    <<<<<<< HEAD min-height: 90vh;
+    margin-bottom: 5ch;
+    =======min-height: 100%;
+    margin-bottom: 5ch;
+    padding: 0px 15px;
+    >>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
 }
 
 #form_wrapper {
-  padding-bottom: 20px;
-  background: #ffffff;
-  box-shadow: 0px 0px 5px 0px rgba(16, 16, 16, 0.37);
-  border-radius: 3px;
+    padding-bottom: 20px;
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 0px rgba(16, 16, 16, 0.37);
+    border-radius: 3px;
 }
 
 .ftitle {
-  color: rgba(3, 2, 2, 0.7);
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 49px;
-  text-align: center;
+    color: rgba(3, 2, 2, 0.7);
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 49px;
+    text-align: center;
 }
 
 .fhtitle {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 49px;
-  color: #9b51e0;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 49px;
+    color: #9b51e0;
 }
 
 #lform_components {
-  width: 90%;
-  margin: auto;
+    width: 90%;
+    margin: auto;
 }
 
-.lform-ctrl > input,
+.lform-ctrl>input,
 .select {
-  background: #dedcdcc2;
-  border-radius: 4px;
-  padding: 15px;
-  margin-bottom: 20px;
-  width: 100%;
-  outline: none;
-  border: none;
+    background: #dedcdcc2;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    outline: none;
+    border: none;
 }
 
 .progress {
-  height: 25px;
+    height: 25px;
 }
 
 .fbtn {
-  background-color: #9b51e0;
-  font-weight: bold !important;
-  height: 45px;
-  width: 120px;
-  font-size: 13px;
-  text-align: center;
-  color: white !important;
-  border-radius: 4px;
-  box-shadow: 0px 1px 5px #32023a !important;
-  border: none !important;
-  outline: none !important;
+    background-color: #9b51e0;
+    font-weight: bold !important;
+    height: 45px;
+    width: 120px;
+    font-size: 13px;
+    text-align: center;
+    color: white !important;
+    border-radius: 4px;
+    box-shadow: 0px 1px 5px #32023a !important;
+    border: none !important;
+    outline: none !important;
 }
 
 #accinfo {
-  display: none;
+    display: none;
 }
 
 .footer {
-  min-height: auto !important;
-  font-weight: bold;
-  width: 100%;
+    <<<<<<< HEAD min-height: auto !important;
+    font-weight: bold;
+    =======min-height: auto !important;
+    font-weight: bold;
+    width: 100%;
+    >>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
 }
+
 
 /* =============== SUBMISION PAGE ================ */
 
 .task-submission {
-  text-align: center;
-  margin: 3rem 0;
-  font-weight: bold;
-  font-size: 2rem;
+    text-align: center;
+    margin: 3rem 0;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 .form {
-  background-color: #fff;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 1rem 5rem;
-  width: 100%;
-  height: auto;
-  margin: 5em 0;
-  border: 1px solid white;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    background-color: #fff;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 1rem 5rem;
+    width: 100%;
+    height: auto;
+    margin: 5em 0;
+    border: 1px solid white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .form .oj-label-group {
-  font-weight: 900;
+    font-weight: 900;
 }
+
 @media (max-width: 768px) {
-  .form {
-    padding: 1rem 2rem;
-    min-width: 100%;
-  }
+    .form {
+        padding: 1rem 2rem;
+        min-width: 100%;
+    }
 }
+
 
 /* End of Submission Page styling */
 
+<<<<<<< HEAD
+/*Added my edits here (@Codebug) */
 
-/* Dashboard page @shazomii-ojet */
-
-.oj-offcanvas-outer-wrapper {
-    height: 100%;
-}
-
-.oj-offcanvas-start {
-    width: 20em;
-}
 
 /* div.form-header {
   padding: 20px;
@@ -141,9 +145,11 @@ div.form-container {
   padding: 20px 0;
 } */
 
+
 /* oj-form-layout {
   background-color: #dedcdcc2;
 } */
+
 
 /* oj-input-text {
   background: transparent;
@@ -151,3 +157,40 @@ div.form-container {
   width: 100%;
 } */
 
+=======>>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
+/* Dashboard page @shazomii-ojet */
+
+oj-offcanvas-outer-wrapper {
+    height: 100%;
+}
+
+.oj-offcanvas-start {
+    width: 20em;
+}
+
+
+/* div.form-header {
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  background-color: #9b51e0;
+}
+
+div.form-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px 0;
+} */
+
+
+/* oj-form-layout {
+  background-color: #dedcdcc2;
+} */
+
+
+/* oj-input-text {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+} */

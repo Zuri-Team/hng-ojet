@@ -1,4 +1,3 @@
-<!-- outer offcanvas wrapper -->
 <div class="oj-offcanvas-outer-wrapper">
     <!-- start offcanvas -->
     <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
@@ -29,7 +28,7 @@
                 <div class="oj-flex-item">
                     <span class="oj-fwk-icon-calendar oj-fwk-icon oj-sm-margin-2x"></span>
                     <span>Week <span data-bind="text: currentweek"></span> of
-                        <span data-bind="text: totalweeks"></span></span>
+                    <span data-bind="text: totalweeks"></span></span>
                 </div>
             </div>
         </div>
@@ -37,16 +36,14 @@
     <!-- End offcanvas -->
 
     <!-- main content -->
-    <div class="main">
+    <div class="main" style="height: 100vh;">
         <!-- start offcanvas launch button -->
         <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
             <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]">
-                <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span>
-                Menu
+                <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span> Menu
             </oj-button>
             <oj-button class="float-right" display="icons" chroming="full" on-click="[[logout]]">
-                <span slot="startIcon" class="fa fa-power-off"></span>
-                Logout
+                <span slot="startIcon" class="fa fa-power-off"></span> Logout
             </oj-button>
         </div>
         <!-- End offcanvas launch button -->
@@ -73,12 +70,22 @@
                     </ol>
                 </div>
             </div>
-            <div
-                class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-10 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
-                <!-- Start tasks panel -->
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">
+
+                <!-- Start tasks section -->
                 <div>
                     <h3 class="oj-header-border">Tasks for the week 🚀</h3>
-                    <oj-collapsible id="c1">
+                    <template>
+                        <oj-bind-for-each data="[[tasks]]">
+                            <task-card taskTitle="[[$current.data.taskTitle]]" details="[[$current.data.details]]"></task-card>
+                        </oj-bind-for-each>
+                    </template>
+
+
+
+
+
+                    <!-- <div class="oj-panel oj-panel-shadow-sm">
                         <h5 id="h1" slot="header">Create a chatbot App</h5>
                         <h6>Create ChatBot App</h6>
                         <ul>
@@ -87,27 +94,23 @@
                             </li>
                             <li>Design should be superb</li>
                         </ul>
-                    </oj-collapsible>
-                    <oj-collapsible id="c2">
-                        <h5 id="h2" slot="header">Create a Mortgage Calculator</h5>
-                        <h6>Create ChatBot App</h6>
-                        <ul>
-                            <li>
-                                App should be able to answer question about HNG internship
-                            </li>
-                            <li>Design should be superb</li>
-                        </ul>
-                    </oj-collapsible>
-                    <oj-collapsible id="h3">
-                        <h5 id="h3" slot="header">Create a Gate App</h5>
-                        <h6>Create ChatBot App</h6>
-                        <ul>
-                            <li>
-                                App should be able to answer question about HNG internship
-                            </li>
-                            <li>Design should be superb</li>
-                        </ul>
-                    </oj-collapsible>
+
+                        <div class="oj-flex oj-sm-justify-content-flex-end">
+                            <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
+                                <oj-button class="oj-button-sm oj-button-primary" chroming="full">
+                                    View details
+                                </oj-button>
+                            </div>
+                            <div class="oj-flex-items-pad">
+                                <oj-button class="oj-button-sm oj-button-confirm" chroming="full">
+                                    Submit
+                                </oj-button>
+
+                            </div>
+                        </div>
+                    </div> -->
+
+
                 </div>
             </div>
         </div>
