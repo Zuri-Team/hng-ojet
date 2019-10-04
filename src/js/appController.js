@@ -49,7 +49,7 @@ define([
       admin_dashboard: {label: "Admin_dashboard"},
       register: { label: "Register" },
       submission: { label: "Submission" },
-      login: { label: "Login", isD
+      login: { label: "Login", isDefault: true},
       profile: { label: "User Profile" },
       password_reset: {label: "Reset password"}
   
@@ -117,7 +117,6 @@ define([
     // Header
     // Application Name used in Branding Area
     self.appName = ko.observable("OJET Team 20");
-    self.isLoggedIn = ko.observable(false);
 
     // Footer
     function footerLink(name, id, linkTarget) {
