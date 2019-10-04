@@ -39,9 +39,18 @@ define([
       function validate() {
         var sect = $("#fbk");
         var feedback = function (text, color = "danger") {
-          return `<div class=" mt-2 alert alert-${color} h6 show fb_alert" role="alert">
+          return `<div class=" mt-3 alert alert-${color} h5 show fb_alert" role="alert">
             <small>${text}</small>
           </div>`;
+        };
+
+        var progressbar = function () {
+          return `<div class="progress position-relative mt-3">
+          <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
+            role="progressbar">
+            <span class="oj-text-sm font-weight-bold">Processing registration</span>
+          </div>
+        </div>`;
         };
 
         let firstname = self.firstname();
@@ -78,29 +87,33 @@ define([
             }
           }
           if (validated == true) {
-            $(".progress").show();
-            $.post(
-              "http://localhost:3000/api/register",
-              {
-                firstname,
-                lastname,
-                email,
-                username,
-                password,
-                confirm_password,
-                stack,
-                location
-              },
-              function (resp) {
-                console.log(resp);
+            sect.html(progressbar());
+            $.post("http://localhost:3000/api/register", {
+              firstname,
+              lastname,
+              email,
+              username,
+              password,
+              confirm_password,
+              stack,
+              location
+            })
+              .done(resp => {
                 if (resp.status == true) {
-                  sect.html(feedback("Account created, redirecting to login page...", 'success'));
+                  sect.html(
+                    feedback(
+                      "Account created, redirecting to login page...",
+                      "success"
+                    )
+                  );
                   setTimeout(function () {
-                    router.go('login');
-                  }, 3000)
+                    router.go("login");
+                  }, 2000);
                 }
-              }
-            );
+              })
+              .fail(() => {
+                sect.html(feedback("Sorry, your registration could not be completed. Your username or email is already registered to an account"));
+              });
           }
         } else {
           console.log("wrong");
