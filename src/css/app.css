@@ -10,12 +10,11 @@
 /*style for the form container*/
 
 .form_container {
-    <<<<<<< HEAD min-height: 90vh;
     margin-bottom: 5ch;
-    =======min-height: 100%;
+    min-height: 100%;
     margin-bottom: 5ch;
     padding: 0px 15px;
-    >>>>>>>da527469080bc06f7b82115bc99eb8f332308e8a
+    
 }
 
 #form_wrapper {
