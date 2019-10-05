@@ -7,7 +7,7 @@ define([
   "ojs/ojformlayout",
   "ojs/ojinputtext",
   "ojs/ojselectcombobox"
-], function(ko, api, $) {
+], function (ko, api, $) {
   function RegisterViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -23,21 +23,21 @@ define([
     self.pass = ko.observable();
     self.rpass = ko.observable();
 
-    self.login = function() {
+    self.login = function () {
       router.go("login");
     };
 
-    self.connected = function() {
+    self.connected = function () {
       // Implement if needed
       function validate() {
         var sect = $("#fbk");
-        var feedback = function(text, color = "danger") {
+        var feedback = function (text, color = "danger") {
           return `<div class=" mt-3 alert alert-${color} h5 show fb_alert" role="alert">
             <small>${text}</small>
           </div>`;
         };
 
-        var progressbar = function() {
+        var progressbar = function () {
           return `<div class="progress position-relative mt-3">
           <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
             role="progressbar">
@@ -54,19 +54,6 @@ define([
         let confirm_password = self.rpass();
         let stack = self.stack();
         let location = self.location();
-        
-        
-        /* data = JSON.stringify({
-                        fullname: fullname,
-                        email: self.email(),
-                        username: self.username(),
-                        location: self.location(),
-                        phone: self.phone(),
-                        stack: userStack,
-                        password: self.password()
-                    }); */
-
-        
 
         if (
           (firstname &&
@@ -112,7 +99,7 @@ define([
                       "success"
                     )
                   );
-                  setTimeout(function() {
+                  setTimeout(function () {
                     router.go("login");
                   }, 2000);
                 }
@@ -131,25 +118,25 @@ define([
         }
       }
 
-      $("#next").click(function() {
+      $("#next").click(function () {
         $("#profileinfo").hide();
         $("#accinfo").show();
       });
-      $("#prev").click(function() {
+      $("#prev").click(function () {
         $("#profileinfo").show();
         $("#accinfo").hide();
       });
 
-      self.signup = function() {
+      self.signup = function () {
         validate();
       };
     };
 
-    self.disconnected = function() {
+    self.disconnected = function () {
       // Implement if needed
     };
 
-    self.transitionCompleted = function() {
+    self.transitionCompleted = function () {
       // Implement if needed
     };
   }
