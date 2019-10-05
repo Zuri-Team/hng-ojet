@@ -106,51 +106,7 @@ define([
     self.toggleDrawer = function() {
       return OffcanvasUtils.toggle(self.drawerParams);
     };
-    // Add a close listener so we can move focus back to the toggle button when the drawer closes
-    // document
-    //   .getElementById("navDrawer")
-    //   .addEventListener(
-    //     "ojclose",
-    //     document.getElementById("drawerToggleButton").focus()
-    //   );
 
-    // Header
-    // Application Name used in Branding Area
-    self.appName = ko.observable("OJET Team 20");
-
-    // Footer
-    function footerLink(name, id, linkTarget) {
-      this.name = name;
-      this.linkId = id;
-      this.linkTarget = linkTarget;
-    }
-    self.footerLinks = ko.observableArray([
-      new footerLink(
-        "About Oracle",
-        "aboutOracle",
-        "http://www.oracle.com/us/corporate/index.html#menu-about"
-      ),
-      new footerLink(
-        "Contact Us",
-        "contactUs",
-        "http://www.oracle.com/us/corporate/contact/index.html"
-      ),
-      new footerLink(
-        "Legal Notices",
-        "legalNotices",
-        "http://www.oracle.com/us/legal/index.html"
-      ),
-      new footerLink(
-        "Terms Of Use",
-        "termsOfUse",
-        "http://www.oracle.com/us/legal/terms/index.html"
-      ),
-      new footerLink(
-        "Your Privacy Rights",
-        "yourPrivacyRights",
-        "http://www.oracle.com/us/legal/privacy/index.html"
-      )
-    ]);
   }
 
   return new ControllerViewModel();

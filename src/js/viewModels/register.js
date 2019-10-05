@@ -1,20 +1,13 @@
-/**
- * @license
- * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your register ViewModel code goes here
- */
 define([
   "knockout",
-  "ojs/ojcore",
+  "./api",
   "jquery",
+  "ojs/ojcore",
   "ojs/ojrouter",
   "ojs/ojformlayout",
   "ojs/ojinputtext",
   "ojs/ojselectcombobox"
-], function (ko, Router, $) {
+], function (ko, api, $) {
   function RegisterViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -88,7 +81,7 @@ define([
           }
           if (validated == true) {
             sect.html(progressbar());
-            $.post("http://localhost:3000/api/register", {
+            $.post(`${api}/api/register`, {
               firstname,
               lastname,
               email,
@@ -112,7 +105,11 @@ define([
                 }
               })
               .fail(() => {
-                sect.html(feedback("Sorry, your registration could not be completed. Your username or email is already registered to an account"));
+                sect.html(
+                  feedback(
+                    "Sorry, your registration could not be completed. Your username or email is already registered to an account"
+                  )
+                );
               });
           }
         } else {
@@ -135,26 +132,14 @@ define([
       };
     };
 
-    /**
-     * Optional ViewModel method invoked after the View is disconnected from the DOM.
-     */
     self.disconnected = function () {
       // Implement if needed
     };
 
-    /**
-     * Optional ViewModel method invoked after transition to the new View is complete.
-     * That includes any possible animation between the old and the new View.
-     */
     self.transitionCompleted = function () {
       // Implement if needed
     };
   }
 
-  /*
-   * Returns a constructor for the ViewModel so that the ViewModel is constructed
-   * each time the view is displayed.  Return an instance of the ViewModel if
-   * only one instance of the ViewModel is needed.
-   */
   return new RegisterViewModel();
 });
