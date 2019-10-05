@@ -4,7 +4,7 @@ define(['ojs/ojcore',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
         'ojs/ojresponsiveknockoututils',
-        'ojs/ojknockout','ojs/ojavatar',  'ojs/ojfilepicker', 'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'],
+        'ojs/ojknockout', 'ojs/ojlabel','ojs/ojavatar',  'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'],
  function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
     function ProfileViewModel() {
