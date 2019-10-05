@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * @license
  * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
@@ -100,6 +99,3 @@ define([
    */
   return new LoginViewModel();
 });
-=======
-define(["knockout","./api","ojs/ojrouter","ojs/ojresponsiveutils","ojs/ojresponsiveknockoututils","ojs/ojknockout","ojs/ojinputtext","ojs/ojbutton","ojs/ojformlayout"],function(o,e){return new function(){var t=this;t.user=o.observable(),t.password=o.observable();var s=oj.Router.rootInstance,n=(o.dataFor(document.getElementById("globalBody")),function(o,e="danger"){return`<div class=" mt-2 alert alert-${e} h5 show fb_alert" role="alert">\n        <small>${o}</small>\n      </div>`});t.register=function(){s.go("register")},t.reset=function(){s.go("password_reset")},t.login=function(){var o=$("#fbk");let r=t.user(),a=t.password();void 0!==(r&&a)?r.match(/([@])/)&&r.match(/([.])/)?(o.html('<div class="progress position-relative mb-3 ">\n      <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-success">\n        <span class="oj-text-sm font-weight-bold">Logging In</span>\n      </div>\n    </div>'),$.post(`${e}/api/login`,{email:r,password:a}).done(o=>{sessionStorage.setItem("user_token",o.token),s.go("dashboard")}).fail(()=>{o.html(n("Incorrect login details"))})):o.html(n("Please enter a valid email")):o.html(n("Enter your details to login"))},t.connected=function(){null!==sessionStorage.getItem("user_token")&&s.go("dashboard")},t.disconnected=function(){},t.transitionCompleted=function(){}}});
->>>>>>> 47c204b670044215f192ee69f48a3830b599a9a9
