@@ -1,0 +1,1 @@
+define(["ojs/ojknockout","ojs/ojbutton"],function(){return function(t){var e=oj.Context.getContext(t.element).getBusyContext();this.busyResolve=e.addBusyState({description:"Loading task..."}),this.composite=t.element,this.properties=t.properties,this.busyResolve()}});
