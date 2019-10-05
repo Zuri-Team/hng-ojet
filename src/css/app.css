@@ -175,16 +175,16 @@ div.form-container {
   position: absolute;
   height: 40px;
   width: 100%;
-  background-color: rgb(40, 40, 75);
+  background-color: #32023a;
   z-index: 4;
 }
 
 .side-nav{
-  position: absolute;
-  width: 100%;
-  background-color: darkblue;
-  height: 100vh;
-  z-index: 3;
+  /* position: absolute; */
+  /* width: 100%; */
+  background-color: #9b51e0;
+  /* height: 100vh; */
+  /* z-index: 3; */
   padding-top: 44px;
 
 }
@@ -208,33 +208,12 @@ div.form-container {
 .side-nav ul li a i{
   color: black;
 }
-@media screen and (min-width: 600px) {
-  .side-nav {
-      width: 80px;
-  }
-  .side-nav ul li{
-      text-align: center;    
-  }
-  .side-nav ul li span:nth-child(2) {
-      display: none;
-  }
-  .side-nav ul li i{
-      font-size: 26px;
-  }
-}
-@media screen and (min-width: 1000px) {
-  .side-nav{
-      width: 200px;
-  }
-  .side-nav ul li{
-      text-align: left;
-  }
-  .side-nav ul li span:nth-child(2){
-      display: inline;
-  }
-  .side-nav ul li i{
-      font-size: 16px; 
-  }
+.admin__dashboard {
+  border: #9b51e0 1px solid;
+  box-shadow: #32023a 3px 5px 15px;
+  padding: 20px;
+  width: 95%;
+  background-color: #ffffff;
 }
 
 /* User profile settings*/
@@ -264,5 +243,43 @@ div.form-container {
   }
   .input__profile {
     max-width: 80%;
+  }
+}
+
+
+/*admin_dashboard*/
+@media screen and (max-width: 600px) {
+  .side-nav {
+      display: none;
+  }
+  .side-nav ul li{
+      text-align: center;    
+  }
+  .side-nav ul li span:nth-child(2) {
+      display: none;
+  }
+  .side-nav ul li i{
+      font-size: 26px;
+  }
+}
+@media screen and (min-width: 601px) {
+  .side-nav{
+      width: 20%;
+  }
+  .side-nav ul li{
+      text-align: left;
+  }
+  .side-nav ul li span:nth-child(2){
+      display: inline;
+  }
+  .side-nav ul li i{
+      font-size: 16px; 
+  }
+  #drawer, .drawer__btn {
+    display: none !important;
+  }
+  .admin__dashboard {
+
+    width: 78%;
   }
 }

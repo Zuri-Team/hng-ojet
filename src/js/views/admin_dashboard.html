@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
     <head>
         <title>Admin dashboard</title>
@@ -8,46 +8,12 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
-        <!-- outer offcanvas wrapper -->
+        <!-- outer offcanvas wrapper --
         <div class="oj-offcanvas-outer-wrapper" 
         style="border: 1px solid #d1e6f9; height:650px;">
 
-        <div class="header">
-            <a href="#" class="nav-trigger"><span></span></a>
-        </div>
         
-        <div class="side-nav">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">
-                            <span><i class="fa fa-user"></i></span>
-                            <span>Admin</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                            <a href="#">
-                                <span><i class="fa fa-list-alt"></i></span>
-                                <span> Categories </span>
-                            </a>
-                            
-                    <li>
-                        <a href="#">
-                            <span><i class="fa fa-envelope"></i></span>
-                            <span> Posts </span>
-                        </a>
-                    </li>
-                        <li>
-                            <a href="#">
-                                <span><i class="fa fa-tasks"></i></span>
-                                <span> Track</span>
-                            </a>
-                        </li>
-
-                </ul>
-            </nav>
-        </div>
+        
 
 
         
@@ -60,4 +26,122 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     </body>
     
-</html>
+</html> -->
+<!-- <div class="header">
+        <a href="#" class="nav-trigger"><span></span></a>
+</div> -->
+
+
+
+<div class="oj-offcanvas-outer-wrapper">
+    <!-- start offcanvas -->
+    <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
+        <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
+            <div class="oj-flex-item">
+                <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                </oj-avatar>
+            </div>
+            <h3 data-bind="text: fullname"></h3>
+            <div class="oj-flex-item">
+                <span class="fa fa-slack"></span>
+                <span><span data-bind="text: slack"></span></span>
+            </div>
+        </div>
+
+        <hr />
+        <div class="oj-flex oj-sm-justify-content-center">
+            <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
+                <a href="#"><div class="oj-flex-item  oj-sm-padding-2x">
+                    <span><i class="fa fa-user"></i></span>
+                    <span>Admin Profile</span>
+                </div></a>
+                <a href=""><div class="oj-flex-item oj-sm-padding-2x">
+                    <span><i class="fa fa-list-alt"></i></span>
+                    <span> Categories </span>
+                </div></a> 
+
+                <a href="#"><div class="oj-flex-item oj-sm-padding-2x">
+                    <span><i class="fa fa-envelope"></i></span>
+                    <span> Posts </span>
+                </div></a>
+                <a href="#"><div class="oj-flex-item oj-sm-padding-2x">
+                    <span><i class="fa fa-tasks"></i></span>
+                    <span> Track </span>
+                </div></a>
+            </div>
+        </div>
+    </div>
+        <!-- End offcanvas -->
+    
+        <!-- main content -->
+        <div class="main">
+            <!-- start offcanvas launch button -->
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
+                <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]" class="drawer__btn">
+                    <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span> Menu
+                </oj-button>
+                <oj-button class="float-right" display="icons" chroming="full" on-click="[[logout]]">
+                    <span slot="startIcon" class="fa fa-power-off"></span> Logout
+                </oj-button>
+            </div>
+            <!-- End offcanvas launch button -->
+            <div class="clearfix"></div>
+            <!-- Start main dashboard content -->
+            <div class="admin-profile-update oj-flex">
+            <div class="side-nav">
+                <nav>
+                    <ul>
+                        <li><a href="#">
+                                <span><i class="fa fa-user"></i></span>
+                                <span>Admin</span>
+                        </a></li>
+                        <li><a href="#">
+                                    <span><i class="fa fa-list-alt"></i></span>
+                                    <span> Categories </span>
+                        </a>
+                        <li><a href="#">
+                                <span><i class="fa fa-envelope"></i></span>
+                                <span> Posts </span>
+                        </a></li>
+                        <li><a href="#">
+                                <span><i class="fa fa-tasks"></i></span>
+                                <span> Track</span>
+                        </a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="admin__dashboard">
+                <div class="oj-flex-item aside">
+                    <label><h5> Profile picture</h5></label> 
+                    <oj-file-picker on-oj-select='[[selectListener]]'>
+                        <div tabindex='0' slot='trigger'
+                                class='oj-filepicker-dropzone'>
+                            <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                            </oj-avatar>
+                            <p class='oj-filepicker-text'>Pls click here or drag an image here to change profile picture</p>
+                        </div>
+                    </oj-file-picker>
+                </div>
+                <div class="oj-flex-item">
+                <h1>Public profile settings</h1><hr>
+                <div class="oj-hybrid-padding center">
+                    <oj-form-layout id="form-container" style="display: inline-block">
+                        <oj-input-text class="input__profile" id="input1" type="text" label-hint="Name" data-bind="textInput:name"></oj-input-text>
+                        <oj-input-text class="input__profile" id="input2" type="email" label-hint="Public email" data-bind="textInput:email"></oj-input-text>
+                        <oj-input-text class="input__profile" id="input3" type="text" label-hint="Display Name" data-bind="textInput:displayName"></oj-input-text>
+                        <oj-text-area class="input__profile" id="text-area" label-hint="Bio" data-bind="textInput:bio">
+                        </oj-text-area>
+                        <oj-input-text class="input__profile" id="input4" type="text" label-hint="URL" data-bind="textInput:url"></oj-input-text>
+                        <oj-input-text class="input__profile" id="input5" type="text" label-hint="Location" data-bind="textInput:location"></oj-input-text>
+                        <h6>All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.</h6>
+                
+                        <oj-button class="fbtn" on-oj-action='[[buttonClick]]'>Update Profile</oj-button>
+                    </oj-form-layout>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
