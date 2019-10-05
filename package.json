@@ -4,6 +4,7 @@
   "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
     "@oracle/oraclejet": "~7.1.0",
+    "grunt": "^1.0.4",
     "localforage": "^1.7.3"
   },
   "devDependencies": {

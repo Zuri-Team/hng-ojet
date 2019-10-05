@@ -98,19 +98,29 @@
 }
 
 .form {
-    background-color: #fff;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 1rem 5rem;
-    width: 100%;
-    height: auto;
-    margin: 5em 0;
-    border: 1px solid white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: #fff;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1rem 5rem;
+  width: 100%;
+  height: auto;
+  margin: 5em 0;
+  border: 1px solid white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  overflow: hidden;
 }
 
 .form .oj-label-group {
-    font-weight: 900;
+  font-weight: 1000;
+}
+.message {
+  display: none;
+}
+.error {
+  color: rgb(175, 5, 5);
+}
+.success {
+  color: rgb(111, 236, 111);
 }
 
 @media (max-width: 768px) {
@@ -120,48 +130,16 @@
     }
 }
 
-
 /* End of Submission Page styling */
-
-
-/*Added my edits here (@Codebug) */
-
-
-/* div.form-header {
-  padding: 20px;
-  width: 100%;
-  text-align: center;
-  color: #ffffff;
-  background-color: #9b51e0;
-}
-
-div.form-container {
-  width: 90%;
-  margin: auto;
-  padding: 20px 0;
-} */
-
-
-/* oj-form-layout {
-  background-color: #dedcdcc2;
-} */
-
-
-/* oj-input-text {
-  background: transparent;
-  height: 100%;
-  width: 100%;
-} */
-
 
 /* Dashboard page @shazomii-ojet */
 
-oj-offcanvas-outer-wrapper {
+.oj-offcanvas-outer-wrapper {
     height: 100%;
 }
 
 .oj-offcanvas-start {
-    width: 20em;
+  width: 20em;
 }
 
 
@@ -192,6 +170,74 @@ div.form-container {
 } */
 
 
+/* admin_dashboard page */
+.header{
+  position: absolute;
+  height: 40px;
+  width: 100%;
+  background-color: rgb(40, 40, 75);
+  z-index: 4;
+}
+
+.side-nav{
+  position: absolute;
+  width: 100%;
+  background-color: darkblue;
+  height: 100vh;
+  z-index: 3;
+  padding-top: 44px;
+
+}
+
+.side-nav ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-nav ul li{
+  padding: 20px 10px;
+  border-bottom: 1px solid black;
+}
+
+.side-nav ul li a{
+  color: white;
+  text-decoration: none;
+}
+
+.side-nav ul li a i{
+  color: black;
+}
+@media screen and (min-width: 600px) {
+  .side-nav {
+      width: 80px;
+  }
+  .side-nav ul li{
+      text-align: center;    
+  }
+  .side-nav ul li span:nth-child(2) {
+      display: none;
+  }
+  .side-nav ul li i{
+      font-size: 26px;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .side-nav{
+      width: 200px;
+  }
+  .side-nav ul li{
+      text-align: left;
+  }
+  .side-nav ul li span:nth-child(2){
+      display: inline;
+  }
+  .side-nav ul li i{
+      font-size: 16px; 
+  }
+}
+
+/* User profile*/
 .main-section {
   border: #9b51e0 1px solid;
   box-shadow: #32023a 3px 5px 15px;
@@ -202,6 +248,10 @@ div.form-container {
 }
 .main-section {
   width: 50%;
+<<<<<<< HEAD
+} 
+=======
 }
-} */
+
+>>>>>>> f07a946c149d9141c2a23dc3a444b2d17ec3f919
 

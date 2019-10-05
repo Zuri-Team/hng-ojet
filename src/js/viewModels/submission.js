@@ -13,7 +13,7 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojinputtext"
 ], function(ko, $) {
-  function ExampleComponentModel(context) {
+  function SubmissionComponentModel(context) {
     var self = this;
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
       oj.ResponsiveUtils.getFrameworkQuery(
@@ -26,18 +26,32 @@ define([
       return self.isSmall() ? "top" : "start";
     }, self);
 
+    // initialize the router
+    const router = oj.Router.rootInstance;
+
     // Form Input Observables
     self.firstName = ko.observable("");
     self.lastName = ko.observable("");
     self.email = ko.observable("");
     self.hngCode = ko.observable("");
+    self.stack = ko.observableArray([]);
     self.url = ko.observable("");
     self.taskDescription = ko.observable("");
+
+    const showMessage = (message, color = "error") => {
+      const span = document.querySelector(".message");
+      span.classList.add(`${color}`);
+      span.innerHTML = `${message}`;
+      span.style.display = "block";
+      setTimeout(() => {
+        span.style.display = "none";
+      }, 3000);
+    };
 
     self.submit = () => {
       // We do not have to prevent the form's default submission behaviour, knockout js enforces that as default behaviour. Pretty cool yeah !
 
-      //We need to check that the user does not submit empty fields;
+      //We need to, first of all, check that the user does not submit any empty fields;
 
       if (
         self.firstName() === "" ||
@@ -47,20 +61,30 @@ define([
         self.url() === "" ||
         self.taskDescription() === ""
       ) {
+        showMessage("Please fill all fields");
         return;
       }
+
+      //Then, we do some awesome validation just to make sure our database is not cluttered with unwanted info.
+
+      // This will be done when the endpoint is ready.
+
       // Store the submitted input values in an object. This will be sent to the backend.
       const task = {
         firstname: self.firstName(),
         lastname: self.lastName(),
+        stack: self.stack(),
         email: self.email(),
         hng_code: self.hngCode(),
         url: self.url(),
         task_description: self.taskDescription()
       };
       console.log(task);
+
+      // User is redirected to the dashboard on submit.
+      router.go("dashboard");
     };
   }
 
-  return new ExampleComponentModel();
+  return new SubmissionComponentModel();
 });
