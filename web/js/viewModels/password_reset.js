@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * @license
  * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
@@ -48,3 +49,6 @@ define([
         return new PasswordResetModel();
     }
 );
+=======
+define(["knockout","ojs/ojrouter","ojs/ojresponsiveutils","ojs/ojresponsiveknockoututils","ojs/ojknockout","ojs/ojinputtext","ojs/ojbutton","ojs/ojformlayout"],function(o,n,t){return new function(){var n=oj.Router.rootInstance;this.user=o.observable(),this.login=function(){n.go("login")},this.connected=function(){},this.disconnected=function(){},this.transitionCompleted=function(){}}});
+>>>>>>> 47c204b670044215f192ee69f48a3830b599a9a9

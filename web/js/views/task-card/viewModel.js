@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 define(['ojs/ojknockout', 'ojs/ojbutton'],
     function() {
         function taskModel(context) {
@@ -23,3 +24,6 @@ define(['ojs/ojknockout', 'ojs/ojbutton'],
         return taskModel;
     }
 );
+=======
+define(["ojs/ojknockout","ojs/ojbutton"],function(){return function(t){var e=oj.Context.getContext(t.element).getBusyContext();this.busyResolve=e.addBusyState({description:"Loading task..."}),this.composite=t.element,this.properties=t.properties,this.busyResolve()}});
+>>>>>>> 47c204b670044215f192ee69f48a3830b599a9a9
