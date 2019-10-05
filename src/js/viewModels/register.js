@@ -88,7 +88,7 @@ define([
           }
           if (validated == true) {
             sect.html(progressbar());
-            $.post("http://localhost:3000/api/register", {
+            $.post("http://api.start.ng/api/register", {
               firstname,
               lastname,
               email,
