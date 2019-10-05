@@ -1,20 +1,13 @@
-/**
- * @license
- * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your register ViewModel code goes here
- */
 define([
   "knockout",
-  "ojs/ojcore",
+  "./api",
   "jquery",
+  "ojs/ojcore",
   "ojs/ojrouter",
   "ojs/ojformlayout",
   "ojs/ojinputtext",
   "ojs/ojselectcombobox"
-], function (ko, Router, $) {
+], function(ko, api, $) {
   function RegisterViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -30,21 +23,21 @@ define([
     self.pass = ko.observable();
     self.rpass = ko.observable();
 
-    self.login = function () {
+    self.login = function() {
       router.go("login");
     };
 
-    self.connected = function () {
+    self.connected = function() {
       // Implement if needed
       function validate() {
         var sect = $("#fbk");
-        var feedback = function (text, color = "danger") {
+        var feedback = function(text, color = "danger") {
           return `<div class=" mt-3 alert alert-${color} h5 show fb_alert" role="alert">
             <small>${text}</small>
           </div>`;
         };
 
-        var progressbar = function () {
+        var progressbar = function() {
           return `<div class="progress position-relative mt-3">
           <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
             role="progressbar">
@@ -88,7 +81,7 @@ define([
           }
           if (validated == true) {
             sect.html(progressbar());
-            $.post("http://localhost:3000/api/register", {
+            $.post(`${api}/api/register`, {
               firstname,
               lastname,
               email,
@@ -106,13 +99,17 @@ define([
                       "success"
                     )
                   );
-                  setTimeout(function () {
+                  setTimeout(function() {
                     router.go("login");
                   }, 2000);
                 }
               })
               .fail(() => {
-                sect.html(feedback("Sorry, your registration could not be completed. Your username or email is already registered to an account"));
+                sect.html(
+                  feedback(
+                    "Sorry, your registration could not be completed. Your username or email is already registered to an account"
+                  )
+                );
               });
           }
         } else {
@@ -121,40 +118,28 @@ define([
         }
       }
 
-      $("#next").click(function () {
+      $("#next").click(function() {
         $("#profileinfo").hide();
         $("#accinfo").show();
       });
-      $("#prev").click(function () {
+      $("#prev").click(function() {
         $("#profileinfo").show();
         $("#accinfo").hide();
       });
 
-      self.signup = function () {
+      self.signup = function() {
         validate();
       };
     };
 
-    /**
-     * Optional ViewModel method invoked after the View is disconnected from the DOM.
-     */
-    self.disconnected = function () {
+    self.disconnected = function() {
       // Implement if needed
     };
 
-    /**
-     * Optional ViewModel method invoked after transition to the new View is complete.
-     * That includes any possible animation between the old and the new View.
-     */
-    self.transitionCompleted = function () {
+    self.transitionCompleted = function() {
       // Implement if needed
     };
   }
 
-  /*
-   * Returns a constructor for the ViewModel so that the ViewModel is constructed
-   * each time the view is displayed.  Return an instance of the ViewModel if
-   * only one instance of the ViewModel is needed.
-   */
   return new RegisterViewModel();
 });
