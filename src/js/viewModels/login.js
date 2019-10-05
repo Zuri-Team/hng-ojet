@@ -52,7 +52,7 @@ define([
           sect.html(feedback("Please enter a valid email"));
         } else {
           sect.html(progressbar());
-          $.post("http://localhost:3000/api/login", {
+          $.post("http://dev.start.ng/api/login", {
             email,
             password
           })
