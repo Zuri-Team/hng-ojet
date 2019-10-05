@@ -64,7 +64,7 @@ define([
           $.ajax({
         url: "http://api.start.ng/api/login",
         method: "POST",
-        contentType: "applicantion/json",
+        contentType: "application/json",
         data: data,
         success: function(data) {
           if (data.status == true) {
