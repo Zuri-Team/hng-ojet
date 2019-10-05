@@ -1,0 +1,1 @@
+define(["ojs/ojcomposite","./viewModel","text!./view.html","text!./component.json"],function(e,t,o,i){e.register("task-card",{view:t,viewModel:o,metadata:i})});
