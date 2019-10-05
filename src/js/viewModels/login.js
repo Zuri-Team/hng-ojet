@@ -6,21 +6,17 @@
 /*
  * Your login ViewModel code goes here
  */
-
 define([
   "knockout",
-  "./api",
   "ojs/ojrouter",
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojknockout",
   "ojs/ojinputtext",
   "ojs/ojbutton",
-  "ojs/ojformlayout",
-], function (ko, api) {
-
+  "ojs/ojformlayout"
+], function (ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function LoginViewModel() {
-
     var self = this;
     self.user = ko.observable();
     self.password = ko.observable();
@@ -56,7 +52,43 @@ define([
           sect.html(feedback("Please enter a valid email"));
         } else {
           sect.html(progressbar());
-          $.post(`${api}/api/login`, {
+          
+          //consume api
+          
+        data = JSON.stringify({
+                        email: email,
+
+                        password: password
+                    }); 
+          
+          $.ajax({
+        url: "http://api.start.ng/api/login",
+        method: "POST",
+        contentType: "applicantion/json",
+        data: data,
+        success: function(data) {
+          if (data.status == true) {
+            console.log("logged in");
+            
+            // start user session with token
+
+              sessionStorage.setItem("user_token", resp.token);
+
+              router.go("dashboard");
+
+            
+          } else {
+            console.log("invalid login / bad parsing");
+
+            sect.html(feedback("Incorrect login details"));
+          }
+        },
+        error: function(jqXHR, exception) {
+      sect.html(feedback("Incorrect login details"));
+        }
+      });
+         /*
+          $.post("http://api.start.ng/api/login", {
             email,
             password
           })
@@ -68,26 +100,38 @@ define([
             .fail(() => {
               sect.html(feedback("Incorrect login details"));
             });
-        }
+        } */
       } else {
         sect.html(feedback("Enter your details to login"));
       }
     };
 
-    self.connected = function () {
-      if (sessionStorage.getItem("user_token") !== null) {
+    self.connected = function () { 
+      if(sessionStorage.getItem("user_token") !== null){
         router.go("dashboard");
-      }
+    }
     };
 
+    /**
+     * Optional ViewModel method invoked after the View is disconnected from the DOM.
+     */
     self.disconnected = function () {
       // Implement if needed
     };
 
+    /**
+     * Optional ViewModel method invoked after transition to the new View is complete.
+     * That includes any possible animation between the old and the new View.
+     */
     self.transitionCompleted = function () {
       // Implement if needed
     };
   }
 
+  /*
+   * Returns a constructor for the ViewModel so that the ViewModel is constructed
+   * each time the view is displayed.  Return an instance of the ViewModel if
+   * only one instance of the ViewModel is needed.
+   */
   return new LoginViewModel();
 });
