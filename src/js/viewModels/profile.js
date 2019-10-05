@@ -19,6 +19,12 @@ define(['ojs/ojcore',
             self.fileNames.push(files[i].name);
           }
         }
+        self.name = ko.observable('');
+        self.email = ko.observable('');
+        self.bio = ko.observable('');
+        self.url = ko.observable('');
+        self.location = ko.observable('');
+        self.displayName = ko.observable('@');
       
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
