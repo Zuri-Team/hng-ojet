@@ -54,6 +54,19 @@ define([
         let confirm_password = self.rpass();
         let stack = self.stack();
         let location = self.location();
+        
+        
+        /* data = JSON.stringify({
+                        fullname: fullname,
+                        email: self.email(),
+                        username: self.username(),
+                        location: self.location(),
+                        phone: self.phone(),
+                        stack: userStack,
+                        password: self.password()
+                    }); */
+
+        
 
         if (
           (firstname &&

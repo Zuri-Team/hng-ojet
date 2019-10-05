@@ -17,8 +17,8 @@ define([
   "ojs/ojinputtext",
   "ojs/ojbutton",
   "ojs/ojformlayout",
-], function (ko,api) {
-  
+], function (ko, api) {
+
   function LoginViewModel() {
 
     var self = this;
