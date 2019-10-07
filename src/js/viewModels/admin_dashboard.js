@@ -6,18 +6,15 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
     function AdminDashboardViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;
+
+        self.selectedItem = ko.observable("Dashboard");
+    
+    
+
+
         self.fullname = ko.observable('Admin');
         self.track = ko.observable('Design');
         self.slack = ko.observable('@xyluz');
-        self.tasks = [{
-                taskTitle: "Create a Chatbot App",
-                details: "Here are details for the Chatbot App"
-            },
-            {
-                taskTitle: "Deploy a Serverless App",
-                details: "Here are the details for the Serverless App"
-            }
-        ];
         self.fileNames = ko.observableArray([]);
   
         self.selectListener = function(event) {
@@ -70,7 +67,8 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
         //     }
         // }
     }
-
+    // var advm = new AdminDashboardViewModel();
+    // ko.applyBindings(advm, document.getElementById('navlistdemo'));
 
     return new AdminDashboardViewModel();
 });

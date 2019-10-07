@@ -1,38 +1,4 @@
-<!-- <!DOCTYPE html>
-<html>
-    <head>
-        <title>Admin dashboard</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-    </head>
-    <body>
-        <!-- outer offcanvas wrapper --
-        <div class="oj-offcanvas-outer-wrapper" 
-        style="border: 1px solid #d1e6f9; height:650px;">
-
-        
-        
-
-
-        
-
-
-
-
-
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    </body>
-    
-</html> -->
-<!-- <div class="header">
-        <a href="#" class="nav-trigger"><span></span></a>
-</div> -->
-
-
-
+<section class="page__container">
 <div class="oj-offcanvas-outer-wrapper">
     <!-- start offcanvas -->
     <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
@@ -76,42 +42,83 @@
         <!-- main content -->
         <div class="main">
             <!-- start offcanvas launch button -->
-            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
+            <!-- <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
                 <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]" class="drawer__btn">
                     <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span> Menu
                 </oj-button>
                 <oj-button class="float-right" display="icons" chroming="full" on-click="[[logout]]">
                     <span slot="startIcon" class="fa fa-power-off"></span> Logout
                 </oj-button>
-            </div>
+            </div> -->
             <!-- End offcanvas launch button -->
             <div class="clearfix"></div>
             <!-- Start main dashboard content -->
+
             <div class="admin-profile-update oj-flex">
             <div class="side-nav">
-                <nav>
-                    <ul>
-                        <li><a href="#">
-                                <span><i class="fa fa-user"></i></span>
-                                <span>Admin</span>
-                        </a></li>
-                        <li><a href="#">
-                                    <span><i class="fa fa-list-alt"></i></span>
-                                    <span> Categories </span>
-                        </a>
-                        <li><a href="#">
-                                <span><i class="fa fa-envelope"></i></span>
-                                <span> Posts </span>
-                        </a></li>
-                        <li><a href="#">
-                                <span><i class="fa fa-tasks"></i></span>
-                                <span> Track</span>
-                        </a></li>
+                <div class="logo-container"><h2> HNG BOARD </h2></div>
+                <div id="navlistcontainer"  style="max-width:100%">
+                    <oj-navigation-list aria-label="Choose a navigation item"  selection="{{selectedItem}}">
+                    <ul >
+                        <li id="Dashboard" >
+                        <a href="#overview-admin" ><ion-icon name="speedometer"></ion-icon>DASHBOARD</a>
+                        </li>
+                        <li id="Posts" >
+                        <a href="#posts-admin" >POSTS</a>
+                        </li>
+                        <li id="Categories">
+                        <a href="#categories-admin" >CATEGORIES</a>
+                        </li>
+                        <li id="Tasks">
+                        <a href="#tasks-admin" >TASKS</a>
+                        </li>
+                        <li id="Tracks">
+                        <a href="#tracks-admin" >TRACKS</a>
+                        </li>
+                        <li id="Teams">
+                        <a href="#teams-admin" >TEAMS</a>
+                        </li>
+                        <li id="Interns">
+                        <a href="#interns-admin" >INTERNS</a>
+                        </li>
+                        <li id="Settings">
+                        <a href="#admin-settings" >SETTINGS</a>
+                        </li>
                     </ul>
-                </nav>
+                    </oj-navigation-list>
+                </div>
+            </div>
+            <div class="dashboard-header">
+                <h2 style="display: inline-block"><span data-bind='text: selectedItem'></span></h2>
+                <oj-button display="icons" chroming="full" on-click="[[logout]]">
+                        <span slot="startIcon" class="fa fa-power-off"></span> Logout
+                    </oj-button>
             </div>
             
             <div class="admin__dashboard">
+                <div id="overview-admin">
+                    <h3>Overview</h3>
+                </div>
+                <div id="posts-admin">
+                    <h3>Posts</h3>
+                </div>
+                <div id="categories-admin">
+                    <h3>Categories</h3>
+                </div>
+                <div id="tasks-admin">
+                    <h3>Tasks</h3>
+                </div>
+                <div id="tracks-admin">
+                    <h3>Tracks</h3>
+                </div>
+                <div id="teams-admin">
+                    <h3>Teams</h3>
+                </div>
+                <div id="interns-admin">
+                    <h3>Interns</h3>
+                </div>
+                <div class="oj-flex-item" id="admin-settings">
+                <h3>Public profile settings</h3><hr>
                 <div class="oj-flex-item aside">
                     <label><h5> Profile picture</h5></label> 
                     <oj-file-picker on-oj-select='[[selectListener]]'>
@@ -123,8 +130,6 @@
                         </div>
                     </oj-file-picker>
                 </div>
-                <div class="oj-flex-item">
-                <h1>Public profile settings</h1><hr>
                 <div class="oj-hybrid-padding center">
                     <oj-form-layout id="form-container" style="display: inline-block">
                         <oj-input-text class="input__profile" id="input1" type="text" label-hint="Name" data-bind="textInput:name"></oj-input-text>
@@ -145,3 +150,7 @@
         </div>
     </div>
 </div>
+
+
+</section>
+
