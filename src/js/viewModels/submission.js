@@ -37,6 +37,7 @@ define([
     self.stack = ko.observableArray([]);
     self.url = ko.observable("");
     self.taskDescription = ko.observable("");
+    self.taskHeading = ko.observable("");
 
     const showMessage = (message, color = "error") => {
       const span = document.querySelector(".message");
@@ -46,6 +47,10 @@ define([
       setTimeout(() => {
         span.style.display = "none";
       }, 3000);
+    };
+
+    self.cancel = () => {
+      router.go("dashboard");
     };
 
     self.submit = () => {
@@ -83,6 +88,11 @@ define([
 
       // User is redirected to the dashboard on submit.
       router.go("dashboard");
+    };
+
+    self.connected = () => {
+      var name = sessionStorage.getItem("user_name");
+      self.taskHeading(`Dear ${name}, please Submit Your Task(s) Here`);
     };
   }
 
