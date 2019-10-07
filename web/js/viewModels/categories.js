@@ -33,12 +33,14 @@ define([
     var parseCategory = response => {
       if (response) {
         return {
-          title: response["title"],
-          description: response["description"],
+          title: response["category_name"],
+          description: response["dsecription"],
           id: response["id"]
         };
       }
     };
+
+    console.log(parseCategory());
 
     //Create a model to store a category
 
@@ -64,6 +66,8 @@ define([
 
     self.categoryCol(self.categoryCollection);
     self.dataProvider(new oj.CollectionDataProvider(self.categoryCol()));
+
+    console.log(self.dataProvider());
 
     self.selectedCategoryChanged = event => {
       if (event.detail.value.length !== 0) {
