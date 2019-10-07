@@ -23,6 +23,10 @@ define([
                     details: "Here are the details for the Serverless App"
                 }
             ];
+
+            self.submitTask = () => {
+                router.go('submission');
+            }
             
 
             self.drawer = {
