@@ -69,7 +69,7 @@ define([
         ]);
         masterPromise.then(function(values) {
           self.moduleConfig({ view: values[0], viewModel: values[1] });
-        });git
+        });
       });
     };
 
