@@ -4,7 +4,7 @@ define(['ojs/ojcore',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
         'ojs/ojresponsiveknockoututils',
-        'ojs/ojknockout','ojs/ojavatar',  'ojs/ojfilepicker', 'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'],
+        'ojs/ojknockout', 'ojs/ojlabel','ojs/ojavatar',  'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'],
  function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
     function ProfileViewModel() {
@@ -19,6 +19,12 @@ define(['ojs/ojcore',
             self.fileNames.push(files[i].name);
           }
         }
+        self.name = ko.observable('');
+        self.email = ko.observable('');
+        self.bio = ko.observable('');
+        self.url = ko.observable('');
+        self.location = ko.observable('');
+        self.displayName = ko.observable('@');
       
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
