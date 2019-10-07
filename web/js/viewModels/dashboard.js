@@ -1,5 +1,16 @@
 define([
-        'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'ojs/ojprogress', 'views/task-card/loader'
+        'ojs/ojcore', 
+        'knockout', 
+        'jquery', 
+        'ojs/ojknockout', 
+        'ojs/ojoffcanvas', 
+        'ojs/ojbutton', 
+        'ojs/ojmodule', 
+        'ojs/ojcomposite', 
+        'ojs/ojavatar', 
+        'ojs/ojlabel', 
+        'ojs/ojprogress', 
+        'views/task-card/loader'
     ],
     function(oj, ko) {
 
@@ -47,8 +58,8 @@ define([
 
             self.connected = function() {
                 if (sessionStorage.getItem("user_token") == null) {
-                    router.go("login");
-                }     
+                    //router.go("login");
+                }    
                 var name = sessionStorage.getItem("user_name")
                 self.fullname(name);
                 var slack = sessionStorage.getItem("user_slack")
