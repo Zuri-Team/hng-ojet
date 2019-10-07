@@ -1,13 +1,5 @@
 define([
     'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbootstrap', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils',
-    "ojs/ojlabel",
-    "ojs/ojchart",
-    "ojs/ojlistview",
-    "ojs/ojarraydataprovider",
-    "ojs/ojavatar",
-    "ojs/ojmodel",
-    "ojs/ojcollectiontabledatasource",
-    "ojs/ojdialog",
     "ojs/ojinputtext", 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'views/task-card/loader', 'ojs/ojfilepicker', 'ojs/ojformlayout', 'ojs/ojbutton'
 ],
 function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
