@@ -47,6 +47,10 @@ define([
     self.router.configure({
       dashboard: { label: "Dashboard" },
       admin_dashboard: {label: "Admin_dashboard"},
+<<<<<<< HEAD
+=======
+      category: {label: "Category"},
+>>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
       register: { label: "Register" },
       submission: { label: "Submission" },
       login: { label: "Login", isDefault: true},

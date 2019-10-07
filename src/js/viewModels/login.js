@@ -7,51 +7,51 @@
  * Your login ViewModel code goes here
  */
 define([
-  'knockout',
-  'ojs/ojrouter',
-  'ojs/ojresponsiveutils',
-  'ojs/ojresponsiveknockoututils',
-  'ojs/ojknockout',
-  'ojs/ojinputtext',
-  'ojs/ojbutton',
-  'ojs/ojformlayout'
-], function (ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
-  function LoginViewModel () {
-    var self = this
-    self.user = ko.observable()
-    self.password = ko.observable()
-    var router = oj.Router.rootInstance
-    var rootViewModel = ko.dataFor(document.getElementById('globalBody'))
-    var feedback = function (text, color = 'danger') {
+  "knockout",
+  "ojs/ojrouter",
+  "ojs/ojresponsiveutils",
+  "ojs/ojresponsiveknockoututils",
+  "ojs/ojknockout",
+  "ojs/ojinputtext",
+  "ojs/ojbutton",
+  "ojs/ojformlayout"
+], function(ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
+  function LoginViewModel() {
+    var self = this;
+    self.user = ko.observable();
+    self.password = ko.observable();
+    var router = oj.Router.rootInstance;
+    var rootViewModel = ko.dataFor(document.getElementById("globalBody"));
+    var feedback = function(text, color = "danger") {
       return `<div class=" mt-2 alert alert-${color} h5 show fb_alert" role="alert">
         <small>${text}</small>
-      </div>`
-    }
-    var progressbar = function () {
+      </div>`;
+    };
+    var progressbar = function() {
       return `<div class="progress position-relative mb-3 ">
       <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-success">
         <span class="oj-text-sm font-weight-bold">Logging In</span>
       </div>
-    </div>`
-    }
+    </div>`;
+    };
 
-    self.register = function () {
-      router.go('register')
-    }
+    self.register = function() {
+      router.go("register");
+    };
 
-    self.reset = function () {
-      router.go('password_reset')
-    }
+    self.reset = function() {
+      router.go("password_reset");
+    };
 
-    self.login = function () {
-      var sect = $('#fbk')
-      let email = self.user()
-      let password = self.password()
+    self.login = function() {
+      var sect = $("#fbk");
+      let email = self.user();
+      let password = self.password();
       if ((email && password) !== undefined) {
         if (!(email.match(/([@])/) && email.match(/([.])/))) {
-          sect.html(feedback('Please enter a valid email'))
+          sect.html(feedback("Please enter a valid email"));
         } else {
-          sect.html(progressbar())
+          sect.html(progressbar());
 
           // consume api
 
@@ -59,32 +59,34 @@ define([
             email: email,
 
             password: password
-          })
+          });
 
           $.ajax({
-            url: 'http://api.start.ng/api/login',
-            method: 'POST',
-            contentType: 'application/json',
+            url: "http://api.start.ng/api/login",
+            method: "POST",
+            contentType: "application/json",
             data: data,
-            success: function (data) {
+            success: function(data) {
               if (data.status == true) {
-                console.log('logged in')
+                console.log("logged in", data);
 
                 // start user session with token
 
-                sessionStorage.setItem('user_token', resp.token)
+                sessionStorage.setItem("user_token", data.token);
+                sessionStorage.setItem("user_name", data.user["firstname"]);
+                sessionStorage.setItem("user_slack", data.user["username"]);
 
-                router.go('dashboard')
+                router.go("dashboard");
               } else {
-                console.log('invalid login / bad parsing')
+                console.log("invalid login / bad parsing");
 
-                sect.html(feedback('Incorrect login details'))
+                sect.html(feedback("Incorrect login details"));
               }
             },
-            error: function (jqXHR, exception) {
-              sect.html(feedback('Incorrect login details'))
+            error: function(jqXHR, exception) {
+              sect.html(feedback("Incorrect login details"));
             }
-          })
+          });
           /*
           $.post("http://api.start.ng/api/login", {
             email,
@@ -105,26 +107,26 @@ define([
         //   }
         // };
 
-        self.connected = function () {
-          if (sessionStorage.getItem('user_token') !== null) {
-            router.go('dashboard')
+        self.connected = function() {
+          if (sessionStorage.getItem("user_token") !== null) {
+            router.go("dashboard");
           }
-        }
+        };
 
         /**
          * Optional ViewModel method invoked after the View is disconnected from the DOM.
          */
-        self.disconnected = function () {
+        self.disconnected = function() {
           // Implement if needed
-        }
+        };
 
         /**
          * Optional ViewModel method invoked after transition to the new View is complete.
          * That includes any possible animation between the old and the new View.
          */
-        self.transitionCompleted = function () {
+        self.transitionCompleted = function() {
           // Implement if needed
-        }
+        };
       }
 
       /*
@@ -132,7 +134,7 @@ define([
        * each time the view is displayed.  Return an instance of the ViewModel if
        * only one instance of the ViewModel is needed.
        */
-      return new LoginViewModel()
-    }
+    };
   }
-})
+  return new LoginViewModel();
+});
