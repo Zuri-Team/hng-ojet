@@ -50,7 +50,7 @@
         <div class="clearfix"></div>
         <!-- Start main dashboard content -->
         <div class="oj-flex oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal">
-            <h1>Welcome, Intern</h1>
+            <h1 data-bind="text: welcomeMessage"></h1>
 
             <!-- Progress bar to show internship progression -->
             <oj-progress style="width:100%" value="{{ progress }}"></oj-progress>
@@ -68,6 +68,7 @@
                         <li>Team Ojet</li>
                         <li>Team Tesla</li>
                     </ol>
+                    <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
                 </div>
             </div>
             <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">

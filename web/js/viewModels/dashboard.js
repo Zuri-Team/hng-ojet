@@ -12,6 +12,7 @@ define([
             self.currentweek = ko.observable(2);
             self.totalweeks = ko.observable(10);
             self.progress = ko.observable(30);
+            self.welcomeMessage = ko.observable();
             self.slack = ko.observable('@shazomii');
             self.tasks = [{
                     taskTitle: "Create a Chatbot App",
@@ -22,6 +23,11 @@ define([
                     details: "Here are the details for the Serverless App"
                 }
             ];
+
+            self.submitTask = () => {
+                router.go('submission');
+            }
+            
 
             self.drawer = {
                 "displayMode": "overlay",
@@ -42,9 +48,15 @@ define([
             self.connected = function() {
                 if (sessionStorage.getItem("user_token") == null) {
                     router.go("login");
-                }
-            }
+                }     
+                var name = sessionStorage.getItem("user_name")
+                self.fullname(name);
+                var slack = sessionStorage.getItem("user_slack")
+                self.slack(slack);
+                self.welcomeMessage(`Welcome, ${name}`)
         }
+
+    }
 
 
         /*
