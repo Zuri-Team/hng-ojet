@@ -1,0 +1,17 @@
+{
+    "name": "task-card",
+    "version": "1.0.0",
+    "jetVersion": "^7.1.0",
+    "displayName": "Task Card.",
+    "description": "A card for interns to view and submit tasks.",
+    "properties": {
+        "taskTitle": {
+            "description": "The title of the task",
+            "type": "string"
+        },
+        "details": {
+            "description": "The details of the task",
+            "type": "string"
+        }
+    }
+}
