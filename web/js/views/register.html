@@ -1,7 +1,7 @@
 <div class="form_container oj-flex oj-helper-justify-content-center">
   <div class="oj-md-5 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
-    <h5 class="ftitle">
-      Create an account
+    <h5 style="text-align: center">
+      CREATE AN ACCOUNT
     </h5>
     <div id="form_wrapper" class="position-relative">
       <oj-form-layout id="formlayout">
@@ -10,10 +10,10 @@
           <div class="form-container">
             <div id="fbk"></div>
             <div id="profileinfo">
-              <h5 class="fhtitle" class="oj-helper-text-align-left">
+              <!-- <h5 class="fhtitle" class="oj-helper-text-align-left">
                 Profile Information
-              </h5>
-              <div class="d-lg-flex d-md-flex justify-content-between">
+              </h5> -->
+              <div class="d-lg-flex d-md-flex justify-content-between mt-4">
                 <div class="p-0 pr-lg-2 pr-md-2 col-md-6 col-sm-12">
                   <div class="lform-ctrl">
                     <input type="text" placeholder="First name" data-bind="textInput: firstname"></input>
@@ -40,14 +40,21 @@
               <div class="lform-ctrl oj-form-control-inherit">
                 <input type="text" placeholder="Location" data-bind="textInput: location"></input>
               </div>
-              <button class=" fbtn" id="next">
+              <button class="fbtn" id="next">
                 Next
+                <i class="fa fa-long-arrow-right"></i>
               </button>
             </div>
             <div id="accinfo">
-              <h5 class="fhtitle" class="oj-helper-text-align-left">
+              <!-- <h5 class="fhtitle" class="oj-helper-text-align-left">
                 Account Information
-              </h5>
+              </h5> -->
+              <div>
+                <p id="prev" class="text">
+                  <i class="fa fa-long-arrow-left"></i>
+                  Go back
+                </p>
+              </div>
               <div class="lform-ctrl">
                 <input type="text" placeholder="Username" data-bind="textInput: username"></input>
               </div>
@@ -60,14 +67,9 @@
               <div class="lform-ctrl">
                 <input type="password" placeholder="Confirm password" data-bind="textInput: rpass"></input>
               </div>
-              <div class="oj-flex oj-helper-justify-content-space-between">
-                <div class="oj-flex-items-pad">
-                  <button class="fbtn" id="prev">
-                    Previous
-                  </button>
-                </div>
-                <div class="oj-flex-items-pad">
-                  <button data-bind="click: signup" class="fbtn bg-success">
+              <div>
+                <div>
+                  <button data-bind="click: signup" class="fbtn">
                     Sign up
                   </button>
                 </div>
@@ -78,9 +80,11 @@
       </oj-form-layout>
     </div>
     <div class="text-center mt-4">
-      <button data-bind="click: login" class="btn btn-dark p-3 px-5">
-        Login to your account
-      </button>
+      <a href="" data-bind="click: login" class="">
+        Login to your account</a>
+      <p data-bind="click: login" class="">
+
+      </p>
     </div>
   </div>
 </div>

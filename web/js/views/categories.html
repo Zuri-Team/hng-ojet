@@ -1,0 +1,69 @@
+<div class="oj-sm-12" id="offset-div">
+</div>
+<div class="oj-flex oj-sm-justify-content-flex-end ">
+    <oj-button slot="startIcon" class="oj-flex-item  oj-sm-margin-2x oj-sm-2" id="buttonOpener" on-oj-action="[[showCreateDialog]]">
+        Create category
+      </oj-button>
+      <oj-button slot="startIcon" class="oj-flex-item  oj-sm-margin-2x oj-sm-2" id="buttonOpener" on-oj-action="[[showEditDialog]]">
+        Edit category
+      </oj-button>
+      <oj-button slot="startIcon" class="oj-flex-item  oj-sm-margin-2x oj-sm-2" id="buttonOpener" on-oj-action="[[deleteCategory]]">
+        Delete category
+      </oj-button>
+</div>
+<div id="dialogWrapper">
+    <oj-dialog style="display:none" id="createDialog" dialog-title="Create a new category">
+      <div slot="body">
+        <oj-label class="oj-label oj-label-inline title" for="title">Title</oj-label>
+        <oj-input-text id="title" value="{{newCategory().title}}" placeholder="Enter Category Title" required></oj-input-text>
+        <oj-label class="oj-label oj-label-inline description" for="description">Description</oj-label>
+        <oj-input-text id="description" value="{{newCategory().description}}" placeholder="Enter Category Description" required></oj-input-text>
+      </div>
+      <div slot="footer">
+        <oj-button id="okButton" on-oj-action="[[createCategory]]">SUBMIT
+        </oj-button>
+      </div>
+    </oj-dialog>
+  </div>
+
+  <div id="dialogWrapper">
+    <oj-dialog style="display:none" id="editDialog" dialog-title="Edit a category">
+      <div slot="body">
+        <oj-label class="oj-label oj-label-inline title" for="title">Title</oj-label>
+        <oj-input-text id="title" value="{{newCategory().title}}"></oj-input-text>
+        <oj-label class="oj-label oj-label-inline description" for="description">Description</oj-label>
+        <oj-input-text id="description" value="{{newCategory().description}}"></oj-input-text>
+      </div>
+      <div slot="footer">
+        <oj-button id="okButton" on-oj-action="[[editCategory]]">UPDATE
+        </oj-button>
+      </div>
+    </oj-dialog>
+  </div>
+<div id="sampleDemo" class="demo-padding demo-container">
+    <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+      
+      <oj-list-view id="listview" aria-label="list using collection" style="width:100%;height:95vh;min-height:300px;overflow-x:hidden"
+             data="[[dataProvider]]"
+             selection="{{selectedCategory}}"
+             on-selection-changed='[[selectedCategoryChanged]]'
+             first-selected-item="{{firstSelectedCategory}}"
+             selection-mode="single"
+             scroll-policy="loadMoreOnScroll" scroll-policy-options.fetch-size="15">
+          <template slot="itemTemplate" data-oj-as="item">
+              <div class="oj-flex" style="flex-wrap: nowrap">
+                  <div class="demo-content oj-flex-item">
+                      <div>
+                          <strong><oj-bind-text value="[[item.data.title]]"></oj-bind-text></strong>
+                      </div>
+                      <div class="demo-tweet">
+                          <span style="word-wrap: break-word"><oj-bind-text value="[[item.data.description]]"></oj-bind-text></span></a>
+                      </div>        
+                  </div>
+              </div>
+          </template>
+      </oj-list-view>
+
+      
+    </div>
+  </div>
