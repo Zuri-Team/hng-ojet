@@ -31,20 +31,20 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
         self.location = ko.observable('');
         self.displayName = ko.observable('@');
 
-    'ojs/ojcore', 
-    'knockout', 
-    'jquery', 
-    'ojs/ojknockout', 
-    'ojs/ojoffcanvas', 
-    'ojs/ojbutton', 
-    'ojs/ojmodule', 
-    'ojs/ojcomposite', 
-    'ojs/ojavatar', 
-    'ojs/ojlabel', 
-    'ojs/ojprogress', 
-    'views/task-card/loader'
-],
-function(oj, ko) {
+//     'ojs/ojcore', 
+//     'knockout', 
+//     'jquery', 
+//     'ojs/ojknockout', 
+//     'ojs/ojoffcanvas', 
+//     'ojs/ojbutton', 
+//     'ojs/ojmodule', 
+//     'ojs/ojcomposite', 
+//     'ojs/ojavatar', 
+//     'ojs/ojlabel', 
+//     'ojs/ojprogress', 
+//     'views/task-card/loader'
+// ],
+// function(oj, ko) {
 
     /*function AdminDashboardViewModel() {
         var self = this;
@@ -130,11 +130,13 @@ function(oj, ko) {
 }*/
 
 
+
+
     /*
      * Returns a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.  Return an instance of the ViewModel if
      * only one instance of the ViewModel is needed.
      */
-
+    }
     return new AdminDashboardViewModel();
 });
