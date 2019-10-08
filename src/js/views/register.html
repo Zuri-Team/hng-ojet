@@ -5,9 +5,10 @@
         <h5>Grow HNG Board!</h5>
         <p>
           Already signed up?
-          <span style="color: #488EFF; cursor: pointer;">Log in</span>
+          <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
         </p>
       </div>
+      <div id="fbk" style="width: 300px; margin: auto"></div>
       <div>
         <input type="text" placeholder="first name" class="inputs" />
       </div>
@@ -51,7 +52,7 @@
       </div>
 
       <div class="oj-flex-items-pad">
-        <button data-bind="click: login" class="fbtn">
+        <button data-bind="click: signup" class="fbtn">
           Sign Up
         </button>
       </div>
