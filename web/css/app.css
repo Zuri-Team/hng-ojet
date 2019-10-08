@@ -233,7 +233,7 @@ div.form-container {
 }
 .dashboard-header {
   position: fixed;
-  margin-left: 31%;
+  margin-left: 26%;
   height: 8vh;
   background-color: #ffffff;
   width: 100%;
@@ -258,6 +258,19 @@ div.form-container {
   .side-nav {
       display: none;
   }
+  .dashboard-header {
+    width: 100%;
+    margin: 0;
+    min-height: 20vh;
+  }
+  .admin__dashboard {
+    margin-top: 20vh;
+    width: 100%;
+    padding: 5px;
+  }
+  /* ion-icon[name="menu"]:hover .side-nav {
+    display: block; 
+}*/
   /* .side-nav ul li{
       text-align: center;    
   }
@@ -270,7 +283,7 @@ div.form-container {
 }
 @media screen and (min-width: 601px) {
   .side-nav{
-      width: 30%;
+      width: 25%;
       position: fixed;
   }
   /* .side-nav ul li{
@@ -287,7 +300,7 @@ div.form-container {
   }
   .admin__dashboard {
     width: 70%;
-    margin-left: 30%;
+    margin-left: 25%;
     margin-top: 8vh;
   }
 }
@@ -304,7 +317,9 @@ p.text {
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 0px;
 }
-:hover {
+a:hover {
   cursor: pointer;
 }
-
+ion-icon {
+  font-size: 24px;
+}
