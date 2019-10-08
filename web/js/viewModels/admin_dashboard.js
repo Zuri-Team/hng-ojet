@@ -1,6 +1,52 @@
 define([
+
+    'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbootstrap', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojknockout', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'views/task-card/loader', 'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'
+],
+function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
+
+    function AdminDashboardViewModel() {
+        var self = this;
+        var router = oj.Router.rootInstance;
+
+        self.selectedItem = ko.observable("Dashboard");
+    
+    
+
+
+        self.fullname = ko.observable('Admin');
+        self.track = ko.observable('Design');
+        self.slack = ko.observable('@xyluz');
+        self.fileNames = ko.observableArray([]);
+  
+        self.selectListener = function(event) {
+          var files = event.detail.files;
+          for (var i = 0; i < files.length; i++) {
+            self.fileNames.push(files[i].name);
+          }
+        }
+        self.name = ko.observable('');
+        self.email = ko.observable('');
+        self.bio = ko.observable('');
+        self.url = ko.observable('');
+        self.location = ko.observable('');
+        self.displayName = ko.observable('@');
+
+    'ojs/ojcore', 
+    'knockout', 
+    'jquery', 
+    'ojs/ojknockout', 
+    'ojs/ojoffcanvas', 
+    'ojs/ojbutton', 
+    'ojs/ojmodule', 
+    'ojs/ojcomposite', 
+    'ojs/ojavatar', 
+    'ojs/ojlabel', 
+    'ojs/ojprogress', 
+    'views/task-card/loader'
+
     'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbootstrap', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils',
     "ojs/ojinputtext", 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'views/task-card/loader', 'ojs/ojfilepicker', 'ojs/ojformlayout', 'ojs/ojbutton'
+
 ],
 function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
@@ -78,6 +124,7 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
         self.location = ko.observable('');
         self.displayName = ko.observable('@');
 
+
         self.drawer = {
             "displayMode": "overlay",
             "selector": "#drawer",
@@ -109,14 +156,15 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
             router.go("login")
         }
 
-        // self.connected = function() {
-        //     if (sessionStorage.getItem("user_token") == null) {
-        //         router.go("login");
-        //     }
-        // }
-    }
-    // var advm = new AdminDashboardViewModel();
-    // ko.applyBindings(advm, document.getElementById('navlistdemo'));
-
+        self.connected = function() {
+            if (sessionStorage.getItem("user_token") == null) {
+                //router.go("login");
+            }    
+            var name = sessionStorage.getItem("user_name")
+            self.fullname(name);
+            var slack = sessionStorage.getItem("user_slack")
+            self.slack(slack);
+            self.welcomeMessage(`Welcome, ${name}`)
+}
     return new AdminDashboardViewModel();
 });
