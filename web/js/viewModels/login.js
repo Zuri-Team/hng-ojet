@@ -7,29 +7,6 @@
  * Your login ViewModel code goes here
  */
 define([
-<<<<<<< HEAD
-  'knockout',
-  'ojs/ojrouter',
-  'ojs/ojresponsiveutils',
-  'ojs/ojresponsiveknockoututils',
-  'ojs/ojknockout',
-  'ojs/ojinputtext',
-  'ojs/ojbutton',
-  'ojs/ojformlayout'
-], function (ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
-  function LoginViewModel () {
-    var self = this
-    self.user = ko.observable()
-    self.password = ko.observable()
-    var router = oj.Router.rootInstance
-    var rootViewModel = ko.dataFor(document.getElementById('globalBody'))
-    var feedback = function (text, color = 'danger') {
-      return `<div class=" mt-2 alert alert-${color} h5 show fb_alert" role="alert">
-        <small>${text}</small>
-      </div>`
-    }
-    var progressbar = function () {
-=======
   "knockout",
   "ojs/ojrouter",
   "ojs/ojresponsiveutils",
@@ -51,33 +28,10 @@ define([
       </div>`;
     };
     var progressbar = function() {
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
       return `<div class="progress position-relative mb-3 ">
       <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-success">
         <span class="oj-text-sm font-weight-bold">Logging In</span>
       </div>
-<<<<<<< HEAD
-    </div>`
-    }
-
-    self.register = function () {
-      router.go('register')
-    }
-
-    self.reset = function () {
-      router.go('password_reset')
-    }
-
-    self.login = function () {
-      var sect = $('#fbk')
-      let email = self.user()
-      let password = self.password()
-      if ((email && password) !== undefined) {
-        if (!(email.match(/([@])/) && email.match(/([.])/))) {
-          sect.html(feedback('Please enter a valid email'))
-        } else {
-          sect.html(progressbar())
-=======
     </div>`;
     };
 
@@ -98,7 +52,6 @@ define([
           sect.html(feedback("Please enter a valid email"));
         } else {
           sect.html(progressbar());
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
 
           // consume api
 
@@ -106,34 +59,6 @@ define([
             email: email,
 
             password: password
-<<<<<<< HEAD
-          })
-
-          $.ajax({
-            url: 'http://api.start.ng/api/login',
-            method: 'POST',
-            contentType: 'application/json',
-            data: data,
-            success: function (data) {
-              if (data.status == true) {
-                console.log('logged in')
-
-                // start user session with token
-
-                sessionStorage.setItem('user_token', resp.token)
-
-                router.go('dashboard')
-              } else {
-                console.log('invalid login / bad parsing')
-
-                sect.html(feedback('Incorrect login details'))
-              }
-            },
-            error: function (jqXHR, exception) {
-              sect.html(feedback('Incorrect login details'))
-            }
-          })
-=======
           });
 
           $.ajax({
@@ -162,7 +87,6 @@ define([
               sect.html(feedback("Incorrect login details"));
             }
           });
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
           /*
           $.post("http://api.start.ng/api/login", {
             email,
@@ -183,46 +107,26 @@ define([
         //   }
         // };
 
-<<<<<<< HEAD
-        self.connected = function () {
-          if (sessionStorage.getItem('user_token') !== null) {
-            router.go('dashboard')
-          }
-        }
-=======
         self.connected = function() {
           if (sessionStorage.getItem("user_token") !== null) {
             router.go("dashboard");
           }
         };
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
 
         /**
          * Optional ViewModel method invoked after the View is disconnected from the DOM.
          */
-<<<<<<< HEAD
-        self.disconnected = function () {
-          // Implement if needed
-        }
-=======
         self.disconnected = function() {
           // Implement if needed
         };
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
 
         /**
          * Optional ViewModel method invoked after transition to the new View is complete.
          * That includes any possible animation between the old and the new View.
          */
-<<<<<<< HEAD
-        self.transitionCompleted = function () {
-          // Implement if needed
-        }
-=======
         self.transitionCompleted = function() {
           // Implement if needed
         };
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
       }
 
       /*
@@ -230,14 +134,7 @@ define([
        * each time the view is displayed.  Return an instance of the ViewModel if
        * only one instance of the ViewModel is needed.
        */
-<<<<<<< HEAD
-      return new LoginViewModel()
-    }
-  }
-})
-=======
     };
   }
   return new LoginViewModel();
 });
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8

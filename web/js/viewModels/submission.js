@@ -37,10 +37,7 @@ define([
     self.stack = ko.observableArray([]);
     self.url = ko.observable("");
     self.taskDescription = ko.observable("");
-<<<<<<< HEAD
-=======
     self.taskHeading = ko.observable("");
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
 
     const showMessage = (message, color = "error") => {
       const span = document.querySelector(".message");
@@ -52,13 +49,10 @@ define([
       }, 3000);
     };
 
-<<<<<<< HEAD
-=======
     self.cancel = () => {
       router.go("dashboard");
     };
 
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
     self.submit = () => {
       // We do not have to prevent the form's default submission behaviour, knockout js enforces that as default behaviour. Pretty cool yeah !
 
@@ -95,14 +89,11 @@ define([
       // User is redirected to the dashboard on submit.
       router.go("dashboard");
     };
-<<<<<<< HEAD
-=======
 
     self.connected = () => {
       var name = sessionStorage.getItem("user_name");
       self.taskHeading(`Dear ${name}, please Submit Your Task(s) Here`);
     };
->>>>>>> d51213dab4d7de65f82e83e36612abc6acd939a8
   }
 
   return new SubmissionComponentModel();
