@@ -105,7 +105,7 @@ define([
       };
 
       /*
-          The itemCollection variable is a Collection object that uses the
+          The categoryCollection variable is a Collection object that uses the
           create() function to write a new model to the data service.
           It also adds this new model to the collection.
           */
