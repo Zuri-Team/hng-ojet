@@ -7,8 +7,14 @@
  * Your login ViewModel code goes here
  */
 define([
-    'knockout', 'ojs/ojrouter', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils',
-    'ojs/ojknockout', 'ojs/ojinputtext', 'ojs/ojbutton', 'ojs/ojformlayout'
+    'knockout', 
+    'ojs/ojrouter', 
+    'ojs/ojresponsiveutils', 
+    'ojs/ojresponsiveknockoututils',
+    'ojs/ojknockout', 
+    'ojs/ojinputtext', 
+    'ojs/ojbutton', 
+    'ojs/ojformlayout'
 ],
     function (ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
 
