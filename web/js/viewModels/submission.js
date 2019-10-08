@@ -11,6 +11,7 @@ define([
   "jquery",
   "ojs/ojformlayout",
   "ojs/ojselectcombobox",
+  "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext"
 ], function(ko, $) {
   function SubmissionComponentModel(context) {
