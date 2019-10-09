@@ -5,7 +5,7 @@ define([
 function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
     
-    function AdminDashboardViewModel() {
+    function UserDashboardViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;
 
@@ -58,7 +58,9 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
         ]);
 
         this.keyword = ko.observableArray();
-
+        self.submitTask = () => {
+            router.go('submission');
+        }
 
         self.fullname = ko.observable('Admin');
         self.track = ko.observable('Design');
@@ -115,8 +117,8 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
         //     }
         // }
     }
-    // var advm = new AdminDashboardViewModel();
+    // var advm = new UserDashboardViewModel();
     // ko.applyBindings(advm, document.getElementById('navlist'));
 
-    return new AdminDashboardViewModel();
+    return new UserDashboardViewModel();
 });
