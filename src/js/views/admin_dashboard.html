@@ -122,7 +122,7 @@
             </div>
             <div class="dashboard-header oj-flex oj-flex-items-pad">
                 <h2 style="display: inline-block;padding: 7px;" class="oj-flex"><ion-icon name="menu" onclick="showNav()"></ion-icon> <span data-bind='text: selectedItem'></span></h2><span class="oj-flex" style="padding: 7px;">
-                <ion-icon name="notifications-outline"></ion-icon> &nbsp;
+                <ion-icon name="notifications-outline"></ion-icon> &nbsp;&nbsp;&nbsp;
                 <form id="form1">
                     <input id="inputSearch" placeholder="Search..."
                             data-bind="ojComponent: {
@@ -130,53 +130,66 @@
                             value: keyword,
                             options: tags,
                             rootAttributes: {style:'max-width: 20em'}}">
-                    </form> &nbsp;
-                <oj-button display="icons" chroming="full" on-click="[[logout]]">
+                    </form> &nbsp;&nbsp;
+                <oj-button style="margin-right: 200px" display="icons" chroming="full" on-click="[[logout]]">
                         <span slot="startIcon" class="fa fa-power-off"></span> Logout
                     </oj-button></span>
             </div>
             
             <div class="admin__dashboard">
                 <div id="overview-admin">
-                    <h3>Overview</h3><hr>
+                    <h3>Overview</h3>
+                    <hr>
+                    <div data-bind="ojModule: 'overview'"></div>
                 </div>
                 <div id="posts-admin">
-                    <h3>Posts</h3><hr>
+                    <!-- <h3>Posts</h3> -->
+                    <hr>
                 </div>
 
                 
                 <!-- Categories start -->
                 <div id="categories-admin">
-                    <h3>Categories</h3><hr>
-                </div>
+                    <!-- <h3>Categories</h3> -->
+                    <hr>
                 <div data-bind="ojModule: 'category'"></div>
 
+                </div>
                 <!-- Categories end -->
                 <div id="tasks-admin">
-                    <h3>Tasks</h3><hr>
+                    <!-- <h3>Tasks</h3> -->
+                    <hr>
                 </div>
                 <div id="tracks-admin">
-                    <h3>Tracks</h3><hr>
+                    <!-- <h3>Tracks</h3> -->
+                    <hr>
                 </div>
                 <div id="teams-admin">
-                    <h3>Teams</h3><hr>
+                    <!-- <h3>Teams</h3> -->
+                    <hr>
                 </div>
                 <div id="interns-admin">
-                    <h3>Interns</h3><hr>
+                    <!-- <h3>Interns</h3> -->
+                    <hr>
                 </div>
                 <div class="oj-flex-item" id="admin-settings">
                 <h3>Public profile settings</h3><hr>
+                <figure>
                 <div class="oj-flex-item aside">
                     <label><h5> Profile picture</h5></label> 
                     <oj-file-picker on-oj-select='[[selectListener]]'>
                         <div tabindex='0' slot='trigger'
                                 class='oj-filepicker-dropzone'>
-                            <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
-                            </oj-avatar>
+                                <oj-avatar role="img" size="lg"
+                                data-bind="attr:{'aria-label':'Avatar of ' + name,
+                                  'title':'Avatar of ' + name}"
+                                  src="https://res.cloudinary.com/ebugo/image/upload/v1568954251/i5tdiajvcgkze1gjnblg.jpg">
+                                </oj-avatar>
                             <p class='oj-filepicker-text'>Pls click here or drag an image here to change profile picture</p>
                         </div>
                     </oj-file-picker>
                 </div>
+                </figure>
                 <div class="oj-hybrid-padding center">
                     <oj-form-layout id="form-container" style="display: inline-block">
                         <oj-input-text class="input__profile" id="input1" type="text" label-hint="Name" data-bind="textInput:name"></oj-input-text>
