@@ -23,6 +23,8 @@ define([
   function CategoryViewModel() {
     var self = this; //generated code
 
+    
+
     /**
      * Declare observables and read data from JSON file
      */
