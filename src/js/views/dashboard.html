@@ -56,37 +56,43 @@
             <oj-progress style="width:100%" value="{{ progress }}"></oj-progress>
 
             <hr />
-            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-2 oj-sm-12">
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">
                 <div>
-                    <h5>Stage 3 Intern 😎</h5>
-                    <h6>7 Stages to Completion</h6>
+                    <h5>Stage 5 Intern 😎</h5>
+                    <h6>5 Stages to Completion</h6>
                 </div>
                 <hr />
                 <div>
                     <h5>Teams 🚴‍♀️</h5>
                     <ol>
-                        <li>Team Ojet</li>
-                        <li>Team Tesla</li>
+                        <li>Front End</li>
+                        <li>Ojet</li>
+                        <li>Back End (PHP)</li>
+                        <li>Back End (Node JS)</li>
+                        <li>Design</li>
+                        <li>Devops</li>
+                        <li>Digital Marketing</li>
                     </ol>
-                    <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
                 </div>
             </div>
             <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">
 
                 <!-- Start tasks section -->
-                <div>
+                <!-- <div>
                     <h3 class="oj-header-border">Tasks for the week 🚀</h3>
                     <template>
                         <oj-bind-for-each data="[[tasks]]">
                             <task-card taskTitle="[[$current.data.taskTitle]]" details="[[$current.data.details]]"></task-card>
                         </oj-bind-for-each>
                     </template>
+                    <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
+ -->
 
 
 
 
-
-                    <!-- <div class="oj-panel oj-panel-shadow-sm">
+                     <div class="oj-panel oj-panel-shadow-sm">
+                        <h3 class="oj-header-border">Tasks for the week 🚀</h3>
                         <h5 id="h1" slot="header">Create a chatbot App</h5>
                         <h6>Create ChatBot App</h6>
                         <ul>
@@ -98,18 +104,18 @@
 
                         <div class="oj-flex oj-sm-justify-content-flex-end">
                             <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
-                                <oj-button class="oj-button-sm oj-button-primary" chroming="full">
+                                <!-- <oj-button class="oj-button-sm oj-button-primary" chroming="full">
                                     View details
-                                </oj-button>
+                                </oj-button> -->
                             </div>
                             <div class="oj-flex-items-pad">
-                                <oj-button class="oj-button-sm oj-button-confirm" chroming="full">
+                                <oj-button class="oj-button-sm oj-button-confirm" on-oj-action="[[submitTask]]"chroming="full">
                                     Submit
                                 </oj-button>
 
                             </div>
                         </div>
-                    </div> -->
+                    </div> 
 
 
                 </div>
