@@ -23,8 +23,6 @@ define([
   function CategoryViewModel() {
     var self = this; //generated code
 
-    
-
     /**
      * Declare observables and read data from JSON file
      */
@@ -41,9 +39,11 @@ define([
 
     //REST endpoint
     var RESTurl = "https://api.start.ng/api/categories";
-    
+
     //User Token
     var userToken = sessionStorage.getItem("user_token");
+
+    console.log(userToken);
 
     //Single line of data
     var categoryModel = oj.Model.extend({
@@ -68,15 +68,12 @@ define([
 
     self.categoryCollection.fetch({
       wait: true, //Waits for the server call before setting attributes
-      method: "GET",
+      ContentType: "application/json",
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        'Authorization':
-          `Bearer ${userToken}`
+        Authorization: `Bearer ${userToken}`
       },
       success: function(model, response) {
-        console.log("Successfully created new category");
+        console.log("Successfully fetched category");
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.log("Error in Create: " + textStatus);
@@ -106,8 +103,8 @@ define([
 
     self.createCategory = function(event, data) {
       var recordAttrs = {
-        category_name: data.newCategory.category_name,
-        dsecription: data.newCategory.dsecription
+        category_name: data.newCategory().category_name,
+        dsecription: data.newCategory().dsecription
       };
 
       /*
@@ -118,11 +115,9 @@ define([
 
       self.categoryCollection.create(recordAttrs, {
         wait: true, //Waits for the server call before setting attributes
+        ContentType: "application/json",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          'Authorization':
-            `Bearer ${userToken}`
+          Authorization: `Bearer ${userToken}`
         },
         success: function(model, response) {
           console.log("Successfully created new category");
@@ -150,11 +145,10 @@ define([
           dsecription: self.categoryData().dsecription
         },
         {
+          wait: true, //Waits for the server call before setting attributes
+          ContentType: "application/json",
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            'Authorization':
-              `Bearer ${userToken}`
+            Authorization: `Bearer ${userToken}`
           },
           success: function(model, response) {
             console.log("response: " + JSON.stringify(response));
@@ -182,12 +176,11 @@ define([
           //Removes the model from the data service
           model.destroy({
             data: JSON.stringify({ categoryId: categoryId }),
+            wait: true, //Waits for the server call before setting attributes
+            ContentType: "application/json",
             headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              'Authorization':
-                `Bearer ${userToken}`
-            },
+              Authorization: `Bearer ${userToken}`
+            }
           });
         }
       }
