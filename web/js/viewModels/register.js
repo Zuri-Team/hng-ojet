@@ -15,13 +15,13 @@ define([
     self.firstname = ko.observable();
     self.lastname = ko.observable();
     self.stack = ko.observable();
-    self.location = ko.observable();
+    //self.location = ko.observable();
 
     //account info
     self.username = ko.observable();
     self.email = ko.observable();
     self.pass = ko.observable();
-    self.rpass = ko.observable();
+    //self.rpass = ko.observable();
 
     self.login = function () {
       router.go("login");
@@ -32,7 +32,7 @@ define([
       function validate() {
         var sect = $("#fbk");
         var feedback = function (text, color = "danger") {
-          return `<div class=" mt-3 alert alert-${color} h5 show fb_alert" role="alert">
+          return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
             <small>${text}</small>
           </div>`;
         };
@@ -51,9 +51,9 @@ define([
         let lastname = self.lastname();
         let username = self.username();
         let password = self.pass();
-        let confirm_password = self.rpass();
+        //let confirm_password = self.rpass();
         let stack = self.stack();
-        let location = self.location();
+        //let location = self.location();
 
         if (
           (firstname &&
@@ -61,9 +61,10 @@ define([
             email &&
             username &&
             stack &&
-            location &&
-            password &&
-            confirm_password) !== undefined
+            //location &&
+            password
+            //confirm_password
+            )!== undefined
         ) {
           validated = true;
           if (!(email.match(/([@])/) && email.match(/([.])/))) {
@@ -73,12 +74,12 @@ define([
           if (password.length < 4 || confirm_password.length < 4) {
             validated = false;
             sect.html(feedback("Password should be minimum 4 characters"));
-          } else {
+          }/* else {
             if (password !== confirm_password) {
               sect.html(feedback("Passwords does not match"));
               validated = false;
             }
-          }
+          }*/
           if (validated == true) {
             sect.html(progressbar());
             $.post(`${api}/api/register`, {
@@ -87,9 +88,9 @@ define([
               email,
               username,
               password,
-              confirm_password,
-              stack,
-              location
+              //confirm_password,
+              stack
+              //location
             })
               .done(resp => {
                 if (resp.status == true) {

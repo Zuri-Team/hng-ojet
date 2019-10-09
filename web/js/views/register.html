@@ -5,9 +5,10 @@
         <h5>Grow HNG Board!</h5>
         <p>
           Already signed up?
-          <span style="color: #488EFF; cursor: pointer;">Log in</span>
+          <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
         </p>
       </div>
+      <div id="fbk" style="width: 300px; margin: auto"></div>
       <div>
         <input type="text" placeholder="first name" class="inputs" />
       </div>
@@ -15,10 +16,10 @@
         <input type="text" placeholder="last name" class="inputs" />
       </div>
       <div>
-        <input type="text" placeholder="email" class="inputs" />
+        <input type="text" placeholder="email@example.com" class="inputs" />
       </div>
       <div>
-        <input type="text" placeholder="slack" class="inputs" />
+        <input type="text" placeholder="Slack Username" class="inputs" />
       </div>
 
       <div>
@@ -34,6 +35,7 @@
           <option value="Mobile">Mobile</option>
           <option value="Digital Marketing">Digital Marketing</option>
           <option value="Machine Learning">Machine Learning</option>
+          <option value="DevOps">DevOps</option>
         </select>
         <!-- <oj-select-one value="{{ stack }}" class="inputs">
           <oj-optgroup label="Dev stack">
@@ -51,7 +53,7 @@
       </div>
 
       <div class="oj-flex-items-pad">
-        <button data-bind="click: login" class="fbtn">
+        <button data-bind="click: signup" class="fbtn">
           Sign Up
         </button>
       </div>

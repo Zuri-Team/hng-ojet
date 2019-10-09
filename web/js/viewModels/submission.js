@@ -12,7 +12,7 @@ define([
   "ojs/ojformlayout",
   "ojs/ojselectcombobox",
   "ojs/ojinputtext"
-], function(ko, $) {
+], function (ko, $) {
   function SubmissionComponentModel(context) {
     var self = this;
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
@@ -22,7 +22,7 @@ define([
     );
     // For small screens: labels on top
     // For medium or bigger: labels inline
-    self.labelEdge = ko.computed(function() {
+    self.labelEdge = ko.computed(function () {
       return self.isSmall() ? "top" : "start";
     }, self);
 
@@ -91,8 +91,12 @@ define([
     };
 
     self.connected = () => {
-      var name = sessionStorage.getItem("user_name");
-      self.taskHeading(`Dear ${name}, please Submit Your Task(s) Here`);
+      let user = sessionStorage.getItem("user");
+      user = JSON.parse(user);
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
+      }
+      self.taskHeading(`Dear ${user.username}, please Submit Your Task(s) Here`);
     };
   }
 
