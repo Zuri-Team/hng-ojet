@@ -1,38 +1,29 @@
 <div class="form_container oj-flex oj-helper-justify-content-center">
   <div class="oj-md-5 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
-    <div id="form_wrapper">
-      <oj-form-layout>
-        <div id="lform_components">
-          <div class="form-container">
-            <h5 class="fhtitle">
-              Login to your Account
-            </h5>
-            <div id="fbk">
-            </div>
-            <div class="lform-ctrl ">
-              <input type="email" data-bind="textInput: user" placeholder="Email address" />
-            </div>
-            <div class="lform-ctrl">
-              <input type="password" data-bind="textInput: password" placeholder="Password" />
-            </div>
-            <div class="oj-flex oj-helper-justify-content-space-between">
-              <div class="oj-flex-items-pad">
-                <button data-bind="click: login" class=" fbtn">Login</button>
-              </div>
-              <div class="oj-flex-items-pad">
-                <p class="oj-text-secondary-color font-weight-bold" style="cursor: pointer; ">
-                  <a data-bind="click: reset">Forgot password? </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </oj-form-layout>
-    </div>
-    <div class="text-center mt-4">
-      <button data-bind="click: register" class="btn btn-dark p-3 px-5">
-        Create an account
-      </button>
+    <div style="text-align:center">
+      <div>
+        <h5>Welcome Back!</h5>
+        <p>
+          New to HNG Board?
+          <span style="color: #488EFF; cursor: pointer;" data-bind="click: register">Sign up</span>
+        </p>
+      </div>
+      <div id="fbk" style="width: 300px; margin: auto"></div>
+      <div>
+        <input type="email" data-bind="textInput: user" placeholder="Email address" class="inputs" />
+      </div>
+      <div>
+        <input type="password" data-bind="textInput: password" placeholder="Password" class="inputs" />
+      </div>
+      <div class="oj-flex-items-pad">
+        <button data-bind="click: login" class="fbtn">
+          Log in
+        </button>
+      </div>
+      <div
+        style="margin-top: 10px; display: flex; justify-content: flex-end; margin-right: 80px; font-weight: 300; font-size: 8pt">
+        <a data-bind="click: reset">Forgot Password?</a>
+      </div>
     </div>
   </div>
 </div>

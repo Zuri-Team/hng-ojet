@@ -1,4 +1,4 @@
-/**
+    /**
  * @license
  * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
  * The Universal Permissive License (UPL), Version 1.0
@@ -7,8 +7,14 @@
  * Your login ViewModel code goes here
  */
 define([
-    'knockout', 'ojs/ojrouter', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils',
-    'ojs/ojknockout', 'ojs/ojinputtext', 'ojs/ojbutton', 'ojs/ojformlayout'
+    'knockout', 
+    'ojs/ojrouter', 
+    'ojs/ojresponsiveutils', 
+    'ojs/ojresponsiveknockoututils',
+    'ojs/ojknockout', 
+    'ojs/ojinputtext', 
+    'ojs/ojbutton', 
+    'ojs/ojformlayout'
 ],
     function (ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
 

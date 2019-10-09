@@ -6,95 +6,115 @@
         This is where any of your application specific styles should be included
 */
 
-
 /*style for the form container*/
 
 .form_container {
-    margin-bottom: 5ch;
-    min-height: 100%;
-    margin-bottom: 5ch;
-    padding: 0px 15px;
-    
+  margin-bottom: 5ch;
+  min-height: 100%;
+  margin-bottom: 5ch;
+  padding: 0px 15px;
+}
+
+/* default */
+
+.image {
+  position: absolute;
+  width: 200px;
+  height: 35.42px;
+  left: 100px;
+  top: 35px;
+
+  background-image: url(./images/default.png);
 }
 
 #form_wrapper {
-    padding-bottom: 20px;
-    background: #ffffff;
-    box-shadow: 0px 0px 5px 0px rgba(16, 16, 16, 0.37);
-    border-radius: 3px;
+  padding-bottom: 20px;
+  background: #ffffff;
+  box-shadow: 0px 0px 5px 0px rgba(16, 16, 16, 0.37);
+  border-radius: 3px;
 }
 
 .ftitle {
-    color: rgba(3, 2, 2, 0.7);
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 49px;
-    text-align: center;
+  color: rgba(3, 2, 2, 0.7);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 49px;
+  text-align: center;
 }
 
 .fhtitle {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 49px;
-    color: #9b51e0;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 49px;
+  color: #9b51e0;
 }
 
 #lform_components {
-    width: 90%;
-    margin: auto;
+  width: 90%;
+  margin: auto;
 }
 
-.lform-ctrl>input,
+.lform-ctrl > input,
 .select {
-    background: #dedcdcc2;
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 20px;
-    width: 100%;
-    outline: none;
-    border: none;
+  background: #dedcdcc2;
+  border-radius: 4px;
+  padding: 15px;
+  /* margin-bottom: 20px; */
+  width: 100%;
+  outline: none;
+  border: none;
+  margin-top: 20px;
 }
 
 .progress {
-    height: 25px;
+  height: 25px;
+}
+
+.inputs {
+  font-size: 8pt;
+  font-weight: lighter;
+  height: 35px;
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .fbtn {
-    background-color: #9b51e0;
-    font-weight: bold !important;
-    height: 45px;
-    width: 120px;
-    font-size: 13px;
-    text-align: center;
-    color: white !important;
-    border-radius: 4px;
-    box-shadow: 0px 1px 5px #32023a !important;
-    border: none !important;
-    outline: none !important;
+  background-color: #488eff;
+  width: 300px;
+  text-align: center;
+  margin-top: 20px;
+  color: white !important;
+  /* box-shadow: 0px 1px 5px #011941 !important; */
+  border: none !important;
+  outline: none !important;
+  font-size: 8pt;
+  padding: 5px;
+  height: 35px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #accinfo {
-    display: none;
+  display: none;
 }
 
 .footer {
-    min-height: auto !important;
-    font-weight: bold;
-    width: 100%;
+  min-height: auto !important;
+  font-weight: bold;
+  width: 100%;
 }
-
 
 /* =============== SUBMISION PAGE ================ */
 
 .task-submission {
-    text-align: center;
-    margin: 3rem 0;
-    font-weight: bold;
-    font-size: 2rem;
+  text-align: center;
+  margin: 3rem 0;
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .form {
@@ -124,10 +144,10 @@
 }
 
 @media (max-width: 768px) {
-    .form {
-        padding: 1rem 2rem;
-        min-width: 100%;
-    }
+  .form {
+    padding: 1rem 2rem;
+    min-width: 100%;
+  }
 }
 
 /* End of Submission Page styling */
@@ -135,13 +155,12 @@
 /* Dashboard page @shazomii-ojet */
 
 .oj-offcanvas-outer-wrapper {
-    height: 100%;
+  height: 100%;
 }
 
 .oj-offcanvas-start {
   width: 20em;
 }
-
 
 /* div.form-header {
   padding: 20px;
@@ -157,11 +176,9 @@ div.form-container {
   padding: 20px 0;
 } */
 
-
 /* oj-form-layout {
   background-color: #dedcdcc2;
 } */
-
 
 /* oj-input-text {
   background: transparent;
@@ -169,50 +186,113 @@ div.form-container {
   width: 100%;
 } */
 
-
 /* admin_dashboard page */
-.header{
+.header {
   position: absolute;
   height: 40px;
   width: 100%;
-  background-color: rgb(40, 40, 75);
+  background-color: #32023a;
   z-index: 4;
 }
 
 .side-nav{
-  position: absolute;
-  width: 100%;
-  background-color: darkblue;
+  box-shadow: #E5E5E5 5px 0px 7px;
+  /* position: absolute; */
+  /* width: 100%; */
+  /* background-color: #9b51e0; */
   height: 100vh;
-  z-index: 3;
-  padding-top: 44px;
+  /* z-index: 3; */
+  /* padding-top: 44px; */
 
 }
 
-.side-nav ul{
+/* .side-nav ul{
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.side-nav ul li{
+.side-nav ul li {
   padding: 20px 10px;
   border-bottom: 1px solid black;
 }
 
-.side-nav ul li a{
+.side-nav ul li a {
   color: white;
   text-decoration: none;
 }
 
-.side-nav ul li a i{
+.side-nav ul li a i {
   color: black;
+} */
+.admin__dashboard {
+  padding: 20px;
+  width: 100%;
+  background-color: #ffffff;
 }
-@media screen and (min-width: 600px) {
-  .side-nav {
-      width: 80px;
+
+/* User profile settings*/
+.main-profile-update {
+  padding: 20px;
+}
+.main-section {
+  border: #9b51e0 1px solid;
+  box-shadow: #32023a 3px 5px 15px;
+  padding: 20px;
+  width: 50%;
+  background-color: #ffffff;
+}
+.aside {
+  margin: auto;
+  width: 200px;
+  align-self: end;
+  height: 200px;
+}
+
+.input__profile {
+  max-width: 100%;
+}
+.dashboard-header {
+  position: fixed;
+  margin-left: 26%;
+  height: 8vh;
+  background-color: #ffffff;
+  width: 100%;
+  z-index: 1;
+}
+.logo-container {
+  height: 8vh;
+}
+
+@media only screen and (min-width:420px) {
+  .aside {
+    margin: 100px 30px 0 0;
   }
-  .side-nav ul li{
+  .input__profile {
+    max-width: 80%;
+  }
+}
+
+
+/*admin_dashboard*/
+@media screen and (max-width: 600px) {
+  .side-nav {
+      display: none;
+  }
+  .dashboard-header {
+    width: 100%;
+    margin: 0;
+    min-height: 20vh;
+  }
+  .admin__dashboard {
+    margin-top: 20vh;
+    width: 100%;
+    padding: 5px;
+  }
+  /* ion-icon[name="menu"]:hover .side-nav {
+    display: block; 
+}*/
+  /* .side-nav ul li{
       text-align: center;    
   }
   .side-nav ul li span:nth-child(2) {
@@ -220,13 +300,14 @@ div.form-container {
   }
   .side-nav ul li i{
       font-size: 26px;
-  }
+  } */
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 601px) {
   .side-nav{
-      width: 200px;
+      width: 25%;
+      position: fixed;
   }
-  .side-nav ul li{
+  /* .side-nav ul li{
       text-align: left;
   }
   .side-nav ul li span:nth-child(2){
@@ -234,24 +315,32 @@ div.form-container {
   }
   .side-nav ul li i{
       font-size: 16px; 
+  } */
+  #drawer, .drawer__btn {
+    display: none !important;
+  }
+  .admin__dashboard {
+    width: 70%;
+    margin-left: 25%;
+    margin-top: 8vh;
   }
 }
-
-/* User profile*/
-.main-section {
-  border: #9b51e0 1px solid;
-  box-shadow: #32023a 3px 5px 15px;
-  padding: 20px;
+.page__container {
+  background-color: #ffffff;
 }
-.aside {
-  width: 30%;
-}
+/**/
 .main-section {
   width: 50%;
-<<<<<<< HEAD
-} 
-=======
 }
 
->>>>>>> f07a946c149d9141c2a23dc3a444b2d17ec3f919
-
+p.text {
+  margin-top: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 0px;
+}
+a:hover {
+  cursor: pointer;
+}
+ion-icon {
+  font-size: 24px;
+}

@@ -47,6 +47,8 @@ define([
     self.router.configure({
       dashboard: { label: "Dashboard" },
       admin_dashboard: {label: "Admin_dashboard"},
+      overview:{label: "Overview"},
+      category: {label: "Category"},
       register: { label: "Register" },
       submission: { label: "Submission" },
       login: { label: "Login", isDefault: true},
@@ -69,7 +71,7 @@ define([
         ]);
         masterPromise.then(function(values) {
           self.moduleConfig({ view: values[0], viewModel: values[1] });
-        });git
+        });
       });
     };
 

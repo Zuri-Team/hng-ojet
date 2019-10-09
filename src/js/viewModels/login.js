@@ -8,6 +8,7 @@
  */
 define([
   "knockout",
+  "./api",
   "ojs/ojrouter",
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
@@ -15,15 +16,14 @@ define([
   "ojs/ojinputtext",
   "ojs/ojbutton",
   "ojs/ojformlayout"
-], function (ko, ResponsiveUtils, ResponsiveKnockoutUtils) {
+], function (ko, api) {
   function LoginViewModel() {
     var self = this;
     self.user = ko.observable();
     self.password = ko.observable();
     var router = oj.Router.rootInstance;
-    var rootViewModel = ko.dataFor(document.getElementById("globalBody"));
     var feedback = function (text, color = "danger") {
-      return `<div class=" mt-2 alert alert-${color} h5 show fb_alert" role="alert">
+      return `<div class=" mt-2 alert alert-${color} h6 show fb_alert" role="alert">
         <small>${text}</small>
       </div>`;
     };
@@ -52,86 +52,47 @@ define([
           sect.html(feedback("Please enter a valid email"));
         } else {
           sect.html(progressbar());
-          
-          //consume api
-          
-        data = JSON.stringify({
-                        email: email,
 
-                        password: password
-                    }); 
-          
-          $.ajax({
-        url: "http://api.start.ng/api/login",
-        method: "POST",
-        contentType: "application/json",
-        data: data,
-        success: function(data) {
-          if (data.status == true) {
-            console.log("logged in");
-            
-            // start user session with token
-
-              sessionStorage.setItem("user_token", resp.token);
-
-              router.go("dashboard");
-
-            
-          } else {
-            console.log("invalid login / bad parsing");
-
-            sect.html(feedback("Incorrect login details"));
-          }
-        },
-        error: function(jqXHR, exception) {
-      sect.html(feedback("Incorrect login details"));
-        }
-      });
-         /*
-          $.post("http://api.start.ng/api/login", {
+          $.post(`https://api.start.ng/api/login`, {
             email,
             password
           })
-            .done(resp => {
+            .done(({ status, user, token }) => {
               // start user session with token
-              sessionStorage.setItem("user_token", resp.token);
-              router.go("dashboard");
+              if (status == true) {
+                console.log(user.role)
+                sessionStorage.setItem("user", JSON.stringify(user));
+                sessionStorage.setItem("user_token", token);
+                console.log(role);
+                switch (user.role) {
+                  case "superadmin":
+                    router.go("admin_dashboard");
+                    break;
+                  default:
+                    router.go("dashboard");
+                    break;
+                }
+              }
             })
             .fail(() => {
               sect.html(feedback("Incorrect login details"));
             });
-        } */
+        }
       } else {
         sect.html(feedback("Enter your details to login"));
       }
     };
 
-    self.connected = function () { 
-      if(sessionStorage.getItem("user_token") !== null){
+    self.connected = function () {
+      if (sessionStorage.getItem("user_token") !== null) {
         router.go("dashboard");
-    }
+      }
     };
 
-    /**
-     * Optional ViewModel method invoked after the View is disconnected from the DOM.
-     */
     self.disconnected = function () {
-      // Implement if needed
-    };
-
-    /**
-     * Optional ViewModel method invoked after transition to the new View is complete.
-     * That includes any possible animation between the old and the new View.
-     */
-    self.transitionCompleted = function () {
       // Implement if needed
     };
   }
 
-  /*
-   * Returns a constructor for the ViewModel so that the ViewModel is constructed
-   * each time the view is displayed.  Return an instance of the ViewModel if
-   * only one instance of the ViewModel is needed.
-   */
   return new LoginViewModel();
 });
