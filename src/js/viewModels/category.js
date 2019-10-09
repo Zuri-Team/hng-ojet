@@ -70,7 +70,7 @@ define([
       contentType: "application/json",
       headers: {
         "Authorization":
-          "Bearer ${userToken}"
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImRlOTllZGZkODU5NzJiMTdhZDZlNmU1ZGZjMThjMjVhNzVhNzlhN2MyM2ExZDIyNTU4OTM3ZDRjOGRjM2VlMzgwMTExOGI4ODZlZTYyM2M5In0.eyJhdWQiOiIyOSIsImp0aSI6ImRlOTllZGZkODU5NzJiMTdhZDZlNmU1ZGZjMThjMjVhNzVhNzlhN2MyM2ExZDIyNTU4OTM3ZDRjOGRjM2VlMzgwMTExOGI4ODZlZTYyM2M5IiwiaWF0IjoxNTcwNjM1NzI5LCJuYmYiOjE1NzA2MzU3MjksImV4cCI6MTYwMjI1ODEyOSwic3ViIjoiNCIsInNjb3BlcyI6W119.AFE7_2DXqOZaWPu4VoRRrXPddbcuSn4sXhrt5aUiAWl-ttuWObg4L1uZ_NFffB3QRWTWcfbTh5PoVxgzv-Q5vgIw99QG--G3X2ahNvwlGqjMUKH_oVThcSqXq2NPPCVuRLqR9fl1FX6AdSZQrdAqgAlmJLvJwWm4vfGO4OPgThdWFnoZ4GMvOHVVxbu3Bmv3LyvY_9x2lCPqprZ87d0A3WZplJrM2i6W7XpCrzSsuj1fTjMKE1M1L6PupfGFWwP65ouzS1hxdFh084wMoztaWO4tKalks4y7BqVmnvxlQW6Rt7QcuF1aQrrlAcFN3pKIUih7Agz87MkDb2ScNDrvGsD9lq0tin0MtjgVqXUBCWNUacPtLtG3vqX0hLGdiDdzhdK_2G6xDOzZBu5bbj32qzoKiZFDPXfBKPbHXkp_giQBp0nLosod1gD_3VGqlABkWHHRNCxBJ_9cNnalV-pKxuX0iPkfok1cgFE9YaoxBxHvmIe-I3-FK8_1xtKi8VzdzZ5per3NGvES62XXj39go2IoDpwakiGKAPEh1pLUgL3CDTo7Tp6v5dzqHfPiT2aXg945zEZNkCA-Bu7EpGwYE8tIaUL4JMVgRhU38fUeJ4L8pjXWQkBRe3oyvIQP--yfpO-FzdqAPNsR46r7iZHVuEdiMdeE0ReCTCCYDc3z9bI"
       },
       success: function(model, response) {
         console.log("Successfully created new category");
@@ -119,7 +119,7 @@ define([
           "Content-Type": "application/json",
           Accept: "application/json",
           "Authorization":
-            "Bearer ${userToken}"
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImRlOTllZGZkODU5NzJiMTdhZDZlNmU1ZGZjMThjMjVhNzVhNzlhN2MyM2ExZDIyNTU4OTM3ZDRjOGRjM2VlMzgwMTExOGI4ODZlZTYyM2M5In0.eyJhdWQiOiIyOSIsImp0aSI6ImRlOTllZGZkODU5NzJiMTdhZDZlNmU1ZGZjMThjMjVhNzVhNzlhN2MyM2ExZDIyNTU4OTM3ZDRjOGRjM2VlMzgwMTExOGI4ODZlZTYyM2M5IiwiaWF0IjoxNTcwNjM1NzI5LCJuYmYiOjE1NzA2MzU3MjksImV4cCI6MTYwMjI1ODEyOSwic3ViIjoiNCIsInNjb3BlcyI6W119.AFE7_2DXqOZaWPu4VoRRrXPddbcuSn4sXhrt5aUiAWl-ttuWObg4L1uZ_NFffB3QRWTWcfbTh5PoVxgzv-Q5vgIw99QG--G3X2ahNvwlGqjMUKH_oVThcSqXq2NPPCVuRLqR9fl1FX6AdSZQrdAqgAlmJLvJwWm4vfGO4OPgThdWFnoZ4GMvOHVVxbu3Bmv3LyvY_9x2lCPqprZ87d0A3WZplJrM2i6W7XpCrzSsuj1fTjMKE1M1L6PupfGFWwP65ouzS1hxdFh084wMoztaWO4tKalks4y7BqVmnvxlQW6Rt7QcuF1aQrrlAcFN3pKIUih7Agz87MkDb2ScNDrvGsD9lq0tin0MtjgVqXUBCWNUacPtLtG3vqX0hLGdiDdzhdK_2G6xDOzZBu5bbj32qzoKiZFDPXfBKPbHXkp_giQBp0nLosod1gD_3VGqlABkWHHRNCxBJ_9cNnalV-pKxuX0iPkfok1cgFE9YaoxBxHvmIe-I3-FK8_1xtKi8VzdzZ5per3NGvES62XXj39go2IoDpwakiGKAPEh1pLUgL3CDTo7Tp6v5dzqHfPiT2aXg945zEZNkCA-Bu7EpGwYE8tIaUL4JMVgRhU38fUeJ4L8pjXWQkBRe3oyvIQP--yfpO-FzdqAPNsR46r7iZHVuEdiMdeE0ReCTCCYDc3z9bI"
         },
         success: function(model, response) {
           console.log("Successfully created new category");
@@ -183,7 +183,7 @@ define([
               "Content-Type": "application/json",
               Accept: "application/json",
               "Authorization":
-                "Bearer ${userToken}"
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImRlOTllZGZkODU5NzJiMTdhZDZlNmU1ZGZjMThjMjVhNzVhNzlhN2MyM2ExZDIyNTU4OTM3ZDRjOGRjM2VlMzgwMTExOGI4ODZlZTYyM2M5In0.eyJhdWQiOiIyOSIsImp0aSI6ImRlOTllZGZkODU5NzJiMTdhZDZlNmU1ZGZjMThjMjVhNzVhNzlhN2MyM2ExZDIyNTU4OTM3ZDRjOGRjM2VlMzgwMTExOGI4ODZlZTYyM2M5IiwiaWF0IjoxNTcwNjM1NzI5LCJuYmYiOjE1NzA2MzU3MjksImV4cCI6MTYwMjI1ODEyOSwic3ViIjoiNCIsInNjb3BlcyI6W119.AFE7_2DXqOZaWPu4VoRRrXPddbcuSn4sXhrt5aUiAWl-ttuWObg4L1uZ_NFffB3QRWTWcfbTh5PoVxgzv-Q5vgIw99QG--G3X2ahNvwlGqjMUKH_oVThcSqXq2NPPCVuRLqR9fl1FX6AdSZQrdAqgAlmJLvJwWm4vfGO4OPgThdWFnoZ4GMvOHVVxbu3Bmv3LyvY_9x2lCPqprZ87d0A3WZplJrM2i6W7XpCrzSsuj1fTjMKE1M1L6PupfGFWwP65ouzS1hxdFh084wMoztaWO4tKalks4y7BqVmnvxlQW6Rt7QcuF1aQrrlAcFN3pKIUih7Agz87MkDb2ScNDrvGsD9lq0tin0MtjgVqXUBCWNUacPtLtG3vqX0hLGdiDdzhdK_2G6xDOzZBu5bbj32qzoKiZFDPXfBKPbHXkp_giQBp0nLosod1gD_3VGqlABkWHHRNCxBJ_9cNnalV-pKxuX0iPkfok1cgFE9YaoxBxHvmIe-I3-FK8_1xtKi8VzdzZ5per3NGvES62XXj39go2IoDpwakiGKAPEh1pLUgL3CDTo7Tp6v5dzqHfPiT2aXg945zEZNkCA-Bu7EpGwYE8tIaUL4JMVgRhU38fUeJ4L8pjXWQkBRe3oyvIQP--yfpO-FzdqAPNsR46r7iZHVuEdiMdeE0ReCTCCYDc3z9bI"
             }
           });
         }
