@@ -14,13 +14,15 @@ define([
 
     self.firstname = ko.observable();
     self.lastname = ko.observable();
-    self.stack = ko.observable();
+    //self.stack = ko.observable();
+    //devStack: ko.observableArray(['UI/UX', 'FrontEnd', 'BackEnd', 'Machine Learning', 'Digital Marketing', 'Mobile', 'DevOps'])
+    //self.selectedStack = ko.observable();
     //self.location = ko.observable();
 
     //account info
-    self.username = ko.observable();
+    self.slack = ko.observable();
     self.email = ko.observable();
-    self.pass = ko.observable();
+    self.password = ko.observable();
     //self.rpass = ko.observable();
 
     self.login = function () {
@@ -49,10 +51,10 @@ define([
         let firstname = self.firstname();
         let email = self.email();
         let lastname = self.lastname();
-        let username = self.username();
-        let password = self.pass();
+        let username = self.slack();
+        let password = self.password();
         //let confirm_password = self.rpass();
-        let stack = self.stack();
+        //let stack = self.stack();
         //let location = self.location();
 
         if (
@@ -60,7 +62,7 @@ define([
             lastname &&
             email &&
             username &&
-            stack &&
+            //stack &&
             //location &&
             password
             //confirm_password
@@ -89,7 +91,7 @@ define([
               username,
               password,
               //confirm_password,
-              stack
+              //stack
               //location
             })
               .done(resp => {
