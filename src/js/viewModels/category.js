@@ -38,7 +38,7 @@ define([
     self.firstSelectedCategory = ko.observable();
 
     //REST endpoint
-    var RESTurl = "http://api.start.ng/api/categories";
+    var RESTurl = "https://api.start.ng/api/categories";
 
     //Single line of data
     var categoryModel = oj.Model.extend({
