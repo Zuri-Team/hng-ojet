@@ -145,8 +145,8 @@ define([
       myModel.parse = null;
       myModel.save(
         {
-          category_name: self.categoryData().category_name,
-          dsecription: self.itemData().dsecription
+          category_name: self.categoryData().title,
+          dsecription: self.itemData().description
         },
         {
           headers: {
