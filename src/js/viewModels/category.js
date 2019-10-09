@@ -113,7 +113,7 @@ define([
       self.categoryCollection.create(recordAttrs, {
         wait: true, //Waits for the server call before setting attributes
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
           Accept: "application/json",
           Authorization:
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
@@ -145,7 +145,7 @@ define([
         },
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
             Accept: "application/json",
             Authorization:
               "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
@@ -177,7 +177,7 @@ define([
           model.destroy({
             data: JSON.stringify({ categoryId: categoryId }),
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
+              "Content-Type": "application/json",
               Accept: "application/json",
               Authorization:
                 "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
