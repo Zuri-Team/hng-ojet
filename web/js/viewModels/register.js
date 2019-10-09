@@ -49,21 +49,22 @@ define([
         let firstname = self.firstname();
         let email = self.email();
         let lastname = self.lastname();
-        let username = self.username();
-        let password = self.pass();
-        let confirm_password = self.rpass();
-        let stack = self.stack();
-        let location = self.location();
+        let username = self.slack();
+        let password = self.password();
+        //let confirm_password = self.rpass();
+        //let stack = self.stack();
+        //let location = self.location();
 
         if (
           (firstname &&
             lastname &&
             email &&
             username &&
-            stack &&
-            location &&
-            password &&
-            confirm_password) !== undefined
+            //stack &&
+            //location &&
+            password
+            //confirm_password
+            )!== undefined
         ) {
           if (!(email.match(/([@])/) && email.match(/([.])/))) {
             validated = false;
@@ -72,7 +73,7 @@ define([
           if (password.length < 4 || confirm_password.length < 4) {
             validated = false;
             sect.html(feedback("Password should be minimum 4 characters"));
-          } else {
+          }/* else {
             if (password !== confirm_password) {
               sect.html(feedback("Passwords does not match"));
               validated = false;

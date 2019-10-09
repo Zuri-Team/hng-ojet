@@ -49,7 +49,6 @@ define([
     self.toggleDrawer = function () {
       return oj.OffcanvasUtils.toggle(self.drawer);
     };
-    
 
     self.logout = function () {
       sessionStorage.clear();

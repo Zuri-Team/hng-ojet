@@ -52,7 +52,7 @@ define([
           sect.html(feedback("Please enter a valid email"));
         } else {
           sect.html(progressbar());
-
+          
           $.post(`https://api.start.ng/api/login`, {
             email,
             password

@@ -13,7 +13,7 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext"
-], function(ko, $) {
+], function (ko, $) {
   function SubmissionComponentModel(context) {
     var self = this;
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
@@ -23,7 +23,7 @@ define([
     );
     // For small screens: labels on top
     // For medium or bigger: labels inline
-    self.labelEdge = ko.computed(function() {
+    self.labelEdge = ko.computed(function () {
       return self.isSmall() ? "top" : "start";
     }, self);
 
