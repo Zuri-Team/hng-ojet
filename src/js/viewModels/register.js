@@ -98,7 +98,7 @@ define([
             email,
             username,
             password,
-            confirm_password:,
+            confirm_password,
             stack:,
             location
             })
