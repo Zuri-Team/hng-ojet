@@ -41,7 +41,7 @@ define([
     var RESTurl = "https://api.start.ng/api/categories";
     
     //User Token
-    var userToken = sessionStorage.getItem("user_token")
+    var userToken = sessionStorage.getItem("user_token");
 
     //Single line of data
     var categoryModel = oj.Model.extend({
@@ -69,7 +69,7 @@ define([
       method: "GET",
       contentType: "application/json",
       headers: {
-        Authorization:
+        "Authorization":
           "Bearer ${userToken}"
       },
       success: function(model, response) {
@@ -118,7 +118,7 @@ define([
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization:
+          "Authorization":
             "Bearer ${userToken}"
         },
         success: function(model, response) {
@@ -182,7 +182,7 @@ define([
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization:
+              "Authorization":
                 "Bearer ${userToken}"
             }
           });
@@ -206,6 +206,7 @@ define([
      */
     self.connected = function() {
       // Implement if needed
+      console.log(sessionStorage.getItem("user_token"));
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
