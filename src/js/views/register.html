@@ -24,22 +24,20 @@
       <div>
         <input type="text" data-bind="textInput: location" placeholder="location" class="inputs" />
       </div>
-
       <div>
         <select
           name="Roles"
+          data-bind="options: devstack, optionsCaption: 'Select a Stack', value: stack"
           class="inputs"
-          style="border: 0.4px solid rgb(127, 127, 129); border-radius: none"
-        data-bind="textInput: stack"
         >
-          <option selected disabled>dev stack</option>
+          <!-- <option selected disabled>Dev Stack</option>
           <option value="UI/UX Designer">UI/UX</option>
           <option value="Front end">Front end</option>
           <option value="Back end">Back end</option>
           <option value="Mobile">Mobile</option>
           <option value="Digital Marketing">Digital Marketing</option>
           <option value="Machine Learning">Machine Learning</option>
-          <option value="DevOps">DevOps</option>
+          <option value="DevOps">DevOps</option> -->
         </select>
         <!-- <oj-select-one value="{{ stack }}" class="inputs">
           <oj-optgroup label="Dev stack">
