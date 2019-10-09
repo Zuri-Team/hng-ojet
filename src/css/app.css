@@ -15,6 +15,18 @@
   padding: 0px 15px;
 }
 
+/* default */
+
+.image {
+  position: absolute;
+  width: 200px;
+  height: 35.42px;
+  left: 100px;
+  top: 35px;
+
+  background-image: url(./images/default.png);
+}
+
 #form_wrapper {
   padding-bottom: 20px;
   background: #ffffff;
@@ -62,18 +74,27 @@
   height: 25px;
 }
 
+.inputs {
+  font-size: 8pt;
+  font-weight: lighter;
+  height: 35px;
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 .fbtn {
-  background-color: #81044d;
-  height: 45px;
-  width: 100%;
+  background-color: #488eff;
+  width: 300px;
   text-align: center;
   margin-top: 20px;
   color: white !important;
-  border-radius: 4px;
-  box-shadow: 0px 1px 5px #32023a !important;
+  /* box-shadow: 0px 1px 5px #011941 !important; */
   border: none !important;
   outline: none !important;
-  font-size: 20px;
+  font-size: 8pt;
+  padding: 5px;
+  height: 35px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -170,20 +191,22 @@ div.form-container {
   position: absolute;
   height: 40px;
   width: 100%;
-  background-color: rgb(40, 40, 75);
+  background-color: #32023a;
   z-index: 4;
 }
 
-.side-nav {
-  position: absolute;
-  width: 100%;
-  background-color: darkblue;
+.side-nav{
+  box-shadow: #E5E5E5 5px 0px 7px;
+  /* position: absolute; */
+  /* width: 100%; */
+  /* background-color: #9b51e0; */
   height: 100vh;
-  z-index: 3;
-  padding-top: 44px;
+  /* z-index: 3; */
+  /* padding-top: 44px; */
+
 }
 
-.side-nav ul {
+/* .side-nav ul{
   list-style: none;
   padding: 0;
   margin: 0;
@@ -201,45 +224,111 @@ div.form-container {
 
 .side-nav ul li a i {
   color: black;
-}
-@media screen and (min-width: 600px) {
-  .side-nav {
-    width: 80px;
-  }
-  .side-nav ul li {
-    text-align: center;
-  }
-  .side-nav ul li span:nth-child(2) {
-    display: none;
-  }
-  .side-nav ul li i {
-    font-size: 26px;
-  }
-}
-@media screen and (min-width: 1000px) {
-  .side-nav {
-    width: 200px;
-  }
-  .side-nav ul li {
-    text-align: left;
-  }
-  .side-nav ul li span:nth-child(2) {
-    display: inline;
-  }
-  .side-nav ul li i {
-    font-size: 16px;
-  }
+} */
+.admin__dashboard {
+  padding: 20px;
+  width: 100%;
+  background-color: #ffffff;
 }
 
-/* User profile*/
+/* User profile settings*/
+.main-profile-update {
+  padding: 20px;
+}
 .main-section {
   border: #9b51e0 1px solid;
   box-shadow: #32023a 3px 5px 15px;
   padding: 20px;
+  width: 50%;
+  background-color: #ffffff;
 }
 .aside {
-  width: 30%;
+  margin: auto;
+  width: 200px;
+  align-self: end;
+  height: 200px;
 }
+
+.input__profile {
+  max-width: 100%;
+}
+.dashboard-header {
+  position: fixed;
+  margin-left: 26%;
+  height: 8vh;
+  background-color: #ffffff;
+  width: 100%;
+  z-index: 1;
+}
+.logo-container {
+  height: 8vh;
+}
+
+@media only screen and (min-width:420px) {
+  .aside {
+    margin: 100px 30px 0 0;
+  }
+  .input__profile {
+    max-width: 80%;
+  }
+}
+
+
+/*admin_dashboard*/
+@media screen and (max-width: 600px) {
+  .side-nav {
+      display: none;
+  }
+  .dashboard-header {
+    width: 100%;
+    margin: 0;
+    min-height: 20vh;
+  }
+  .admin__dashboard {
+    margin-top: 20vh;
+    width: 100%;
+    padding: 5px;
+  }
+  /* ion-icon[name="menu"]:hover .side-nav {
+    display: block; 
+}*/
+  /* .side-nav ul li{
+      text-align: center;    
+  }
+  .side-nav ul li span:nth-child(2) {
+      display: none;
+  }
+  .side-nav ul li i{
+      font-size: 26px;
+  } */
+}
+@media screen and (min-width: 601px) {
+  .side-nav{
+      width: 25%;
+      position: fixed;
+  }
+  /* .side-nav ul li{
+      text-align: left;
+  }
+  .side-nav ul li span:nth-child(2){
+      display: inline;
+  }
+  .side-nav ul li i{
+      font-size: 16px; 
+  } */
+  #drawer, .drawer__btn {
+    display: none !important;
+  }
+  .admin__dashboard {
+    width: 70%;
+    margin-left: 25%;
+    margin-top: 8vh;
+  }
+}
+.page__container {
+  background-color: #ffffff;
+}
+/**/
 .main-section {
   width: 50%;
 }
@@ -249,6 +338,9 @@ p.text {
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 0px;
 }
-:hover {
+a:hover {
   cursor: pointer;
+}
+ion-icon {
+  font-size: 24px;
 }

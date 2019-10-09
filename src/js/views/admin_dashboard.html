@@ -1,63 +1,171 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Admin dashboard</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-    </head>
-    <body>
-        <!-- outer offcanvas wrapper -->
-        <div class="oj-offcanvas-outer-wrapper" 
-        style="border: 1px solid #d1e6f9; height:650px;">
-
-        <div class="header">
-            <a href="#" class="nav-trigger"><span></span></a>
-        </div>
-        
-        <div class="side-nav">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">
-                            <span><i class="fa fa-user"></i></span>
-                            <span>Admin</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                            <a href="#">
-                                <span><i class="fa fa-list-alt"></i></span>
-                                <span> Categories </span>
-                            </a>
-                            
-                    <li>
-                        <a href="#">
-                            <span><i class="fa fa-envelope"></i></span>
-                            <span> Posts </span>
-                        </a>
-                    </li>
-                        <li>
-                            <a href="#">
-                                <span><i class="fa fa-tasks"></i></span>
-                                <span> Track</span>
-                            </a>
-                        </li>
-
-                </ul>
-            </nav>
+<section class="page__container">
+<div class="oj-offcanvas-outer-wrapper">
+    <!-- start offcanvas -->
+    <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
+        <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
+            <div class="oj-flex-item">
+                <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                </oj-avatar>
+            </div>
+            <h3 data-bind="text: fullname"></h3>
+            <div class="oj-flex-item">
+                <span class="fa fa-slack"></span>
+                <span><span data-bind="text: slack"></span></span>
+            </div>
         </div>
 
+        <hr />
+        <div class="oj-flex oj-sm-justify-content-center">
+            <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
+                <a href="#"><div class="oj-flex-item  oj-sm-padding-2x">
+                    <span><i class="fa fa-user"></i></span>
+                    <span>Admin Profile</span>
+                </div></a>
+                <a href=""><div class="oj-flex-item oj-sm-padding-2x">
+                    <span><i class="fa fa-list-alt"></i></span>
+                    <span> Categories </span>
+                </div></a> 
 
-        
-
-
-
-
-
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    </body>
+                <a href="#"><div class="oj-flex-item oj-sm-padding-2x">
+                    <span><i class="fa fa-envelope"></i></span>
+                    <span> Posts </span>
+                </div></a>
+                <a href="#"><div class="oj-flex-item oj-sm-padding-2x">
+                    <span><i class="fa fa-tasks"></i></span>
+                    <span> Track </span>
+                </div></a>
+            </div>
+        </div>
+    </div>
+        <!-- End offcanvas -->
     
-</html>
+        <!-- main content -->
+        <div class="main">
+            <!-- start offcanvas launch button -->
+            <!-- <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
+                <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]" class="drawer__btn">
+                    <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span> Menu
+                </oj-button>
+                <oj-button class="float-right" display="icons" chroming="full" on-click="[[logout]]">
+                    <span slot="startIcon" class="fa fa-power-off"></span> Logout
+                </oj-button>
+            </div> -->
+            <!-- End offcanvas launch button -->
+            <div class="clearfix"></div>
+            <!-- Start main dashboard content -->
+
+            <div class="admin-profile-update oj-flex">
+            <div class="side-nav">
+                <div class="logo-container" style="padding: 7px;"><h2><ion-icon name="options"></ion-icon> HNG BOARD </h2></div>
+                <div id="navlistcontainer"  style="max-width:100%; font-size: 18px;">
+                    <oj-navigation-list aria-label="Choose a navigation item"  selection="{{selectedItem}}" style=" color: #768093;">
+                    <ul >
+                        <li id="Dashboard" >
+                        <a href="#overview-admin" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
+                        </li>
+                        <li id="Posts" >
+                        <a href="#posts-admin" ><ion-icon name="paper"></ion-icon> POSTS</a>
+                        </li>
+                        <li id="Categories">
+                        <a href="#categories-admin" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
+                        </li>
+                        <li id="Tasks">
+                        <a href="#tasks-admin" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
+                        </li>
+                        <li id="Tracks">
+                        <a href="#tracks-admin" ><ion-icon name="swap"></ion-icon> TRACKS</a>
+                        </li>
+                        <li id="Teams">
+                        <a href="#teams-admin" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
+                        </li>
+                        <li id="Interns">
+                        <a href="#interns-admin" ><ion-icon name="contact"></ion-icon> INTERNS</a>
+                        </li>
+                        <li id="Settings">
+                        <a href="#admin-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
+                        </li>
+                    </ul>
+                    </oj-navigation-list>
+                </div>
+            </div>
+            <div class="dashboard-header oj-flex oj-flex-items-pad">
+                <h2 style="display: inline-block;padding: 7px;" class="oj-flex"><ion-icon name="menu" onclick="showNav()"></ion-icon> <span data-bind='text: selectedItem'></span></h2><span class="oj-flex" style="padding: 7px;">
+                <ion-icon name="notifications-outline"></ion-icon> &nbsp;
+                <form id="form1">
+                    <input id="inputSearch" placeholder="Search..."
+                            data-bind="ojComponent: {
+                            component: 'ojInputSearch',
+                            value: keyword,
+                            options: tags,
+                            rootAttributes: {style:'max-width: 20em'}}">
+                    </form> &nbsp;
+                <oj-button display="icons" chroming="full" on-click="[[logout]]">
+                        <span slot="startIcon" class="fa fa-power-off"></span> Logout
+                    </oj-button></span>
+            </div>
+            
+            <div class="admin__dashboard">
+                <div id="overview-admin">
+                    <h3>Overview</h3><hr>
+                </div>
+                <div id="posts-admin">
+                    <h3>Posts</h3><hr>
+                </div>
+
+                
+                <!-- Categories start -->
+                <div id="categories-admin">
+                    <h3>Categories</h3><hr>
+                </div>
+                <div data-bind="ojModule: 'category'"></div>
+
+                <!-- Categories end -->
+                <div id="tasks-admin">
+                    <h3>Tasks</h3><hr>
+                </div>
+                <div id="tracks-admin">
+                    <h3>Tracks</h3><hr>
+                </div>
+                <div id="teams-admin">
+                    <h3>Teams</h3><hr>
+                </div>
+                <div id="interns-admin">
+                    <h3>Interns</h3><hr>
+                </div>
+                <div class="oj-flex-item" id="admin-settings">
+                <h3>Public profile settings</h3><hr>
+                <div class="oj-flex-item aside">
+                    <label><h5> Profile picture</h5></label> 
+                    <oj-file-picker on-oj-select='[[selectListener]]'>
+                        <div tabindex='0' slot='trigger'
+                                class='oj-filepicker-dropzone'>
+                            <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                            </oj-avatar>
+                            <p class='oj-filepicker-text'>Pls click here or drag an image here to change profile picture</p>
+                        </div>
+                    </oj-file-picker>
+                </div>
+                <div class="oj-hybrid-padding center">
+                    <oj-form-layout id="form-container" style="display: inline-block">
+                        <oj-input-text class="input__profile" id="input1" type="text" label-hint="Name" data-bind="textInput:name"></oj-input-text>
+                        <oj-input-text class="input__profile" id="input2" type="email" label-hint="Public email" data-bind="textInput:email"></oj-input-text>
+                        <oj-input-text class="input__profile" id="input3" type="text" label-hint="Display Name" data-bind="textInput:displayName"></oj-input-text>
+                        <oj-text-area class="input__profile" id="text-area" label-hint="Bio" data-bind="textInput:bio">
+                        </oj-text-area>
+                        <oj-input-text class="input__profile" id="input4" type="text" label-hint="URL" data-bind="textInput:url"></oj-input-text>
+                        <oj-input-text class="input__profile" id="input5" type="text" label-hint="Location" data-bind="textInput:location"></oj-input-text>
+                        <h6>All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.</h6>
+                
+                        <oj-button class="fbtn" on-oj-action='[[buttonClick]]'>Update Profile</oj-button>
+                    </oj-form-layout>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+

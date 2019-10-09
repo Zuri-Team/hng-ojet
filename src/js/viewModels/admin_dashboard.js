@@ -1,44 +1,82 @@
 define([
-    'ojs/ojcore', 
-    'knockout', 
-    'jquery', 
-    'ojs/ojknockout', 
-    'ojs/ojoffcanvas', 
-    'ojs/ojbutton', 
-    'ojs/ojmodule', 
-    'ojs/ojcomposite', 
-    'ojs/ojavatar', 
-    'ojs/ojlabel', 
-    'ojs/ojprogress', 
-    'views/task-card/loader'
+    'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbootstrap', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils',
+    "ojs/ojinputtext", 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'views/task-card/loader', 'ojs/ojfilepicker', 'ojs/ojformlayout', 'ojs/ojbutton'
 ],
-function(oj, ko) {
+function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
-    /*function AdminDashboardViewModel() {
+    
+    function AdminDashboardViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;
-        self.fullname = ko.observable('Seye Oyeniran');
-        self.stage = ko.observable(3);
-        self.track = ko.observable('Design');
-        self.currentweek = ko.observable(2);
-        self.totalweeks = ko.observable(10);
-        self.progress = ko.observable(30);
-        self.welcomeMessage = ko.observable();
-        self.slack = ko.observable('@shazomii');
-        self.tasks = [{
-                taskTitle: "Create a Chatbot App",
-                details: "Here are details for the Chatbot App"
-            },
-            {
-                taskTitle: "Deploy a Serverless App",
-                details: "Here are the details for the Serverless App"
-            }
-        ];
 
-        self.submitTask = () => {
-            router.go('submission');
+
+        self.selectedItem = ko.observable("Dashboard");
+        this.tags = ko.observableArray([
+            { value: ".net", label: ".net" },
+            { value: "Accounting", label: "Accounting" },
+            { value: "ADE", label: "ADE" },
+            { value: "Adf", label: "Adf" },
+            { value: "Adfc", label: "Adfc" },
+            { value: "Adfm", label: "Adfm" },
+            { value: "Android", label: "Android" },
+            { value: "Aria", label: "Aria" },
+            { value: "C", label: "C" },
+            { value: "C#", label: "C#" },
+            { value: "C++", label: "C++" },
+            { value: "Chrome", label: "Chrome" },
+            { value: "Cloud", label: "Cloud" },
+            { value: "CSS3", label: "CSS3" },
+            { value: "DBA", label: "DBA" },
+            { value: "Eclipse", label: "Eclipse" },
+            { value: "Firefox", label: "Firefox" },
+            { value: "Git", label: "Git" },
+            { value: "Hibernate", label: "Hibernate" },
+            { value: "HTML", label: "HTML" },
+            { value: "HTML5", label: "HTML5" },
+            { value: "IE", label: "IE" },
+            { value: "IOS", label: "IOS" },
+            { value: "Java", label: "Java" },
+            { value: "Javascript", label: "Javascript" },
+            { value: "JDeveloper", label: "JDeveloper" },
+            { value: "Jet", label: "jet" },
+            { value: "JQuery", label: "JQuery" },
+            { value: "JQueryUI", label: "JQueryUI" },
+            { value: "JS", label: "JS" },
+            { value: "Knockout", label: "Knockout" },
+            { value: "MAF", label: "MAF" },
+            { value: "Maven", label: "Maven" },
+            { value: "MCS", label: "MCS" },
+            { value: "MySql", label: "MySql" },
+            { value: "Netbeans", label: "Netbeans" },
+            { value: "Oracle", label: "Oracle" },
+            { value: "Solaris", label: "solaris" },
+            { value: "Spring", label: "spring" },
+            { value: "Svn", label: "Svn" },
+            { value: "UX", label: "UX" },
+            { value: "xhtml", label: "xhtml" },
+            { value: "XML", label: "XML" }
+        ]);
+
+        this.keyword = ko.observableArray();
+
+
+        self.fullname = ko.observable('Admin');
+        self.track = ko.observable('Design');
+        self.slack = ko.observable('@xyluz');
+        self.fileNames = ko.observableArray([]);
+  
+        self.selectListener = function(event) {
+          var files = event.detail.files;
+          for (var i = 0; i < files.length; i++) {
+            self.fileNames.push(files[i].name);
+          }
         }
-        
+        self.name = ko.observable('');
+        self.email = ko.observable('');
+        self.bio = ko.observable('');
+        self.url = ko.observable('');
+        self.location = ko.observable('');
+        self.displayName = ko.observable('@');
 
         self.drawer = {
             "displayMode": "overlay",
@@ -46,6 +84,21 @@ function(oj, ko) {
             "content": "#main",
             "modality": "modal"
         };
+
+        self.isSmall =responsiveKnockoutUtils.createMediaQueryObservable(
+            responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
+
+        // For small screens: labels on top
+        // For medium or bigger: labels inline
+        self.labelEdge = ko.computed(function() {
+                                    return self.isSmall() ? "top" : "start";
+                                }, self);
+        self.clickedButton = ko.observable("(None clicked yet)");
+        self.buttonClick = function(event){
+                            self.clickedButton(event.currentTarget.id);
+                            return true;
+                        }.bind(self);
+        self.value = ko.observable("What");
 
         self.toggleDrawer = function() {
             return oj.OffcanvasUtils.toggle(self.drawer);
@@ -56,24 +109,14 @@ function(oj, ko) {
             router.go("login")
         }
 
-        self.connected = function() {
-            if (sessionStorage.getItem("user_token") == null) {
-                //router.go("login");
-            }    
-            var name = sessionStorage.getItem("user_name")
-            self.fullname(name);
-            var slack = sessionStorage.getItem("user_slack")
-            self.slack(slack);
-            self.welcomeMessage(`Welcome, ${name}`)
+        // self.connected = function() {
+        //     if (sessionStorage.getItem("user_token") == null) {
+        //         router.go("login");
+        //     }
+        // }
     }
+    // var advm = new AdminDashboardViewModel();
+    // ko.applyBindings(advm, document.getElementById('navlistdemo'));
 
-}*/
-
-
-    /*
-     * Returns a constructor for the ViewModel so that the ViewModel is constructed
-     * each time the view is displayed.  Return an instance of the ViewModel if
-     * only one instance of the ViewModel is needed.
-     */
     return new AdminDashboardViewModel();
 });
