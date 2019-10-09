@@ -99,7 +99,7 @@ define([
             username,
             password,
             confirm_password,
-            stack:,
+            stack,
             location
             })
               .done(({ status }) => {
