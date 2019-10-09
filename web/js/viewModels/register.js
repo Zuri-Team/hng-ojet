@@ -32,7 +32,7 @@ define([
       function validate() {
         var sect = $("#fbk");
         var feedback = function (text, color = "danger") {
-          return `<div class=" mt-3 alert alert-${color} h5 show fb_alert" role="alert">
+          return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
             <small>${text}</small>
           </div>`;
         };

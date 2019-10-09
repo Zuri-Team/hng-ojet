@@ -38,7 +38,7 @@ define([
     self.firstSelectedCategory = ko.observable();
 
     //REST endpoint
-    var RESTurl = "http://api.start.ng/api/categories";
+    var RESTurl = "https://api.start.ng/api/categories";
 
     //Single line of data
     var categoryModel = oj.Model.extend({
@@ -105,7 +105,7 @@ define([
       };
 
       /*
-          The itemCollection variable is a Collection object that uses the
+          The categoryCollection variable is a Collection object that uses the
           create() function to write a new model to the data service.
           It also adds this new model to the collection.
           */
@@ -113,7 +113,7 @@ define([
       self.categoryCollection.create(recordAttrs, {
         wait: true, //Waits for the server call before setting attributes
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
           Accept: "application/json",
           Authorization:
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
@@ -145,7 +145,7 @@ define([
         },
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
             Accept: "application/json",
             Authorization:
               "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
@@ -177,7 +177,7 @@ define([
           model.destroy({
             data: JSON.stringify({ categoryId: categoryId }),
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
+              "Content-Type": "application/json",
               Accept: "application/json",
               Authorization:
                 "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"

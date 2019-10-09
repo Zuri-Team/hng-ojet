@@ -11,6 +11,7 @@ define([
   "jquery",
   "ojs/ojformlayout",
   "ojs/ojselectcombobox",
+  "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext"
 ], function(ko, $) {
   function SubmissionComponentModel(context) {
@@ -38,6 +39,7 @@ define([
     self.url = ko.observable("");
     self.taskDescription = ko.observable("");
     self.taskHeading = ko.observable("");
+    const RESTurl = "https://api.start.ng/api/submissions";
 
     const showMessage = (message, color = "error") => {
       const span = document.querySelector(".message");
@@ -86,13 +88,39 @@ define([
       };
       console.log(task);
 
+    
+      const submit = async (RESTurl = '', data = {}) => {
+        const response = await fetch(RESTurl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+          },
+          body: JSON.stringify(data)
+        });
+        return await response.json();
+      };
+      try {
+        const data = submit(RESTurl, task);
+        console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
+      } catch (error) {
+        console.error(error);
+      }
+
       // User is redirected to the dashboard on submit.
       router.go("dashboard");
     };
 
     self.connected = () => {
-      var name = sessionStorage.getItem("user_name");
-      self.taskHeading(`Dear ${name}, please Submit Your Task(s) Here`);
+      let user = sessionStorage.getItem("user");
+      user = JSON.parse(user);
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
+      }
+      self.taskHeading(
+        `Dear ${user.firstname}, please Submit Your Task(s) Here`
+      );
     };
   }
 
