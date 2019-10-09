@@ -39,6 +39,9 @@ define([
 
     //REST endpoint
     var RESTurl = "https://api.start.ng/api/categories";
+    
+    //User Token
+    var userToken = sessionStorage.getItem("user_token")
 
     //Single line of data
     var categoryModel = oj.Model.extend({
@@ -67,7 +70,7 @@ define([
       contentType: "application/json",
       headers: {
         Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+          "Bearer ${userToken}"
       },
       success: function(model, response) {
         console.log("Successfully created new category");
@@ -116,7 +119,7 @@ define([
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+            "Bearer ${userToken}"
         },
         success: function(model, response) {
           console.log("Successfully created new category");
@@ -148,7 +151,7 @@ define([
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+              "Bearer ${userToken}"
           },
           success: function(model, response) {
             console.log("response: " + JSON.stringify(response));
@@ -180,7 +183,7 @@ define([
               "Content-Type": "application/json",
               Accept: "application/json",
               Authorization:
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+                "Bearer ${userToken}"
             }
           });
         }
@@ -203,6 +206,9 @@ define([
      */
     self.connected = function() {
       // Implement if needed
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
+      }
     };
 
     /**
