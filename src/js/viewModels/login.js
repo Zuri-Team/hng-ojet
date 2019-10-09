@@ -53,22 +53,21 @@ define([
         } else {
           sect.html(progressbar());
 
-          $.post(`${api}/api/login`, {
+          $.post(`https://api.start.ng/api/login`, {
             email,
             password
           })
             .done(({ status, user, token }) => {
               // start user session with token
               if (status == true) {
+                console.log(user.role)
                 sessionStorage.setItem("user", JSON.stringify(user));
                 sessionStorage.setItem("user_token", token);
-                let role = JSON.parse(JSON.stringify(user)).role;
-                switch (role) {
-                  case "admin":
+                console.log(role);
+                switch (user.role) {
+                  case "superadmin":
                     router.go("admin_dashboard");
                     break;
-                  case "superadmin":
-                  // router.go("superadmin");
                   default:
                     router.go("dashboard");
                     break;

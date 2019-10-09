@@ -49,6 +49,7 @@ define([
     self.toggleDrawer = function () {
       return oj.OffcanvasUtils.toggle(self.drawer);
     };
+    
 
     self.logout = function () {
       sessionStorage.clear();
@@ -64,7 +65,7 @@ define([
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.track(`${user.stack}`);
       self.slack(user.slack);
-      self.welcomeMessage(`Welcome, ${user.username}`)
+      self.welcomeMessage(`Welcome, ${user.firstname} ${user.lastname}`)
     };
   }
 

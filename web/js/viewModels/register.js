@@ -7,39 +7,37 @@ define([
   "ojs/ojformlayout",
   "ojs/ojinputtext",
   "ojs/ojselectcombobox"
-], function (ko, api, $) {
+], function(ko, api, $) {
   function RegisterViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
 
-    self.firstname = ko.observable();
-    self.lastname = ko.observable();
-    //self.stack = ko.observable();
-    //devStack: ko.observableArray(['UI/UX', 'FrontEnd', 'BackEnd', 'Machine Learning', 'Digital Marketing', 'Mobile', 'DevOps'])
-    //self.selectedStack = ko.observable();
-    //self.location = ko.observable();
+    self.firstname = ko.observable("");
+    self.lastname = ko.observable("");
+    self.stack = ko.observable("");
+    self.location = ko.observable("");
 
     //account info
-    self.slack = ko.observable();
-    self.email = ko.observable();
-    self.password = ko.observable();
-    //self.rpass = ko.observable();
+    self.username = ko.observable("");
+    self.email = ko.observable("");
+    self.pass = ko.observable("");
+    self.rpass = ko.observable();
 
-    self.login = function () {
+    self.login = function() {
       router.go("login");
     };
 
-    self.connected = function () {
+    self.connected = function() {
       // Implement if needed
       function validate() {
         var sect = $("#fbk");
-        var feedback = function (text, color = "danger") {
+        var feedback = function(text, color = "danger") {
           return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
             <small>${text}</small>
           </div>`;
         };
 
-        var progressbar = function () {
+        var progressbar = function() {
           return `<div class="progress position-relative mt-3">
           <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
             role="progressbar">
@@ -68,7 +66,6 @@ define([
             //confirm_password
             )!== undefined
         ) {
-          validated = true;
           if (!(email.match(/([@])/) && email.match(/([.])/))) {
             validated = false;
             sect.html(feedback("Please enter a valid email"));
@@ -81,28 +78,31 @@ define([
               sect.html(feedback("Passwords does not match"));
               validated = false;
             }
-          }*/
-          if (validated == true) {
+          }
+
+          const data = JSON.stringify({
+            firstname:firstname,
+            lastname: lastname,
+            email: email,
+            username: username,
+            password: password,
+            confirm_password: confirm_password,
+            stack: stack,
+            location: location
+          })
+
+          console.log(data)
             sect.html(progressbar());
-            $.post(`${api}/api/register`, {
-              firstname,
-              lastname,
-              email,
-              username,
-              password,
-              //confirm_password,
-              //stack
-              //location
-            })
-              .done(resp => {
-                if (resp.status == true) {
+            $.post(`https://api.start.ng/api/register`, data)
+              .done(({ status }) => {
+                if (status == true) {
                   sect.html(
                     feedback(
                       "Account created, redirecting to login page...",
                       "success"
                     )
                   );
-                  setTimeout(function () {
+                  setTimeout(function() {
                     router.go("login");
                   }, 2000);
                 }
@@ -114,32 +114,31 @@ define([
                   )
                 );
               });
-          }
         } else {
           console.log("wrong");
           sect.html(feedback("All fields are required"));
         }
       }
 
-      $("#next").click(function () {
+      $("#next").click(function() {
         $("#profileinfo").hide();
         $("#accinfo").show();
       });
-      $("#prev").click(function () {
+      $("#prev").click(function() {
         $("#profileinfo").show();
         $("#accinfo").hide();
       });
 
-      self.signup = function () {
+      self.signup = function() {
         validate();
       };
     };
 
-    self.disconnected = function () {
+    self.disconnected = function() {
       // Implement if needed
     };
 
-    self.transitionCompleted = function () {
+    self.transitionCompleted = function() {
       // Implement if needed
     };
   }
