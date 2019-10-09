@@ -60,18 +60,27 @@ define([
             .done(({ status, user, token }) => {
               // start user session with token
               if (status == true) {
-                console.log(user.role)
+                console.log(user.role);
                 sessionStorage.setItem("user", JSON.stringify(user));
                 sessionStorage.setItem("user_token", token);
                 console.log(user.role);
-                switch (user.role) {
-                  case "superadmin":
-                    router.go("admin_dashboard");
-                    break;
-                  default:
-                    router.go("dashboard");
-                    break;
+                console.log(token);
+                
+                if(user.role == 'superadmin'){
+                  router.go("admin_dashboard");
+                }else{
+                  router.go("dashboard");
                 }
+                
+                
+//                 switch (user.role) {
+//                   case "superadmin":
+//                     router.go("admin_dashboard");
+//                     break;
+//                   default:
+//                     router.go("dashboard");
+//                     break;
+//                 }
               }
             })
             .fail(() => {
