@@ -146,8 +146,8 @@ define([
       myModel.parse = null;
       myModel.save(
         {
-          category_name: self.categoryData().title,
-          dsecription: self.categoryData().description
+          category_name: self.categoryData().category_name,
+          dsecription: self.categoryData().dsecription
         },
         {
           headers: {
@@ -161,7 +161,7 @@ define([
             self.categoryData.valueHasMutated();
           },
           error: function(jqXHR, textStatus, errorThrown) {
-            console.log(self.categoryData().id + " -- " + jqXHR);
+            console.log(self.categoryData().id + " -- " + textStatus);
           }
         }
       );
