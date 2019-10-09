@@ -21,7 +21,7 @@ define([
     self.username = ko.observable("");
     self.email = ko.observable("");
     self.pass = ko.observable("");
-    self.rpass = ko.observable();
+    self.rpass = ko.observable("");
 
     self.login = function() {
       router.go("login");
