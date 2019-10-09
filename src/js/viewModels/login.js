@@ -63,7 +63,7 @@ define([
                 console.log(user.role)
                 sessionStorage.setItem("user", JSON.stringify(user));
                 sessionStorage.setItem("user_token", token);
-                console.log(role);
+                console.log(user.role);
                 switch (user.role) {
                   case "superadmin":
                     router.go("admin_dashboard");
