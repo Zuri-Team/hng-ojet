@@ -64,7 +64,7 @@ define([
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.track(`${user.stack}`);
       self.slack(user.slack);
-      self.welcomeMessage(`Welcome, ${user.username}`)
+      self.welcomeMessage(`Welcome, ${user.firstname} ${user.lastname}`)
     };
   }
 

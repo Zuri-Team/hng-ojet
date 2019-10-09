@@ -88,13 +88,7 @@ define([
       };
       console.log(task);
 
-      try {
-        const data = await submit(RESTurl, task);
-        console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
-      } catch (error) {
-        console.error(error);
-      }
-
+    
       const submit = async (RESTurl = '', data = {}) => {
         const response = await fetch(RESTurl, {
           method: "POST",
@@ -107,6 +101,12 @@ define([
         });
         return await response.json();
       };
+      try {
+        const data = submit(RESTurl, task);
+        console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
+      } catch (error) {
+        console.error(error);
+      }
 
       // User is redirected to the dashboard on submit.
       router.go("dashboard");
@@ -119,7 +119,7 @@ define([
         router.go("login");
       }
       self.taskHeading(
-        `Dear ${user.firstName}, please Submit Your Task(s) Here`
+        `Dear ${user.firstname}, please Submit Your Task(s) Here`
       );
     };
   }
