@@ -96,7 +96,16 @@ define([
 
           console.log(data)
             sect.html(progressbar());
-            $.post(`https://api.start.ng/api/register`, data)
+            $.post(`https://api.start.ng/api/register`, {
+            firstname,
+            lastname,
+            email,
+            username,
+            password,
+            confirm_password,
+            stack,
+            location
+            })
               .done(({ status }) => {
                 if (status == true) {
                   sect.html(
