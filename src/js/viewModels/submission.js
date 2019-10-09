@@ -13,7 +13,7 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext"
-], function (ko, $) {
+], function(ko, $) {
   function SubmissionComponentModel(context) {
     var self = this;
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
@@ -23,7 +23,7 @@ define([
     );
     // For small screens: labels on top
     // For medium or bigger: labels inline
-    self.labelEdge = ko.computed(function () {
+    self.labelEdge = ko.computed(function() {
       return self.isSmall() ? "top" : "start";
     }, self);
 
@@ -39,6 +39,7 @@ define([
     self.url = ko.observable("");
     self.taskDescription = ko.observable("");
     self.taskHeading = ko.observable("");
+    const RESTurl = "http://api.start.ng/api/submissions";
 
     const showMessage = (message, color = "error") => {
       const span = document.querySelector(".message");
@@ -87,6 +88,26 @@ define([
       };
       console.log(task);
 
+      try {
+        const data = await submit(RESTurl, task);
+        console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
+      } catch (error) {
+        console.error(error);
+      }
+
+      const submit = async (RESTurl = '', data = {}) => {
+        const response = await fetch(RESTurl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+          },
+          body: JSON.stringify(data)
+        });
+        return await response.json();
+      };
+
       // User is redirected to the dashboard on submit.
       router.go("dashboard");
     };
@@ -97,7 +118,9 @@ define([
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
-      self.taskHeading(`Dear ${user.username}, please Submit Your Task(s) Here`);
+      self.taskHeading(
+        `Dear ${user.firstName}, please Submit Your Task(s) Here`
+      );
     };
   }
 
