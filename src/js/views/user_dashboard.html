@@ -19,7 +19,7 @@
             <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
                 <a href="#"><div class="oj-flex-item  oj-sm-padding-2x">
                     <span><i class="fa fa-user"></i></span>
-                    <span>Admin Profile</span>
+                    <span>user Profile</span>
                 </div></a>
                 <a href=""><div class="oj-flex-item oj-sm-padding-2x">
                     <span><i class="fa fa-list-alt"></i></span>
@@ -41,48 +41,37 @@
     
         <!-- main content -->
         <div class="main">
-            <!-- start offcanvas launch button -->
-            <!-- <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
-                <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]" class="drawer__btn">
-                    <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span> Menu
-                </oj-button>
-                <oj-button class="float-right" display="icons" chroming="full" on-click="[[logout]]">
-                    <span slot="startIcon" class="fa fa-power-off"></span> Logout
-                </oj-button>
-            </div> -->
+           
             <!-- End offcanvas launch button -->
             <div class="clearfix"></div>
             <!-- Start main dashboard content -->
 
-            <div class="admin-profile-update oj-flex">
+            <div class="user-profile-update oj-flex">
             <div class="side-nav">
                 <div class="logo-container" style="padding: 7px;"><h2><ion-icon name="options"></ion-icon> HNG BOARD </h2></div>
                 <div id="navlistcontainer"  style="max-width:100%; font-size: 18px;">
                     <oj-navigation-list aria-label="Choose a navigation item"  selection="{{selectedItem}}" style=" color: #768093;">
                     <ul >
                         <li id="Dashboard" >
-                        <a href="#overview-admin" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
+                        <a href="#overview-user" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
                         </li>
                         <li id="Posts" >
-                        <a href="#posts-admin" ><ion-icon name="paper"></ion-icon> POSTS</a>
+                        <a href="#posts-user" ><ion-icon name="paper"></ion-icon> POSTS</a>
                         </li>
                         <li id="Categories">
-                        <a href="#categories-admin" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
+                        <a href="#categories-user" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
                         </li>
                         <li id="Tasks">
-                        <a href="#tasks-admin" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
+                        <a href="#tasks-user" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
                         </li>
                         <li id="Tracks">
-                        <a href="#tracks-admin" ><ion-icon name="swap"></ion-icon> TRACKS</a>
+                        <a href="#tracks-user" ><ion-icon name="swap"></ion-icon> TRACKS</a>
                         </li>
                         <li id="Teams">
-                        <a href="#teams-admin" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
-                        </li>
-                        <li id="Interns">
-                        <a href="#interns-admin" ><ion-icon name="contact"></ion-icon> INTERNS</a>
+                        <a href="#teams-user" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
                         </li>
                         <li id="Settings">
-                        <a href="#admin-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
+                        <a href="#user-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
                         </li>
                     </ul>
                     </oj-navigation-list>
@@ -93,28 +82,25 @@
                 <oj-navigation-list aria-label="Choose a navigation item"  selection="{{selectedItem}}" style=" color: #768093;">
                 <ul >
                     <li id="Dashboard" >
-                    <a href="#overview-admin" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
+                    <a href="#overview-user" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
                     </li>
                     <li id="Posts" >
-                    <a href="#posts-admin" ><ion-icon name="paper"></ion-icon> POSTS</a>
+                    <a href="#posts-user" ><ion-icon name="paper"></ion-icon> POSTS</a>
                     </li>
                     <li id="Categories">
-                    <a href="#categories-admin" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
+                    <a href="#categories-user" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
                     </li>
                     <li id="Tasks">
-                    <a href="#tasks-admin" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
+                    <a href="#tasks-user" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
                     </li>
                     <li id="Tracks">
-                    <a href="#tracks-admin" ><ion-icon name="swap"></ion-icon> TRACKS</a>
+                    <a href="#tracks-user" ><ion-icon name="swap"></ion-icon> TRACKS</a>
                     </li>
                     <li id="Teams">
-                    <a href="#teams-admin" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
-                    </li>
-                    <li id="Interns">
-                    <a href="#interns-admin" ><ion-icon name="contact"></ion-icon> INTERNS</a>
+                    <a href="#teams-user" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
                     </li>
                     <li id="Settings">
-                    <a href="#admin-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
+                    <a href="#user-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
                     </li>
                 </ul>
                 </oj-navigation-list>
@@ -137,34 +123,35 @@
             </div>
             
             <div class="admin__dashboard">
-                <div id="overview-admin">
+                <div id="overview-user">
                     <h3>Overview</h3><hr>
                 </div>
-                <div id="posts-admin">
+                <div id="posts-user">
                     <h3>Posts</h3><hr>
                 </div>
 
                 
                 <!-- Categories start -->
-                <div id="categories-admin">
+                <div id="categories-user">
                     <h3>Categories</h3><hr>
                 </div>
-                <div data-bind="ojModule: 'category'"></div>
 
                 <!-- Categories end -->
-                <div id="tasks-admin">
+                <div id="tasks-user">
                     <h3>Tasks</h3><hr>
+                    Tasks for the week:
+                    <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
                 </div>
-                <div id="tracks-admin">
+                <div id="tracks-user">
                     <h3>Tracks</h3><hr>
                 </div>
-                <div id="teams-admin">
+                <div id="teams-user">
                     <h3>Teams</h3><hr>
                 </div>
-                <div id="interns-admin">
+                <div id="interns-user">
                     <h3>Interns</h3><hr>
                 </div>
-                <div class="oj-flex-item" id="admin-settings">
+                <div class="oj-flex-item" id="user-settings">
                 <h3>Public profile settings</h3><hr>
                 <div class="oj-flex-item aside">
                     <label><h5> Profile picture</h5></label> 
