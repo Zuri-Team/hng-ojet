@@ -10,16 +10,19 @@
       </div>
       <div id="fbk" style="width: 300px; margin: auto"></div>
       <div>
-        <input type="text" placeholder="first name" class="inputs" />
+        <input type="text" data-bind="textInput: firstname"placeholder="first name" class="inputs" />
       </div>
       <div>
-        <input type="text" placeholder="last name" class="inputs" />
+        <input type="text" data-bind="textInput: lastname" placeholder="last name" class="inputs" />
       </div>
       <div>
-        <input type="text" placeholder="email" class="inputs" />
+        <input type="text" data-bind="textInput: email"placeholder="email" class="inputs" />
       </div>
       <div>
-        <input type="text" placeholder="slack" class="inputs" />
+        <input type="text" data-bind="textInput: username" placeholder="slack" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: location" placeholder="location" class="inputs" />
       </div>
 
       <div>
@@ -27,6 +30,7 @@
           name="Roles"
           class="inputs"
           style="border: 0.4px solid rgb(127, 127, 129); border-radius: none"
+        data-bind="textInput: stack"
         >
           <option selected disabled>dev stack</option>
           <option value="UI/UX Designer">UI/UX</option>
@@ -48,7 +52,10 @@
         </oj-select-one> -->
       </div>
       <div>
-        <input type="text" placeholder="password" class="inputs" />
+        <input type="password" data-bind="textInput: pass" placeholder="password" class="inputs" />
+      </div>
+      <div>
+        <input type="password" data-bind="textInput: rpass" placeholder="confirm password" class="inputs" />
       </div>
 
       <div class="oj-flex-items-pad">
