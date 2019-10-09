@@ -12,6 +12,8 @@ define([
     var self = this;
     var router = oj.Router.rootInstance;
 
+    self.devstack = ['FrontEnd', 'BackEnd'];
+
 
     self.firstname = ko.observable("");
     self.lastname = ko.observable("");
