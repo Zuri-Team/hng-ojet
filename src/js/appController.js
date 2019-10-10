@@ -47,7 +47,8 @@ define([
     self.router.configure({
       dashboard: { label: "Dashboard" },
       admin_dashboard: {label: "Admin_dashboard"},
-      overview:{label: "Overview"},
+      user_dashboard: {label: "User_dashboard"},
+      overview: {label: "Overview"},
       category: {label: "Category"},
       register: { label: "Register" },
       submission: { label: "Submission" },
