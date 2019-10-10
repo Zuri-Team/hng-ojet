@@ -12,6 +12,9 @@ define([
     var self = this;
     var router = oj.Router.rootInstance;
 
+    self.devstack = ['UI/UX', 'FrontEnd', 'BackEnd', 'Mobile', 'Digital Marketing', 'Machine Learning', 'DevOps'];
+
+
     self.firstname = ko.observable("");
     self.lastname = ko.observable("");
     self.stack = ko.observable("");
@@ -47,8 +50,8 @@ define([
         };
 
         let firstname = self.firstname();
-        let email = self.email();
         let lastname = self.lastname();
+        let email = self.email();
         let username = self.username();
         let password = self.pass();
         let confirm_password = self.rpass();
@@ -58,12 +61,13 @@ define([
         if (
           (firstname &&
             lastname &&
-            email &&
+            email    &&
             username &&
-            stack &&
+            stack    &&
             location &&
             password &&
-            confirm_password) !== undefined
+            confirm_password
+            )!== undefined
         ) {
           if (!(email.match(/([@])/) && email.match(/([.])/))) {
             validated = false;
@@ -92,7 +96,16 @@ define([
 
           console.log(data)
             sect.html(progressbar());
-            $.post(`https://api.start.ng/api/register`, data)
+            $.post(`${api}/api/register`, {
+            firstname,
+            lastname,
+            email,
+            username,
+            password,
+            confirm_password,
+            stack,
+            location
+            })
               .done(({ status }) => {
                 if (status == true) {
                   sect.html(
@@ -143,4 +156,4 @@ define([
   }
 
   return new RegisterViewModel();
-});
+})
