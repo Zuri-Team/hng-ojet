@@ -10,6 +10,7 @@ define([
   "ojs/ojcore",
   "knockout",
   "jquery",
+  "./api",
   "ojs/ojlabel",
   "ojs/ojchart",
   "ojs/ojlistview",
@@ -19,9 +20,11 @@ define([
   "ojs/ojcollectiontabledatasource",
   "ojs/ojdialog",
   "ojs/ojinputtext"
-], function(oj, ko, $) {
+], function (oj, ko, $, api) {
   function CategoryViewModel() {
     var self = this; //generated code
+
+
 
     /**
      * Declare observables and read data from JSON file
@@ -38,7 +41,10 @@ define([
     self.firstSelectedCategory = ko.observable();
 
     //REST endpoint
-    var RESTurl = "https://api.start.ng/api/categories";
+    var RESTurl = `${api}/api/categories`;
+
+    //User Token
+    var userToken = sessionStorage.getItem("user_token");
 
     //Single line of data
     var categoryModel = oj.Model.extend({
@@ -66,13 +72,13 @@ define([
       method: "GET",
       contentType: "application/json",
       headers: {
-        Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+        "Authorization":
+          "Bearer " + userToken
       },
-      success: function(model, response) {
+      success: function (model, response) {
         console.log("Successfully created new category");
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error in Create: " + textStatus);
       }
     });
@@ -80,7 +86,7 @@ define([
     /**
      * Handle selection from Categories list
      */
-    self.selectedCategoryChanged = function(event) {
+    self.selectedCategoryChanged = function (event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
         // If selection, populate and display Category details
@@ -94,14 +100,14 @@ define([
       }
     };
 
-    self.showCreateDialog = function(event) {
+    self.showCreateDialog = function (event) {
       document.getElementById("createDialog").open();
     };
 
-    self.createCategory = function(event, data) {
+    self.createCategory = function (event, data) {
       var recordAttrs = {
-        category_name: data.newCategory.category_name,
-        dsecription: data.newCategory.dsecription
+        title: data.newCategory.category_name,
+        dsecription: data.newCategory.description
       };
 
       /*
@@ -113,26 +119,24 @@ define([
       self.categoryCollection.create(recordAttrs, {
         wait: true, //Waits for the server call before setting attributes
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+          "Authorization":
+            "Bearer " + userToken
         },
-        success: function(model, response) {
+        success: function (model, response) {
           console.log("Successfully created new category");
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
           console.log("Error in Create: " + textStatus);
         }
       });
       document.getElementById("createDialog").close();
     };
 
-    self.showEditDialog = function(event) {
+    self.showEditDialog = function (event) {
       document.getElementById("editDialog").open();
     };
 
-    self.updateCategorySubmit = function(event) {
+    self.updateCategorySubmit = function (event) {
       //categoryCollection holds the current data
       var myCollection = self.categoryCollection;
       //categoryData holds the dialog data
@@ -140,21 +144,21 @@ define([
       myModel.parse = null;
       myModel.save(
         {
-          category_name: self.categoryData().category_name,
-          dsecription: self.itemData().dsecription
+          category_name: self.categoryData().title,
+          dsecription: self.itemData().description
         },
         {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+              "Bearer " + userToken
           },
-          success: function(model, response) {
+          success: function (model, response) {
             console.log("response: " + JSON.stringify(response));
             self.categoryData.valueHasMutated();
           },
-          error: function(jqXHR, textStatus, errorThrown) {
+          error: function (jqXHR, textStatus, errorThrown) {
             console.log(self.categoryData().id + " -- " + jqXHR);
           }
         }
@@ -162,7 +166,7 @@ define([
       document.getElementById("editDialog").close();
     };
 
-    self.deleteCategory = function(event, data) {
+    self.deleteCategory = function (event, data) {
       var categoryId = self.firstSelectedCategory().data.id;
       var categoryName = self.firstSelectedCategory().data.category_name;
       var model = self.categoryCollection.get(categoryId);
@@ -179,54 +183,35 @@ define([
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization:
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+              "Authorization":
+                "Bearer " + userToken
             }
           });
         }
       }
     };
 
-    /**
-     * This section is standard navdrawer starter template code
-     */
-    // Below are a set of the ViewModel methods invoked by the oj-module component.
-    // Please reference the oj-module jsDoc for additional information.
-
-    /**
-     * Optional ViewModel method invoked after the View is inserted into the
-     * document DOM.  The application can put logic that requires the DOM being
-     * attached here.
-     * This method might be called multiple times - after the View is created
-     * and inserted into the DOM and after the View is reconnected
-     * after being disconnected.
-     */
-    self.connected = function() {
+    self.connected = function () {
       // Implement if needed
+      console.log(sessionStorage.getItem("user_token"));
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
+      }
     };
 
     /**
      * Optional ViewModel method invoked after the View is disconnected from the DOM.
      */
-    self.disconnected = function() {
+    self.disconnected = function () {
       // Implement if needed
       //self.activitySelected(false);
       //self.itemSelected(false);
     };
 
-    /**
-     * Optional ViewModel method invoked after transition to the new View is complete.
-     * That includes any possible animation between the old and the new View.
-     */
-    self.transitionCompleted = function() {
+    self.transitionCompleted = function () {
       // Implement if needed
     };
   }
 
-  /*
-   * Returns a constructor for the ViewModel so that the ViewModel is constructed
-   * each time the view is displayed.  Return an instance of the ViewModel if
-   * only one instance of the ViewModel is needed.
-   */
   return new CategoryViewModel();
 });
