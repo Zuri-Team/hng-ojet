@@ -46,6 +46,8 @@ define([
     //User Token
     var userToken = sessionStorage.getItem("user_token");
 
+    console.log(userToken);
+
     //Single line of data
     var categoryModel = oj.Model.extend({
       urlRoot: RESTurl,
@@ -69,8 +71,7 @@ define([
 
     self.categoryCollection.fetch({
       wait: true, //Waits for the server call before setting attributes
-      method: "GET",
-      contentType: "application/json",
+      ContentType: "application/json",
       headers: {
         "Authorization":
           "Bearer " + " " + userToken
@@ -118,6 +119,7 @@ define([
 
       self.categoryCollection.create(recordAttrs, {
         wait: true, //Waits for the server call before setting attributes
+        ContentType: "application/json",
         headers: {
           "Authorization":
             "Bearer " + " " + userToken
@@ -144,10 +146,12 @@ define([
       myModel.parse = null;
       myModel.save(
         {
-          category_name: self.categoryData().title,
-          dsecription: self.itemData().description
+          category_name: self.categoryData().category_name,
+          dsecription: self.categoryData().dsecription
         },
         {
+          wait: true, //Waits for the server call before setting attributes
+          ContentType: "application/json",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -180,6 +184,8 @@ define([
           //Removes the model from the data service
           model.destroy({
             data: JSON.stringify({ categoryId: categoryId }),
+            wait: true, //Waits for the server call before setting attributes
+            ContentType: "application/json",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
@@ -193,7 +199,7 @@ define([
 
     self.connected = function () {
       // Implement if needed
-      console.log(sessionStorage.getItem("user_token"));
+      // console.log(sessionStorage.getItem("user_token"));
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }

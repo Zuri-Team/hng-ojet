@@ -64,7 +64,6 @@ define([
                 sessionStorage.setItem("user", JSON.stringify(user));
                 sessionStorage.setItem("user_token", token);
                 console.log(user.role);
-                console.log(token);
                 
                 if(user.role == 'superadmin'){
                   router.go("admin_dashboard");
