@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>HNGI Ojet</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
+
+    <!-- This is the main css file for the default Alta theme -->
+<!-- injector:theme -->
+<link rel="stylesheet" href="css/alta/7.1.0/web/alta.css" id="css" />
+<!-- endinjector -->
+    <!-- This is where you would add any app specific styling -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fa/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+</head>
+
+<body>
+    <div class="boot-page"><h2>HNGI6</h2></div>
+    <div id="globalBody" class=" oj-offcanvas-page">
+        <div class="position-absolute h-100 w-100 d-flex flex-column">
+            <oj-module role="main" config="[[moduleConfig]]" class="w-100  oj-flex-item" style="background-color: whitesmoke"> </oj-module>
+            <footer class="footer oj-web-applayout-footer" role="contentinfo">
+                <div class="oj-web-applayout-max-width oj-text-secondary-color oj-text-sm text-center">
+                    Copyright © 2019 HNGI6 - OJET
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/libs/require/require.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script>
+        function showNav () {
+          document.querySelector('.small-nav').classList.toggle('hidden');
+      }
+    </script>
+</body>
+
+</html>
