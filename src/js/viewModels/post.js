@@ -16,7 +16,7 @@ define([
     var userToken = sessionStorage.getItem("user_token");
     function fetchposts() {
       $.ajax({
-        url: `${api}/api/posts`,
+        url: `https://api.start.ng/api/posts`,
         headers: {
           Authorization: "Bearer " + userToken
         },
@@ -48,7 +48,7 @@ define([
       let post_body = self.newpost();
 
       $.ajax({
-        url: `${api}/api/posts`,
+        url: `https://api.start.ng/api/posts`,
         headers: {
           Authorization: "Bearer " + userToken
         },
@@ -64,9 +64,9 @@ define([
     };
 
     $.ajax({
-      url: `${api}/api/categories`,
+      url: `https://api.start.ng/api/categories`,
       headers: {
-        Authorization: "Bearer " + userToken
+        Authorization: "Bearer " + " " + userToken
       },
       method: "GET",
       success: res => {
