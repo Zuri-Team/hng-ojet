@@ -116,7 +116,7 @@ function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
         // }
     }
     // var advm = new AdminDashboardViewModel();
-    // ko.applyBindings(advm, document.getElementById('navlistdemo'));
+    // ko.applyBindings(advm, document.getElementById('navlist'));
 
     return new AdminDashboardViewModel();
 });

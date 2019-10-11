@@ -15,6 +15,18 @@
   padding: 0px 15px;
 }
 
+/* default */
+
+.image {
+  position: absolute;
+  width: 200px;
+  height: 35.42px;
+  left: 100px;
+  top: 35px;
+
+  background-image: url(./images/default.png);
+}
+
 #form_wrapper {
   padding-bottom: 20px;
   background: #ffffff;
@@ -62,18 +74,27 @@
   height: 25px;
 }
 
+.inputs {
+  font-size: 8pt;
+  font-weight: lighter;
+  height: 35px;
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 .fbtn {
-  background-color: #81044d;
-  height: 45px;
-  width: 100%;
+  background-color: #488eff;
+  width: 300px;
   text-align: center;
   margin-top: 20px;
   color: white !important;
-  border-radius: 4px;
-  box-shadow: 0px 1px 5px #32023a !important;
+  /* box-shadow: 0px 1px 5px #011941 !important; */
   border: none !important;
   outline: none !important;
-  font-size: 20px;
+  font-size: 8pt;
+  padding: 5px;
+  height: 35px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -238,6 +259,8 @@ div.form-container {
   background-color: #ffffff;
   width: 100%;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
 }
 .logo-container {
   height: 8vh;
@@ -268,33 +291,13 @@ div.form-container {
     width: 100%;
     padding: 5px;
   }
-  /* ion-icon[name="menu"]:hover .side-nav {
-    display: block; 
-}*/
-  /* .side-nav ul li{
-      text-align: center;    
-  }
-  .side-nav ul li span:nth-child(2) {
-      display: none;
-  }
-  .side-nav ul li i{
-      font-size: 26px;
-  } */
+  
 }
 @media screen and (min-width: 601px) {
   .side-nav{
       width: 25%;
       position: fixed;
   }
-  /* .side-nav ul li{
-      text-align: left;
-  }
-  .side-nav ul li span:nth-child(2){
-      display: inline;
-  }
-  .side-nav ul li i{
-      font-size: 16px; 
-  } */
   #drawer, .drawer__btn {
     display: none !important;
   }
@@ -322,4 +325,20 @@ a:hover {
 }
 ion-icon {
   font-size: 24px;
+}
+.hidden {
+  display: none;
+}
+.small-nav {
+  width: 100%;
+  position: relative;
+  left: 0;
+  top: 20vh;
+}
+
+/*overview css*/
+figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
