@@ -65,13 +65,13 @@ define([
                                 sessionStorage.setItem("user_token", token);
                                 console.log(user.role);
                                 console.log(token);
-
-                                if (user.role == 'superadmin') {
-                                    router.go("admin_dashboard");
-                                } else {
-                                    router.go("dashboard");
-                                }
-
+                                setTimeout(function() {
+                                    if (user.role == "superadmin") {
+                                        router.go("admin_dashboard");
+                                    } else {
+                                        router.go("dashboard");
+                                    }
+                                }, 0);
 
                                 //                 switch (user.role) {
                                 //                   case "superadmin":
