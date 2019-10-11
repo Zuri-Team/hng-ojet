@@ -1,91 +1,66 @@
 <div class="form_container oj-flex oj-helper-justify-content-center">
   <div class="oj-md-5 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
-    <h5 style="text-align: center">
-      CREATE AN ACCOUNT
-    </h5>
-    <div id="form_wrapper" class="position-relative">
-      <oj-form-layout id="formlayout">
-        <div id="lform_components">
-          <!-- <div class="form-header"><h2>Hello Newbie!</h2></div> -->
-          <div class="form-container">
-            <div id="fbk"></div>
-            <div id="profileinfo">
-              <!-- <h5 class="fhtitle" class="oj-helper-text-align-left">
-                Profile Information
-              </h5> -->
-              <div class="d-lg-flex d-md-flex justify-content-between mt-4">
-                <div class="p-0 pr-lg-2 pr-md-2 col-md-6 col-sm-12">
-                  <div class="lform-ctrl">
-                    <input type="text" placeholder="First name" data-bind="textInput: firstname"></input>
-                  </div>
-                </div>
-                <div class="p-0 pl-lg-2  pl-md-2 col-md-6 col-sm-12">
-                  <div class="lform-ctrl oj-form-control-inherit">
-                    <input type="text" placeholder="Last name" data-bind="textInput: lastname"></input>
-                  </div>
-                </div>
-              </div>
-              <div class="select oj-form-control-inherit">
-                <oj-select-one value="{{ stack }}">
-                  <oj-optgroup label="Dev stack">
-                    <oj-option value="UI/UX Designer">UI/UX</oj-option>
-                    <oj-option value="Front end">Front end</oj-option>
-                    <oj-option value="Back end">Back end</oj-option>
-                    <oj-option value="Mobile">Mobile</oj-option>
-                    <oj-option value="Digital Marketing">Digital Marketing</oj-option>
-                    <oj-option value="Machine Learning">Machine Learning</oj-option>
-                    <oj-option value="DevOps">DevOps</oj-option>
-                  </oj-optgroup>
-                </oj-select-one>
-              </div>
-              <div class="lform-ctrl oj-form-control-inherit">
-                <input type="text" placeholder="Location" data-bind="textInput: location"></input>
-              </div>
-              <button class="fbtn" id="next">
-                Next
-                <i class="fa fa-long-arrow-right"></i>
-              </button>
-            </div>
-            <div id="accinfo">
-              <!-- <h5 class="fhtitle" class="oj-helper-text-align-left">
-                Account Information
-              </h5> -->
-              <div>
-                <p id="prev" class="text">
-                  <i class="fa fa-long-arrow-left"></i>
-                  Go back
-                </p>
-              </div>
-              <div class="lform-ctrl">
-                <input type="text" placeholder="Username" data-bind="textInput: username"></input>
-              </div>
-              <div class="lform-ctrl">
-                <input type="email" placeholder="Email address" data-bind="textInput: email"></input>
-              </div>
-              <div class="lform-ctrl">
-                <input type="password" placeholder="Password" data-bind="textInput: pass"></input>
-              </div>
-              <div class="lform-ctrl">
-                <input type="password" placeholder="Confirm password" data-bind="textInput: rpass"></input>
-              </div>
-              <div>
-                <div>
-                  <button data-bind="click: signup" class="fbtn">
-                    Sign up
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </oj-form-layout>
-    </div>
-    <div class="text-center mt-4">
-      <a href="" data-bind="click: login" class="">
-        Login to your account</a>
-      <p data-bind="click: login" class="">
+    <div style="text-align:center">
+      <div>
+        <h5>Grow HNG Board!</h5>
+        <p>
+          Already signed up?
+          <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
+        </p>
+      </div>
+      <div id="fbk" style="width: 300px; margin: auto"></div>
+      <div>
+        <input type="text" data-bind="textInput: firstname"placeholder="first name" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: lastname" placeholder="last name" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: email"placeholder="email" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: username" placeholder="slack" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: location" placeholder="location" class="inputs" />
+      </div>
+      <div>
+        <select
+          name="Roles"
+          data-bind="options: devstack, optionsCaption: 'Select a Stack', value: stack"
+          class="inputs"
+        >
+          <!-- <option selected disabled>Dev Stack</option>
+          <option value="UI/UX Designer">UI/UX</option>
+          <option value="Front end">Front end</option>
+          <option value="Back end">Back end</option>
+          <option value="Mobile">Mobile</option>
+          <option value="Digital Marketing">Digital Marketing</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="DevOps">DevOps</option> -->
+        </select>
+        <!-- <oj-select-one value="{{ stack }}" class="inputs">
+          <oj-optgroup label="Dev stack">
+            <oj-option value="UI/UX Designer">UI/UX</oj-option>
+            <oj-option value="Front end">Front end</oj-option>
+            <oj-option value="Back end">Back end</oj-option>
+            <oj-option value="Mobile">Mobile</oj-option>
+            <oj-option value="Digital Marketing">Digital Marketing</oj-option>
+            <oj-option value="Machine Learning">Machine Learning</oj-option>
+          </oj-optgroup>
+        </oj-select-one> -->
+      </div>
+      <div>
+        <input type="password" data-bind="textInput: pass" placeholder="password" class="inputs" />
+      </div>
+      <div>
+        <input type="password" data-bind="textInput: rpass" placeholder="confirm password" class="inputs" />
 
-      </p>
+      <div class="oj-flex-items-pad">
+        <button data-bind="click: signup" class="fbtn">
+          Sign Up
+        </button>
+      </div>
     </div>
   </div>
 </div>
