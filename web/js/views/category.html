@@ -13,8 +13,8 @@
           <oj-button id="deleteButton" disabled="[[!categorySelected()]]" on-oj-action="[[deleteCategory]]">Delete
           </oj-button>
         </oj-bind-if>
-        <oj-list-view id="itemsList" style="width:100%;height:500px;overflow-x:hidden" data="[[categoryDataProvider]]"
-          selection-mode="single" selection="{{selectedCategory}}" on-selection-changed="[[selectedCategoryChanged]]"
+        <oj-list-view id="itemsList" style="overflow-x:hidden" data="[[categoryDataProvider]]" selection-mode="single"
+          selection="{{selectedCategory}}" on-selection-changed="[[selectedCategoryChanged]]"
           first-selected-item="{{firstSelectedCategory}}" scroll-policy="loadMoreOnScroll"
           scroll-policy-options.fetch-size="5">
           <template slot="itemTemplate">
