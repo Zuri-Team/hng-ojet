@@ -24,7 +24,7 @@ define([
     self.username = ko.observable("");
     self.email = ko.observable("");
     self.pass = ko.observable("");
-    self.rpass = ko.observable();
+    self.rpass = ko.observable("");
 
     self.login = function() {
       router.go("login");
@@ -96,7 +96,7 @@ define([
 
           console.log(data)
             sect.html(progressbar());
-            $.post(`${api}/api/register`, {
+            $.post(`https://api.start.ng/api/register`, {
             firstname,
             lastname,
             email,
