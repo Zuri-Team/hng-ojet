@@ -1,6 +1,6 @@
 /node_modules
 /bower_components
-# web
+web
 /themes
 
 /hybrid/node_modules
