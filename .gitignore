@@ -1,8 +1,7 @@
-/node_modules
-/bower_components
-# /web
-/themes
-
+node_modules
+bower_components
+themes
+web
 /hybrid/node_modules
 /hybrid/platforms
 /hybrid/www/*
@@ -13,4 +12,4 @@ hybrid/plugins/*
 
 .DS_Store
 Thumbs.db
-hng.code-workspace
+ojet_frontend.code-workspace
