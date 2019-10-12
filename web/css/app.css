@@ -7,10 +7,6 @@
 */
 
 /*style for the form container*/
-html, body{
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-
-}
 
 .boot-page {
   background: white;
@@ -285,6 +281,3 @@ html, body{
     max-width: 80%;
   }
 }
-
-
-

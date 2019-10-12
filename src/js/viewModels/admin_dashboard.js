@@ -97,21 +97,19 @@ define([
     self.location = ko.observable("");
     self.displayName = ko.observable("@");
 
-    // For small screens: labels on top
-    // For medium or bigger: labels inline
-    self.labelEdge = ko.computed(function() {
-      return self.isSmall() ? "top" : "start";
-    }, self);
-    self.clickedButton = ko.observable("(None clicked yet)");
+    // toggle hambuger on navbar
+    self.toggleDrawer = function() {
+      $("#maincontent, #sidebar").toggleClass("smactive");
+    };
+    self.sb_sm = ko.observable(false);
+    self.searchbar_sm = function() {
+      self.sb_sm(!self.sb_sm());
+    };
+
     self.buttonClick = function(event) {
       self.clickedButton(event.currentTarget.id);
       return true;
     }.bind(self);
-    self.value = ko.observable("What");
-
-    self.toggleDrawer = function() {
-      $("#maincontent, #sidebar").toggleClass("smactive");
-    };
 
     self.logout = function() {
       sessionStorage.clear();
