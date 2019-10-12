@@ -1,0 +1,66 @@
+<div class="form_container oj-flex oj-helper-justify-content-center">
+  <div class="oj-md-5 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
+    <div style="text-align:center">
+      <div>
+        <h5>Grow HNG Board!</h5>
+        <p>
+          Already signed up?
+          <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
+        </p>
+      </div>
+      <div id="fbk" style="width: 300px; margin: auto"></div>
+      <div>
+        <input type="text" data-bind="textInput: firstname"placeholder="first name" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: lastname" placeholder="last name" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: email"placeholder="email" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: username" placeholder="slack" class="inputs" />
+      </div>
+      <div>
+        <input type="text" data-bind="textInput: location" placeholder="location" class="inputs" />
+      </div>
+      <div>
+        <select
+          name="Roles"
+          data-bind="options: devstack, optionsCaption: 'Select a Stack', value: stack"
+          class="inputs"
+        >
+          <!-- <option selected disabled>Dev Stack</option>
+          <option value="UI/UX Designer">UI/UX</option>
+          <option value="Front end">Front end</option>
+          <option value="Back end">Back end</option>
+          <option value="Mobile">Mobile</option>
+          <option value="Digital Marketing">Digital Marketing</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="DevOps">DevOps</option> -->
+        </select>
+        <!-- <oj-select-one value="{{ stack }}" class="inputs">
+          <oj-optgroup label="Dev stack">
+            <oj-option value="UI/UX Designer">UI/UX</oj-option>
+            <oj-option value="Front end">Front end</oj-option>
+            <oj-option value="Back end">Back end</oj-option>
+            <oj-option value="Mobile">Mobile</oj-option>
+            <oj-option value="Digital Marketing">Digital Marketing</oj-option>
+            <oj-option value="Machine Learning">Machine Learning</oj-option>
+          </oj-optgroup>
+        </oj-select-one> -->
+      </div>
+      <div>
+        <input type="password" data-bind="textInput: pass" placeholder="password" class="inputs" />
+      </div>
+      <div>
+        <input type="password" data-bind="textInput: rpass" placeholder="confirm password" class="inputs" />
+
+      <div class="oj-flex-items-pad">
+        <button data-bind="click: signup" class="fbtn">
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
