@@ -11,27 +11,17 @@ define([
   "knockout",
   "jquery",
   "./api",
-  "ojs/ojlabel",
-  "ojs/ojchart",
-  "ojs/ojlistview",
   "ojs/ojarraydataprovider",
-  "ojs/ojavatar",
+  "ojs/ojlabel",
+  "ojs/ojlistview",
   "ojs/ojmodel",
-  "ojs/ojcollectiontabledatasource",
   "ojs/ojdialog",
   "ojs/ojinputtext"
-], function (oj, ko, $, api) {
+], function(oj, ko, $, api, ArrayDataProvider) {
   function CategoryViewModel() {
-    var self = this; //generated code
+    var self = this;
 
-
-
-    /**
-     * Declare observables and read data from JSON file
-     */
-    // Master list and detail list observables
     self.categoryDataProvider = ko.observable(); //gets data for Categories list
-
     self.categoryData = ko.observable(""); //holds data for the Category details
     self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
 
@@ -46,47 +36,18 @@ define([
     //User Token
     var userToken = sessionStorage.getItem("user_token");
 
-    //Single line of data
-    var categoryModel = oj.Model.extend({
-      urlRoot: RESTurl,
-      idAttribute: "id"
-    });
+    self.showCreateDialog = function(event) {
+      document.getElementById("createDialog").open();
+    };
 
-    //Multiple models i.e. multiple lines of data
-    self.categoryCollection = new oj.Collection(null, {
-      url: RESTurl,
-      model: categoryModel,
-      comparator: "id"
-    });
-
-    /*
-     *An observable called categoryDataProvider is already bound in the View file
-     *from the JSON example, so you don't need to update category.html
-     */
-    self.categoryDataProvider(
-      new oj.CollectionTableDataSource(self.categoryCollection)
-    );
-
-    self.categoryCollection.fetch({
-      wait: true, //Waits for the server call before setting attributes
-      method: "GET",
-      contentType: "application/json",
-      headers: {
-        "Authorization":
-          "Bearer " + userToken
-      },
-      success: function (model, response) {
-        console.log("Successfully created new category");
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error in Create: " + textStatus);
-      }
-    });
+    self.showEditDialog = function(event) {
+      document.getElementById("editDialog").open();
+    };
 
     /**
      * Handle selection from Categories list
      */
-    self.selectedCategoryChanged = function (event) {
+    self.selectedCategoryChanged = function(event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
         // If selection, populate and display Category details
@@ -100,73 +61,60 @@ define([
       }
     };
 
-    self.showCreateDialog = function (event) {
-      document.getElementById("createDialog").open();
-    };
-
-    self.createCategory = function (event, data) {
-      var recordAttrs = {
-        title: data.newCategory.category_name,
-        dsecription: data.newCategory.description
-      };
-
-      /*
-          The categoryCollection variable is a Collection object that uses the
-          create() function to write a new model to the data service.
-          It also adds this new model to the collection.
-          */
-
-      self.categoryCollection.create(recordAttrs, {
-        wait: true, //Waits for the server call before setting attributes
+    self.createCategory = function(event, data) {
+      let title = data.newCategory.category_name;
+      let description = data.newCategory.description;
+      console.log(title, description);
+      $.ajax({
+        url: `${RESTurl}`,
         headers: {
-          "Authorization":
-            "Bearer " + userToken
+          Authorization: "Bearer " + userToken
         },
-        success: function (model, response) {
-          console.log("Successfully created new category");
+        method: "POST",
+        data: { title, description },
+        success: res => {
+          let { data } = res;
+          console.log(data);
+          self.categoryDataProvider(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                return value.id;
+              })
+            })
+          );
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error in Create: " + textStatus);
+        error: err => {
+          console.log(err);
         }
       });
       document.getElementById("createDialog").close();
     };
 
-    self.showEditDialog = function (event) {
-      document.getElementById("editDialog").open();
+    self.fetchCategories = function() {
+      $.ajax({
+        url: `${RESTurl}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: res => {
+          let { data } = res;
+          self.categoryDataProvider(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                return value.id;
+              })
+            })
+          );
+        }
+      });
     };
 
-    self.updateCategorySubmit = function (event) {
-      //categoryCollection holds the current data
-      var myCollection = self.categoryCollection;
-      //categoryData holds the dialog data
-      var myModel = myCollection.get(self.categoryData().id);
-      myModel.parse = null;
-      myModel.save(
-        {
-          category_name: self.categoryData().title,
-          dsecription: self.itemData().description
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization:
-              "Bearer " + userToken
-          },
-          success: function (model, response) {
-            console.log("response: " + JSON.stringify(response));
-            self.categoryData.valueHasMutated();
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log(self.categoryData().id + " -- " + jqXHR);
-          }
-        }
-      );
+    self.updateCategorySubmit = function(event) {
       document.getElementById("editDialog").close();
     };
 
-    self.deleteCategory = function (event, data) {
+    self.deleteCategory = function(event, data) {
       var categoryId = self.firstSelectedCategory().data.id;
       var categoryName = self.firstSelectedCategory().data.category_name;
       var model = self.categoryCollection.get(categoryId);
@@ -183,15 +131,14 @@ define([
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              "Authorization":
-                "Bearer " + userToken
+              Authorization: "Bearer " + userToken
             }
           });
         }
       }
     };
-
-    self.connected = function () {
+    self.fetchCategories();
+    self.connected = function() {
       // Implement if needed
       console.log(sessionStorage.getItem("user_token"));
       if (sessionStorage.getItem("user_token") == null) {
@@ -202,13 +149,13 @@ define([
     /**
      * Optional ViewModel method invoked after the View is disconnected from the DOM.
      */
-    self.disconnected = function () {
+    self.disconnected = function() {
       // Implement if needed
       //self.activitySelected(false);
       //self.itemSelected(false);
     };
 
-    self.transitionCompleted = function () {
+    self.transitionCompleted = function() {
       // Implement if needed
     };
   }
