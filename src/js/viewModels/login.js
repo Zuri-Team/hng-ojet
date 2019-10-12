@@ -53,18 +53,15 @@ define([
                 } else {
                     sect.html(progressbar());
 
-                    $.post(`${api}/api/login`, {
+                    $.post(`https://api.start.ng/api/login`, {
                             email,
                             password
                         })
                         .done(({ status, user, token }) => {
                             // start user session with token
                             if (status == true) {
-                                console.log(user.role);
                                 sessionStorage.setItem("user", JSON.stringify(user));
                                 sessionStorage.setItem("user_token", token);
-                                console.log(user.role);
-                                console.log(token);
                                 setTimeout(function() {
                                     if (user.role == "superadmin") {
                                         router.go("admin_dashboard");
@@ -72,15 +69,6 @@ define([
                                         router.go("dashboard");
                                     }
                                 }, 0);
-
-                                //                 switch (user.role) {
-                                //                   case "superadmin":
-                                //                     router.go("admin_dashboard");
-                                //                     break;
-                                //                   default:
-                                //                     router.go("dashboard");
-                                //                     break;
-                                //                 }
                             }
                         })
                         .fail(() => {

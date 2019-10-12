@@ -97,6 +97,18 @@ define([
     self.location = ko.observable("");
     self.displayName = ko.observable("@");
 
+    // For small screens: labels on top
+    // For medium or bigger: labels inline
+    self.labelEdge = ko.computed(function() {
+      return self.isSmall() ? "top" : "start";
+    }, self);
+    self.clickedButton = ko.observable("(None clicked yet)");
+    self.buttonClick = function(event) {
+      self.clickedButton(event.currentTarget.id);
+      return true;
+    }.bind(self);
+    self.value = ko.observable("What");
+
     self.toggleDrawer = function() {
       $("#maincontent, #sidebar").toggleClass("smactive");
     };

@@ -7,6 +7,10 @@
 */
 
 /*style for the form container*/
+html, body{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+}
 
 .boot-page {
   background: white;
@@ -270,8 +274,16 @@
     margin-left: 65px;
   }
 }
+.posts li.oj-listview-item{
+  background: none !important; 
+  border: none !important
+}
+
 @media only screen and (min-width: 420px) {
   .input__profile {
     max-width: 80%;
   }
 }
+
+
+

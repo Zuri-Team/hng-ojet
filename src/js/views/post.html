@@ -1,6 +1,9 @@
 <div class="oj-hybrid-padding">
+  <p class="btn btn-info">
+    New post
+  </p>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12 np d-none">
       <h4>Create a new post</h4>
       <div class="my-3">
         <select
@@ -18,14 +21,14 @@
         <input data-bind="click: createPost" type="submit" class="btn btn-success" value="Create post" />
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-12 posts">
       <h4>My posts</h4>
 
-      <oj-list-view id="listview" style="width:100%;height:50vh;min-height:150px;overflow-x:hidden"
+      <oj-list-view id="listview" class="w-100" style="overflow-x:hidden"
         data="[[dataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
-        scroll-policy-options.fetch-size="2">
-        <template slot="itemTemplate" data-oj-as="item">
-          <div class="p-2 bg-secondary border rounded">
+        scroll-policy-options.fetch-size="5">
+        <template slot="itemTemplate" data-oj-as="item" style="border:none">
+          <div class="p-2 border rounded bg-light">
             <div>
               <strong class="text-capitalize">
                 <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
