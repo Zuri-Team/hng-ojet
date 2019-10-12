@@ -1,119 +1,44 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <title>Team 20</title>
+
+<head>
+    <title>HNGI Ojet</title>
 
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1"
-    />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
     <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
 
     <!-- This is the main css file for the default Alta theme -->
     <!-- injector:theme -->
-    <link
-      rel="stylesheet"
-      href="css/libs/oj/v7.1.0/alta/oj-alta-min.css"
-      type="text/css"
-    />
+    <link rel="stylesheet" href="css/libs/oj/v7.1.0/alta/oj-alta-min.css" type="text/css" />
     <!-- endinjector -->
     <!-- This is where you would add any app specific styling -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/fa/css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/app.css" type="text/css" />
-  </head>
-  <body class="oj-web-applayout-body">
-    <!-- Template for rendering navigation items shared between nav bar and nav list -->
-    <script type="text/html" id="navTemplate">
-      <li
-      data-bind="visible: ($data['loggedIn'] == $root.isLoggedIn())"
-      ><a href="#">
-        <span :class="[[$data['iconClass']]]"></span>
-        <oj-bind-text value="[[$data['name']]]"></oj-bind-text>
-      </a></li> 
-    </script>
+</head>
 
-    <div id="globalBody" class="oj-offcanvas-outer-wrapper oj-offcanvas-page">
-      <div
-        id="navDrawer"
-        role="navigation"
-        class="oj-contrast-marker oj-web-applayout-offcanvas oj-offcanvas-start"
-      >
-        <oj-navigation-list
-          id="navDrawerList"
-          data="[[navDataProvider]]"
-          edge="start"
-          item.renderer="[[KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
-          on-click="[[toggleDrawer]]" 
-          selection="{{ router.stateId }}"
-        >
-        </oj-navigation-list>
-      </div>
-      <div id="pageContent" class="oj-web-applayout-page">
-        <header role="banner" class="oj-web-applayout-header">
-          <div
-            class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center"
-          >
-            <!-- Offcanvas toggle button -->
-            <div class="oj-flex-bar-start oj-md-hide">
-              <oj-button
-                id="drawerToggleButton"
-                class="oj-button-lg"
-                on-oj-action="[[toggleDrawer]]"
-                chroming="half"
-                display="icons"
-              >
-                <span
-                  slot="startIcon"
-                  class="oj-web-applayout-offcanvas-icon"
-                ></span>
-                <span> </span>
-              </oj-button>
-            </div>
-            <div data-bind="css: smScreen() ? 'oj-flex-bar-center-absolute' : 'oj-flex-bar-middle oj-sm-align-items-baseline'">
-              <h1
-                class=" oj-web-applayout-header-title"
-                title="Application Name"
-              >
-                <oj-bind-text value="[[appName]]"></oj-bind-text>
-              </h1>
-            </div>
-            <div class="oj-flex-bar-end">
-              <div
-                role="navigation"
-                class="oj-web-applayout-max-width oj-web-applayout-navbar"
-              >
-                <oj-navigation-list
-                  id="navTabBar"
-                  class="oj-sm-only-hide oj-md-condense oj-md-justify-content-flex-end"
-                  data="[[navDataProvider]]"
-                  edge="top"
-                  item.renderer="[[KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
-                  selection="{{ router.stateId }}"
-                >
-                </oj-navigation-list>
-              </div>
-            </div>
-          </div>
-        </header>
-        <oj-module
-          role="main"
-          class="oj-web-applayout-max-width oj-web-applayout-content"
-          config="[[moduleConfig]]"
-        >
-        </oj-module>
-        <footer class="footer oj-web-applayout-footer" role="contentinfo">
-          <div
-            class="oj-web-applayout-footer-item oj-web-applayout-max-width oj-text-secondary-color oj-text-sm"
-          >
-            Copyright © 2019 HNGI OJET Team 20
-          </div>
-        </footer>
-      </div>
+<body>
+    <div class="boot-page"><h2>HNGI6</h2></div>
+    <div id="globalBody" class=" oj-offcanvas-page">
+        <div class="position-absolute h-100 w-100 d-flex flex-column">
+            <oj-module role="main" config="[[moduleConfig]]" class="w-100  oj-flex-item" style="background-color: whitesmoke"> </oj-module>
+            <footer class="footer oj-web-applayout-footer" role="contentinfo">
+                <div class="oj-web-applayout-max-width oj-text-secondary-color oj-text-sm text-center">
+                    Copyright © 2019 HNGI6 - OJET
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script type="text/javascript" src="js/libs/require/require.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
-  </body>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script>
+        function showNav () {
+          document.querySelector('.small-nav').classList.toggle('hidden');
+      }
+    </script>
+</body>
+
 </html>
