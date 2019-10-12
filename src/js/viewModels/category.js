@@ -31,7 +31,7 @@ define([
     self.firstSelectedCategory = ko.observable();
 
     //REST endpoint
-    var RESTurl = `${api}/api/categories`;
+    var RESTurl = `https://api.start.ng/api/categories`;
 
     //User Token
     var userToken = sessionStorage.getItem("user_token");
@@ -128,6 +128,8 @@ define([
           //Removes the model from the data service
           model.destroy({
             data: JSON.stringify({ categoryId: categoryId }),
+            wait: true, //Waits for the server call before setting attributes
+            ContentType: "application/json",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
@@ -140,7 +142,7 @@ define([
     self.fetchCategories();
     self.connected = function() {
       // Implement if needed
-      console.log(sessionStorage.getItem("user_token"));
+      // console.log(sessionStorage.getItem("user_token"));
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
