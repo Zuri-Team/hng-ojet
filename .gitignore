@@ -2,7 +2,6 @@ node_modules
 bower_components
 themes
 web
-
 /hybrid/node_modules
 /hybrid/platforms
 /hybrid/www/*
