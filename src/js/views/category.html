@@ -1,6 +1,6 @@
 <div class="oj-hybrid-padding">
   <div class="oj-flex oj-flex-init">
-    <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
+    <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-12 oj-sm-12">
       <div class="oj-flex-item oj-md-6 oj-sm-12">
 
         <oj-button id="createButton" on-oj-action="[[showCreateDialog]]">
@@ -18,7 +18,7 @@
           first-selected-item="{{firstSelectedCategory}}" scroll-policy="loadMoreOnScroll"
           scroll-policy-options.fetch-size="5">
           <template slot="itemTemplate">
-            <div class="oj-flex" style="flex-wrap: nowrap">
+            <div class="oj-flex oj-md-6 col-md-6" style="flex-wrap: nowrap">
               <div class="demo-content oj-flex-item">
                 <div>
                   <strong>
