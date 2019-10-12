@@ -31,7 +31,7 @@ define([
     self.firstSelectedCategory = ko.observable();
 
     //REST endpoint
-    var RESTurl = `https://api.start.ng/api/categories`;
+    var RESTurl = `${api}/api/categories`;
 
     //User Token
     var userToken = sessionStorage.getItem("user_token");
@@ -72,20 +72,8 @@ define([
         },
         method: "POST",
         data: { title, description },
-        success: res => {
-          let { data } = res;
-          console.log(data);
-          self.categoryDataProvider(
-            new ArrayDataProvider(data, {
-              keys: data.map(function(value) {
-                return value.id;
-              })
-            })
-          );
-        },
-        error: err => {
-          console.log(err);
-        }
+        success: () => self.fetchCategories(),
+        error: err => console.log(err)
       });
       document.getElementById("createDialog").close();
     };
@@ -111,60 +99,62 @@ define([
     };
 
     self.updateCategorySubmit = function(event) {
-      let title = self.categoryData().category_name;
-      let description = self.categoryData().dsecription;
-      let id = self.categoryData().id;
-
-      let data = { title, description };
-      console.log(title, description, id);
-
-        $.ajax({
-          url: `${RESTurl}/${id}`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "PATCH",
-          data: data,
-          success: res => {
-            console.log(res.data)
-            self.categoryDataProvider(
-              new ArrayDataProvider(res.data, {
-                keys: data.map(function(value) {
-                  return value.id;
-                })
-              })
-            );
-          }
-        });
-
+      var categoryId = self.firstSelectedCategory().data.id;
+      let title = self.firstSelectedCategory().data.category_name;
+      let description = self.firstSelectedCategory().data.dsecription;
+      console.log(categoryId, title, description);
+      $.ajax({
+        url: `${RESTurl}/${categoryId}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "PUT",
+        data: { title, description },
+        success: res => {
+          console.log(res);
+          // let { data } = res;
+          // self.categoryDataProvider(
+          //   new ArrayDataProvider(data, {
+          //     keys: data.map(function(value) {
+          //       return value.id;
+          //     })
+          //   })
+          // );
+        },
+        error: err => console.log(err)
+      });
       document.getElementById("editDialog").close();
     };
 
     self.deleteCategory = function(event, data) {
       var categoryId = self.firstSelectedCategory().data.id;
-      var categoryName = self.firstSelectedCategory().data.title;
-      var model = self.categoryCollection.get(categoryId);
-      if (model) {
-        var really = confirm(
-          "Are you sure you want to delete " + categoryName + "?"
-        );
-        if (really) {
-          //Removes the model from the visible collection
-          self.categoryCollection.remove(model);
-          //Removes the model from the data service
-          model.destroy({
-            data: JSON.stringify({ categoryId: categoryId }),
-            wait: true, //Waits for the server call before setting attributes
-            ContentType: "application/json",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              Authorization: "Bearer " + userToken
-            }
-          });
-        }
+      let categoryName = self.firstSelectedCategory().data.category_name;
+      var really = confirm(
+        "Are you sure you want to delete " + categoryName + "?"
+      );
+      if (really) {
+        $.ajax({
+          url: `${RESTurl}/${categoryId}`,
+          headers: {
+            Authorization: "Bearer " + userToken
+          },
+          method: "DELETE",
+          success: res => {
+            console.log(res);
+            // let { data } = res;
+            // self.categoryDataProvider(
+            //   new ArrayDataProvider(data, {
+            //     keys: data.map(function(value) {
+            //       return value.id;
+            //     })
+            //   })
+            // );
+          },
+          error: err => console.log(err)
+        });
       }
     };
+
     self.fetchCategories();
     self.connected = function() {
       // Implement if needed
