@@ -97,9 +97,19 @@ define([
     self.location = ko.observable("");
     self.displayName = ko.observable("@");
 
+    // toggle hambuger on navbar
     self.toggleDrawer = function() {
       $("#maincontent, #sidebar").toggleClass("smactive");
     };
+    self.sb_sm = ko.observable(false);
+    self.searchbar_sm = function() {
+      self.sb_sm(!self.sb_sm());
+    };
+
+    self.buttonClick = function(event) {
+      self.clickedButton(event.currentTarget.id);
+      return true;
+    }.bind(self);
 
     self.logout = function() {
       sessionStorage.clear();
