@@ -127,7 +127,8 @@ define([
           self.categoryCollection.remove(model);
           //Removes the model from the data service
           model.destroy({
-            data: JSON.stringify({ categoryId: categoryId }),
+//             data: JSON.stringify({ categoryId: categoryId }),
+            data: { categoryId: categoryId },
             wait: true, //Waits for the server call before setting attributes
             ContentType: "application/json",
             headers: {
