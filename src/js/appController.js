@@ -54,7 +54,8 @@ define([
       submission: { label: "Submission" },
       login: { label: "Login", isDefault: true},
       profile: { label: "User Profile" },
-      password_reset: {label: "Reset password"}
+      password_reset: {label: "Reset password"},
+      tracks: {label:"Tracks"}
   
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
