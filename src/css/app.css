@@ -270,6 +270,11 @@
     margin-left: 65px;
   }
 }
+.posts li.oj-listview-item{
+  background: none !important; 
+  border: none !important
+}
+
 @media only screen and (min-width: 420px) {
   .input__profile {
     max-width: 80%;
