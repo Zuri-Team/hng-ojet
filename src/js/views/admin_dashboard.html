@@ -23,6 +23,11 @@
                             <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
                         </a>
                     </li>
+                    <li id="Categories">
+                        <a for="categories-admin-2">
+                            <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES 2
+                        </a>
+                    </li>
                     <li id="Tasks">
                         <a for="tasks-admin">
                             <i class="oj-navigationlist-item-icon fa fa-list"></i> TASKS
@@ -98,6 +103,10 @@
                 <div id="categories-admin" class="my-4">
                     <h3>Categories</h3>
                     <div data-bind="ojModule: 'category'"></div>
+                </div>
+
+                <div id="categories-admin-2" class="my-4 container-fluid">
+                        <div data-bind="ojModule: 'categories'"></div>
                 </div>
 
                 <div id="posts-admin">
