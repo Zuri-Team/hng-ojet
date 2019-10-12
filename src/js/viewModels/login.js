@@ -53,7 +53,7 @@ define([
                 } else {
                     sect.html(progressbar());
 
-                    $.post(`https://api.start.ng/api/login`, {
+                    $.post(`${api}/api/login`, {
                             email,
                             password
                         })
