@@ -115,10 +115,12 @@ define([
         },
         method: "POST",
         data: { title, description },
-        success: () => self.fetchCategories(),
+        success: res => {
+          self.fetchCategories();
+          self.categorySelected(false);
+        },
         error: err => console.log(err)
       });
-
       document.getElementById("editDialog").close();
     };
 
