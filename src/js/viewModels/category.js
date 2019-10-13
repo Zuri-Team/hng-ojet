@@ -109,23 +109,13 @@ define([
       let description = self.firstSelectedCategory().data.dsecription;
       console.log(categoryId, title, description);
       $.ajax({
-        url: `${RESTurl}/${categoryId}`,
+        url: `${RESTurl}/update/${categoryId}`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        method: "PUT",
+        method: "POST",
         data: { title, description },
-        success: res => {
-          console.log(res);
-          // let { data } = res;
-          // self.categoryDataProvider(
-          //   new ArrayDataProvider(data, {
-          //     keys: data.map(function(value) {
-          //       return value.id;
-          //     })
-          //   })
-          // );
-        },
+        success: () => self.fetchCategories(),
         error: err => console.log(err)
       });
 
@@ -145,9 +135,7 @@ define([
             Authorization: "Bearer " + userToken
           },
           method: "DELETE",
-          wait: true,
           success: res => {
-            console.log(res, self.newCategory());
             self.fetchCategories();
             self.categorySelected(false);
           },
@@ -159,8 +147,7 @@ define([
     self.fetchCategories();
     self.connected = function() {
       // Implement if needed
-      // console.log(sessionStorage.getItem("user_token"));
-      if (sessionStorage.getItem("user_token") == null) {
+      if (userToken == null) {
         router.go("login");
       }
     };
