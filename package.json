@@ -5,7 +5,8 @@
   "dependencies": {
     "@oracle/oraclejet": "~7.1.0",
     "grunt": "^1.0.4",
-    "localforage": "^1.7.3"
+    "localforage": "^1.7.3",
+    "oraclejet": "^3.2.0"
   },
   "devDependencies": {
     "@oracle/oraclejet-tooling": "~7.1.0",

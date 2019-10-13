@@ -1,0 +1,248 @@
+<style>
+    .grid-parent {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+        grid-gap: 20px;
+    }
+
+    /* TRACKS CSS */
+
+    #tracks .shadow {
+
+        height: 172px;
+
+        max-width: 100%;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        margin: 6px;
+    }
+
+    #tracks .grid-child h2 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 30px;
+        color: #5882BE;
+        padding-top: 10px
+    }
+
+    #tracks .grid-child h6 {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 15px;
+        line-height: 24px;
+        color: #768093;
+    }
+
+    #tracks .grid-child .icons {
+        height: 35px;
+        padding: 5px;
+        color: #eee;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background: #768093;
+    }
+</style>
+<div class="container-fluid" id="tracks" style="">
+    <div class="oj-hybrid-padding">
+            <div class="oj-hybrid-padding">
+                    <div class="oj-flex oj-flex-init">
+                      <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
+                        <div class="oj-flex-item oj-md-6 oj-sm-12">
+                  
+                          <oj-button id="createButton" on-oj-action="[[showCreateDialog]]">
+                            Create New Track
+                          </oj-button>
+                          <!-- If categorySelected is set to false, disabled is true, and vice-versa. -->
+                          <oj-bind-if test="[[trackSelected()]]">
+                            <oj-button id="updateButton" disabled="[[!trackSelected()]]" on-oj-action="[[showEditDialog]]">Update
+                            </oj-button>
+                            <oj-button id="deleteButton" disabled="[[!trackSelected()]]" on-oj-action="[[deleteTrack]]">Delete
+                            </oj-button>
+                          </oj-bind-if>
+                          <oj-list-view id="itemsList" style="overflow-x:hidden" data="[[TrackDataProvider]]" selection-mode="single"
+                            selection="{{selectedTrack}}" on-selection-changed="[[selectedTrackChanged]]"
+                            first-selected-item="{{firstSelectedTrack}}" scroll-policy="loadMoreOnScroll"
+                            scroll-policy-options.fetch-size="5">
+                            <template slot="itemTemplate">
+                              <div class="oj-flex" style="flex-wrap: nowrap">
+                                <div class="demo-content oj-flex-item">
+                                  <div>
+                                    <strong>
+                                      <oj-bind-text value="[[$current.data.track_name]]"></oj-bind-text>
+                                    </strong>
+                                    <br>
+                                    <strong>
+                                      <oj-bind-text value="[[$current.data.track_members]]"></oj-bind-text>
+                                    </strong>
+                                    <br>
+                                    <strong>
+                                        <oj-bind-text value="[[$current.data.track_mentors]]"></oj-bind-text>
+                                    </strong>
+                                    <br>
+                                    <strong>
+                                        <oj-bind-text value="[[$current.data.track_projects]]"></oj-bind-text>
+                                    </strong>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </template>
+                          </oj-list-view>
+                        </div>
+                        <oj-dialog id="createDialog" style="display:none" title="Create New Track">
+                          <div slot="body">
+                            <oj-label class="oj-label oj-label-inline" for="createNewTrack">Track</oj-label>
+                            <oj-input-text id="createNewTrack" value='{{newTrack.track_name}}'></oj-input-text>
+                            <oj-label class="oj-label oj-label-inline" for="createNewMembers">Track Members</oj-label>
+                            <oj-input-text id="createNewMembers" value="{{newTrack.track_members}}"></oj-input-text>
+                          </div>
+                          <div slot="footer">
+                            <oj-button id="submitBtn" on-oj-action="[[createTrack]]">Submit</oj-button>
+                          </div>
+                        </oj-dialog>
+                        <oj-bind-if test="[[trackSelected()]]">
+                          <oj-dialog id="editDialog" style="display:none" title="Update Track Details">
+                            <div slot="body">
+                              <oj-label class="oj-label oj-label-inline" for="newName">Track Name</oj-label>
+                              <oj-input-text id="newName" value='{{trackData().track_name}}'></oj-input-text>
+                              <oj-label class="oj-label oj-label-inline" for="newMembers">Track Members</oj-label>
+                              <oj-input-text id="newDesc" value="{{trackData().track_members}}"></oj-input-text>
+                            </div>
+                            <div slot="footer">
+                              <oj-button id="submitBtn" on-oj-action="[[updateCategorySubmit]]">Submit
+                              </oj-button>
+                            </div>
+                          </oj-dialog>
+                          <div class="oj-flex-item oj-sm-12 oj-md-6">
+                            <h3>
+                              <oj-label for="basicSelect">Category Details</oj-label>
+                            </h3>
+                            <hr style="margin-top:12px;">
+                            <div id="itemName" style="font-size: 20px; font-weight: bolder;">
+                              <oj-bind-text value="[[categoryData().category_name]]"></oj-bind-text>
+                            </div>
+                            <div id="itemDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
+                              <oj-bind-text value="[[categoryData().dsecription]]"></oj-bind-text>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+        <div class="grid-parent justify-content-center text-center">  
+            <div class="grid-child shadow" style=" background:#fff;">
+                <div>
+                    <h2>Design</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+            <div class="grid-child shadow" style="background:#fff">
+                <div>
+                    <h2>Frontend</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+            <div class="grid-child shadow" style="background:#fff">
+                <div>
+                    <h2>Backend</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+
+            <div class="grid-child shadow" style=" background:#fff;">
+                <div>
+                    <h2>React</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+            <div class="grid-child shadow" style="background:#fff">
+                <div>
+                    <h2>Android</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+            <div class="grid-child shadow" style="background:#fff">
+                <div>
+                    <h2>PHP</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+
+
+            <div class="grid-child shadow" style=" background:#fff;">
+                <div>
+                    <h2>Java</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+            <div class="grid-child shadow" style="background:#fff">
+                <div>
+                    <h2>Videography</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+            <div class="grid-child shadow" style="background:#fff">
+                <div>
+                    <h2>Developers</h2>
+                    <h6>11 members</h6>
+                    <h6>5 tutors</h6>
+                    <h6>7 Projects</h6>
+                </div>
+                <div class="icons">
+                    <span class="fa fa-pencil fa-2x mr-5"></span>
+                    <span class="fa fa-play fa-2x"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
