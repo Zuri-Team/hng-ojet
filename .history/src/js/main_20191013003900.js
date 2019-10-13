@@ -44,18 +44,8 @@ requirejs.config(
  * by the modules themselves), we are listing them explicitly to get the references to the 'oj' and 'ko'
  * objects in the callback
  */
-require([ 'ojs/ojbootstrap', 
-          'knockout', 
-          'appController', 
-          'ojs/ojrouter', 
-          'ojs/ojlogger', 
-          'ojs/ojknockout',
-          'ojs/ojmodule', 
-          'ojs/ojrouter', 
-          'ojs/ojnavigationlist', 
-          'ojs/ojbutton', 
-          'ojs/ojtoolbar'],
-
+require(['ojs/ojbootstrap', 'knockout', 'appController', 'ojs/ojrouter', 'ojs/ojlogger', 'ojs/ojknockout',
+  'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'],
   function (Bootstrap, ko, app, Router, Logger) { // this callback gets executed when all required modules are loaded
     Bootstrap.whenDocumentReady().then(
       function() {
