@@ -113,6 +113,7 @@ define([
           Authorization: "Bearer " + userToken
         },
         method: "POST",
+<<<<<<< HEAD
         data: { category_name, dsecription },
         success: res => {
           console.log(res);
@@ -126,6 +127,10 @@ define([
           //   })
           // );
         },
+=======
+        data: { title, description },
+        success: () => self.fetchCategories(),
+>>>>>>> 556c44773a7d7a5f6aeaa30794595c369c949e9a
         error: err => console.log(err)
       });
 
@@ -145,9 +150,7 @@ define([
             Authorization: "Bearer " + userToken
           },
           method: "DELETE",
-          wait: true,
           success: res => {
-            console.log(res, self.newCategory());
             self.fetchCategories();
             self.categorySelected(false);
           },
@@ -159,8 +162,7 @@ define([
     self.fetchCategories();
     self.connected = function() {
       // Implement if needed
-      // console.log(sessionStorage.getItem("user_token"));
-      if (sessionStorage.getItem("user_token") == null) {
+      if (userToken == null) {
         router.go("login");
       }
     };

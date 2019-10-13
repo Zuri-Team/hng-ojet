@@ -46,16 +46,16 @@ define([
     self.router = Router.rootInstance;
     self.router.configure({
       dashboard: { label: "Dashboard" },
-      admin_dashboard: {label: "Admin_dashboard"},
-      user_dashboard: {label: "User_dashboard"},
-      overview: {label: "Overview"},
-      category: {label: "Category"},
+      admin_dashboard: { label: "Admin_dashboard" },
+      user_dashboard: { label: "User_dashboard" },
+      overview: { label: "Overview" },
+      category: { label: "Category" },
       register: { label: "Register" },
       submission: { label: "Submission" },
-      login: { label: "Login", isDefault: true},
+      login: { label: "Login", isDefault: true },
       profile: { label: "User Profile" },
-      password_reset: {label: "Reset password"},
-      tracks: {label:"Tracks"}
+      password_reset: { label: "Reset password" },
+      tracks: { label:"Tracks" }
   
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
