@@ -104,23 +104,13 @@ define([
       let description = self.firstSelectedCategory().data.dsecription;
       console.log(categoryId, title, description);
       $.ajax({
-        url: `${RESTurl}/${categoryId}`,
+        url: `${RESTurl}/update/${categoryId}`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        method: "PUT",
+        method: "POST",
         data: { title, description },
-        success: res => {
-          console.log(res);
-          // let { data } = res;
-          // self.categoryDataProvider(
-          //   new ArrayDataProvider(data, {
-          //     keys: data.map(function(value) {
-          //       return value.id;
-          //     })
-          //   })
-          // );
-        },
+        success: () => self.fetchCategories(),
         error: err => console.log(err)
       });
       document.getElementById("editDialog").close();
