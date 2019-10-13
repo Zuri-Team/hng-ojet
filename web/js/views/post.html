@@ -1,0 +1,60 @@
+<div class="oj-hybrid-padding">
+  <div class="row">
+    <oj-bind-if test="[[post_btn_toggler()]]">
+      <div class="col-sm-12">
+        <div>
+          <h4 class="float-left">Create a new post</h4>
+          <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
+            <span data-bind="text: post_view_title"></span>
+          </p>
+        </div>
+        <div class="clearfix"></div>
+        <div class="my-3">
+          <select
+            data-bind="options: categories, optionsText: 'category_name',  optionsValue:'id', optionsCaption: 'Select category', value: category_id"
+            class="form-control">
+          </select>
+        </div>
+        <div class="my-3">
+          <input data-bind="textInput: post_title" type="text" placeholder="Title of the post" class="form-control" />
+        </div>
+        <textarea data-bind="textInput: post_body" class="form-control my-3" placeholder="Your post here"
+          style="height: 200px;">
+      </textarea>
+        <div class="my-3">
+          <input data-bind="click: newpost" type="submit" class="btn btn-success" value="Create post" />
+        </div>
+      </div>
+    </oj-bind-if>
+    <oj-bind-if test="[[!post_btn_toggler()]]">
+      <div class="col-sm-12 posts">
+        <div>
+            <h4 class="float-left">My posts</h4>
+            <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
+                <span data-bind="text: post_view_title"></span>
+              </p>
+        </div>
+        <div class="clearfix"></div>
+        <oj-list-view id="listview" class="w-100" style="overflow-x:hidden" data="[[dataProvider]]"
+          selection-mode="single" scroll-policy="loadMoreOnScroll" scroll-policy-options.fetch-size="5">
+          <template slot="itemTemplate" data-oj-as="item" style="border:none">
+            <div class="p-2 border rounded bg-light">
+              <div>
+                <strong class="text-capitalize">
+                  <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
+                </strong>
+              </div>
+              <div class="my-2 ">
+                <span style="word-wrap: break-word">
+                  <oj-bind-text value="[[item.data.post_body]]"></oj-bind-text>
+                </span>
+              </div>
+              <span>
+                Posted: <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
+              </span>
+            </div>
+          </template>
+        </oj-list-view>
+      </div>
+  </div>
+</div>

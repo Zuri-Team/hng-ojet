@@ -1,0 +1,360 @@
+<style>
+ .boxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) 0.5fr;
+  grid-template-rows: repeat(3, auto);
+  grid-gap: 30px;
+  width: 700px;
+  margin: 0px auto;
+  justify-content: end;
+  align-content: center;
+  grid-template-areas:
+    "box1 box2 box3"
+    "box4 box4 box3"
+    "box4 box4 .";
+}
+/* box1 stuff */
+.box1 {
+  grid-area: box1;
+
+  position: absolute;
+width: 320px;
+height: 110px;
+left: 287px;
+top: 132px;
+
+
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  grid-template-rows: auto;
+  justify-content: center;
+  background: linear-gradient(90deg, #358af3 0%, #3f6ba2 100%);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px 10px 10px 0px;
+}
+
+div.box1 div.p-img img,
+div.box2 div.p-img img {
+  width: 80px;
+  margin: 20px 20px;
+}
+div.taskinfo {
+  padding-right: 30px;
+}
+p.taskheading {
+  border-bottom: 1px solid #fff;
+}
+
+div.box1 div.taskinfo p.p-stat,
+div.box2 div.taskinfo p.p-stat {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 3px 0;
+}
+span.p-text {
+  font-size: 10px;
+  font-weight: normal;
+}
+
+div.box1,
+div.box2 {
+  color: #fff;
+}
+
+.box2 {
+  background: crimson;
+  grid-area: box2;
+
+  position: absolute;
+width: 320px;
+height: 110px;
+left: 657px;
+top: 132px;
+
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  grid-template-rows: auto;
+  justify-content: center;
+  background: linear-gradient(270deg, #fdcaad -3.75%, #fc6c1b 78.75%);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px 10px 10px 0px;
+}
+.box3 {
+  grid-area: box3;
+  border-radius: 5px;
+  position: absolute;
+width: 234px;
+height: 493px;
+left: 1027px;
+top: 132px;
+background: #FFFFFF;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 10px 10px 10px 0px;
+}
+
+.box3 div.section-item {
+  display: grid;
+  grid-template-columns: 0.3fr 0.6fr 0.3fr;
+  /* grid-template-rows: 50px; */
+  align-content: space-between;
+  justify-content: space-evenly;
+}
+
+div.section-item div.sec-img img {
+  width: 50px;
+  padding-left: 5px;
+  padding-right: 10px;
+}
+
+div.section-item div.sec-detail p.sociallink {
+  margin-top: -35px;
+  color: gray;
+}
+
+/* box 4 stuff */
+.box4 {
+  /* background: lightslategray; */
+  grid-area: box4;
+  border-radius: 5px;
+}
+
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+  position: absolute;
+width: 690px;
+height: 436px;
+left: 287px;
+top: 289px;
+ 
+
+background: #FFFFFF;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
+
+<!-- <figure>
+  <oj-avatar role="img" size="[[avatarSize]]" initials='[[initials]]'
+  data-bind="attr:{'aria-label':'Avatar of ' + firstName + ' ' + lastName,
+    'title':'Avatar of ' + firstName + ' ' + lastName}"
+    src="https://res.cloudinary.com/ebugo/image/upload/v1568954251/i5tdiajvcgkze1gjnblg.jpg">
+  </oj-avatar>
+</figure> -->
+
+<h1> Overview</h1>
+    <div class="boxes">
+      <div class="box1">
+        <div class="p-img">
+          <img src="./images.jpg" alt="" />
+        </div>
+        <div class="taskinfo">
+          <p class="taskheading">Tasks</p>
+          <p class="p-stat">167 <span class="p-text"> Assigned</span></p>
+          <p class="p-stat">90 <span class="p-text"> Graded</span></p>
+        </div>
+      </div>
+      <div class="box2">
+        <div class="p-img">
+          <img src="./images.jpg" alt="" />
+        </div>
+        <div class="taskinfo">
+          <p class="taskheading">Interns</p>
+          <p class="p-stat">7,674 <span class="p-text"> Registered</span></p>
+          <p class="p-stat">902 <span class="p-text"> Active</span></p>
+        </div>
+      </div>
+      <div class="box3">
+        <p class="sectionheading">Top Interns</p>
+        <hr>
+        
+        <div class="section-item">
+            <div class="sec-img">
+                <img src="./images.jpg" alt="" />
+            </div>
+        
+            <div class="sec-detail">
+                <p>Tunde Ednut</p>
+                <br />
+                <p class="sociallink">@hermit</p>
+            </div>
+        
+            <div class="sec-fig">
+                <p class="sec-num">352</p>
+            </div>
+      </div>
+        <div class="section-item">
+            <div class="sec-img">
+                <img src="./images.jpg" alt="" />
+            </div>
+        
+            <div class="sec-detail">
+                <p>Toni Stack</p>
+                <br />
+                <p class="sociallink">@tonistack</p>
+            </div>
+        
+            <div class="sec-fig">
+                <p class="sec-num">340</p>
+            </div>
+      </div>
+        <div class="section-item">
+            <div class="sec-img">
+                <img src="./images.jpg" alt="" />
+            </div>
+        
+            <div class="sec-detail">
+                <p>Wale Bakare</p>
+                <br />
+                <p class="sociallink">@placeholder</p>
+            </div>
+        
+            <div class="sec-fig">
+                <p class="sec-num">312</p>
+            </div>
+      </div>
+      <div class="section-item">
+        <div class="sec-img">
+            <img src="./images.jpg" alt="" />
+        </div>
+    
+        <div class="sec-detail">
+            <p>Jon Jude</p>
+            <br />
+            <p class="sociallink">@Judejay</p>
+        </div>
+    
+        <div class="sec-fig">
+            <p class="sec-num">270</p>
+        </div>
+  </div>
+  <div class="section-item">
+    <div class="sec-img">
+        <img src="./images.jpg" alt="" />
+    </div>
+
+    <div class="sec-detail">
+        <p>Austin Okoro</p>
+        <br />
+        <p class="sociallink">@austyno</p>
+    </div>
+
+    <div class="sec-fig">
+        <p class="sec-num">231</p>
+    </div>
+</div>
+<div class="section-item">
+  <div class="sec-img">
+      <img src="./images.jpg" alt="" />
+  </div>
+
+  <div class="sec-detail">
+      <p>Jon Jude</p>
+      <br />
+      <p class="sociallink">@Judejay</p>
+  </div>
+
+  <div class="sec-fig">
+      <p class="sec-num">200</p>
+  </div>
+</div>
+
+     
+    </div>
+
+
+
+      </div>
+        
+      <div class="box4">
+          <table>
+              <tbody>
+                <tr>
+                  <th> Teams </th>
+                  <th> Task </th>
+                  <th> Teamlead </th>
+                  <th> Deadline </th>
+                  <th> Status </th>
+                </tr>
+    
+                <tr>
+                  <td> Mavin </td>
+                  <td> Networth Calculator</td>
+                  <td> Tundeednut<br>
+                  @hermit</td>
+                  <td> 13/10/19</td>
+                  <td><span style="padding: 5px; border:1px #10A252 solid; border-radius: 9px; color: #10A252;">Graded</span>  </td>
+                </tr>
+    
+                <tr>
+                  <td> Heist</td>
+                  <td> Goal tracker app</td>
+                  <td> Tonistack <br>
+                  @tonistack</td>
+                  <td> 13/10/19</td>
+                  <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;"> Submitted</span></td>
+                </tr>
+    
+                <tr> 
+                  <td> Synergy</td>
+                  <td> Chatbot</td>
+                  <td> Walebakare<br>
+                  @placeholder</td>
+                  <td> 13/10/19</td>
+                  <td><span style="padding: 5px; border:1px #10A252 solid; border-radius: 9px; color: #10A252;">Graded</span> </td>
+                </tr>
+    
+                <tr>
+                  <td> Jupiter </td>
+                  <td> Solar calculator</td>
+                  <td> Jon jude<br>
+                  @Judejay</td>
+                  <td> 13/10/19</td>
+                  <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;"> Submitted</span></td>
+                </tr>
+    
+                <tr>
+                  <td> Dauntless</td>
+                  <td> Slackbot</td>
+                  <td> AustinOkoro<br>
+                  @austyno</td>
+                  <td> 13/10/19</td>
+                  <td> <span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;"> Submitted</span></td>
+                </tr>
+    
+                <tr>
+                  <td> Jupiter</td>
+                  <td> Solar calculator</td>
+                  <td>  Jon jude<br>
+                    @Judejay</td>
+                    <td> 13/10/19</td>
+                    <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;"> Submitted</span></td> 
+                </tr>
+    
+                <tr>
+                    <td> Dauntless</td>
+                    <td> Slackbot</td>
+                    <td> AustinOkoro<br>
+                    @austyno</td>
+                    <td> 13/10/19</td>
+                    <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;"> Submitted</span></td>
+    
+                </tr>
+              </tbody>
+            </table>
+    
+      </div>
+    </div>
