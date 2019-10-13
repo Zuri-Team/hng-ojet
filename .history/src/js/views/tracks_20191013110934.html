@@ -44,7 +44,6 @@
         background: #768093;
     }
 </style>
-
 <div class="container-fluid" id="tracks" style="">
     <div class="oj-hybrid-padding">
             <div class="oj-hybrid-padding">
@@ -75,16 +74,16 @@
                                     </strong>
                                     <br>
                                     <strong>
-                                      <oj-bind-text value="[[$current.data.track_description]]"></oj-bind-text>
+                                      <oj-bind-text value="[[$current.data.track_members]]"></oj-bind-text>
                                     </strong>
-                                    <!-- <br>
+                                    <br>
                                     <strong>
                                         <oj-bind-text value="[[$current.data.track_mentors]]"></oj-bind-text>
                                     </strong>
                                     <br>
                                     <strong>
                                         <oj-bind-text value="[[$current.data.track_projects]]"></oj-bind-text>
-                                    </strong> -->
+                                    </strong>
                                     
                                   </div>
                                 </div>
@@ -96,12 +95,8 @@
                           <div slot="body">
                             <oj-label class="oj-label oj-label-inline" for="createNewTrack">Track</oj-label>
                             <oj-input-text id="createNewTrack" value='{{newTrack.track_name}}'></oj-input-text>
-                            <oj-label class="oj-label oj-label-inline" for="createNewDesc">Description</oj-label>
-                            <oj-input-text id="createNewDesc" value="{{newTrack.track_desc}}"></oj-input-text>
-                            <!-- <oj-label class="oj-label oj-label-inline" for="createNewMentors">Track Mentors</oj-label>
-                            <oj-input-text id="createNewMentors" value="{{newTrack.track_mentors}}"></oj-input-text>
-                            <oj-label class="oj-label oj-label-inline" for="createNewProjects">Projects</oj-label>
-                            <oj-input-text id="createNewProjects" value="{{newTrack.track_projects}}"></oj-input-text> -->
+                            <oj-label class="oj-label oj-label-inline" for="createNewMembers">Track Members</oj-label>
+                            <oj-input-text id="createNewMembers" value="{{newTrack.track_members}}"></oj-input-text>
                           </div>
                           <div slot="footer">
                             <oj-button id="submitBtn" on-oj-action="[[createTrack]]">Submit</oj-button>
@@ -111,42 +106,30 @@
                           <oj-dialog id="editDialog" style="display:none" title="Update Track Details">
                             <div slot="body">
                               <oj-label class="oj-label oj-label-inline" for="newName">Track Name</oj-label>
-                              <oj-input-text id="newTrack" value='{{trackData().track_name}}'></oj-input-text>
-                              <oj-label class="oj-label oj-label-inline" for="newMembers">Description</oj-label>
-                              <oj-input-text id="newDesc" value="{{trackData().track_desc}}"></oj-input-text>
-                              <!-- <oj-label class="oj-label oj-label-inline" for="newMentors">Track Mentors</oj-label>
-                              <oj-input-text id="newMentors" value='{{trackData().track_mentors}}'></oj-input-text>
-                              <oj-label class="oj-label oj-label-inline" for="newProjects">Projects</oj-label>
-                              <oj-input-text id="newProjects" value="{{trackData().track_projects}}"></oj-input-text> -->
+                              <oj-input-text id="newName" value='{{trackData().track_name}}'></oj-input-text>
+                              <oj-label class="oj-label oj-label-inline" for="newMembers">Track Members</oj-label>
+                              <oj-input-text id="newDesc" value="{{trackData().track_members}}"></oj-input-text>
                             </div>
                             <div slot="footer">
-                              <oj-button id="submitBtn" on-oj-action="[[updateTrackSubmit]]">Submit
+                              <oj-button id="submitBtn" on-oj-action="[[updateCategorySubmit]]">Submit
                               </oj-button>
                             </div>
                           </oj-dialog>
                           <div class="oj-flex-item oj-sm-12 oj-md-6">
                             <h3>
-                              <oj-label for="basicSelect">Track Details</oj-label>
+                              <oj-label for="basicSelect">Category Details</oj-label>
                             </h3>
                             <hr style="margin-top:12px;">
-                            <div id="trackName" style="font-size: 20px; font-weight: bolder;">
-                              <oj-bind-text value="[[trackData().track_name]]"></oj-bind-text>
+                            <div id="itemName" style="font-size: 20px; font-weight: bolder;">
+                              <oj-bind-text value="[[categoryData().category_name]]"></oj-bind-text>
                             </div>
-                            <div id="trackDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
-                              <oj-bind-text value="[[trackData().track_desc]]"></oj-bind-text>
+                            <div id="itemDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
+                              <oj-bind-text value="[[categoryData().dsecription]]"></oj-bind-text>
                             </div>
-                            <!-- <hr style="margin-top:12px;">
-                            <div id="trackMentors" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
-                              <oj-bind-text value="[[trackData().track_mentors]]"></oj-bind-text>
-                            </div>
-                            <div id="trackProjects" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
-                              <oj-bind-text value="[[trackData().track_projects]]"></oj-bind-text>
-                            </div> -->
                           </div>
                       </div>
                     </div>
                   </div>
-
         <div class="grid-parent justify-content-center text-center">  
             <div class="grid-child shadow" style=" background:#fff;">
                 <div>

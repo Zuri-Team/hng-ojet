@@ -18,20 +18,20 @@ define([
     "ojs/ojdialog",
     "ojs/ojinputtext"
   ], function(oj, ko, $, api, ArrayDataProvider) {
-    function TracksViewModel() {
+    function CategoryViewModel() {
       var self = this;
   
-      self.trackDataProvider = ko.observable(); //gets data for Tracks list
-      self.trackData = ko.observable(""); //holds data for the Track details
-      self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
+      self.categoryDataProvider = ko.observable(); //gets data for Categories list
+      self.categoryData = ko.observable(""); //holds data for the Category details
+      self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
   
       // Activity selection observables
-      self.trackSelected = ko.observable(false);
-      self.selectedTrack = ko.observable();
-      self.firstSelectedTrack = ko.observable();
+      self.categorySelected = ko.observable(false);
+      self.selectedCategory = ko.observable();
+      self.firstSelectedCategory = ko.observable();
   
       //REST endpoint
-      //var RESTurl = `${api}/api/categories`;
+      var RESTurl = `${api}/api/categories`;
   
       //User Token
       var userToken = sessionStorage.getItem("user_token");
@@ -47,39 +47,37 @@ define([
       /**
        * Handle selection from Categories list
        */
-      self.selectedTrackChanged = function(event) {
+      self.selectedCategoryChanged = function(event) {
         // Check whether click is a category selection or deselection
         if (event.detail.value.length != 0) {
           // If selection, populate and display Category details
           // Populate items list observable using firstSelectedXxx API
-          self.trackData(self.firstSelectedTrack().data);
+          self.categoryData(self.firstSelectedCategory().data);
   
-          self.trackSelected(true);
+          self.categorySelected(true);
         } else {
           // If deselection, hide list
-          self.trackSelected(false);
+          self.categorySelected(false);
         }
       };
   
-      self.createTracks = function(event, data) {
-        let track = self.newTrack.track_name;
-        let track_description = self.newTrack.track_desc;
-        //let mentors = self.newTrack.track_mentors;
-        //let projects = self.newTrack.track_projects;
-        console.log(track, track_description);
+      self.createCategory = function(event, data) {
+        let title = self.newCategory.category_name;
+        let description = self.newCategory.description;
+        console.log(title, description);
         $.ajax({
-          url: `https://api.start.ng/api/track/create`,
+          url: `${RESTurl}`,
           headers: {
             Authorization: "Bearer " + userToken
           },
           method: "POST",
-          data: { track, track_description },
+          data: { title, description },
           success: () => {
             self.fetchCategories();
           },
           error: err => console.log(err)
         });
-        document.getElementById("createNewTrack").value = "";
+        document.getElementById("createNewTitle").value = "";
         document.getElementById("createNewDesc").value = "";
         document.getElementById("createDialog").close();
   
@@ -87,14 +85,14 @@ define([
   
       self.fetchCategories = function() {
         $.ajax({
-          url: `https://api.start.ng/api/track/list`,
+          url: `${RESTurl}`,
           headers: {
             Authorization: "Bearer " + userToken
           },
           method: "GET",
           success: res => {
             let { data } = res;
-            self.trackDataProvider(
+            self.categoryDataProvider(
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
                   return value.id;
@@ -105,18 +103,18 @@ define([
         });
       };
   
-      self.updateTrackSubmit = function(event) {
-        //var trackId = self.firstSelectedTrack().data.id;
-        let track = self.firstSelectedTrack().data.track_name;
-        let track_description = self.firstSelectedTrack().track_desc;
-        console.log(track, track_description);
+      self.updateCategorySubmit = function(event) {
+        var categoryId = self.firstSelectedCategory().data.id;
+        let title = self.firstSelectedCategory().data.category_name;
+        let description = self.firstSelectedCategory().data.dsecription;
+        console.log(categoryId, title, description);
         $.ajax({
-          url: `https://api.start.ng/api/track/edit`,
+          url: `${RESTurl}/${categoryId}`,
           headers: {
             Authorization: "Bearer " + userToken
           },
           method: "PUT",
-          data: { track, track_description },
+          data: { title, description },
           success: res => {
             console.log(res);
             // let { data } = res;
@@ -135,30 +133,30 @@ define([
       };
   
       self.deleteCategory = function(event, data) {
-        var trackId = self.firstSelectedTrack().data.id;
-        let trackName = self.firstSelectedTrack().data.track_name;
+        var categoryId = self.firstSelectedCategory().data.id;
+        let categoryName = self.firstSelectedCategory().data.category_name;
         var really = confirm(
-          "Are you sure you want to delete " + trackName + "?"
+          "Are you sure you want to delete " + categoryName + "?"
         );
         if (really) {
           $.ajax({
-            url: `https://api.start.ng/api/track/delete`,
+            url: `${RESTurl}/${categoryId}`,
             headers: {
               Authorization: "Bearer " + userToken
             },
             method: "DELETE",
             wait: true,
             success: res => {
-              console.log(res, self.newTrack());
-              self.fetchTracks();
-              self.trackSelected(false);
+              console.log(res, self.newCategory());
+              self.fetchCategories();
+              self.categorySelected(false);
             },
             error: err => console.log(err)
           });
         }
       };
   
-      self.fetchTracks();
+      self.fetchCategories();
       self.connected = function() {
         // Implement if needed
         // console.log(sessionStorage.getItem("user_token"));
@@ -181,6 +179,6 @@ define([
       };
     }
   
-    return new TracksViewModel();
+    return new CategoryViewModel();
   });
   
