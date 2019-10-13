@@ -80,7 +80,6 @@ define([
       document.getElementById("createNewTitle").value = "";
       document.getElementById("createNewDesc").value = "";
       document.getElementById("createDialog").close();
-
     };
 
     self.fetchCategories = function() {
@@ -105,18 +104,19 @@ define([
 
     self.updateCategorySubmit = function(event) {
       var categoryId = self.firstSelectedCategory().data.id;
-      let title = self.firstSelectedCategory().data.category_name;
-      let description = self.firstSelectedCategory().data.dsecription;
-      console.log(categoryId, title, description);
+      let category_name = self.firstSelectedCategory().data.category_name;
+      let dsecription = self.firstSelectedCategory().data.dsecription;
+      console.log(categoryId, category_name, dsecription);
       $.ajax({
-        url: `${RESTurl}/${categoryId}`,
+        url: `${RESTurl}/update/${categoryId}`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        method: "PUT",
-        data: { title, description },
+        method: "POST",
+        data: { category_name, dsecription },
         success: res => {
           console.log(res);
+          self.fetchCategories();
           // let { data } = res;
           // self.categoryDataProvider(
           //   new ArrayDataProvider(data, {
