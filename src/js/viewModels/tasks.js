@@ -24,16 +24,19 @@
 	
 	
 	
-// 	self.createTask = fetch(RESTUrl, {
-// 						  headers: { "Content-Type": "application/json", "Authorization": `Bearer ${userToken}`},
-// 						  method: 'POST',
-// 						  body: JSON.stringify({
-// 							title: self.title(),
-// 							body: self.body(),
-// 							deadline: self.deadline(),
-// 							status: self.status()
-// 						  })
-// 						});
+	self.createTask = fetch(RESTUrl, {
+						  headers: {							  
+							  'Authorization': 'Bearer ' + userToken,
+							  'Content-Type': 'application/json'
+						  },						  
+						  method: 'POST',
+						  body: JSON.stringify({
+							title: self.title(),
+							body: self.body(),
+							deadline: self.deadline(),
+							status: self.status,
+						  })
+						});
 						
 						
 // 	/*self.viewTask = fetch(RESTUrl + '/' + {id}, {
@@ -48,29 +51,36 @@
 // 						}).then(response => response.json())
 // 						  .then(data => console.log(data));	*/					
 						
-// 	self.updateTask = fetch(RESTUrl + '/' + {id}, {
-// 						  headers: { "Content-Type": "application/json", "Authorization": "Bearer `{userToken}`" },
-// 						  method: 'PUT',
-// 						  body: JSON.stringify({
-// 							title: self.title(),
-// 							body: self.body(),
-// 							deadline: self.deadline(),
-// 							status: self.status,
-// 						  })
-// 						});	
+	self.updateTask = fetch(RESTUrl + '/' + {id}, {
+						  headers: {
+							  'Authorization': 'Bearer ' + userToken,
+							  'Content-Type': 'application/json'
+						  },
+						  method: 'PUT',
+						  body: JSON.stringify({
+							title: self.title(),
+							body: self.body(),
+							deadline: self.deadline(),
+							status: self.status,
+						  })
+						});	
 
 	
-// 	self.deleteTask = fetch(RESTUrl + '/' + {id}, { 
-// 							  method: 'DELETE' 
-// 							});
-// 	/*self.createTask = function(){
-//         var task = {
-//           id: '',
-//           title: self.title(),
-//           body: self.body(),
-// 		  deadline: self.deadline(),
-// 		  is_active: self.is_active(),
-//         };
+	self.deleteTask = fetch(RESTUrl + '/' + {id}, {
+						headers: { 
+							  'Authorization': 'Bearer ' + userToken,
+							  'Content-Type': 'application/json'
+						  },
+							  method: 'DELETE' 
+							});
+	/*self.createTask = function(){
+        var task = {
+          id: '',
+          title: self.title(),
+          body: self.body(),
+		  deadline: self.deadline(),
+		  is_active: self.is_active(),
+        };
 
 //         var taskError = function(jqXHR, textStatus, errorThrown){
 //           console.error('Error: ' + textStatus);
