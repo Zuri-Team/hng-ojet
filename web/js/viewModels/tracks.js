@@ -87,7 +87,7 @@ define([
   
       self.fetchTracks = function() {
         $.ajax({
-          url: `https://api.start.ng/api/track/list`,
+          url: `https://api.start.ng/api/users/track/1/list`,
           headers: {
             Authorization: "Bearer " + userToken
           },
