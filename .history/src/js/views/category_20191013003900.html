@@ -26,7 +26,7 @@
                   </strong>
                   <br>
                   <strong>
-                    <oj-bind-text value="[[$current.data.description]]"></oj-bind-text>
+                    <oj-bind-text value="[[$current.data.dsecription]]"></oj-bind-text>
                   </strong>
                 </div>
               </div>
@@ -39,7 +39,7 @@
           <oj-label class="oj-label oj-label-inline" for="createNewTitle">Title</oj-label>
           <oj-input-text id="createNewTitle" value='{{newCategory.category_name}}'></oj-input-text>
           <oj-label class="oj-label oj-label-inline" for="createNewDesc">Description</oj-label>
-          <oj-input-text id="createNewDesc" value="{{newCategory.dsecription}}"></oj-input-text>
+          <oj-input-text id="createNewDesc" value="{{newCategory.description}}"></oj-input-text>
         </div>
         <div slot="footer">
           <oj-button id="submitBtn" on-oj-action="[[createCategory]]">Submit</oj-button>
