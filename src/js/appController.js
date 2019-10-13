@@ -52,6 +52,7 @@ define([
       category: { label: "Category" },
       register: { label: "Register" },
       submission: { label: "Submission" },
+      tasks: { label: "Tasks" },
       login: { label: "Login", isDefault: true },
       profile: { label: "User Profile" },
       password_reset: { label: "Reset password" },

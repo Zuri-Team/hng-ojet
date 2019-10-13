@@ -1,110 +1,75 @@
-<div class="container-fluid mb-5" id="tasks">
-    <div class="oj-hybrid-paddig">
+<div class="oj-hybrid-padding">
+    <div class="oj-flex oj-flex-init">
+        <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-12 oj-sm-12">
+            <div class="oj-flex-item oj-md-6 oj-sm-12">
 
-        <div class="row">
-            <div class="col-10 mb-2 mt-3">
-                <h2>Week One Tasks</h2>
-            </div>
-
-            <div class="col-2 mt-3">
-                <span class="fa fa-arrow-right fa-2x"></span>
-            </div>
-        </div>
-
-        <div class="grid-parent justify-content-center text-center mb-3">
-
-            <div class="grid-child shadow m-1" style=" background:#fff;">
-                <div class="mt-2 mb-4">
-                    <h2 class="mt-4">Design</h2>
-                    <div class="line"></div>
-                    <h6 class="mb-3">Task Title</h6>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque cupiditate
-                        quod, ipsam</p>
+                <oj-button id="createButton" on-oj-action="[[showCreateDialog]]">
+                    Create category
+                </oj-button>
+                <!-- If categorySelected is set to false, disabled is true, and vice-versa. -->
+                <oj-bind-if test="[[categorySelected()]]">
+                    <oj-button id="updateButton" disabled="[[!categorySelected()]]" on-oj-action="[[showEditDialog]]">Update
+                    </oj-button>
+                    <oj-button id="deleteButton" disabled="[[!categorySelected()]]" on-oj-action="[[deleteCategory]]">Delete
+                    </oj-button>
+                </oj-bind-if>
+                <div class="p-2 border rounded bg-light">
+                    <oj-list-view id="itemsList" style="overflow-x:hidden" data="[[categoryDataProvider]]" selection-mode="single" selection="{{selectedCategory}}" on-selection-changed="[[selectedCategoryChanged]]" first-selected-item="{{firstSelectedCategory}}" scroll-policy="loadMoreOnScroll"
+                        scroll-policy-options.fetch-size="5">
+                        <template slot="itemTemplate">
+            <div class="oj-flex oj-md-6 col-md-6" style="flex-wrap: nowrap">
+              <div class="demo-content oj-flex-item">
+                <div>
+                  <strong>
+                    <oj-bind-text value="[[$current.data.category_name]]"></oj-bind-text>
+                  </strong>
+                  <br>
+                  <strong>
+                    <oj-bind-text value="[[$current.data.dsecription]]"></oj-bind-text>
+                  </strong>
                 </div>
-                <div class="icons justify-content-end">
-                    <span class="fa fa-pencil fa-2x mr-3"></span>
-                    <span class="fa fa-play fa-2x"></span>
-                </div>
+              </div>
             </div>
-            <div class="grid-child shadow" style="background:#fff">
-                <div class="mt-2 mb-4">
-                    <h2 class="mt-4">Design</h2>
-                    <div class="line"></div>
-                    <h6 class="mb-3">Task Title</h6>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque cupiditate
-                        quod, ipsam</p>
-                </div>
-                <div class="icons">
-                    <span class="fa fa-pencil fa-2x mr-3"></span>
-                    <span class="fa fa-play fa-2x"></span>
+          </template>
+                    </oj-list-view>
                 </div>
             </div>
-            <div class="grid-child shadow" style="background:#fff">
-                <div class="mt-2 mb-4">
-                    <h2 class="mt-4">Design</h2>
-                    <div class="line"></div>
-                    <h6 class="mb-3">Task Title</h6>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque cupiditate
-                        quod, ipsam</p>
+            <oj-dialog id="createDialog" style="display:none" title="Create New Category">
+                <div slot="body">
+                    <oj-label class="oj-label oj-label-inline" for="createNewTitle">Title</oj-label>
+                    <oj-input-text id="createNewTitle" value='{{newCategory.category_name}}'></oj-input-text>
+                    <oj-label class="oj-label oj-label-inline" for="createNewDesc">Description</oj-label>
+                    <oj-input-text id="createNewDesc" value="{{newCategory.dsecription}}"></oj-input-text>
                 </div>
-                <div class="icons justify-content-end">
-                    <span class="fa fa-pencil fa-2x mr-3"></span>
-                    <span class="fa fa-play fa-2x"></span>
+                <div slot="footer">
+                    <oj-button id="submitBtn" on-oj-action="[[createCategory]]">Submit</oj-button>
                 </div>
-            </div>
-
-
-        </div>
-        <div class="row">
-            <div class="col-10 mb-3 mt-5">
-                <h2>Week Two Tasks</h2>
-            </div>
-
-            <div class="col-2 mt-5">
-                <span class="fa fa-arrow-right fa-2x"></span>
-            </div>
-        </div>
-        <div class="grid-parent justify-content-center text-center">
-
-            <div class="grid-child shadow" style=" background:#fff;">
-                <div class="mt-2 mb-4">
-                    <h2 class="mt-4">Design</h2>
-                    <div class="line"></div>
-                    <h6 class="mb-3">Task Title</h6>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque cupiditate
-                        quod, ipsam</p>
+            </oj-dialog>
+            <oj-bind-if test="[[categorySelected()]]">
+                <oj-dialog id="editDialog" style="display:none" title="Update Category Details">
+                    <div slot="body">
+                        <oj-label class="oj-label oj-label-inline" for="newName">Title</oj-label>
+                        <oj-input-text id="newName" value='{{categoryData().category_name}}'></oj-input-text>
+                        <oj-label class="oj-label oj-label-inline" for="newDesc">Description</oj-label>
+                        <oj-input-text id="newDesc" value="{{categoryData().dsecription}}"></oj-input-text>
+                    </div>
+                    <div slot="footer">
+                        <oj-button id="submitBtn" on-oj-action="[[updateCategorySubmit]]">Submit
+                        </oj-button>
+                    </div>
+                </oj-dialog>
+                <div class="oj-flex-item oj-sm-12 oj-md-6">
+                    <h3>
+                        <oj-label for="basicSelect">Category Details</oj-label>
+                    </h3>
+                    <hr style="margin-top:12px;">
+                    <div id="itemName" style="font-size: 20px; font-weight: bolder;">
+                        <oj-bind-text value="[[categoryData().category_name]]"></oj-bind-text>
+                    </div>
+                    <div id="itemDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
+                        <oj-bind-text value="[[categoryData().dsecription]]"></oj-bind-text>
+                    </div>
                 </div>
-                <div class="icons justify-content-end">
-                    <span class="fa fa-pencil fa-2x mr-3"></span>
-                    <span class="fa fa-play fa-2x"></span>
-                </div>
-            </div>
-            <div class="grid-child shadow" style="background:#fff">
-                <div class="mt-2 mb-4">
-                    <h2 class="mt-4">Design</h2>
-                    <div class="line"></div>
-                    <h6 class="mb-3">Task Title</h6>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque cupiditate
-                        quod, ipsam</p>
-                </div>
-                <div class="icons justify-content-end">
-                    <span class="fa fa-pencil fa-2x mr-3"></span>
-                    <span class="fa fa-play fa-2x"></span>
-                </div>
-            </div>
-            <div class="grid-child shadow" style="background:#fff">
-                <div class="mt-2 mb-4">
-                    <h2 class="mt-4">Design</h2>
-                    <div class="line"></div>
-                    <h6 class="mb-3">Task Title</h6>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque cupiditate
-                        quod, ipsam</p>
-                </div>
-                <div class="icons justify-content-end">
-                    <span class="fa fa-pencil fa-2x mr-3"></span>
-                    <span class="fa fa-play fa-2x"></span>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -1,94 +1,169 @@
-// define([
-//   "knockout",
-//   "jquery",
-//   "./api",
-//   "ojs/ojarraydataprovider",
-//   "ojs/ojmodel",
-//   "ojs/ojlistview"
-// ], function(ko, $, api, ArrayDataProvider) {
-	
-//   function taskModel() {
-//     self = this;
-//     self.tasks = ko.observableArray([]);
-//     self.selectedCat = ko.observable();
-//     self.title = ko.observable();
-//     self.body = ko.observable();
-// 	self.deadline = ko.observable();
-// 	self.is_active = ko.observable();
-// 	self.status = ko.observable();
-//     self.dataProvider = ko.observable();
-	
-//     var userToken = sessionStorage.getItem("user_token");
-	
-// 	let RESTUrl = "https://api.start.ng/tasks";
-	
-	
-	
-	self.createTask = fetch(RESTUrl, {
-						  headers: {							  
-							  'Authorization': 'Bearer ' + userToken,
-							  'Content-Type': 'application/json'
-						  },						  
-						  method: 'POST',
-						  body: JSON.stringify({
-							title: self.title(),
-							body: self.body(),
-							deadline: self.deadline(),
-							status: self.status,
-						  })
-						});
-						
-						
-// 	/*self.viewTask = fetch(RESTUrl + '/' + {id}, {
-// 						  headers: { "Content-Type": "application/json; "Authorization": "Bearer `{userToken}`"; charset=utf-8" },
-// 						  method: 'GET',
-// 						}).then(response => response.json())
-// 						  .then(data => console.log(dataProvider));
+/**
+ * @license
+ * Copyright (c) 2014, 2018, Oracle and/or its affiliates.
+ * The Universal Permissive License (UPL), Version 1.0
+ */
+/*
+ * Your dashboard ViewModel code goes here
+ */
+define([
+  "ojs/ojcore",
+  "knockout",
+  "jquery",
+  "./api",
+  "ojs/ojarraydataprovider",
+  "ojs/ojlabel",
+  "ojs/ojlistview",
+  "ojs/ojmodel",
+  "ojs/ojdialog",
+  "ojs/ojinputtext"
+], function(oj, ko, $, api, ArrayDataProvider) {
+  function TaskViewModel() {
+    var self = this;
 
-// 	self.viewTasks = fetch(RESTUrl, {
-// 						  headers: { "Content-Type": "application/json; "Authorization": "Bearer `{userToken}`"; charset=utf-8" },
-// 						  method: 'GET',
-// 						}).then(response => response.json())
-// 						  .then(data => console.log(data));	*/					
-						
-	self.updateTask = fetch(RESTUrl + '/' + {id}, {
-						  headers: {
-							  'Authorization': 'Bearer ' + userToken,
-							  'Content-Type': 'application/json'
-						  },
-						  method: 'PUT',
-						  body: JSON.stringify({
-							title: self.title(),
-							body: self.body(),
-							deadline: self.deadline(),
-							status: self.status,
-						  })
-						});	
+    self.categoryDataProvider = ko.observable(); //gets data for Categories list
+    self.categoryData = ko.observable(""); //holds data for the Category details
+    self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
 
-	
-	self.deleteTask = fetch(RESTUrl + '/' + {id}, {
-						headers: { 
-							  'Authorization': 'Bearer ' + userToken,
-							  'Content-Type': 'application/json'
-						  },
-							  method: 'DELETE' 
-							});
-	/*self.createTask = function(){
-        var task = {
-          id: '',
-          title: self.title(),
-          body: self.body(),
-		  deadline: self.deadline(),
-		  is_active: self.is_active(),
-        };
+    // Activity selection observables
+    self.categorySelected = ko.observable(false);
+    self.selectedCategory = ko.observable();
+    self.firstSelectedCategory = ko.observable();
 
-//         var taskError = function(jqXHR, textStatus, errorThrown){
-//           console.error('Error: ' + textStatus);
-//         };
+    //REST endpoint
+    var RESTurl = `${api}/api/categories`;
 
-//         TasksService.create(task, null, meetingError);
-//       };*/
-//   }
-	  
-//   return new taskModel();
-// });
+    //User Token
+    var userToken = sessionStorage.getItem("user_token");
+
+    self.showCreateDialog = function(event) {
+      document.getElementById("createDialog").open();
+    };
+
+    self.showEditDialog = function(event) {
+      document.getElementById("editDialog").open();
+    };
+
+    /**
+     * Handle selection from Categories list
+     */
+    self.selectedCategoryChanged = function(event) {
+      // Check whether click is a category selection or deselection
+      if (event.detail.value.length != 0) {
+        // If selection, populate and display Category details
+        // Populate items list observable using firstSelectedXxx API
+        self.categoryData(self.firstSelectedCategory().data);
+
+        self.categorySelected(true);
+      } else {
+        // If deselection, hide list
+        self.categorySelected(false);
+      }
+    };
+
+    self.createCategory = function(event, data) {
+      let title = self.newCategory.category_name;
+      let description = self.newCategory.dsecription;
+      console.log(title, description);
+      $.ajax({
+        url: `${RESTurl}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "POST",
+        data: { title, description },
+        success: () => {
+          self.fetchCategories();
+        },
+        error: err => console.log(err)
+      });
+      document.getElementById("createNewTitle").value = "";
+      document.getElementById("createNewDesc").value = "";
+      document.getElementById("createDialog").close();
+    };
+
+    self.fetchCategories = function() {
+      $.ajax({
+        url: `${RESTurl}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: res => {
+          let { data } = res;
+          self.categoryDataProvider(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                return value.id;
+              })
+            })
+          );
+        }
+      });
+    };
+
+    self.updateCategorySubmit = function(event) {
+      var categoryId = self.firstSelectedCategory().data.id;
+      let category_name = self.firstSelectedCategory().data.category_name;
+      let dsecription = self.firstSelectedCategory().data.dsecription;
+      console.log(categoryId, category_name, dsecription);
+      $.ajax({
+        url: `${RESTurl}/update/${categoryId}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "POST",
+        data: { title, description },
+        success: () => self.fetchCategories(),
+        error: err => console.log(err)
+      });
+
+      document.getElementById("editDialog").close();
+    };
+
+    self.deleteCategory = function(event, data) {
+      var categoryId = self.firstSelectedCategory().data.id;
+      let categoryName = self.firstSelectedCategory().data.category_name;
+      var really = confirm(
+        "Are you sure you want to delete " + categoryName + "?"
+      );
+      if (really) {
+        $.ajax({
+          url: `${RESTurl}/${categoryId}`,
+          headers: {
+            Authorization: "Bearer " + userToken
+          },
+          method: "DELETE",
+          success: res => {
+            self.fetchCategories();
+            self.categorySelected(false);
+          },
+          error: err => console.log(err)
+        });
+      }
+    };
+
+    self.fetchCategories();
+    self.connected = function() {
+      // Implement if needed
+      if (userToken == null) {
+        router.go("login");
+      }
+    };
+
+    /**
+     * Optional ViewModel method invoked after the View is disconnected from the DOM.
+     */
+    self.disconnected = function() {
+      // Implement if needed
+      //self.activitySelected(false);
+      //self.itemSelected(false);
+    };
+
+    self.transitionCompleted = function() {
+      // Implement if needed
+    };
+  }
+
+  return new TaskViewModel();
+});
