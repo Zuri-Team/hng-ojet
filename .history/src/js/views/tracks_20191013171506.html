@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
     .grid-parent {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
@@ -43,7 +43,7 @@
         border-bottom-left-radius: 10px;
         background: #768093;
     }
-</style> 
+</style> -->
 
 <div class="container-fluid" id="tracks" style="">
     <div class="oj-hybrid-padding">
@@ -97,7 +97,7 @@
                             <oj-label class="oj-label oj-label-inline" for="createNewTrack">Track</oj-label>
                             <oj-input-text id="createNewTrack" value='{{newTrack.track_name}}'></oj-input-text>
                             <oj-label class="oj-label oj-label-inline" for="createNewDesc">Description</oj-label>
-                            <oj-input-text id="createNewDesc" value="{{newTrack.track_description}}"></oj-input-text>
+                            <oj-input-text id="createNewDesc" value="{{newTrack.track_desc}}"></oj-input-text>
                             <!-- <oj-label class="oj-label oj-label-inline" for="createNewMentors">Track Mentors</oj-label>
                             <oj-input-text id="createNewMentors" value="{{newTrack.track_mentors}}"></oj-input-text>
                             <oj-label class="oj-label oj-label-inline" for="createNewProjects">Projects</oj-label>
@@ -113,7 +113,7 @@
                               <oj-label class="oj-label oj-label-inline" for="newName">Track Name</oj-label>
                               <oj-input-text id="newTrack" value='{{trackData().track_name}}'></oj-input-text>
                               <oj-label class="oj-label oj-label-inline" for="newMembers">Description</oj-label>
-                              <oj-input-text id="newDesc" value="{{trackData().track_description}}"></oj-input-text>
+                              <oj-input-text id="newDesc" value="{{trackData().track_desc}}"></oj-input-text>
                               <!-- <oj-label class="oj-label oj-label-inline" for="newMentors">Track Mentors</oj-label>
                               <oj-input-text id="newMentors" value='{{trackData().track_mentors}}'></oj-input-text>
                               <oj-label class="oj-label oj-label-inline" for="newProjects">Projects</oj-label>
@@ -133,7 +133,7 @@
                               <oj-bind-text value="[[trackData().track_name]]"></oj-bind-text>
                             </div>
                             <div id="trackDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
-                              <oj-bind-text value="[[trackData().track_description]]"></oj-bind-text>
+                              <oj-bind-text value="[[trackData().track_desc]]"></oj-bind-text>
                             </div>
                             <!-- <hr style="margin-top:12px;">
                             <div id="trackMentors" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
@@ -146,7 +146,7 @@
                       </div>
                     </div>
                   </div>
-               
+         <!--        
         <div class="grid-parent justify-content-center text-center">  
             <div class="grid-child shadow" style=" background:#fff;">
                 <div>
@@ -262,4 +262,4 @@
 
         </div>
     </div>
-</div>
+</div> -->
