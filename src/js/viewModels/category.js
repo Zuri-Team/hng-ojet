@@ -62,8 +62,8 @@ define([
     };
 
     self.createCategory = function(event, data) {
-      let title = data.newCategory.category_name;
-      let description = data.newCategory.description;
+      let title = self.newCategory.category_name;
+      let description = self.newCategory.description;
       console.log(title, description);
       $.ajax({
         url: `${RESTurl}`,
@@ -72,10 +72,15 @@ define([
         },
         method: "POST",
         data: { title, description },
-        success: () => self.fetchCategories(),
+        success: () => {
+          self.fetchCategories();
+        },
         error: err => console.log(err)
       });
+      document.getElementById("createNewTitle").value = "";
+      document.getElementById("createNewDesc").value = "";
       document.getElementById("createDialog").close();
+
     };
 
     self.fetchCategories = function() {
@@ -104,25 +109,16 @@ define([
       let description = self.firstSelectedCategory().data.dsecription;
       console.log(categoryId, title, description);
       $.ajax({
-        url: `${RESTurl}/${categoryId}`,
+        url: `${RESTurl}/update/${categoryId}`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        method: "PUT",
+        method: "POST",
         data: { title, description },
-        success: res => {
-          console.log(res);
-          // let { data } = res;
-          // self.categoryDataProvider(
-          //   new ArrayDataProvider(data, {
-          //     keys: data.map(function(value) {
-          //       return value.id;
-          //     })
-          //   })
-          // );
-        },
+        success: () => self.fetchCategories(),
         error: err => console.log(err)
       });
+
       document.getElementById("editDialog").close();
     };
 
@@ -140,15 +136,8 @@ define([
           },
           method: "DELETE",
           success: res => {
-            console.log(res);
-            // let { data } = res;
-            // self.categoryDataProvider(
-            //   new ArrayDataProvider(data, {
-            //     keys: data.map(function(value) {
-            //       return value.id;
-            //     })
-            //   })
-            // );
+            self.fetchCategories();
+            self.categorySelected(false);
           },
           error: err => console.log(err)
         });
@@ -158,8 +147,7 @@ define([
     self.fetchCategories();
     self.connected = function() {
       // Implement if needed
-      // console.log(sessionStorage.getItem("user_token"));
-      if (sessionStorage.getItem("user_token") == null) {
+      if (userToken == null) {
         router.go("login");
       }
     };
