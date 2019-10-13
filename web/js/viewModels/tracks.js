@@ -75,7 +75,7 @@ define([
           method: "POST",
           data: { track, track_description },
           success: () => {
-            self.fetchCategories();
+            self.fetchTracks();
           },
           error: err => console.log(err)
         });
@@ -85,7 +85,7 @@ define([
   
       };
   
-      self.fetchCategories = function() {
+      self.fetchTracks = function() {
         $.ajax({
           url: `https://api.start.ng/api/track/list`,
           headers: {

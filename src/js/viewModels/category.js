@@ -63,7 +63,7 @@ define([
 
     self.createCategory = function(event, data) {
       let title = self.newCategory.category_name;
-      let description = self.newCategory.description;
+      let description = self.newCategory.dsecription;
       console.log(title, description);
       $.ajax({
         url: `${RESTurl}`,
@@ -113,24 +113,8 @@ define([
           Authorization: "Bearer " + userToken
         },
         method: "POST",
-<<<<<<< HEAD
-        data: { category_name, dsecription },
-        success: res => {
-          console.log(res);
-          self.fetchCategories();
-          // let { data } = res;
-          // self.categoryDataProvider(
-          //   new ArrayDataProvider(data, {
-          //     keys: data.map(function(value) {
-          //       return value.id;
-          //     })
-          //   })
-          // );
-        },
-=======
         data: { title, description },
         success: () => self.fetchCategories(),
->>>>>>> 556c44773a7d7a5f6aeaa30794595c369c949e9a
         error: err => console.log(err)
       });
 
