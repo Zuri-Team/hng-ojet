@@ -1,7 +1,13 @@
+<<<<<<< HEAD
+node_modules
+bower_components
+themes
+=======
 /node_modules
 /bower_components
-/web
 /themes
+web
+>>>>>>> 4f1faefd4eb399a8e8db479e1eda88a732a7e3d9
 
 /hybrid/node_modules
 /hybrid/platforms
@@ -13,4 +19,4 @@ hybrid/plugins/*
 
 .DS_Store
 Thumbs.db
-hng.code-workspace
+ojet_frontend.code-workspace
