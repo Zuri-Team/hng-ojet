@@ -18,7 +18,7 @@ define([
   "ojs/ojformlayout",
   "ojs/ojbutton"
 ], function(oj, ko, $, ResponsiveUtils, ResponsiveKnockoutUtils) {
-  function AdminDashboardViewModel() {
+  function UserViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
 
@@ -78,9 +78,9 @@ define([
 
     this.keyword = ko.observableArray();
 
-    self.fullname = ko.observable("Admin");
-    self.track = ko.observable("Design");
-    self.slack = ko.observable("@xyluz");
+    self.fullname = ko.observable("User");
+    self.track = ko.observable("Ojet");
+    self.slack = ko.observable("@Codebug");
     self.fileNames = ko.observableArray([]);
 
     self.selectListener = function(event) {
@@ -132,5 +132,5 @@ define([
     };
   }
 
-  return new AdminDashboardViewModel();
+  return new UserViewModel();
 });
