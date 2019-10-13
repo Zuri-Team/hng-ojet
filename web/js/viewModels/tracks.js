@@ -63,7 +63,7 @@ define([
   
       self.createTracks = function(event, data) {
         let track = self.newTrack.track_name;
-        let track_description = self.newTrack.track_desc;
+        let track_description = self.newTrack.track_description;
         //let mentors = self.newTrack.track_mentors;
         //let projects = self.newTrack.track_projects;
         console.log(track, track_description);
@@ -108,7 +108,7 @@ define([
       self.updateTrackSubmit = function(event) {
         //var trackId = self.firstSelectedTrack().data.id;
         let track = self.firstSelectedTrack().data.track_name;
-        let track_description = self.firstSelectedTrack().track_desc;
+        let track_description = self.firstSelectedTrack().data.track_desc;
         console.log(track, track_description);
         $.ajax({
           url: `https://api.start.ng/api/track/edit`,
