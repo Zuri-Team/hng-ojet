@@ -25,13 +25,13 @@ define([
 	
 	
 	self.createTask = fetch(RESTUrl, {
-						  headers: { "Content-Type": "application/json; "Authorization": "Bearer `{userToken}`"; charset=utf-8"; },
+						  headers: { "Content-Type": "application/json", "Authorization": "Bearer `{userToken}`",},
 						  method: 'POST',
 						  body: JSON.stringify({
 							title: self.title(),
 							body: self.body(),
 							deadline: self.deadline(),
-							status: self.status,
+							status: self.status()
 						  })
 						});
 						
@@ -49,7 +49,7 @@ define([
 						  .then(data => console.log(data));	*/					
 						
 	self.updateTask = fetch(RESTUrl + '/' + {id}, {
-						  headers: { "Content-Type": "application/json; "Authorization": "Bearer `{userToken}`"; charset=utf-8" },
+						  headers: { "Content-Type": "application/json", "Authorization": "Bearer `{userToken}`" },
 						  method: 'PUT',
 						  body: JSON.stringify({
 							title: self.title(),
