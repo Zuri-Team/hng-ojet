@@ -1,13 +1,4 @@
-/**
- * @license
- * Copyright (c) 2014, 2018, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your dashboard ViewModel code goes here
- */
-define([
-  "ojs/ojcore",
+/*define([
   "knockout",
   "jquery",
   "./api",
@@ -35,135 +26,167 @@ define([
 
     //User Token
     var userToken = sessionStorage.getItem("user_token");
-
-    self.showCreateDialog = function(event) {
-      document.getElementById("createDialog").open();
-    };
-
-    self.showEditDialog = function(event) {
-      document.getElementById("editDialog").open();
-    };
-
-    /**
-     * Handle selection from Categories list
-     */
-    self.selectedCategoryChanged = function(event) {
-      // Check whether click is a category selection or deselection
-      if (event.detail.value.length != 0) {
-        // If selection, populate and display Category details
-        // Populate items list observable using firstSelectedXxx API
-        self.categoryData(self.firstSelectedCategory().data);
-
-        self.categorySelected(true);
-      } else {
-        // If deselection, hide list
-        self.categorySelected(false);
-      }
-    };
-
-    self.createCategory = function(event, data) {
-      let title = self.newCategory.category_name;
-      let description = self.newCategory.dsecription;
-      console.log(title, description);
+	
+	let RESTUrl = "https://api.start.ng/tasks";
+	
+	function fetchtasks() {
       $.ajax({
-        url: `${RESTurl}`,
+        url: `https://api.start.ng/api/tasks`,
         headers: {
           Authorization: "Bearer " + userToken
         },
         method: "POST",
-        data: { title, description },
-        success: () => {
-          self.fetchCategories();
-        },
-        error: err => console.log(err)
+        success: res => {
+          if (res.status == true) {
+            let { data } = res.data;
+            self.dataProvider(
+              new ArrayDataProvider(data, {
+                keys: data.map(function(value) {
+                  console.log(value);
+                  return value.title;
+                })
+              })
+            );
+          }
+        }
       });
-      document.getElementById("createNewTitle").value = "";
-      document.getElementById("createNewDesc").value = "";
-      document.getElementById("createDialog").close();
-    };
+    }
+	
+	function reset() {
+      self.title("");
+      self.body("");
+    }
+	
+	
+	self.createTask = function(){
+     $.ajax({
+        url: "https://api.start.ng/tasks",
+        type: "POST",
+        title: self.title(),
+        body: self.body(),
+		deadline: self.deadline(),
+		status: self.status(),
+        //async: false,
+        //crossDomain: true,
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer ' + userToken,
+        },
+        success: function (data) {
+             parsedJSON = JSON.parse(JSON.stringify(data));
+             console.log('Response JSON Data-->  ' + JSON.stringify(data));
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+             console.log('Fail Response JSON Data-->  ' + JSON.stringify(data));
+        }
+    });
+ }
+	
+	
+	self.createTask = () => {
+      let track_id = self.selectedTask();
+      let title = self.title();
+      let body = self.body();
 
-    self.fetchCategories = function() {
       $.ajax({
-        url: `${RESTurl}`,
+        url: `https://api.start.ng/api/tasks`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        method: "GET",
+        method: "POST",
+        data: { track_id, title, body },
         success: res => {
-          let { data } = res;
-          self.categoryDataProvider(
-            new ArrayDataProvider(data, {
-              keys: data.map(function(value) {
-                return value.id;
-              })
-            })
-          );
+          if (res.status == true) {
+            reset();
+            fetchposts();
+          }
         }
       });
     };
 
-    self.updateCategorySubmit = function(event) {
-      var categoryId = self.firstSelectedCategory().data.id;
-      let category_name = self.firstSelectedCategory().data.category_name;
-      let dsecription = self.firstSelectedCategory().data.dsecription;
-      console.log(categoryId, category_name, dsecription);
-      $.ajax({
-        url: `${RESTurl}/update/${categoryId}`,
-        headers: {
-          Authorization: "Bearer " + userToken
-        },
-        method: "POST",
-        data: { title, description },
-        success: () => self.fetchCategories(),
-        error: err => console.log(err)
-      });
-
-      document.getElementById("editDialog").close();
-    };
-
-    self.deleteCategory = function(event, data) {
-      var categoryId = self.firstSelectedCategory().data.id;
-      let categoryName = self.firstSelectedCategory().data.category_name;
-      var really = confirm(
-        "Are you sure you want to delete " + categoryName + "?"
-      );
-      if (really) {
-        $.ajax({
-          url: `${RESTurl}/${categoryId}`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "DELETE",
-          success: res => {
-            self.fetchCategories();
-            self.categorySelected(false);
-          },
-          error: err => console.log(err)
+    $.ajax({
+      url: `https://api.start.ng/api/tasks`,
+      headers: {
+        Authorization: "Bearer " + " " + userToken
+      },
+      method: "GET",
+      success: res => {
+        res.data.map(cats => {
+          self.categories.push(cats);
         });
       }
-    };
+    });
+	
+	
+	/*self.createTask = fetch(RESTUrl, {
+						  headers: {
+							  'Access-Control-Allow-Origin': '*',
+							  'Authorization': 'Bearer ' + userToken,
+							  'Content-Type': 'application/json',
+						  },						  
+						  method: 'POST',
+						  body: JSON.stringify({
+							title: self.title(),
+							body: self.body(),
+							deadline: self.deadline(),
+							status: self.status,
+						  })
+						}).then((resp) => resp.json()) // Transform the data into json
+  .then(function(data) {
+    return data;
+    });*/
+						
+						
+	/*self.viewTask = fetch(RESTUrl + '/' + {id}, {
+						  headers: { "Content-Type": "application/json; "Authorization": "Bearer `{userToken}`"; charset=utf-8" },
+						  method: 'GET',
+						}).then(response => response.json())
+						  .then(data => console.log(dataProvider));
 
-    self.fetchCategories();
-    self.connected = function() {
-      // Implement if needed
-      if (userToken == null) {
-        router.go("login");
-      }
-    };
+	self.viewTasks = fetch(RESTUrl, {
+						  headers: { "Content-Type": "application/json; "Authorization": "Bearer `{userToken}`"; charset=utf-8" },
+						  method: 'GET',
+						}).then(response => response.json())
+						  .then(data => console.log(data));	*/					
+						
+	/*self.updateTask = fetch(RESTUrl + '/' + {id}, {
+						  headers: {
+							  'Authorization': 'Bearer ' + userToken,
+							  'Content-Type': 'application/json'
+						  },
+						  method: 'PUT',
+						  body: JSON.stringify({
+							title: self.title(),
+							body: self.body(),
+							deadline: self.deadline(),
+							status: self.status,
+						  })
+						});	
 
-    /**
-     * Optional ViewModel method invoked after the View is disconnected from the DOM.
-     */
-    self.disconnected = function() {
-      // Implement if needed
-      //self.activitySelected(false);
-      //self.itemSelected(false);
-    };
+	
+	self.deleteTask = fetch(RESTUrl + '/' + {id}, {
+						headers: { 
+							  'Authorization': 'Bearer ' + userToken,
+							  'Content-Type': 'application/json'
+						  },
+							  method: 'DELETE' 
+							});*/
+	/*self.createTask = function(){
+        var task = {
+          id: '',
+          title: self.title(),
+          body: self.body(),
+		  deadline: self.deadline(),
+		  is_active: self.is_active(),
+        };
 
-    self.transitionCompleted = function() {
-      // Implement if needed
-    };
-  }
+        var taskError = function(jqXHR, textStatus, errorThrown){
+          console.error('Error: ' + textStatus);
+        };
 
-  return new TaskViewModel();
-});
+        TasksService.create(task, null, meetingError);
+      };*/
+ /* }
+	  
+  return new taskModel();
+});*/
