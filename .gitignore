@@ -2,6 +2,7 @@ node_modules/*
 bower_components/*
 /themes
 /web
+.vscode
 
 /hybrid/node_modules
 /hybrid/platforms
