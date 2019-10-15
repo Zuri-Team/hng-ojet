@@ -48,7 +48,7 @@ define([
       dashboard: { label: "Dashboard" },
       admin_dashboard: { label: "Admin_dashboard" },
       user_dashboard: { label: "User_dashboard" },
-      user-dashboard: { label: "User-dashboard" },
+      userdashboard: { label: "User-dashboard" },
       overview: { label: "Overview" },
       category: { label: "Category" },
       register: { label: "Register" },
