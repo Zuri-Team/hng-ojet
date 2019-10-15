@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-node_modules
-bower_components
-themes
-=======
-/node_modules
-/bower_components
+node_modules/*
+bower_components/*
 /themes
-web
->>>>>>> 4f1faefd4eb399a8e8db479e1eda88a732a7e3d9
+/web
 
 /hybrid/node_modules
 /hybrid/platforms
