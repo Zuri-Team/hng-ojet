@@ -1,7 +1,7 @@
 node_modules/*
 bower_components/*
 /themes
-/web
+web
 .vscode
 
 /hybrid/node_modules
