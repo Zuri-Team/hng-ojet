@@ -1,1 +1,0 @@
-settings="https://api.start.ng",define(function(){return settings});
