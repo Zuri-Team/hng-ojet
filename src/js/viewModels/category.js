@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright (c) 2014, 2018, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your dashboard ViewModel code goes here
- */
 define([
   "ojs/ojcore",
   "knockout",
@@ -24,6 +16,7 @@ define([
     self.categoryDataProvider = ko.observable(); //gets data for Categories list
     self.categoryData = ko.observable(""); //holds data for the Category details
     self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
+    self.numOfPosts = ko.observableArray([]);
 
     // Activity selection observables
     self.categorySelected = ko.observable(false);
@@ -44,16 +37,13 @@ define([
       document.getElementById("editDialog").open();
     };
 
-    /**
-     * Handle selection from Categories list
-     */
     self.selectedCategoryChanged = function(event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
-        self.categoryData(self.firstSelectedCategory().data);
-
+        let { data } = self.firstSelectedCategory();
+        self.categoryData(data);
         self.categorySelected(true);
       } else {
         // If deselection, hide list
@@ -80,7 +70,6 @@ define([
       document.getElementById("createNewTitle").value = "";
       document.getElementById("createNewDesc").value = "";
       document.getElementById("createDialog").close();
-
     };
 
     self.fetchCategories = function() {
@@ -95,6 +84,7 @@ define([
           self.categoryDataProvider(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
+                self.numberOfPosts(value.id);
                 return value.id;
               })
             })
@@ -115,10 +105,12 @@ define([
         },
         method: "POST",
         data: { title, description },
-        success: () => self.fetchCategories(),
+        success: res => {
+          self.fetchCategories();
+          self.categorySelected(false);
+        },
         error: err => console.log(err)
       });
-
       document.getElementById("editDialog").close();
     };
 
@@ -144,26 +136,22 @@ define([
       }
     };
 
+    self.numberOfPosts = function(category_id) {
+      $.ajax({
+        url: `${RESTurl}/posts/${category_id}`,
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        success: resp => {
+          let { data } = resp.data;
+          self.numOfPosts.push(`${data.length}`);
+        },
+        error: err => console.log(err)
+      });
+    };
+
     self.fetchCategories();
-    self.connected = function() {
-      // Implement if needed
-      if (userToken == null) {
-        router.go("login");
-      }
-    };
-
-    /**
-     * Optional ViewModel method invoked after the View is disconnected from the DOM.
-     */
-    self.disconnected = function() {
-      // Implement if needed
-      //self.activitySelected(false);
-      //self.itemSelected(false);
-    };
-
-    self.transitionCompleted = function() {
-      // Implement if needed
-    };
   }
 
   return new CategoryViewModel();
