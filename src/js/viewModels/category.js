@@ -14,13 +14,13 @@ define([
     var self = this;
 
     self.categoryDataProvider = ko.observable(); //gets data for Categories list
+    self.postsInCategory = ko.observable(); // gets data for posts under selected category
     self.categoryData = ko.observable(""); //holds data for the Category details
     self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
     self.numOfPosts = ko.observableArray([]);
 
     // Activity selection observables
     self.categorySelected = ko.observable(false);
-    self.selectedCategory = ko.observable();
     self.firstSelectedCategory = ko.observable();
 
     //REST endpoint
@@ -36,6 +36,9 @@ define([
     self.showEditDialog = function(event) {
       document.getElementById("editDialog").open();
     };
+    self.showDeleteDialog = function(event) {
+      document.getElementById("deleteDialog").open();
+    };
 
     self.selectedCategoryChanged = function(event) {
       // Check whether click is a category selection or deselection
@@ -43,6 +46,7 @@ define([
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedCategory();
+        self.posts_under_category(data.id);
         self.categoryData(data);
         self.categorySelected(true);
       } else {
@@ -54,7 +58,6 @@ define([
     self.createCategory = function(event, data) {
       let title = self.newCategory.category_name;
       let description = self.newCategory.description;
-      console.log(title, description);
       $.ajax({
         url: `${RESTurl}`,
         headers: {
@@ -84,13 +87,29 @@ define([
           self.categoryDataProvider(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
-                self.numberOfPosts(value.id);
+                numberOfPosts(value.id);
                 return value.id;
               })
             })
           );
         }
       });
+
+      let numberOfPosts = category_id => {
+        $.ajax({
+          url: `${RESTurl}/posts/${category_id}`,
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + userToken
+          },
+          success: resp => {
+            let { data } = resp.data;
+            self.numOfPosts()[`${category_id}`] = `${data.length}`;
+            self.numOfPosts(self.numOfPosts());
+          },
+          error: err => console.log(err)
+        });
+      };
     };
 
     self.updateCategorySubmit = function(event) {
@@ -116,38 +135,39 @@ define([
 
     self.deleteCategory = function(event, data) {
       var categoryId = self.firstSelectedCategory().data.id;
-      let categoryName = self.firstSelectedCategory().data.category_name;
-      var really = confirm(
-        "Are you sure you want to delete " + categoryName + "?"
-      );
-      if (really) {
-        $.ajax({
-          url: `${RESTurl}/${categoryId}`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "DELETE",
-          success: res => {
-            self.fetchCategories();
-            self.categorySelected(false);
-          },
-          error: err => console.log(err)
-        });
-      }
-    };
-
-    self.numberOfPosts = function(category_id) {
       $.ajax({
-        url: `${RESTurl}/posts/${category_id}`,
-        method: "GET",
+        url: `${RESTurl}/${categoryId}`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        success: resp => {
-          let { data } = resp.data;
-          self.numOfPosts.push(`${data.length}`);
+        method: "DELETE",
+        success: res => {
+          self.fetchCategories();
+          self.categorySelected(false);
         },
         error: err => console.log(err)
+      });
+
+      document.getElementById("deleteDialog").close();
+    };
+
+    self.posts_under_category = function(category_id) {
+      $.ajax({
+        url: `${RESTurl}/posts/${category_id}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: res => {
+          let { data } = res.data;
+          self.postsInCategory(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                return value.id;
+              })
+            })
+          );
+        }
       });
     };
 
