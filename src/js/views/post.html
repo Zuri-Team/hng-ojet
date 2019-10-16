@@ -27,15 +27,15 @@
       </div>
     </oj-bind-if>
     <oj-bind-if test="[[!post_btn_toggler()]]">
-      <div class="col-sm-12 posts">
+      <div class="col-sm-12">
         <div>
-            <h4 class="float-left">My posts</h4>
-            <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
-                <span data-bind="text: post_view_title"></span>
-              </p>
+          <h4 class="float-left">My posts</h4>
+          <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
+            <span data-bind="text: post_view_title"></span>
+          </p>
         </div>
         <div class="clearfix"></div>
-        <oj-list-view id="listview" class="w-100" style="overflow-x:hidden" data="[[dataProvider]]"
+        <oj-list-view id="Postmodel-post-list" class="w-100" style="overflow-x:hidden" data="[[dataProvider]]"
           selection-mode="single" scroll-policy="loadMoreOnScroll" scroll-policy-options.fetch-size="5">
           <template slot="itemTemplate" data-oj-as="item" style="border:none">
             <div class="p-2 border rounded bg-light">
