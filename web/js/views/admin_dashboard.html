@@ -23,8 +23,13 @@
             </a>
           </li>
           <li id="Categories">
-            <a for="categories-admin">
+            <a for="categories-admin"> 
               <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
+            </a>
+          </li>
+          <li id="Categories2">
+            <a for="categories-admin-2">
+              <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES 2
             </a>
           </li>
           <li id="Tasks">
@@ -64,8 +69,8 @@
           </h4>
           <span class="d-flex ml-5">
             <h4 class="position-relative" style="top:2px"><i class=" fa fa-bell-o"></i> </h4>
-            <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
-                class="fa fa-search "></i></h4>
+            <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm"
+                style="top:2px"><i class="fa fa-search "></i></h4>
             <form id="form1" class="mx-3 oj-sm-only-hide">
               <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
                         component: 'ojInputSearch',
@@ -79,7 +84,8 @@
           </span>
         </nav>
         <oj-bind-if test="[[sb_sm()]]">
-          <form id="form1" class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end" style="top: 4px">
+          <form id="form1" class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end"
+                style="top: 4px">
             <input placeholder="Search..." data-bind="ojComponent: {
                             component: 'ojInputSearch',
                             value: keyword,
@@ -100,6 +106,10 @@
           <div data-bind="ojModule: 'category'"></div>
         </div>
 
+        <div id="categories-admin-2" class="my-4 container-fluid">
+          <div data-bind="ojModule: 'categories'"></div>
+        </div>
+
         <div id="posts-admin">
           <div data-bind="ojModule: 'post'"></div>
         </div>
@@ -116,11 +126,10 @@
           <div data-bind="ojModule: 'tracks'"></div>
         </div>
         <div id="teams-admin">
-          <div data-bind="ojModule: 'team'"></div>
+          <h3>Teams</h3>
         </div>
         <div id="interns-admin">
           <h3>Interns</h3>
-          <div data-bind="ojModule: 'interns'"></div>
         </div>
         <div class="oj-flex-item" id="admin-settings">
           <h3>Your profile</h3>
