@@ -3,14 +3,13 @@
  * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
  * The Universal Permissive License (UPL), Version 1.0
  */
-'use strict';
+"use strict";
 
 /**
  * Example of Require.js boostrap javascript
  */
 
-requirejs.config(
-{
+requirejs.config({
   baseUrl: 'js',
 
   // Path mappings for the logical module names
@@ -36,8 +35,7 @@ requirejs.config(
 }
 
 //endinjector
-}
-);
+});
 
 /**
  * A top-level require call executed by the Application.
@@ -45,32 +43,40 @@ requirejs.config(
  * by the modules themselves), we are listing them explicitly to get the references to the 'oj' and 'ko'
  * objects in the callback
  */
-require(['ojs/ojbootstrap', 'knockout', 'appController', 'ojs/ojrouter', 'ojs/ojlogger', 'ojs/ojknockout',
-  'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'],
-  function (Bootstrap, ko, app, Router, Logger) { // this callback gets executed when all required modules are loaded
-    Bootstrap.whenDocumentReady().then(
-      function() {
-
-        function init() {
-          Router.sync().then(
-            function () {
-              app.loadModule();
-              // Bind your ViewModel for the content of the whole page body.
-              ko.applyBindings(app, document.getElementById('globalBody'));
-            },
-            function (error) {
-              Logger.error('Error in root start: ' + error.message);
-            }
-          );
+require([
+  "ojs/ojbootstrap",
+  "knockout",
+  "appController",
+  "ojs/ojrouter",
+  "ojs/ojlogger",
+  "ojs/ojknockout",
+  "ojs/ojmodule",
+  "ojs/ojrouter",
+  "ojs/ojnavigationlist",
+  "ojs/ojbutton",
+  "ojs/ojtoolbar"
+], function(Bootstrap, ko, app, Router, Logger) {
+  // this callback gets executed when all required modules are loaded
+  Bootstrap.whenDocumentReady().then(function() {
+    function init() {
+      Router.sync().then(
+        function() {
+          app.loadModule();
+          // Bind your ViewModel for the content of the whole page body.
+          ko.applyBindings(app, document.getElementById("globalBody"));
+        },
+        function(error) {
+          Logger.error("Error in root start: " + error.message);
         }
+      );
+    }
 
-        // If running in a hybrid (e.g. Cordova) environment, we need to wait for the deviceready
-        // event before executing any code that might interact with Cordova APIs or plugins.
-        if (document.body.classList.contains('oj-hybrid')) {
-          document.addEventListener("deviceready", init);
-        } else {
-          init();
-        }
-      });
-  }
-);
+    // If running in a hybrid (e.g. Cordova) environment, we need to wait for the deviceready
+    // event before executing any code that might interact with Cordova APIs or plugins.
+    if (document.body.classList.contains("oj-hybrid")) {
+      document.addEventListener("deviceready", init);
+    } else {
+      init();
+    }
+  });
+});
