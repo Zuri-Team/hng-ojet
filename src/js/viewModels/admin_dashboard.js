@@ -13,7 +13,6 @@ define([
   "ojs/ojcomposite",
   "ojs/ojavatar",
   "ojs/ojlabel",
-  "views/task-card/loader",
   "ojs/ojfilepicker",
   "ojs/ojformlayout",
   "ojs/ojbutton"
