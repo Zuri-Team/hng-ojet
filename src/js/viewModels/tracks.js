@@ -1,186 +1,77 @@
-/**
- * @license
- * Copyright (c) 2014, 2018, Oracle and/or its affiliates.
- * The Universal Permissive License (UPL), Version 1.0
- */
-/*
- * Your dashboard ViewModel code goes here
- */
 define([
-    "ojs/ojcore",
-    "knockout",
-    "jquery",
-    "./api",
-    "ojs/ojarraydataprovider",
-    "ojs/ojlabel",
-    "ojs/ojlistview",
-    "ojs/ojmodel",
-    "ojs/ojdialog",
-    "ojs/ojinputtext"
-  ], function(oj, ko, $, api, ArrayDataProvider) {
-    function TracksViewModel() {
-      var self = this;
+  "knockout",
+  "ojs/ojarraytreedataprovider",
+  "./api",
+  "ojs/ojknockout-keyset",
+  "ojs/ojknockout",
+  "ojs/ojlistview",
+  "ojs/ojbutton",
+  "ojs/ojswitch",
+  "ojs/ojdialog",
+  "ojs/ojinputtext"
+], function(ko, ArrayTreeDataProvider, api, keySet) {
+  function tracksViewModel() {
+    var self = this;
+
+    var tracksURL = `${api}/api/track`;
+
+    var userToken = sessionStorage.getItem("user_token");
+
+    self.selectedItems = new keySet.ObservableKeySet(); // observable bound to selection option to monitor current selections
+    self.selectedSelectionRequired = ko.observable(false);
+    self.firstSelectedItem = ko.observable();
+
+    self.selectedIds = ko.observableArray([]);
+    self.currentItemId = ko.observable();
+
+    self.dataProvider = ko.observable();
+
+    self.handleSelectionChanged = function(event)
+          {
+              self.selectedIds(event.detail.value); // show selected list item elements' ids
+            
+          
+            };
   
-      self.trackDataProvider = ko.observable(); //gets data for Tracks list
-      self.trackData = ko.observable(""); //holds data for the Track details
-      self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
-  
-      // Activity selection observables
-      self.trackSelected = ko.observable(false);
-      self.selectedTrack = ko.observable();
-      self.firstSelectedTrack = ko.observable();
-  
-      //REST endpoint
-      //var RESTurl = `${api}/api/categories`;
-  
-      //User Token
-      var userToken = sessionStorage.getItem("user_token");
-  
-      self.showCreateDialog = function(event) {
-        document.getElementById("createDialog").open();
-      };
-  
-      self.showEditDialog = function(event) {
-        document.getElementById("editDialog").open();
-      };
-  
-      /**
-       * Handle selection from Categories list
-       */
-      self.selectedTrackChanged = function(event) {
-        // Check whether click is a category selection or deselection
-        if (event.detail.value.length != 0) {
-          // If selection, populate and display Category details
-          // Populate items list observable using firstSelectedXxx API
-          self.trackData(self.firstSelectedTrack().data);
-  
-          self.trackSelected(true);
-        } else {
-          // If deselection, hide list
-          self.trackSelected(false);
-        }
-      };
-  
-      self.createTracks = function(event, data) {
-        let track = self.newTrack.track_name;
-        let track_description = self.newTrack.track_description;
-        //let mentors = self.newTrack.track_mentors;
-        //let projects = self.newTrack.track_projects;
-        console.log(track, track_description);
-        $.ajax({
-          url: `https://api.start.ng/api/track/create`,
+          self.handleCurrentItemChanged = function(event)
+          {
+              var itemId = event.detail.value
+              // Access current item via ui.item
+              self.currentItemId(itemId);
+              console.log(self.currentItemId())
+          }
+
+    self.fetchTracks = async () => {
+      try {
+        const response = await fetch(`${tracksURL}/list`, {
           headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "POST",
-          data: { track, track_description },
-          success: () => {
-            self.fetchTracks();
-          },
-          error: err => console.log(err)
-        });
-        document.getElementById("createNewTrack").value = "";
-        document.getElementById("createNewDesc").value = "";
-        document.getElementById("createDialog").close();
-  
-      };
-  
-      self.fetchTracks = function() {
-        $.ajax({
-          url: `https://api.start.ng/api/users/track/1/list`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "GET",
-          success: res => {
-            let { data } = res;
-            self.trackDataProvider(
-              new ArrayDataProvider(data, {
-                keys: data.map(function(value) {
-                  return value.id;
-                })
-              })
-            );
+            Authorization: `Bearer ${userToken}`
           }
         });
-      };
-  
-      self.updateTrackSubmit = function(event) {
-        //var trackId = self.firstSelectedTrack().data.id;
-        let track = self.firstSelectedTrack().data.track_name;
-        let track_description = self.firstSelectedTrack().data.track_desc;
-        console.log(track, track_description);
-        $.ajax({
-          url: `https://api.start.ng/api/track/edit`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "PUT",
-          data: { track, track_description },
-          success: res => {
-            console.log(res);
-            // let { data } = res;
-            // self.categoryDataProvider(
-            //   new ArrayDataProvider(data, {
-            //     keys: data.map(function(value) {
-            //       return value.id;
-            //     })
-            //   })
-            // );
-          },
-          error: err => console.log(err)
-        });
-  
-        document.getElementById("editDialog").close();
-      };
-  
-      self.deleteCategory = function(event, data) {
-        var trackId = self.firstSelectedTrack().data.id;
-        let trackName = self.firstSelectedTrack().data.track_name;
-        var really = confirm(
-          "Are you sure you want to delete " + trackName + "?"
+        const {
+          data: { data }
+        } = await response.json();
+
+        console.log(data);
+        self.dataProvider(
+          new ArrayTreeDataProvider(data, { keyAttributes: "id" })
         );
-        if (really) {
-          $.ajax({
-            url: `https://api.start.ng/api/track/delete`,
-            headers: {
-              Authorization: "Bearer " + userToken
-            },
-            method: "DELETE",
-            wait: true,
-            success: res => {
-              console.log(res, self.newTrack());
-              self.fetchTracks();
-              self.trackSelected(false);
-            },
-            error: err => console.log(err)
-          });
-        }
-      };
-  
-      self.fetchTracks();
-      self.connected = function() {
-        // Implement if needed
-        // console.log(sessionStorage.getItem("user_token"));
-        if (sessionStorage.getItem("user_token") == null) {
-          router.go("login");
-        }
-      };
-  
-      /**
-       * Optional ViewModel method invoked after the View is disconnected from the DOM.
-       */
-      self.disconnected = function() {
-        // Implement if needed
-        //self.activitySelected(false);
-        //self.itemSelected(false);
-      };
-  
-      self.transitionCompleted = function() {
-        // Implement if needed
-      };
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    self.fetchTracks();
+
+    self.createTrack = () => {
+      console.log("track created")
     }
-  
-    return new TracksViewModel();
-  });
-  
+
+    self.editTrack = () => {
+      console.log("mama");
+    };
+    self.deleteTrack = () => {
+      console.log("papa");
+    };
+  }
+  return new tracksViewModel();
+});
