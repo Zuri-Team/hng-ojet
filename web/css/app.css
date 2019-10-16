@@ -259,6 +259,13 @@ body {
   display: none;
 }
 
+#Categorymodel-category-list,
+#Categorymodel-post-list,
+#Postmodel-post-list {
+  border: none !important;
+  overflow-x: hidden;
+}
+
 .input__profile {
   max-width: 100%;
 }
@@ -302,11 +309,6 @@ body {
   #maincontent.smactive {
     margin-left: 65px;
   }
-}
-
-.posts li.oj-listview-item {
-  background: none !important;
-  border: none !important;
 }
 
 @media only screen and (min-width: 420px) {

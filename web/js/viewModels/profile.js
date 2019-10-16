@@ -1,21 +1,32 @@
 define(['ojs/ojcore',
         'knockout',
-        'jquery', './api',
+        'jquery',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
         'ojs/ojresponsiveknockoututils',
         'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojavatar', 'ojs/ojselectcombobox',
         'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'
     ],
-    function(oj, ko, $, api, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
+    function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
         function ProfileViewModel() {
             var self = this;
 
-            // 
-            var RESTurl = `${api}/api/profile`;
-            var userToken = sessionStorage.getItem("user_token");
 
+            self.fileNames = ko.observableArray([]);
+
+            self.selectListener = function(event) {
+                var files = event.detail.files;
+                for (var i = 0; i < files.length; i++) {
+                    self.fileNames.push(files[i].name);
+                }
+            }
+            self.name = ko.observable('');
+            self.email = ko.observable('');
+            self.bio = ko.observable('');
+            self.url = ko.observable('');
+            self.location = ko.observable('');
+            self.displayName = ko.observable('@');
 
             // Below are a set of the ViewModel methods invoked by the oj-module component.
             // Please reference the oj-module jsDoc for additional information.
@@ -27,63 +38,12 @@ define(['ojs/ojcore',
             self.labelEdge = ko.computed(function() {
                 return self.isSmall() ? "top" : "start";
             }, self);
-
-
-            self.firstname = ko.observable('');
-            self.lastname = ko.observable('');
-            self.username = ko.observable('@');
-            self.phone = ko.observable('');
-            self.email = ko.observable('');
-            self.bio = ko.observable('');
-            self.stack = ko.observable('');
-            self.url = ko.observable('');
-            self.location = ko.observable('');
-            self.profile_img = ko.observable('');
-
-            //Events
-            self.selectListener = function(event) {
-                var files = event.detail.files;
-                console.log(files)
-            }
-
-            self.editMode = ko.observable("false");
-            self.update = ko.observable('');
-
-            self.editButton = function() {
-
-                self.editMode() ?
-                    self.editMode(false) :
-                    self.editMode(true);
-
+            self.clickedButton = ko.observable("(None clicked yet)");
+            self.buttonClick = function(event) {
+                self.clickedButton(event.currentTarget.id);
+                return true;
             }.bind(self);
-
-            self.cancelButton = function() {
-
-                self.editMode() ?
-                    self.editMode(false) :
-                    self.editMode(true);
-
-            }.bind(self);
-
-            self.getProfile = function() {
-                const user = JSON.parse(sessionStorage.getItem("user"));
-                const id = user.id
-
-                $.ajax({
-                    url: `${RESTurl}/${id}`,
-                    headers: {
-                        Authorization: "Bearer " + userToken
-                    },
-                    method: "GET",
-                    success: res => {
-                        console.log(res);
-                    }
-                });
-
-            };
-
-            self.getProfile();
-
+            self.value = ko.observable("What");
 
             /**
              * Optional ViewModel method invoked after the View is inserted into the
@@ -95,8 +55,6 @@ define(['ojs/ojcore',
              */
             self.connected = function() {
                 // Implement if needed
-
-
             };
 
             /**
