@@ -4,19 +4,35 @@
             Add Team
         </oj-button>
         <oj-table aria-label="Teams Table" data='{{teamsDataProvider}}' columns='[
-        {"headerText": "TEAM NAME", "field": "team_name", "sortable": "enabled", "style": "width: 40%"},
-            {"headerText": "TEAM LEADER", "field": "team_leader", "sortable": "disabled", "style": "width: 40%"},
-            {"headerText": "MEMBERS", "field": "members", "sortable": "enabled", "style": "width: 20%"}]' style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
+        {"headerText": "TEAM NO", "field": "id", "sortable": "disabled", "style": "width: 10%"},
+        {"headerText": "TEAM NAME", "field": "team_name", "sortable": "enabled", "style": "width: 30%"},
+            {"headerText": "TEAM LEADER", "field": "team_lead", "sortable": "disabled", "style": "width: 40%"},
+            {"headerText": "MEMBERS", "field": "members().length", "sortable": "enabled", "style": "width: 20%"}]' row-renderer="[[oj.KnockoutTemplateUtils.getRenderer('team_template', true)]]" style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
         </oj-table>
+        <template id="team_template">
+            <tr>
+                <td data-bind="text: id"></td>
+                <td data-bind="text: team_name"></td>
+                <td data-bind="text: team_lead"></td>
+                <td data-bind="text: members().length"></td>
+            </tr>
+        </template>
     </div>
     <div class="oj-flex-item oj-md-4">
         <oj-button id="newMember" on-oj-action="[[addNewMemberDialog]]">
             New Member
         </oj-button>
-        <oj-table aria-label="Members Table" data='{{teamsDataProvider}}' columns='[{"headerText": "ID", "field": "id", "sortable": "enabled", "style": "width: 10%"},
+        <oj-table aria-label="Members Table" data='{{teamsDataProvider}}' columns='[{"headerText": "ID", "field": "members.id", "sortable": "enabled", "style": "width: 10%"},
               {"headerText": "NAME", "field": "fullname", "sortable": "disabled", "style": "width: 50%"},
-              {"headerText": "TRACK", "field": "stack", "sortable": "enabled", "style": "width: 40%"}]' style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
+              {"headerText": "TRACK", "field": "stack", "sortable": "disabled", "style": "width: 40%"}]' row-renderer="[[oj.KnockoutTemplateUtils.getRenderer('member_template', true)]]" style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
         </oj-table>
+        <template id="member_template">
+            <tr>
+                <td data-bind="text: members.id"></td>
+                <td data-bind="text: fullname"></td>
+                <td data-bind="text: stack"></td>
+            </tr>
+        </template>
     </div>
 </div>
 <!-- create new  team modal -->
