@@ -1,0 +1,171 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="m-5  bg-white mx-auto" style="width: 80%">
+    <div>
+
+        <img src="../../css/images/2845940.jpg" alt="" style="height: 250px; width: 100%">
+
+        <oj-bind-if test="[[editMode()]]">
+
+            <div class="container" style="position:relative">
+                <div class="row">
+                    <div class="col" style="height: 350px; width: 100%">
+                        <div class="m-5">
+                            <div class="m-3">
+                                <span>Jane Doe</span>
+                            </div>
+                            <div class="m-3">
+                                <span>@janedoe</span>
+
+                            </div>
+                            <div class="m-3">
+                                <span>janedoe@mail.com</span>
+
+                            </div>
+                            <div class="m-3">
+                                <span>This is my bio</span>
+
+                            </div>
+                            <div class="m-3">
+                                <span>http://janedoe.com</span>
+
+                            </div>
+                            <div class="m-3">
+                                <span class="m-1 border border-info">UX/UI </span>
+                                <span class="m-1 border border-info">Frontend </span>
+                                <span class="m-1 border border-info">Backend </span>
+                            </div>
+                            <div class="m-3">
+                                <span class="border">Lagos</span>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="m-2 d-flex justify-content-center">
+                            <img class=" h-50 w-50 rounded-circle " role="img " src="../../css/images/avatar-f.jpg ">
+                            </img>
+
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <span>Following</span>
+
+                            <span>Followers</span>
+
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <oj-button class='oj-button-primary' chroming='full' on-oj-action="[[editButton]]">
+                                <span slot="startIcon"></span> Edit
+                            </oj-button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </oj-bind-if>
+
+        <oj-bind-if test="[[!editMode()]]">
+            <div class="container ">
+                <oj-form-layout id="ofl1" label-edge="[[labelEdge]]" max-columns="1" class="oj-form-control-full-width m-5" method='post' action='profile'>
+
+                    <div class="oj-flex-items-pad demo-flex-display ">
+                        <div class="oj-flex d-flex ">
+                            <div class=" order-sm-2 order-md-1 order-lg-1 oj-sm-12 oj-md-8 oj-flex-item ">
+
+                                <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
+                                    <div class="oj-sm-12 oj-md-6 oj-flex-item">
+                                        <oj-input-text class='input-profile' value='Firstname'>
+                                        </oj-input-text>
+                                    </div>
+                                    <div class="oj-sm-12 oj-md-6 oj-flex-item">
+                                        <oj-input-text class='input-profile' value='Lastname'>
+                                        </oj-input-text>
+                                    </div>
+
+                                </div>
+
+                                <oj-input-text class='input-profile mt-1 mb-1' value='Email'>
+                                </oj-input-text>
+
+                                <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
+                                    <div class="oj-sm-12 oj-md-6 oj-flex-item">
+                                        <oj-input-text class='input-profile' value='Username'>
+                                        </oj-input-text>
+                                    </div>
+                                    <div class="oj-sm-12 oj-md-6 oj-flex-item">
+                                        <oj-input-text class='input-profile' value='Phone'>
+                                        </oj-input-text>
+                                    </div>
+
+                                </div>
+
+                                <oj-text-area class='input-profile mt-1 mb-1' rows="6 " value='Bio'></oj-text-area>
+
+                                <oj-input-text class='input-profile mt-1 mb-1' value='Url'>
+                                </oj-input-text>
+
+                                <div class="input-profile mt-1 mb-1">
+                                    <oj-combobox-one>
+                                        <oj-option value="Internet Explorer ">Internet Explorer</oj-option>
+                                        <oj-option value="Firefox ">Firefox</oj-option>
+                                        <oj-option value="Chrome ">Chrome</oj-option>
+                                        <oj-option value="Opera ">Opera</oj-option>
+                                        <oj-option value="Safari ">Safari</oj-option>
+                                    </oj-combobox-one>
+                                </div>
+                                <div class="input-profile mt-1 mb-1">
+                                    <oj-combobox-many>
+                                        <oj-option value="Internet Explorer ">Internet Explorer</oj-option>
+                                        <oj-option value="Firefox ">Firefox</oj-option>
+                                        <oj-option value="Chrome ">Chrome</oj-option>
+                                        <oj-option value="Opera ">Opera</oj-option>
+                                        <oj-option value="Safari ">Safari</oj-option>
+                                    </oj-combobox-many>
+                                </div>
+
+                            </div>
+                            <div class=" order-sm-1 order-md-2 order-lg-2 oj-sm-12 oj-md-4  oj-flex-item ">
+                                <div class=" ">
+                                    <div class="d-flex justify-content-end ">
+                                        <div class="m-2 ">
+                                            <oj-button id='button3' display='icons' on-oj-action="[[cancelButton]]">
+                                                <img slot="startIcon" src="../../css/images/cancel.png" alt="Button 3" width="16" height="16" />Cancel
+                                            </oj-button>
+                                        </div>
+                                    </div>
+                                    <div class="m-2 d-flex justify-content-center">
+                                        <img class=" h-50 w-50 rounded-circle " role="img " src="../../css/images/avatar-f.jpg ">
+                                        </img>
+
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <oj-file-picker class='oj-filepicker-custom ' select-on='click' on-oj-select='[[selectListener]]'>
+                                            <oj-button slot='trigger'>
+                                                <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n '></span> Upload
+                                            </oj-button>
+                                        </oj-file-picker>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type='submit' class="fbtn">Update</button>
+                    </div>
+
+                </oj-form-layout>
+
+            </div>
+        </oj-bind-if>
+    </div>
+
+</div>
