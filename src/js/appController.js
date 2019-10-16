@@ -22,7 +22,6 @@ define([
       dashboard: { label: "Dashboard" },
       admin_dashboard: { label: "Admin_dashboard" },
       user_dashboard: { label: "User_dashboard" },
-      teams: { label: "Teams"},
       register: { label: "Register" },
       login: { label: "Login", isDefault: true },
       password_reset: { label: "Reset password" },
