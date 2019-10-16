@@ -114,9 +114,9 @@ define([
 
     self.updateCategorySubmit = function(event) {
       var categoryId = self.firstSelectedCategory().data.id;
-      let title = self.firstSelectedCategory().data.category_name;
-      let description = self.firstSelectedCategory().data.dsecription;
-      console.log(categoryId, title, description);
+      let category_name = self.firstSelectedCategory().data.category_name;
+      let dsecription = self.firstSelectedCategory().data.dsecription;
+      console.log(categoryId, category_name, dsecription);
       $.ajax({
         url: `${RESTurl}/update/${categoryId}`,
         headers: {

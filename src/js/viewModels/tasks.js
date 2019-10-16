@@ -268,4 +268,6 @@ define([
        */
 
   return new taskModel();
+
 });
+
