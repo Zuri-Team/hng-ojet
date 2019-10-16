@@ -9,7 +9,7 @@ define(['ojs/ojcore',
     ],
     function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
-        function ProfileViewModel() {
+        function EditProfileViewModel() {
             var self = this;
 
 
@@ -21,12 +21,13 @@ define(['ojs/ojcore',
                     self.fileNames.push(files[i].name);
                 }
             }
-            self.name = ko.observable('');
+            self.firstname = ko.observable('');
+            self.lastname = ko.observable('');
             self.email = ko.observable('');
             self.bio = ko.observable('');
             self.url = ko.observable('');
             self.location = ko.observable('');
-            self.displayName = ko.observable('@');
+            self.username = ko.observable('@');
 
             // Below are a set of the ViewModel methods invoked by the oj-module component.
             // Please reference the oj-module jsDoc for additional information.
@@ -78,7 +79,7 @@ define(['ojs/ojcore',
          * each time the view is displayed.  Return an instance of the ViewModel if
          * only one instance of the ViewModel is needed.
          */
-        return new ProfileViewModel();
+        return new EditProfileViewModel();
     }
 
 );

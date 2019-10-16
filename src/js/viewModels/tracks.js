@@ -63,6 +63,8 @@ define([
     self.fetchTracks();
 
     self.createTrack = () => {
+
+      
       console.log("track created")
     }
 
