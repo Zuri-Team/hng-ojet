@@ -202,6 +202,12 @@ define([
       let track_id = self.currentItemId();
       console.log(self.currentItemId(), "yes");
 
+      let {
+        data: { track_name }
+      } = self.firstSelectedItem();
+
+      console.log(track_name);
+
       try {
 
         const response = await fetch(`${tracksURL}/delete`, {
@@ -220,7 +226,7 @@ define([
         self.applicationMessages.push({
 
           severity: "confirmation",
-          summary: track_name + "deleted",
+          summary: track_name + " deleted",
           detail: "Track " + track_name + " has been deleted"
 
         });
