@@ -43,7 +43,8 @@ function InternViewModel()
           self.dataProvider(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
-                return value.username;
+                console.log(value);
+                // return value.username;
               })
             })
           );
