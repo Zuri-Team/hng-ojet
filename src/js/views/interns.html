@@ -4,28 +4,15 @@
       <div id="tableDemo" class="oj-flex oj-flex-items-pad">
           <div class="oj-8 oj-xl-8 oj-lg-8 oj-md-8 oj-flex-item" style="overflow-x: scroll;">
               <oj-table id="table" aria-label="Interns Table"
-                                          data='[[dataprovider]]'
+                                          data='[[dataProvider]]'
                                           columns-default='{"sortable": "enabled"}' 
-                                          columns='[{"headerText": "ID", 
-                                                     "field": "InternId"},
-                                                    {"headerText": "NAME", 
-                                                     "field": "InternName"},
-                                                    {"headerText": "PHONE NUMBER", 
-                                                     "field": "PhoneNumber"},
-                                                    {"headerText": "TRACK",
-                                                     "field": "Track"},
-                                                    {"headerText": "POINTS", 
-                                                     "field": "Points"},
-                                                    {"headerText": "STAGE", 
-                                                     "field": "Stage"},
-                                                    {"headerText": "PROMOTE", 
-                                                     "field": "Stage"},
-                                                    {"headerText": "DEMOTE", 
-                                                     "field": "Stage"}]'
+                                          columns='[{"headerText": "name", 
+                                                     "field": "username"}]'
                                           style='width: 100%; height:100%;'>
               </oj-table>
           </div>
-          <div class="oj-4 oj-xl-4 oj-lg-4 oj-md-4 oj-flex-item">
+          <span data-bind="text: {{username}}"></span>
+          <!-- <div class="oj-4 oj-xl-4 oj-lg-4 oj-md-4 oj-flex-item">
               <oj-validation-group valid="{{groupValid}}">
                   <div class="oj-flex oj-flex-items-pad">
                       <div class="oj-flex-item deprecated-col-default-width">
@@ -83,7 +70,7 @@
                   <oj-button id='removeButton' on-oj-action='[[removeRow]]'>Remove</oj-button>
                   </div>
               </oj-validation-group> 
-          </div>
+          </div> -->
       </div>
 
       
