@@ -39,10 +39,12 @@
 <oj-dialog id="createTeamDialog" style="display:none" title="Create a New Team">
     <div slot="body">
         <oj-label class="oj-label oj-label-inline" for="newTeamName">Team Name</oj-label>
-        <oj-input-text id="newTeamName" value='{{team_name}}'></oj-input-text>
+        <oj-input-text id="newTeamName" value='{{newTeam.team_name}}'></oj-input-text>
+        <oj-label class="oj-label oj-label-inline" for="maxTeamMates">Max. No. of Team Members</oj-label>
+        <oj-input-text id="maxTeamMates" value='{{newTeam.max_team_mates}}'></oj-input-text>
     </div>
     <div slot="footer">
-        <oj-button id="submitBtn" on-oj-action="[[createTeam]]">Submit</oj-button>
+        <oj-button id="submitBtn" on-oj-action="[[createTeam]]">Create Team</oj-button>
     </div>
 </oj-dialog>
 
