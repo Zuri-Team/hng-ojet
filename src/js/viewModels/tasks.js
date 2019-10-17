@@ -1,17 +1,19 @@
 define([
+  "ojs/ojcore",
   "knockout",
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
-  "ojs/ojcollectiondataprovider",
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
   "ojs/ojdialog",
   'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout'
-], function(ko, $, api, ArrayDataProvider, CollectionDataProvider,) {
+], function(oj, ko, $, api, ArrayDataProvider,) {
 	
   function taskModel() {
+	  
+	  var self = this;
 	  
 	const userToken = sessionStorage.getItem("user_token");
 	
@@ -22,7 +24,13 @@ define([
       self.taskData = ko.observable('');             //holds data for the Task details
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
-	  
+	
+	var tracksURL = `${api}/api/track`;
+	
+	var tasksURL = `${api}/api/tasks`;
+	
+    self.dataProvider = ko.observable();
+		  
 
 	// Track selection observables
       self.trackSelected = ko.observable(false);
@@ -44,32 +52,39 @@ define([
 							document.getElementById("editDialog").open();
 							};
 	
+	//console.log(tasksURL + '/' + selectedTrack().data.track_name + "/`{track_id}`" );
 	
 	/**
-       * Handle selection from Tracks list
+       * Handle selection from Activities list
        */
       self.selectedTrackChanged = function (event) {
-        // Check whether click is a Track selection or a deselection
+        // Check whether click is an Activity selection or a deselection
         if (event.detail.value.length != 0) {
-          // If selection, populate and display list
-          // Create variable for items list using firstSelectedXxx API from List View
-          //var itemsArray = self.firstSelectedActivity().data.items;
-          // Populate items list using DataProvider fetch on key attribute
-		let { data } = self.firstSelectedTrack();
-          
-		  self.taskData(data);
-			self.trackSelected(true);
-		} else {
-			// If deselection, hide list
-			self.trackSelected(false);
-		}
-	  }
+            // If selection, populate and display list
+            // Create variable for items list using firstSelectedXxx API from List View
+            var tasksArray = self.firstSelectedTrack().data.id;
+			console.log(tasksArray);
+            // Populate items list using DataProvider fetch on key attribute
+            //self.taskDataProvider(new ArrayDataProvider(tasksArray, { keyAttributes: "id" }))
+            // Set List View properties
+			self.fetchTasks(tasksArray);
+            self.trackSelected(true);
+            self.taskSelected(false);
+            // Clear item selection
+            self.selectedTask([]);
+            self.taskData();
+        } else {
+          // If deselection, hide list
+           self.trackSelected(false);
+           self.taskSelected(false);
+        }
+      };
 	  
 	  
 	  /**
        * Handle selection from Track Tasks list
        */
-      self.selectedtaskChanged = function (event) {
+      self.selectedTaskChanged = function (event) {
         // Check whether click is an Activity Item selection or deselection
         if (event.detail.value.length != 0) {
           // If selection, populate and display Item details
@@ -89,36 +104,16 @@ define([
           }
         });
 			
-	//Fetch Track lists		
-	const fetchTracks = () => {
-		
-		$.ajax({
-		   url:RESTurl, 
-		   method: 'GET',
-		   headers:{
-					'Authorization' : "Bearer " + userToken,
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json',
-					//Access-Control-Allow-Origin: http://localhost:8000
-					//'Access-Control-Allow-Methods': '*',
-					'Access-Control-Allow-Headers': '*',
-					},
-		   dataType: 'json',
-		   success: function(data) {
-			// Create variable for Activities list and populate list using key attribute fetch
-			var taskArray = data;
-			self.taskDataProvider(new oj.ArrayDataProvider(tasksArray, { keyAttributes: "id" }));
-			}
-    });
-	};
+	
 	
 	//const track_id = selectedTrack().data.id;
 	
 	//Fetch Task lists		
-	const fetchTasks = () => {
+	//Fetch Track lists		
+	self.fetchTracks = () => {
 		
 		$.ajax({
-		   url:"http://api.start.ng/tasks" + '/' +selectedTrack().data.track_name + "/`{track_id}`" , 
+		   url:tracksURL+"/list", 
 		   method: 'GET',
 		   headers:{
 					'Authorization' : "Bearer " + userToken,
@@ -129,10 +124,48 @@ define([
 					'Access-Control-Allow-Headers': '*',
 					},
 		   dataType: 'json',
-		   success: function(data) {
+		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			var taskArray = data;
-			self.taskDataProvider(new oj.ArrayDataProvider(tasksArray, { keyAttributes: "id" }));
+			let {data} = response.data;
+			var tracksArray = data;
+				
+			self.trackDataProvider(
+				new ArrayDataProvider(tracksArray, { keyAttributes: "id" })
+			);
+			/*self.trackDataProvider(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                //numberOfPosts(value.id);
+                return value.id;
+              })
+            })
+          );*/
+			}
+    });
+	};
+	self.fetchTracks();
+	
+	
+	self.fetchTasks = (track_id) => {
+		
+		$.ajax({
+		   url:tracksURL +"/"+ self.firstSelectedTrack().data.id + "/tasks",
+		   method: 'GET',
+		   headers:{
+					'Authorization' : "Bearer " + userToken,
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json',
+					//Access-Control-Allow-Origin: http://localhost:8000
+					//'Access-Control-Allow-Methods': '*',
+					'Access-Control-Allow-Headers': '*',
+					},
+		   dataType: 'json',
+		   success: function(response) {
+			// Create variable for Activities list and populate list using key attribute fetch
+			console.log(response);
+			var tasksArray = data;
+			console.log(tasksArray);
+			self.taskDataProvider(new ArrayDataProvider(tasksArray, { keyAttributes: "id" }));
 			}
     });
 	};

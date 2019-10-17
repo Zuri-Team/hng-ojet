@@ -45,12 +45,16 @@
             </oj-dialog>
 	</div>
 
+<!-- Retrieve all Tracks -->
     <div class="oj-flex oj-flex-init">
       <div class="oj-flex-item oj-md-4 oj-sm-12">
-        <oj-list-view id="tracksList" style="width:40em;height:500px;overflow-x:hidden;" data="[[trackDataProvider]]"
-                      selection-mode="single" selection="{{selectedTrack}}" on-selection-changed="[[selectedTrackChanged]]"
-                      first-selected-item="{{firstSelectedTrack}}" scroll-policy="loadMoreOnScroll"
-                      scroll-policy-options.fetch-size="5">
+        <oj-list-view id="tracksList" style="width:40em;height:500px;overflow-x:hidden;"
+				data="[[trackDataProvider]]"
+                selection-mode="single" selection="{{selectedTrack}}" 
+				on-selection-changed="[[selectedTrackChanged]]"
+                first-selected-item="{{firstSelectedTrack}}" 
+				scroll-policy="loadMoreOnScroll"
+                scroll-policy-options.fetch-size="5">
           <template slot="itemTemplate">
             <div class="oj-flex" style="flex-wrap: nowrap">
               <!--<span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>-->
@@ -72,14 +76,13 @@
         <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
           <div class="oj-flex-item oj-md-6 oj-sm-12" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
             <h3><oj-label for="tasksList">Tasks</oj-label></h3>			
-			<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
-			<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditDialog]]">Update</oj-button>
-			<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
-			<oj-button id="deleteButton" disabled="[[!taskSelected()]]" on-oj-action="[[deleteTask]]">Delete</oj-button>
-            <oj-list-view id="tasksList" style="width:100%;height:500px;overflow-x:hidden" data="[[tasksDataProvider]]"
-                          selection-mode="single" selection="{{selectedTask}}" on-selection-changed="[[selectedTaskChanged]]"
-                          first-selected-item="{{firstSelectedTask}}" scroll-policy="loadMoreOnScroll"
-                          scroll-policy-options.fetch-size="5">
+            <oj-list-view id="tasksList" style="width:30em;height:500px;overflow-x:hidden" 
+						  data="[[taskDataProvider]]"
+                          selection-mode="single" selection="{{selectedTask}}" 
+						  on-selection-changed="[[selectedTaskChanged]]"
+                          first-selected-item="{{firstSelectedTask}}" 
+						  scroll-policy="loadMoreOnScroll"
+                          scroll-policy-options.fetch-size="5">						  
             </oj-list-view>
           </div>		  
           <oj-bind-if test="[[taskSelected()]]">
@@ -88,6 +91,10 @@
               <hr style="margin-top:12px;">
               <div id="taskTitle" style="font-size: 20px; font-weight: bolder;">
                 <oj-bind-text value="[[taskData().title]]"></oj-bind-text>
+				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
+				<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditDialog]]">Update</oj-button>
+				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
+				<oj-button id="deleteButton" disabled="[[!taskSelected()]]" on-oj-action="[[deleteTask]]">Delete</oj-button>
               </div>
               <div id="taskBody" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
                 <oj-bind-text value="[[taskData().body]]"></oj-bind-text>
