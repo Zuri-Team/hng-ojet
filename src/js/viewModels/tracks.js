@@ -113,7 +113,8 @@ define([
 
           severity: "confirmation",
           summary: "New track created",
-          detail: "The new track " + track_name + " has been created"
+          detail: "The new track " + track_name + " has been created",
+          autoTimeout: parseInt("0")
 
         });
 
@@ -131,7 +132,8 @@ define([
         self.applicationMessages.push({
           severity: "error",
           summary: "Error creating track",
-          detail: "Error trying to create new track"
+          detail: "Error trying to create new track",
+          autoTimeout: parseInt("0")
 
         });
 
