@@ -1,32 +1,21 @@
 define(['ojs/ojcore',
         'knockout',
-        'jquery',
+        'jquery', './api',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
         'ojs/ojresponsiveknockoututils',
         'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojavatar', 'ojs/ojselectcombobox',
         'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'
     ],
-    function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
+    function(oj, ko, $, api, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
         function ProfileViewModel() {
             var self = this;
 
+            // 
+            var RESTurl = `${api}/api/profile`;
+            var userToken = sessionStorage.getItem("user_token");
 
-            self.fileNames = ko.observableArray([]);
-
-            self.selectListener = function(event) {
-                var files = event.detail.files;
-                for (var i = 0; i < files.length; i++) {
-                    self.fileNames.push(files[i].name);
-                }
-            }
-            self.name = ko.observable('');
-            self.email = ko.observable('');
-            self.bio = ko.observable('');
-            self.url = ko.observable('');
-            self.location = ko.observable('');
-            self.displayName = ko.observable('@');
 
             // Below are a set of the ViewModel methods invoked by the oj-module component.
             // Please reference the oj-module jsDoc for additional information.
@@ -38,12 +27,137 @@ define(['ojs/ojcore',
             self.labelEdge = ko.computed(function() {
                 return self.isSmall() ? "top" : "start";
             }, self);
-            self.clickedButton = ko.observable("(None clicked yet)");
-            self.buttonClick = function(event) {
-                self.clickedButton(event.currentTarget.id);
-                return true;
+
+
+            self.firstname = ko.observable('');
+            self.lastname = ko.observable('');
+            self.username = ko.observable('@');
+            self.phone = ko.observable('');
+            self.email = ko.observable('');
+            self.bio = ko.observable('');
+            self.stack = ko.observable('');
+            self.url = ko.observable('');
+            self.location = ko.observable('');
+            self.profile_img = ko.observable('');
+
+            self.picture = ko.observable('');
+
+            self.devstack = ko.observableArray([
+                { value: 'UI/UX', label: 'UI/UX' },
+                { value: 'FrontEnd', label: 'FrontEnd' },
+                { value: 'Backend', label: 'Backend' },
+                { value: 'Digital Marketing', label: 'Digital Marketing' },
+                { value: 'DevOps', label: 'DevOps' },
+                { value: 'FrontEnd', label: 'FrontEnd' },
+            ]);
+
+
+            self.profile = ko.observable('');
+
+            //Events
+            self.acceptStr = ko.observable("image/*");
+
+            self.acceptArr = ko.pureComputed(function() {
+                var accept = self.acceptStr();
+                return accept ? accept.split(",") : [];
+            }, self);
+
+            self.selectListener = function(event) {
+                const file = event.detail.files[0];
+                console.log(file);
+                self.picture(file);
+            }
+
+            self.editMode = ko.observable("false");
+
+
+            self.editButton = function() {
+
+                self.editMode() ?
+                    self.editMode(false) :
+                    self.editMode(true);
+
             }.bind(self);
-            self.value = ko.observable("What");
+
+            self.cancelButton = function() {
+
+                self.editMode() ?
+                    self.editMode(false) :
+                    self.editMode(true);
+
+            }.bind(self);
+
+            self.update = function() {
+
+                const {...data } = self.profile;
+
+                const photo = self.picture();
+                let user = [];
+
+                console.log("You clicked this button", data, photo);
+                let formData = new FormData();
+
+                formData.append("data", { "photo": photo, "user": data });
+                fetch(user, {
+                    headers: {
+                        contentType: false,
+                        Authorization: "Bearer " + userToken
+                    },
+                    method: "PUT",
+                    body: formData,
+                    success: function(r) {
+                        console.log('success', r, user);
+                    },
+                    error: function(r) {
+                        console.log('error', r);
+                    }
+                });
+
+                // $.ajax({
+                //     url: `${RESTurl}/${id}/edit`,
+                //     headers: {
+                //         Authorization: "Bearer " + userToken
+                //     },
+                //     method: "POST",
+                //     data: data,
+                //     success: res => {
+
+                //     }
+                // });
+
+
+            }
+
+            self.getProfile = function() {
+                const user = JSON.parse(sessionStorage.getItem("user"));
+                const id = user.id
+
+                $.ajax({
+                    url: `${RESTurl}/${id}`,
+                    headers: {
+                        Authorization: "Bearer " + userToken
+                    },
+                    method: "GET",
+                    success: res => {
+                        const { user, profile } = res
+                        const { firstname, lastname, username, email, } = user;
+                        const { bio, url, phone, profile_img } = profile;
+
+                        self.firstname(firstname);
+                        self.lastname(lastname);
+                        self.username(username);
+                        self.email(email);
+                        self.bio(bio);
+                        self.url(url);
+                        self.phone(phone);
+                        self.profile_img(profile_img);
+                    }
+                });
+
+            };
+
+            self.getProfile();
+
 
             /**
              * Optional ViewModel method invoked after the View is inserted into the
@@ -55,6 +169,8 @@ define(['ojs/ojcore',
              */
             self.connected = function() {
                 // Implement if needed
+
+
             };
 
             /**
