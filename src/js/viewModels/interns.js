@@ -37,17 +37,19 @@ function InternViewModel()
       type: "GET",
       success: function(response){
         if (response.status == true) {
-          console.log(response.data[0].username) ;
-          self.username = response.data[0].username;
-          let {data} = response;
-          self.dataProvider(
-            new ArrayDataProvider(data, {
-              keys: data.map(function(value) {
-                console.log(value);
-                // return value.username;
-              })
-            })
-          );
+          console.log(response.data) ;
+          // self.username = response.data[0].username;
+          // let {data} = response;
+          console.log(response);
+          // document.write(response.data);
+          // self.dataProvider(
+          //   new ArrayDataProvider(data, {
+          //     keys: data.map(function(value) {
+          //       console.log(value);
+          //       // return value.username;
+          //     })
+          //   })
+          // );
         }
       }
     });
