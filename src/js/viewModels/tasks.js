@@ -13,6 +13,8 @@ define([
 	
   function taskModel() {
 	  
+	  var self = this;
+	  
 	const userToken = sessionStorage.getItem("user_token");
 	
 	
