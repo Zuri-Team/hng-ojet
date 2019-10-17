@@ -1,15 +1,15 @@
 define([
+  "ojs/ojcore",
   "knockout",
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
-  "ojs/ojcollectiondataprovider",
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
   "ojs/ojdialog",
   'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout'
-], function(ko, $, api, ArrayDataProvider, CollectionDataProvider,) {
+], function(oj, ko, $, api, ArrayDataProvider,) {
 	
   function taskModel() {
 	  
@@ -24,7 +24,11 @@ define([
       self.taskData = ko.observable('');             //holds data for the Task details
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
-	  
+	
+	var tracksURL = `${api}/api/track`;
+	
+    self.dataProvider = ko.observable();
+		  
 
 	// Track selection observables
       self.trackSelected = ko.observable(false);
@@ -91,11 +95,16 @@ define([
           }
         });
 			
+	
+	
+	//const track_id = selectedTrack().data.id;
+	
+	//Fetch Task lists		
 	//Fetch Track lists		
-	const fetchTracks = () => {
+	self.fetchTracks = () => {
 		
 		$.ajax({
-		   url:RESTurl, 
+		   url:tracksURL+"/list", 
 		   method: 'GET',
 		   headers:{
 					'Authorization' : "Bearer " + userToken,
@@ -106,18 +115,29 @@ define([
 					'Access-Control-Allow-Headers': '*',
 					},
 		   dataType: 'json',
-		   success: function(data) {
+		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			var taskArray = data;
-			self.taskDataProvider(new oj.ArrayDataProvider(tasksArray, { keyAttributes: "id" }));
+			let {data} = response.data;
+			var tracksArray = data;
+				
+			self.trackDataProvider(
+				new ArrayDataProvider(tracksArray, { keyAttributes: "id" })
+			);
+			/*self.trackDataProvider(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                //numberOfPosts(value.id);
+                return value.id;
+              })
+            })
+          );*/
 			}
     });
 	};
+	self.fetchTracks();
 	
-	//const track_id = selectedTrack().data.id;
 	
-	//Fetch Task lists		
-	const fetchTasks = () => {
+	self.fetchTasks = () => {
 		
 		$.ajax({
 		   url:"http://api.start.ng/tasks" + '/' +selectedTrack().data.track_name + "/`{track_id}`" , 
