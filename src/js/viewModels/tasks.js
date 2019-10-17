@@ -19,9 +19,10 @@ define([
 	
 	
 	self.trackDataProvider = ko.observable();   //gets data for Tracks list
-      self.taskDataProvider = ko.observable();      //gets data for tasks list
+    self.taskDataProvider = ko.observable();      //gets data for tasks list
 
-      self.taskData = ko.observable('');             //holds data for the Task details
+    self.taskData = ko.observable('');             //holds data for the Task details
+	self.tasksTrack = ko.observable('');    //Tasks that belongs to a track
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
 	
@@ -55,19 +56,18 @@ define([
 	//console.log(tasksURL + '/' + selectedTrack().data.track_name + "/`{track_id}`" );
 	
 	/**
-       * Handle selection from Activities list
+       * Handle selection from Track
        */
       self.selectedTrackChanged = function (event) {
         // Check whether click is an Activity selection or a deselection
         if (event.detail.value.length != 0) {
             // If selection, populate and display list
             // Create variable for items list using firstSelectedXxx API from List View
-            var tasksArray = self.firstSelectedTrack().data.id;
-			console.log(tasksArray);
+            var trackId = self.firstSelectedTrack().data.id;
             // Populate items list using DataProvider fetch on key attribute
             //self.taskDataProvider(new ArrayDataProvider(tasksArray, { keyAttributes: "id" }))
             // Set List View properties
-			self.fetchTasks(tasksArray);
+			self.fetchTasks(trackId);
             self.trackSelected(true);
             self.taskSelected(false);
             // Clear item selection
@@ -82,20 +82,22 @@ define([
 	  
 	  
 	  /**
-       * Handle selection from Track Tasks list
+       * Handle selection from Task list based on track_id
        */
       self.selectedTaskChanged = function (event) {
         // Check whether click is an Activity Item selection or deselection
         if (event.detail.value.length != 0) {
-          // If selection, populate and display Item details
-          // Populate items list observable using firstSelectedXxx API
-          self.TaskData(self.firstSelectedTask().data);
-          self.taskSelected(true);
+            // If selection, populate and display Item details
+            // Populate items list observable using firstSelectedXxx API
+			console.log(self.firstSelectedTask());
+            self.fetchTask(self.firstSelectedTask().data);
+            self.taskSelected(true);
         } else {
           // If deselection, hide list
-          self.taskSelected(false);
+           self.taskSelected(false);
         }
       };
+	  
 	
 	$.ajaxSetup({
           headers: {
@@ -105,10 +107,6 @@ define([
         });
 			
 	
-	
-	//const track_id = selectedTrack().data.id;
-	
-	//Fetch Task lists		
 	//Fetch Track lists		
 	self.fetchTracks = () => {
 		
@@ -149,7 +147,7 @@ define([
 	self.fetchTasks = (track_id) => {
 		
 		$.ajax({
-		   url:tracksURL +"/"+ self.firstSelectedTrack().data.id + "/tasks",
+		   url:tracksURL +"/"+ track_id + "/tasks",
 		   method: 'GET',
 		   headers:{
 					'Authorization' : "Bearer " + userToken,
@@ -164,8 +162,10 @@ define([
 			// Create variable for Activities list and populate list using key attribute fetch
 			console.log(response);
 			var tasksArray = data;
-			console.log(tasksArray);
-			self.taskDataProvider(new ArrayDataProvider(tasksArray, { keyAttributes: "id" }));
+				
+			self.tasksTrack(
+				new ArrayDataProvider(tasksArray, { keyAttributes: "id" })
+			);
 			}
     });
 	};
@@ -303,4 +303,3 @@ define([
   return new taskModel();
 
 });
-
