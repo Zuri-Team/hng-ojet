@@ -21,6 +21,7 @@ define([
     // create observables for the team collection and teams data provider
     self.TeamCol = ko.observable();
     self.teamsDataProvider = ko.observable();
+    self.newTeam = ko.observableArray([]);
 
     self.addNewTeamDialog = function(event) {
       document.getElementById("createTeamDialog").open();
@@ -32,8 +33,11 @@ define([
     self.createTeam = function() {};
     self.addMember = function() {};
 
-    // API Endpoint
-    var teamsURL = `${api}/api/teams`;
+    // create team model
+    self.team = oj.Model.extend({
+      url: teamsURL,
+      idAttribute: "id"
+    });
 
     var userToken = sessionStorage.getItem("user_token");
 
@@ -46,13 +50,6 @@ define([
 
     // create teams collection, assigning the URL to retrieve the data from the API endpoint and assigning the team model created above
 
-    self.teamCollection = oj.Collection.extend({
-      url: teamsURL,
-      model: self.myTeam
-    });
-
-    self.TeamCol(new self.teamCollection());
-
     self.fetchTeams = async () => {
       try {
         const response = await fetch(`${teamsURL}`, {
@@ -60,38 +57,53 @@ define([
             Authorization: `Bearer ${userToken}`
           }
         });
-        const {
-          data: { data }
-        } = await response.json();
-
-        console.log(data);
+        const { data = data[data[0]] } = await response.json();
+        console.log("Data", data);
         self.teamsDataProvider(
-          new ArrayTreeDataProvider(data, { keyAttributes: "id" })
+          new oj.CollectionTableDataSource(self.TeamCol())
         );
       } catch (err) {
         console.log(err);
       }
     };
-    self.fetchTeams();
 
-    // self.fetchTeams = async() => {
-    //     try {
-    //         const response = await fetch(`${teamsURL}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userToken}`
-    //             }
-    //         });
-    //         const {
-    //             data: { data }
-    //         } = await response.json();
-    //         console.log("Data", data);
-    //         self.teamsDataProvider(new oj.CollectionTableDataSource(self.TeamCol()));
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+    self.TeamCol(new self.teamCollection());
 
-    // self.fetchTeams();
+    self.createTeam = async () => {
+      let team_name = self.newTeam.team_name;
+      let max_team_mates = self.newTeam.max_team_mates;
+      console.log(team_name, max_team_mates);
+      try {
+        const response = await fetch(`${teamsURL}/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            team_name,
+            max_team_mates
+          })
+        });
+        document.getElementById("newTeamName").value = "";
+        document.getElementById("maxTeamMates").value = "";
+        document.getElementById("createTeamDialog").close();
+        self.fetchTeams();
+      } catch (err) {
+        console.log(err);
+      }
+      console.log("team created");
+    };
+
+    self.addMember = function() {};
+
+    self.addNewTeamDialog = function(event) {
+      document.getElementById("createTeamDialog").open();
+    };
+
+    self.addNewMemberDialog = function(event) {
+      document.getElementById("addMemberDialog").open();
+    };
   }
   return new TeamViewModel();
 });
