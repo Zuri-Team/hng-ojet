@@ -1,24 +1,52 @@
 <div class="oj-flex oj-hybrid-padding">
-    <div class="oj-flex-item oj-md-8">
+    <div class="oj-flex-item oj-md-12">
         <oj-button id="newTeam" on-oj-action="[[addNewTeamDialog]]">
             Add Team
         </oj-button>
-        <oj-table aria-label="Teams Table" data='{{teamsDataProvider}}' columns='[
-        {"headerText": "TEAM NO", "field": "id", "sortable": "disabled", "style": "width: 10%"},
+        <!-- <oj-table aria-label="Teams Table" data='[[teamsDataProvider]]' columns='[
         {"headerText": "TEAM NAME", "field": "team_name", "sortable": "enabled", "style": "width: 30%"},
-            {"headerText": "TEAM LEADER", "field": "team_lead", "sortable": "disabled", "style": "width: 40%"},
-            {"headerText": "MEMBERS", "field": "members().length", "sortable": "enabled", "style": "width: 20%"}]' row-renderer="[[oj.KnockoutTemplateUtils.getRenderer('team_template', true)]]" style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
-        </oj-table>
-        <template id="team_template">
+        {"headerText": "MAXIMUM MEMBERS", "field": "max_team_mates", "sortable": "enabled", "style": "width: 30%"},
+            {"headerText": "About", "field": "team_description", "sortable": "disabled", "style": "width: 40%"},
+            ]' selection-mode='{"row": "multiple", "column": "multiple"}' style='width: 100%; height: 400px;'>
+
+            <template id="team_template" data-oj-as="item">
+                <tr>
+                    <td data-bind="text: id"></td>
+                    <td data-bind="text: team_name"></td>
+                    <td data-bind="text: team_lead"></td>
+                    <td data-bind="text: members().length"></td>
+                </tr>
+            </template>
+        </oj-table> -->
+
+        <table id="table" class="table" summary="Department List" aria-label="Departments Table" data-bind="ojComponent: {component: 'ojTable', data: teamsDataProvider, columns:
+     [{headerText: 'TEAM NAME', field: 'team_name', sortable: 'enabled', style: 'width: 30%'},
+     {headerText: 'MAX TEAM', field: 'max_team_mates', sortable: 'enabled', style: 'width: 30%'},
+     {headerText: 'ABOUT', field: 'team_description', sortable: 'enabled', style: 'width: 40%'}],
+     rowTemplate: 'row_tmpl'}"
+     selection-mode='{"row": "multiple", "column": "multiple"}'
+     style='width: 100%; height: 400px;'
+     >
+            <script type="text/html" id="row_tmpl">
+                <tr>
+                    <td data-bind="text: team_name">
+                    </td>
+                    <td data-bind="text: max_team_mates">
+                    </td>
+                    <td data-bind="text: team_description">
+                    </td>
+                </tr>
+            </script>
+        <!-- <template id="team_template">
             <tr>
                 <td data-bind="text: id"></td>
                 <td data-bind="text: team_name"></td>
                 <td data-bind="text: team_lead"></td>
                 <td data-bind="text: members().length"></td>
             </tr>
-        </template>
+        </template> -->
     </div>
-    <div class="oj-flex-item oj-md-4">
+    <!-- <div class="oj-flex-item oj-md-4">
         <oj-button id="newMember" on-oj-action="[[addNewMemberDialog]]">
             New Member
         </oj-button>
@@ -33,7 +61,7 @@
                 <td data-bind="text: stack"></td>
             </tr>
         </template>
-    </div>
+    </div> -->
 </div>
 <!-- create new  team modal -->
 <oj-dialog id="createTeamDialog" style="display:none" title="Create a New Team">
