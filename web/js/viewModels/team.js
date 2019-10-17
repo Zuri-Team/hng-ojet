@@ -1,113 +1,95 @@
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'promise', 'ojs/ojdatagrid', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojinputtext', 'ojs/ojinputnumber', 'ojs/ojdatetimepicker'],
-function(oj, ko, $)
-{
-    function viewModel()
-    {
-      var self = this;
-      var dateOptions = {formatType: 'date', dateFormat: 'medium'};
-      var dateConverterFactory = oj.Validation.converterFactory("datetime");
-      self.dateConverter = dateConverterFactory.createConverter(dateOptions);        
-        
-      var salaryOptions = {
-        style: "currency",
-        currency: "USD",
-        currencyDisplay: "symbol"
-      };
-      var salaryConverterFactory = 
-            oj.Validation.converterFactory("number");
-      self.salaryConverter = 
-            salaryConverterFactory.createConverter(salaryOptions);        
-        
-      self.collection = new oj.Collection(null, {
-        model: new oj.Model.extend({idAttribute: 'EMPLOYEE_ID'}),
-        url: 'cookbook/commonModel/crud/CRUDGrid/employeeData.json'
-      });        
-        
-      self.dataSource = new oj.CollectionDataGridDataSource(
-        self.collection, {
-        rowHeader: 'EMPLOYEE_ID', 
-        columns:['FIRST_NAME', 'LAST_NAME', 'HIRE_DATE', 'SALARY']
-      });        
+define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', './api', 'ojs/ojtable', 'ojs/ojbutton', 'ojs/ojcollectiontabledatasource', 'ojs/ojmodel', 'ojs/ojdialog', 'ojs/ojinputtext'],
+    function(oj, ko, $, api) {
+        function TeamViewModel() {
+            var self = this;
 
-      var nextKey = 121;        
+            self.team_name = ko.observable("");
+            self.fullname = ko.observable("");
 
-      //build a new model from the observables in the form
-      self.buildModel = function() {
-        return {
-          'EMPLOYEE_ID': self.inputEmployeeID(),
-          'FIRST_NAME': self.inputFirstName(),
-          'LAST_NAME': self.inputLastName(),
-          'HIRE_DATE': self.inputHireDate(),
-          'SALARY': self.inputSalary()
-        };
-      };
-        
-      //used to update the fields based on the selected row
-      self.updateFields = function(model) {      
-        self.inputEmployeeID(model.get('EMPLOYEE_ID'));
-        self.inputFirstName(model.get('FIRST_NAME'));
-        self.inputLastName(model.get('LAST_NAME'));
-        self.inputHireDate(model.get('HIRE_DATE'));
-        self.inputSalary(model.get('SALARY'));
-      };
+            // create observables for the team collection and teams data provider
+            self.TeamCol = ko.observable();
+            self.teamsDataProvider = ko.observable();
+            self.newTeam = ko.observableArray([]);
 
-      //add the model to the collection at index 0
-      self.add = function() {
-        if (self.inputEmployeeID(nextKey) < nextKey) {
-          self.inputEmployeeID(nextKey);            
+            // API Endpoint
+            var teamsURL = `${api}/api/teams`;
+
+            var userToken = sessionStorage.getItem("user_token");
+
+            // create team model
+            self.team = oj.Model.extend({
+                url: teamsURL,
+                idAttribute: "id"
+            });
+
+            self.myTeam = new self.team();
+
+            // create teams collection, assigning the URL to retrieve the data from the API endpoint and assigning the team model created above
+
+            self.teamCollection = oj.Collection.extend({
+                url: teamsURL,
+                model: self.myTeam
+            });
+
+            self.TeamCol(new self.teamCollection());
+
+            self.fetchTeams = async() => {
+                try {
+                    const response = await fetch(`${teamsURL}`, {
+                        headers: {
+                            Authorization: `Bearer ${userToken}`
+                        }
+                    });
+                    const {
+                        data = data[data[0]]
+                    } = await response.json();
+                    console.log("Data", data);
+                    self.teamsDataProvider(new oj.CollectionTableDataSource(self.TeamCol()));
+                } catch (err) {
+                    console.log(err);
+                }
+            };
+
+            self.fetchTeams();
+
+            self.createTeam = async() => {
+                let team_name = self.newTeam.team_name;
+                let max_team_mates = self.newTeam.max_team_mates;
+                console.log(team_name, max_team_mates);
+                try {
+                    const response = await fetch(`${teamsURL}/`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${userToken}`
+                        },
+                        body: JSON.stringify({
+                            team_name,
+                            max_team_mates
+                        })
+                    });
+                    document.getElementById("newTeamName").value = "";
+                    document.getElementById("maxTeamMates").value = "";
+                    document.getElementById("createTeamDialog").close();
+                    self.fetchTeams();
+                } catch (err) {
+                    console.log(err);
+                }
+                console.log("team created");
+            };
+
+            self.addMember = function() {
+
+            };
+
+            self.addNewTeamDialog = function(event) {
+                document.getElementById("createTeamDialog").open();
+            };
+
+            self.addNewMemberDialog = function(event) {
+                document.getElementById("addMemberDialog").open();
+            };
+
         }
-        var model = self.buildModel();
-        nextKey += 1;
-        self.inputEmployeeID(nextKey);
-        self.collection.add(model, {at:0});
-      };
-
-      // update the model in the collection
-      self.update = function() {
-        if (self.modelToUpdate) {
-          self.modelToUpdate.set(self.buildModel());
-        }
-      };
-
-      //remove the selected model from the collection
-      self.remove = function() {
-        self.collection.remove(self.modelToUpdate);
-      };
-
-      //reset the fields to their original values
-      self.resetFields = function() {       
-        self.inputEmployeeID(nextKey);
-        self.inputFirstName('Jane');
-        self.inputLastName('Doe');
-        self.inputHireDate(oj.IntlConverterUtils.dateToLocalIso(new Date()));
-        self.inputSalary(15000);
-      };  
-
-      //intialize the observable values in the forms
-      self.inputEmployeeID = ko.observable(nextKey);
-      self.inputFirstName = ko.observable('Jane');
-      self.inputLastName = ko.observable('Doe');
-      self.inputHireDate = ko.observable(oj.IntlConverterUtils.dateToLocalIso(new Date()));
-      self.inputSalary = ko.observable(15000);
-
-      self.getCellClassName = function(cellContext) {
-        var key = cellContext['keys']['column'];
-        if (key === 'SALARY') { 
-          return 'oj-helper-justify-content-right';
-        }
-        return 'oj-helper-justify-content-flex-start';                          
-      }
-
-      document.getElementById('datagrid').addEventListener('selectionChanged', function(event) {
-        //on selection change update fields with the selected model
-        var selection = event.detail['value'][0];
-        if (selection != null) {
-          var rowKey = selection['startKey']['row'];
-          self.modelToUpdate = self.collection.get(rowKey);
-          self.updateFields(self.modelToUpdate);
-        }
-      });        
-    };
-
-    return new viewModel();
-});
+        return new TeamViewModel();
+    });

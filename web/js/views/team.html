@@ -1,72 +1,60 @@
-<div id="sampleDemo" style="" class="demo-padding demo-container">
-    <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
-      <div id="datagrid-wrapper" class="oj-flex oj-flex-items-pad">  
-          <div class="oj-sm-12 oj-lg-6 oj-flex-item">
-          <oj-data-grid 
-              id="datagrid" 
-              style="height:400px; max-width:477px" 
-              aria-label="Data Grid CRUD Demo"
-              data="[[dataSource]]"
-              selection-mode.row="single"
-              dnd.reorder.row="enable"
-              header.column.renderer="[[oj.KnockoutTemplateUtils.getRenderer('header_template')]]"
-              header.column.style="width:100px"
-              cell.renderer="[[oj.KnockoutTemplateUtils.getRenderer('cell_template')]]"
-              cell.class-name="[[getCellClassName]]"
-          ></oj-data-grid>
-          </div>
-          <div class="oj-sm-12 oj-lg-6 oj-flex-item">  
-              <div id="form-container" class="oj-form">
-                  <label for="firstNameInput">First Name</label><br/>
-                  <oj-input-text id="firstNameInput" value="{{inputFirstName}}"></oj-input-text><br/>
-                  <label for="lastNameInput">Last Name</label><br/>
-                  <oj-input-text id="lastNameInput" value="{{inputLastName}}"></oj-input-text><br/>
-                  <label for="inputHireDate">Date Hired</label><br/>
-                  <oj-input-text id="inputHireDate" value="{{inputHireDate}}"></oj-input-text><br/>
-                  <label for="inputSalary">Salary</label><br/>
-                  <oj-input-text id="inputSalary" value="{{inputSalary}}" max="30000" min="1000" step="100"></oj-input-text><br/>
-                  <div class="oj-form-control-group" 
-                       aria-label="submit group" role="group">
-                      <oj-button id="addbutton" data-bind="click: add">Add</oj-button>
-                      <oj-button id="updateButton" data-bind="click: update">Update</oj-button>
-                      <oj-button id="removeButton" data-bind="click: remove">Remove</oj-button>
-                      <oj-button id="resetFields" data-bind="click: resetFields">Reset Fields</oj-button>
-                  </div>
-              </div>
-      
-      
-          </div>
-      </div>
-      
-      <script type="text/html" id="header_template">
-          <!-- ko if: $context.key=='FIRST_NAME' -->            
-              <span data-bind="text: 'First Name'"></span>
-          <!-- /ko -->
-          <!-- ko if: $context.key=='LAST_NAME' -->
-              <span data-bind="text: 'Last Name'"></span>
-          <!-- /ko -->
-          <!-- ko if: $context.key=='HIRE_DATE' -->
-              <span data-bind="text: 'Date Hired'"></span>
-          <!-- /ko -->
-          <!-- ko if: $context.key=='SALARY' -->
-              <span data-bind="text: 'Salary'"></span>
-          <!-- /ko -->
-      </script>	
-      
-      <script type="text/html" id="cell_template">
-          <!-- ko if: ($context.keys.column=='FIRST_NAME' || $context.keys.column=='LAST_NAME') -->
-              <span data-bind="text: $context.data"></span>
-          <!-- /ko -->
-          <!-- ko if: $context.keys.column=='HIRE_DATE' -->
-              <span data-bind="text: $parent.dateConverter.format($context.data)">
-              </span>
-          <!-- /ko -->
-          <!-- ko if: $context.keys.column=='SALARY' -->
-              <span data-bind="text: $parent.salaryConverter.format($context.data)">
-              </span>
-          <!-- /ko -->
-      </script>
-
-      
+<div class="oj-flex oj-hybrid-padding">
+    <div class="oj-flex-item oj-md-8">
+        <oj-button id="newTeam" on-oj-action="[[addNewTeamDialog]]">
+            Add Team
+        </oj-button>
+        <oj-table aria-label="Teams Table" data='{{teamsDataProvider}}' columns='[
+        {"headerText": "TEAM NO", "field": "id", "sortable": "disabled", "style": "width: 10%"},
+        {"headerText": "TEAM NAME", "field": "team_name", "sortable": "enabled", "style": "width: 30%"},
+            {"headerText": "TEAM LEADER", "field": "team_lead", "sortable": "disabled", "style": "width: 40%"},
+            {"headerText": "MEMBERS", "field": "members().length", "sortable": "enabled", "style": "width: 20%"}]' row-renderer="[[oj.KnockoutTemplateUtils.getRenderer('team_template', true)]]" style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
+        </oj-table>
+        <template id="team_template">
+            <tr>
+                <td data-bind="text: id"></td>
+                <td data-bind="text: team_name"></td>
+                <td data-bind="text: team_lead"></td>
+                <td data-bind="text: members().length"></td>
+            </tr>
+        </template>
     </div>
-  </div>
+    <div class="oj-flex-item oj-md-4">
+        <oj-button id="newMember" on-oj-action="[[addNewMemberDialog]]">
+            New Member
+        </oj-button>
+        <oj-table aria-label="Members Table" data='{{teamsDataProvider}}' columns='[{"headerText": "ID", "field": "members.id", "sortable": "enabled", "style": "width: 10%"},
+              {"headerText": "NAME", "field": "fullname", "sortable": "disabled", "style": "width: 50%"},
+              {"headerText": "TRACK", "field": "stack", "sortable": "disabled", "style": "width: 40%"}]' row-renderer="[[oj.KnockoutTemplateUtils.getRenderer('member_template', true)]]" style='width: 100%;' selectionMode='{"row": "single", "column": "none"}'>
+        </oj-table>
+        <template id="member_template">
+            <tr>
+                <td data-bind="text: members.id"></td>
+                <td data-bind="text: fullname"></td>
+                <td data-bind="text: stack"></td>
+            </tr>
+        </template>
+    </div>
+</div>
+<!-- create new  team modal -->
+<oj-dialog id="createTeamDialog" style="display:none" title="Create a New Team">
+    <div slot="body">
+        <oj-label class="oj-label oj-label-inline" for="newTeamName">Team Name</oj-label>
+        <oj-input-text id="newTeamName" value='{{newTeam.team_name}}'></oj-input-text>
+        <oj-label class="oj-label oj-label-inline" for="maxTeamMates">Max. No. of Team Members</oj-label>
+        <oj-input-text id="maxTeamMates" value='{{newTeam.max_team_mates}}'></oj-input-text>
+    </div>
+    <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[createTeam]]">Create Team</oj-button>
+    </div>
+</oj-dialog>
+
+<!-- add new  member modal -->
+<oj-dialog id="addMemberDialog" style="display:none" title="Add New Member">
+    <div slot="body">
+        <oj-label class="oj-label oj-label-inline" for="newTeamMember">Name</oj-label>
+        <oj-input-text id="newTeamMember" value='{{fullname}}'></oj-input-text>
+    </div>
+    <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[addMember]]">Submit</oj-button>
+    </div>
+</oj-dialog>

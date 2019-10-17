@@ -43,12 +43,17 @@ define([
     self.selectedCategoryChanged = function(event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
+        console.log(event.detail);
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedCategory();
-        self.posts_under_category(data.id);
-        self.categoryData(data);
-        self.categorySelected(true);
+        if (data == null) {
+          self.categorySelected(false);
+        } else {
+          self.posts_under_category(data.id);
+          self.categoryData(data);
+          self.categorySelected(true);
+        }
       } else {
         // If deselection, hide list
         self.categorySelected(false);
@@ -115,8 +120,7 @@ define([
     self.updateCategorySubmit = function(event) {
       var categoryId = self.firstSelectedCategory().data.id;
       let title = self.firstSelectedCategory().data.category_name;
-      let dsecription = self.firstSelectedCategory().data.dsecription;
-      console.log(categoryId, category_name, dsecription);
+      let description = self.firstSelectedCategory().data.dsecription;
       $.ajax({
         url: `${RESTurl}/update/${categoryId}`,
         headers: {
@@ -171,7 +175,15 @@ define([
       });
     };
 
-    self.fetchCategories();
+    let pm = ko.dataFor(document.querySelector("#admin"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Categories") {
+        console.log(pm.selectedItem());
+        self.categorySelected(false);
+        self.firstSelectedCategory({});
+        self.fetchCategories();
+      }
+    });
   }
 
   return new CategoryViewModel();
