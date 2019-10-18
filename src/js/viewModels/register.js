@@ -33,7 +33,7 @@ define([
 
         // var result = data.data.map(track => [track.id]);
         var result = data.map(track => ({
-          value: track.id,
+          value: `${track.id}`,
           label: track.track_name
         }));
         console.log(result);
