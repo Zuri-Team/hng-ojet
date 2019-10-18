@@ -132,7 +132,7 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
               router.go("login");
             }
             self.fullname(`${user.firstname} ${user.lastname}`);
-            self.tracks(`${user.stack}`);
+            self.track(`${user.stack}`);
       
             $("#navlistcontainer li a").on("click", function() {
               let attr = $(this).attr("for");
