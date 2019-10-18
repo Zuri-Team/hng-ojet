@@ -56,7 +56,6 @@ define([
       if (data != null) {
         self.post(data);
       }
-      console.log(self.post());
     };
 
     self.viewPostModal = () => {
@@ -75,7 +74,6 @@ define([
       let category_id = self.category_id();
       let post_title = self.newpost().title;
       let post_body = self.newpost().body;
-      console.log(category_id, post_title, post_body);
       $.ajax({
         url: `${RESTurl}`,
         headers: {
@@ -133,7 +131,6 @@ define([
       let post_id = self.post().id;
       let post_title = self.post().post_title;
       let post_body = self.post().post_body;
-      console.log(category_id, post_title, post_body);
       $.ajax({
         url: `${RESTurl}/${post_id}`,
         headers: {
@@ -146,13 +143,11 @@ define([
             // send a success message notification to the category view
             self.applicationMessages.push({
               severity: "confirmation",
-              summary: "Post created",
-              detail: "A new post has been created",
+              summary: "Post updated",
+              detail: "A post has been updated",
               autoTimeout: parseInt("0")
             });
-            reset();
-            fetchposts();
-            self.post_btn_toggler(!self.post_btn_toggler());
+            self.fetchPost();
           }
         },
         error: err => {
@@ -161,8 +156,8 @@ define([
           // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
-            summary: "Error creating post",
-            detail: "Error trying to create post",
+            summary: "Error updating post",
+            detail: "Error trying to update post",
             autoTimeout: parseInt("0")
           });
         }
@@ -202,7 +197,6 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Posts") {
-        console.log(pm.selectedItem());
         fetchCategories();
         self.fetchPost();
       }
