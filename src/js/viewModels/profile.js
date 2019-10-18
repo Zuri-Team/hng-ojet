@@ -3,11 +3,11 @@ define(['ojs/ojcore',
         'jquery', './api',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
-        'ojs/ojresponsiveknockoututils',
+        'ojs/ojresponsiveknockoututils', 'ojs/ojarraydataprovider', 'ojs/ojmessages',
         'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojavatar', 'ojs/ojselectcombobox',
         'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'
     ],
-    function(oj, ko, $, api, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
+    function(oj, ko, $, api, ArrayDataProvider, ) {
 
         function ProfileViewModel() {
             var self = this;
@@ -15,18 +15,12 @@ define(['ojs/ojcore',
             // 
             var RESTurl = `${api}/api/profile`;
             var userToken = sessionStorage.getItem("user_token");
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            const id = user.id
 
 
-            // Below are a set of the ViewModel methods invoked by the oj-module component.
-            // Please reference the oj-module jsDoc for additional information.
-            self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
-                responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
-
-            // For small screens: labels on top
-            // For medium or bigger: labels inline
-            self.labelEdge = ko.computed(function() {
-                return self.isSmall() ? "top" : "start";
-            }, self);
+            // notification messages observable
+            self.applicationMessages = ko.observableArray([]);
 
 
             self.firstname = ko.observable('');
@@ -40,14 +34,71 @@ define(['ojs/ojcore',
             self.location = ko.observable('');
             self.profile_img = ko.observable('');
 
+
+            self.profile = ko.observable('');
+
+            self.devstack = ko.observableArray([
+                { value: 'UI/UX', label: 'UI/UX' },
+                { value: 'FrontEnd', label: 'FrontEnd' },
+                { value: 'Backend', label: 'Backend' },
+                { value: 'Digital Marketing', label: 'Digital Marketing' },
+                { value: 'DevOps', label: 'DevOps' },
+                { value: 'FrontEnd', label: 'FrontEnd' },
+            ]);
+
             //Events
+            self.acceptStr = ko.observable("image/*");
+
+            self.acceptArr = ko.pureComputed(function() {
+                var accept = self.acceptStr();
+                return accept ? accept.split(",") : [];
+            }, self);
+
             self.selectListener = function(event) {
-                var files = event.detail.files;
-                console.log(files)
+                const file = event.detail.files[0];
+
+                let form = new FormData();
+
+                form.append('profile_img', file);
+
+                $.ajax({
+                    url: `${RESTurl}/${id}/edit`,
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: "Bearer " + userToken
+                    },
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                        self.applicationMessages.push({
+
+                            severity: "confirmation",
+                            summary: "Update Successful",
+                            detail: "Your profile has been successfully updated"
+
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error)
+                        self.applicationMessages.push({
+                            severity: "error",
+                            summary: "Failed to Update",
+                            detail: "An error occurred while updating your profile. Try Again"
+
+                        });
+
+                    }
+                });
+
+
             }
 
             self.editMode = ko.observable("false");
-            self.update = ko.observable('');
+
 
             self.editButton = function() {
 
@@ -65,9 +116,53 @@ define(['ojs/ojcore',
 
             }.bind(self);
 
+            self.update = function() {
+
+                const {...user } = self.profile;
+
+                console.log("You clicked this button", user.firstname);
+
+                let form = new FormData();
+
+                form.append('firstname', user.firstname);
+
+                $.ajax({
+                    url: `${RESTurl}/${id}/edit`,
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: "Bearer " + userToken
+                    },
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                        self.applicationMessages.push({
+
+                            severity: "confirmation",
+                            summary: "Update Successful",
+                            detail: "Your profile has been successfully updated"
+
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error)
+                        self.applicationMessages.push({
+                            severity: "error",
+                            summary: "Failed to Update",
+                            detail: "An error occurred while updating your profile. Try Again"
+
+                        });
+                    }
+                });
+
+
+
+            }
+
             self.getProfile = function() {
-                const user = JSON.parse(sessionStorage.getItem("user"));
-                const id = user.id
 
                 $.ajax({
                     url: `${RESTurl}/${id}`,
@@ -76,7 +171,18 @@ define(['ojs/ojcore',
                     },
                     method: "GET",
                     success: res => {
-                       console.log("Profile fetched successfully")
+                        const { user, profile } = res
+                        const { firstname, lastname, username, email, } = user;
+                        const { bio, url, phone, profile_img } = profile;
+
+                        self.firstname(firstname);
+                        self.lastname(lastname);
+                        self.username(username);
+                        self.email(email);
+                        self.bio(bio);
+                        self.url(url);
+                        self.phone(phone);
+                        self.profile_img(profile_img);
                     }
                 });
 

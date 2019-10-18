@@ -14,31 +14,34 @@
                     <div class="col" style="height: 350px; width: 100%">
                         <div class="m-5">
                             <div class="m-3">
-                                <span>Jane Doe</span>
+                                <span>
+                                    <oj-bind-text value="[[firstname]]"></oj-bind-text>
+                                    <oj-bind-text value="[[lastname]]"></oj-bind-text>
+                                </span>
                             </div>
                             <div class="m-3">
-                                <span>@janedoe</span>
+                                <span>  <oj-bind-text value="[[username]]"></oj-bind-text></span>
 
                             </div>
                             <div class="m-3">
-                                <span>janedoe@mail.com</span>
+                                <span> <oj-bind-text value="[[email]]"></oj-bind-text></span>
 
                             </div>
                             <div class="m-3">
-                                <span>This is my bio</span>
+                                <span> <oj-bind-text value="[[bio]]"></oj-bind-text></span>
 
                             </div>
                             <div class="m-3">
-                                <span>http://janedoe.com</span>
+                                <span> <oj-bind-text value="[[url]]"></oj-bind-text></span>
 
                             </div>
                             <div class="m-3">
-                                <span class="m-1 border border-info">UX/UI </span>
-                                <span class="m-1 border border-info">Frontend </span>
-                                <span class="m-1 border border-info">Backend </span>
+                                <span> <oj-bind-text value="[[stack]]"></oj-bind-text></span>
+
                             </div>
                             <div class="m-3">
-                                <span class="border">Lagos</span>
+                                <span> <oj-bind-text value="[[location]]"></oj-bind-text></span>
+
 
                             </div>
 
@@ -70,7 +73,7 @@
 
         <oj-bind-if test="[[!editMode()]]">
             <div class="container ">
-                <oj-form-layout id="ofl1" label-edge="[[labelEdge]]" max-columns="1" class="oj-form-control-full-width m-5" method='post' action='profile'>
+                <oj-form-layout id="ofl1" class="oj-form-control-full-width m-5">
 
                     <div class="oj-flex-items-pad demo-flex-display ">
                         <div class="oj-flex d-flex ">
@@ -78,53 +81,43 @@
 
                                 <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='Firstname'>
+                                        <oj-input-text class='input-profile' value='{{profile.firstname}}'>
                                         </oj-input-text>
                                     </div>
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='Lastname'>
+                                        <oj-input-text class='input-profile' value='{{profile.lastname}}'>
                                         </oj-input-text>
                                     </div>
 
                                 </div>
 
-                                <oj-input-text class='input-profile mt-1 mb-1' value='Email'>
+                                <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.email}}'>
                                 </oj-input-text>
 
                                 <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='Username'>
+                                        <oj-input-text class='input-profile' value='{{profile.username}}'>
                                         </oj-input-text>
                                     </div>
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='Phone'>
+                                        <oj-input-text class='input-profile' value='{{profile.phone}}'>
                                         </oj-input-text>
                                     </div>
 
                                 </div>
 
-                                <oj-text-area class='input-profile mt-1 mb-1' rows="6 " value='Bio'></oj-text-area>
+                                <oj-text-area class='input-profile mt-1 mb-1' rows="6 " value='{{profile.bio}}'></oj-text-area>
 
-                                <oj-input-text class='input-profile mt-1 mb-1' value='Url'>
+                                <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.url}}'>
                                 </oj-input-text>
 
                                 <div class="input-profile mt-1 mb-1">
-                                    <oj-combobox-one>
-                                        <oj-option value="Internet Explorer ">Internet Explorer</oj-option>
-                                        <oj-option value="Firefox ">Firefox</oj-option>
-                                        <oj-option value="Chrome ">Chrome</oj-option>
-                                        <oj-option value="Opera ">Opera</oj-option>
-                                        <oj-option value="Safari ">Safari</oj-option>
-                                    </oj-combobox-one>
+                                    <oj-select-many p // notification messages observable self.applicationMessages=k o.observableArray([]);laceholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
+                                    </oj-select-many>
                                 </div>
                                 <div class="input-profile mt-1 mb-1">
-                                    <oj-combobox-many>
-                                        <oj-option value="Internet Explorer ">Internet Explorer</oj-option>
-                                        <oj-option value="Firefox ">Firefox</oj-option>
-                                        <oj-option value="Chrome ">Chrome</oj-option>
-                                        <oj-option value="Opera ">Opera</oj-option>
-                                        <oj-option value="Safari ">Safari</oj-option>
-                                    </oj-combobox-many>
+                                    <oj-input-text class='mt-1 mb-1' value='{{profile.location}}'>
+                                    </oj-input-text>
                                 </div>
 
                             </div>
@@ -143,11 +136,12 @@
 
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <oj-file-picker class='oj-filepicker-custom ' select-on='click' on-oj-select='[[selectListener]]'>
+                                        <oj-file-picker class='oj-filepicker-custom ' accept="[[acceptArr]]" id="myFile" selection-mode="single" select-on='click' on-oj-select='[[selectListener]]'>
                                             <oj-button slot='trigger'>
                                                 <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n '></span> Upload
                                             </oj-button>
                                         </oj-file-picker>
+
                                     </div>
 
                                 </div>
@@ -159,7 +153,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        <button type='submit' class="fbtn">Update</button>
+                        <button type='submit' class="fbtn" data-bind="click:  update">Update</button>
                     </div>
 
                 </oj-form-layout>
@@ -167,5 +161,10 @@
             </div>
         </oj-bind-if>
     </div>
-
+    <oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+      "my": {"vertical" : "bottom", "horizontal": "end"},
+      "at": {"vertical": "bottom", "horizontal": "end"},
+      "of": "window"
+      }'>
+    </oj-messages>
 </div>
