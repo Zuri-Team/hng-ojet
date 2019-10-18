@@ -51,6 +51,7 @@
             <div id="usercontent_nav" class="w-100 position-relative">
                 <nav class="d-flex justify-content-between">
                             <h4 class="d-flex">
+                              <i class="fa fa-bars mr-2 " data-bind="click: toggleDrawer"></i>
                               <span data-bind="text: selectedItem"></span>
                             </h4>
                             <span class="d-flex ml-5">
@@ -84,25 +85,17 @@
             
             <div id="usercontent_body" class="px-3 w-100">
                 
-                <div id="welcome-user">
+                <div id="overview-user">
                     <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
+                    <h3>Overview</h3><hr>
                 </div>
-                <hr>
-                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
-                        <oj-collapsible id="collapsiblePage">
-                          <h3 id="h" slot="header" id="overview-user">Overview</h3>
-                          <p id="c"></p>
-                        </oj-collapsible>
-                </div>
-                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
-                        <oj-collapsible id="collapsiblePage">
-                          <h3 id="h" slot="header" id="posts-user">Posts</h3>
-                          <p id="c"></p>
-                        </oj-collapsible>
+                <div id="posts-user">
+                    <h3>Posts</h3><hr>
                 </div>
 
                 <!-- Categories start -->
                 <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+          
                         <oj-collapsible id="collapsiblePage">
                           <h3 id="h" slot="header" id="categories-user">Categories</h3>
                           <p id="c"></p>
