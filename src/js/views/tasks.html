@@ -92,13 +92,15 @@
                     <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
                   </strong>
                 </div>
+				<div>
+				   <oj-button id="viewButton" disabled="[[!taskSelected()]]" on-oj-action="[[showViewTaskDialog]]">View</oj-button>
+				</div>   
               </div>
             </div>
           </template>			
             </oj-list-view>			
           </div>		  
           <oj-bind-if test="[[taskSelected()]]">
-		  say hi
 		  <!--<div class="oj-flex-item oj-sm-12 oj-md-6">-->
 		  <oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="viewTaskDialog" dialog-title="View" style="width:50em;display:inline-block">
 			<div slot="body">
@@ -125,9 +127,9 @@
             <!--</div>-->
           </oj-bind-if>
 		  <!-- Update Task -->
-       <!-- <oj-bind-if test="[[taskSelected()]]">
+        <oj-bind-if test="[[taskSelected()]]">
           <div class="oj-flex-item  oj-sm-12 oj-md-6">
-			<oj-dialog id="editDialog" style="width:40em;height:100%;display:none" title="Task">
+			<oj-dialog id="editTaskDialog" style="width:40em;display:inline-block" title="Update Task">
 				<div slot="body">
 					<oj-label class="oj-label oj-label-inline" for="newName">Title</oj-label>
 					<oj-input-text id="newTitle" value='{{taskData().title}}'></oj-input-text>
@@ -136,14 +138,14 @@
 					<oj-label class="oj-label oj-label-inline" for="newDeadline">Deadline</oj-label>
 					<oj-input-text id="newDeadline" value="{{taskData().deadline}}"></oj-input-text>
 					<oj-label class="oj-label oj-label-inline" for="newStatus">Status</oj-label>
-					<oj-input-text id="newStatus" value="{{taskData().status}}"></oj-input-text>
+					<oj-input-text id="newStatus" value="{{taskData().is_active}}"></oj-input-text>
 			    </div>
 			    <div slot="footer">					
 					<oj-button id="submitBtn" on-oj-action="[[updateTask]]" style="">Update</oj-button>
 			    </div>
 			</oj-dialog>
           </div>
-        </oj-bind-if>-->
+        </oj-bind-if>
       </div>
     </oj-bind-if>
     <!--<oj-bind-if test="[[!trackSelected()]]">
