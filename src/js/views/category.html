@@ -1,6 +1,6 @@
 <div>
   <button id="createButton" class="btn btn-outline-success mr-1" data-bind="click:showCreateDialog">
-    Create category
+    New category
   </button>
   <!-- If categorySelected is set to false, disabled is true, and vice-versa. -->
   <oj-bind-if test="[[categorySelected()]]">
@@ -28,13 +28,21 @@
         <div class="">
           <strong class="d-block mb-3 text-capitalize">
             <oj-bind-text value="[[item.data.category_name]]"></oj-bind-text>
-            <span class="float-right h5"> <span class="badge badge-info"
+            <span class="float-right h5"> <span class="badge badge-pill badge-info"
                 data-bind="text: numOfPosts()[item.data.id]"></span>
             </span>
           </strong>
-          <strong>
-            <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
-          </strong>
+          <div class="d-block d-sm-flex justify-content-between align-items-center">
+            <strong>
+              <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
+            </strong>
+            <div class="pt-2 ">
+              <button data-bind="click: showEditDialog" class="btn btn-sm btn-dark mr-2"><i
+                  class="fa fa-edit"></i></button>
+              <button data-bind="click: showDeleteDialog" class="btn btn-sm btn-danger"><i
+                  class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
         </div>
       </template>
     </oj-list-view>
@@ -53,7 +61,7 @@
           <strong class="text-capitalize d-block">
             <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
           </strong>
-          <button data-bind="click: ''" class="btn btn-sm btn-dark mt-2">View post</button>
+          <!-- <button data-bind="click: ''" class="btn btn-sm btn-dark mt-2">View post</button> -->
         </template>
       </oj-list-view>
     </div>
@@ -61,7 +69,7 @@
 </div>
 
 <!-- create new  category modal -->
-<oj-dialog id="createDialog" style="display:none" title="Create New Category">
+<oj-dialog id="createDialog" title="Create New Category">
   <div slot="body">
     <oj-label class="oj-label oj-label-inline" for="createNewTitle">Title</oj-label>
     <oj-input-text id="createNewTitle" value='{{newCategory.category_name}}'></oj-input-text>
@@ -74,30 +82,29 @@
 </oj-dialog>
 
 <!-- update category modal, if category is selected -->
-<oj-bind-if test="[[categorySelected()]]">
-  <oj-dialog id="editDialog" style="display:none" title="Update Category Details">
-    <div slot="body">
-      <oj-label class="oj-label oj-label-inline" for="newName">Title</oj-label>
-      <oj-input-text id="newName" value='{{categoryData().category_name}}'></oj-input-text>
-      <oj-label class="oj-label oj-label-inline" for="newDesc">Description</oj-label>
-      <oj-input-text id="newDesc" value="{{categoryData().dsecription}}"></oj-input-text>
-    </div>
-    <div slot="footer">
-      <oj-button id="submitBtn" on-oj-action="[[updateCategorySubmit]]">Update
-      </oj-button>
-    </div>
-  </oj-dialog>
-  <!-- delete category modal -->
-  <oj-dialog id="deleteDialog" style="display:none" title="Delete Category">
-    <div slot="body">
-      <p>Confirm you want to delete the category <span data-bind="text: categoryData().category_name"></span>?</p>
-    </div>
-    <div slot="footer">
-      <oj-button id="submitBtn" on-oj-action="[[deleteCategory]]">Delete
-      </oj-button>
-    </div>
-  </oj-dialog>
+<oj-dialog id="editDialog" title="Update Category Details">
+  <div slot="body">
+    <oj-label class="oj-label oj-label-inline" for="newName">Title</oj-label>
+    <oj-input-text id="newName" value='{{categoryData().category_name}}'></oj-input-text>
+    <oj-label class="oj-label oj-label-inline" for="newDesc">Description</oj-label>
+    <oj-input-text id="newDesc" value="{{categoryData().dsecription}}"></oj-input-text>
+  </div>
+  <div slot="footer">
+    <oj-button id="submitBtn" on-oj-action="[[updateCategorySubmit]]">Update
+    </oj-button>
+  </div>
+</oj-dialog>
 
+<!-- delete category modal -->
+<oj-dialog id="deleteDialog" title="Delete Category">
+  <div slot="body">
+    <p>Confirm you want to delete the category <span data-bind="text: categoryData().category_name"></span>?</p>
+  </div>
+  <div slot="footer">
+    <oj-button id="submitBtn" on-oj-action="[[deleteCategory]]">Delete
+    </oj-button>
+  </div>
+</oj-dialog>
 
 </oj-bind-if>
 

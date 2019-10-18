@@ -160,7 +160,8 @@ define([
 		   dataType: 'json',
 		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			console.log(response);
+			//console.log(response);
+			let { data } = response.data;
 			var tasksArray = data;
 				
 			self.tasksTrack(
@@ -172,12 +173,13 @@ define([
 		
   	  
 
-	self.createTask = function (event, data) {
+	self.createTask = () => {
 		
+		let track_id = self.firstSelectedTrack().data.id;
 		let title = self.newTask.title;
         let body = self.newTask.body;
 		let deadline = self.newTask.deadline;
-		//let isactive = self.newTask.isactive;
+		//let is_active = self.newTask.is_active;
 		
 		$.ajax({
                  method: "POST",
@@ -189,7 +191,7 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: { title, body, deadline },
+				 data: { track_id, title, body, deadline },
                  //contentType: "application/json",
                  dataType: "json",
                  processData: true,
@@ -202,7 +204,9 @@ define([
 					 alert('Error');
                  }
              });
-		
+		document.getElementById("createNewTitle").value = "";
+      document.getElementById("createNewBody").value = "";
+      document.getElementById("createNewDeadline").value = "";
 		document.getElementById('createDialog').close();
 	};
 	
@@ -212,11 +216,11 @@ define([
 		let title = self.firstSelectedTask().data.title;
         let body = self.firstSelectedTask().data.body;
 		let deadline = self.newTask.firstSelectedTask().data.deadline;
-		//let isactive = self.newTask.isactive;
+		let is_active = self.newTask.is_active;
 		
 		$.ajax({
                  method: "PUT",
-                 url: "https://api.start.ng/api/tasks/" + firstSelectedTask().data.id,
+                 url: tasksURL + firstSelectedTask().data.id,
 				 headers:{
 				 'Authorization' : "Bearer " + userToken,
 				 'Access-Control-Allow-Origin': '*',
@@ -224,11 +228,11 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: { title, body, deadline },
+				 data: { title, body, deadline, is_active },
                  contentType: "application/json",
                  dataType: "json",
                  success: function (data, status, jqXHR) {
-					 alert('create');
+					 alert('Update Successful');
                  console.log('Successfully updated Task');
                  },
                  error: function (xhr) {
@@ -248,7 +252,7 @@ define([
 		const confirm_ques = confirm("Are you sure you want to delete " + taskTitle + "?");
 		
 		if(confirm_ques){
-			$.ajax({ url:"https://api.start.ng/api/tasks" + "/`{taskId}`", method: "DELETE" })
+			$.ajax({ url:tasksURL + "/`{taskId}`", method: "DELETE" })
             .then(function (data) {
                 alert('Task Successfully deleted!');
             })
@@ -303,3 +307,4 @@ define([
   return new taskModel();
 
 });
+

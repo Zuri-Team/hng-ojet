@@ -8,7 +8,8 @@ define([
   "ojs/ojlistview",
   "ojs/ojmodel",
   "ojs/ojdialog",
-  "ojs/ojinputtext"
+  "ojs/ojinputtext",
+  "ojs/ojmessages"
 ], function(oj, ko, $, api, ArrayDataProvider) {
   function CategoryViewModel() {
     var self = this;
@@ -19,6 +20,8 @@ define([
     self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
     self.numOfPosts = ko.observableArray([]);
 
+    // notification messages observable
+    self.applicationMessages = ko.observableArray([]);
     // Activity selection observables
     self.categorySelected = ko.observable(false);
     self.firstSelectedCategory = ko.observable();
@@ -138,9 +141,9 @@ define([
     };
 
     self.updateCategorySubmit = function(event) {
-      var categoryId = self.firstSelectedCategory().data.id;
-      let title = self.firstSelectedCategory().data.category_name;
-      let description = self.firstSelectedCategory().data.dsecription;
+      var categoryId = self.categoryData().id;
+      let title = self.categoryData().category_name;
+      let description = self.categoryData().dsecription;
       $.ajax({
         url: `${RESTurl}/update/${categoryId}`,
         headers: {
