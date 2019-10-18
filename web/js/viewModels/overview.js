@@ -6,8 +6,15 @@
 /*
  * Your login ViewModel code goes here
  */
-define(['knockout', 'ojs/ojbootstrap', 'ojs/ojvalidation-base','ojs/ojknockout', 'ojs/ojcomposite',
-'ojs/ojbutton','ojs/ojavatar','ojs/ojvalidation','ojs/ojlabel'],
+define(['knockout', 
+        'ojs/ojbootstrap', 
+        'ojs/ojvalidation-base',
+        'ojs/ojknockout', 
+        'ojs/ojcomposite',
+        'ojs/ojbutton',
+        'ojs/ojavatar',
+        'ojs/ojvalidation',
+        'ojs/ojlabel'],
     function (ko, Bootstrap, ojvalbase) {
 
         function OverviewModel() {

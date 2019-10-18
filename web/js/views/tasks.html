@@ -5,18 +5,21 @@
 .create-task > .oj-button-button, #updateButton > .oj-button-button, #deleteButton > .oj-button-button {
 	border-radius:60px;
 }
-.create-task > button{
+.create-task > .oj-button-button{
 	background-color: red;
 	color: white;
 }
 </style>
 
 <div class="oj-hybrid-padding">
-	<div>
+	<div class="oj-flex oj-flex-init">
 		<!-- Create new Task-->
-            <oj-button id="createButton" on-oj-action="[[showCreateDialog]]" class="create-task">Create Task</oj-button>
-			<oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="createDialog" dialog-title="Add Task" style="width:50em; display: inline-block">
-  
+		<!--<button id="createButton" class="btn btn-outline-success mr-1" data-bind="click:showCreateDialog">
+		Create Task</button>-->
+            <oj-button id="createButton" on-oj-action="[[showCreateDialog]]" class="create-task">
+			Create Task
+			</oj-button>
+			<oj-dialog class="oj-flex-item oj-md-4 oj-sm-12" id="createDialog" dialog-title="Add Task" style="width:50em;display:inline-style">  
               <div slot="body">
                 <oj-form-layout id="form-container">
 				<!-- <oj-label class="oj-label oj-label-inline" for="createActivityId">Activity ID</oj-label> -->
@@ -37,14 +40,14 @@
 				<oj-label class="oj-label oj-label-inline" for="createNewStatus">Status</oj-label>
 					<oj-input-text id="input" required value="{{newTask.status}}"></oj-input-text>
 				</div>
-			    </oj-form-layout></div>
+			   </oj-form-layout>
+				</div>
               <div slot="footer">
                 <oj-button id="okButton" on-oj-action="[[createTask]]">Submit
                 </oj-button>
               </div>
             </oj-dialog>
 	</div>
-
     <div class="oj-flex oj-flex-init">
       <div class="oj-flex-item oj-md-4 oj-sm-12">
         <oj-list-view id="tracksList" style="width:40em;height:500px;overflow-x:hidden;" data="[[trackDataProvider]]"
@@ -129,4 +132,3 @@
     </oj-bind-if>-->
   </div>
 </div>
-

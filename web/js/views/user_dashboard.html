@@ -1,136 +1,97 @@
-<section class="page__container">
-<div class="oj-offcanvas-outer-wrapper">
-    <!-- start offcanvas -->
-    <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
-        <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
-            <div class="oj-flex-item">
-                <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
-                </oj-avatar>
-            </div>
-            <h3 data-bind="text: fullname"></h3>
-            <div class="oj-flex-item">
-                <span class="fa fa-slack"></span>
-                <span><span data-bind="text: slack"></span></span>
-            </div>
-        </div>
 
-        <hr />
-        <div class="oj-flex oj-sm-justify-content-center">
-            <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
-                <a href="#"><div class="oj-flex-item  oj-sm-padding-2x">
-                    <span><i class="fa fa-user"></i></span>
-                    <span>user Profile</span>
-                </div></a>
-                <a href=""><div class="oj-flex-item oj-sm-padding-2x">
-                    <span><i class="fa fa-list-alt"></i></span>
-                    <span> Categories </span>
-                </div></a> 
-
-                <a href="#"><div class="oj-flex-item oj-sm-padding-2x">
-                    <span><i class="fa fa-envelope"></i></span>
-                    <span> Posts </span>
-                </div></a>
-                <a href="#"><div class="oj-flex-item oj-sm-padding-2x">
-                    <span><i class="fa fa-tasks"></i></span>
-                    <span> Track </span>
-                </div></a>
-            </div>
-        </div>
-    </div>
-        <!-- End offcanvas -->
-    
-        <!-- main content -->
-        <div class="main">
-           
-            <!-- End offcanvas launch button -->
-            <div class="clearfix"></div>
+    <section class="page__container h-100" id="user">
+        <div>
             <!-- Start main dashboard content -->
-
-            <div class="user-profile-update oj-flex">
-            <div class="side-nav">
-                <div class="logo-container" style="padding: 7px;"><h2><ion-icon name="options"></ion-icon> HNG BOARD </h2></div>
-                <div id="navlistcontainer"  style="max-width:100%; font-size: 18px;">
-                    <oj-navigation-list aria-label="Choose a navigation item"  selection="{{selectedItem}}" style=" color: #768093;">
+            <div id="side-nav" class="h-100">
+                    <h5 class="my-4 text-light logo text-center">
+                            <i class="oj-navigationlist-item-icon fa  fa-bandcamp"></i><span>HNG
+                              BOARD</span>
+                    </h5>
+                    <!-- <oj-navigation-list display="[[isSmall() ? 'icons' : 'all']]" selection="{{ selectedItem }}">
                     <ul >
                         <li id="Dashboard" >
-                        <a href="#overview-user" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
+                        <a for = "overview-user" >
+                            <i class="oj-navigationlist-item-icon fa fa-dashboard"></i> DASHBOARD
+                        </a>
                         </li>
                         <li id="Posts" >
-                        <a href="#posts-user" ><ion-icon name="paper"></ion-icon> POSTS</a>
+                        <a for="posts-user" >
+                            <i class="oj-navigationlist-item-icon fa fa-newspaper-o"></i> POSTS
+                        </a>
                         </li>
                         <li id="Categories">
-                        <a href="#categories-user" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
+                        <a for="categories-user" >
+                            <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
+                        </a>
                         </li>
                         <li id="Tasks">
-                        <a href="#tasks-user" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
+                        <a for="tasks-user" >
+                            <i class="oj-navigationlist-item-icon fa fa-list"></i> TASKS
+                        </a>
                         </li>
                         <li id="Tracks">
-                        <a href="#tracks-user" ><ion-icon name="swap"></ion-icon> TRACKS</a>
+                        <a for="tracks-user" >
+                            <i class="oj-navigationlist-item-icon fa fa-road"></i> TRACKS
+                        </a>
                         </li>
                         <li id="Teams">
-                        <a href="#teams-user" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
+                        <a for="teams-user" >
+                            <i class="oj-navigationlist-item-icon fa fa-users"></i> TEAMS
+                        </a>
                         </li>
                         <li id="Settings">
-                        <a href="#user-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
+                        <a for="user-settings" >
+                            <i class="oj-navigationlist-item-icon fa fa-cog"></i> SETTINGS
+                        </a>
                         </li>
                     </ul>
-                    </oj-navigation-list>
-                </div>
+                    </oj-navigation-list> -->
             </div>
-            <div class="small-nav hidden">
-                <div id="navlistcontainer-small"  style="max-width:100%; font-size: 18px;">
-                <oj-navigation-list aria-label="Choose a navigation item"  selection="{{selectedItem}}" style=" color: #768093;">
-                <ul >
-                    <li id="Dashboard" >
-                    <a href="#overview-user" ><ion-icon name="ios-speedometer"></ion-icon> DASHBOARD</a>
-                    </li>
-                    <li id="Posts" >
-                    <a href="#posts-user" ><ion-icon name="paper"></ion-icon> POSTS</a>
-                    </li>
-                    <li id="Categories">
-                    <a href="#categories-user" ><ion-icon name="apps"></ion-icon> CATEGORIES</a>
-                    </li>
-                    <li id="Tasks">
-                    <a href="#tasks-user" ><ion-icon name="ios-list"></ion-icon> TASKS</a>
-                    </li>
-                    <li id="Tracks">
-                    <a href="#tracks-user" ><ion-icon name="swap"></ion-icon> TRACKS</a>
-                    </li>
-                    <li id="Teams">
-                    <a href="#teams-user" ><ion-icon name="contacts"></ion-icon> TEAMS</a>
-                    </li>
-                    <li id="Settings">
-                    <a href="#user-settings" ><ion-icon name="cog"></ion-icon> SETTINGS</a>
-                    </li>
-                </ul>
-                </oj-navigation-list>
+            <div id="usercontent">
+            <div id="usercontent_nav" class="w-100 position-relative">
+                <nav class="d-flex justify-content-between">
+                            <h4 class="d-flex">
+                              <i class="fa fa-bars mr-2 " data-bind="click: toggleDrawer"></i>
+                              <span data-bind="text: selectedItem"></span>
+                            </h4>
+                            <span class="d-flex ml-5">
+                              <h4 class="position-relative" style="top:2px"><i class=" fa fa-bell-o"></i> </h4>
+                              <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
+                                  class="fa fa-search "></i></h4>
+                              <form id="form1" class="mx-3 oj-sm-only-hide">
+                                <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
+                                          component: 'ojInputSearch',
+                                          value: keyword,
+                                          options: tags,
+                                          rootAttributes: {style:'max-width: 20em'}}" />
+                              </form>
+                              <oj-button display="icons" chroming="full" on-click="[[logout]]">
+                                <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
+                              </oj-button>
+                            </span>
+                </nav>
+                <oj-bind-if test="[[sb_sm()]]">
+                        <form id="form1" class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end" style="top: 4px">
+                          <input placeholder="Search..." data-bind="ojComponent: {
+                                          component: 'ojInputSearch',
+                                          value: keyword,
+                                          options: tags, 
+                                          rootAttributes: {style:'max-width: 20em'}}" />
+                        </form>
+                </oj-bind-if>
                 </div>
-            </div>
-            <div class="dashboard-header oj-flex oj-flex-items-pad">
-                <h2 style="display: inline-block;padding: 7px;" class="oj-flex"><ion-icon name="menu" onclick="showNav()"></ion-icon> <span data-bind='text: selectedItem'></span></h2><span class="oj-flex" style="padding: 7px;">
-                <ion-icon name="notifications-outline"></ion-icon> &nbsp;
-                <form id="form1">
-                    <input id="inputSearch" placeholder="Search..."
-                            data-bind="ojComponent: {
-                            component: 'ojInputSearch',
-                            value: keyword,
-                            options: tags,
-                            rootAttributes: {style:'max-width: 20em'}}">
-                    </form> &nbsp;
-                <oj-button display="icons" chroming="full" on-click="[[logout]]">
-                        <span slot="startIcon" class="fa fa-power-off"></span> Logout
-                    </oj-button></span>
+                <div class="clearfix"></div>
             </div>
             
-            <div class="admin__dashboard">
+            <div id="usercontent_body" class="px-3 w-100">
                 <div id="overview-user">
+                    <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
                     <h3>Overview</h3><hr>
                 </div>
                 <div id="posts-user">
                     <h3>Posts</h3><hr>
                 </div>
 
-                
                 <!-- Categories start -->
                 <div id="categories-user">
                     <h3>Categories</h3><hr>
@@ -181,10 +142,9 @@
                 </div>
                 
             </div>
+            </div>
         </div>
     </div>
 </div>
-
-
 </section>
 
