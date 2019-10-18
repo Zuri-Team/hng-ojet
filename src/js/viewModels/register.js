@@ -180,9 +180,9 @@ define([
       };
     };
 
-    self.connected = function() {
-      self.fetchTracks();
-    };
+    // self.connected = function() {
+    //   self.fetchTracks();
+    // };
 
     self.disconnected = function() {
       // Implement if needed
