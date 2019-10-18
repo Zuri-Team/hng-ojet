@@ -160,7 +160,8 @@ define([
 		   dataType: 'json',
 		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			console.log(response);
+			//console.log(response);
+			let { data } = response.data;
 			var tasksArray = data;
 				
 			self.tasksTrack(
