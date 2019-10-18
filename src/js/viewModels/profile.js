@@ -76,7 +76,7 @@ define(['ojs/ojcore',
                     },
                     method: "GET",
                     success: res => {
-                        console.log(res);
+                       console.log("Profile fetched successfully")
                     }
                 });
 
