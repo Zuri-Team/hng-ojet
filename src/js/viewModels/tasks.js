@@ -89,9 +89,10 @@ define([
         if (event.detail.value.length != 0) {
             // If selection, populate and display Item details
             // Populate items list observable using firstSelectedXxx API
-			console.log(self.firstSelectedTask());
-            self.fetchTask(self.firstSelectedTask().data);
+			//console.log(self.firstSelectedTask());
+            self.fetchTasks(self.firstSelectedTask().data.id);
             self.taskSelected(true);
+			self.taskDataProvider();
         } else {
           // If deselection, hide list
            self.taskSelected(false);
@@ -160,11 +161,11 @@ define([
 		   dataType: 'json',
 		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			//console.log(response);
-			let { data } = response.data;
+			
+			let { data } = response;
 			var tasksArray = data;
 				
-			self.tasksTrack(
+			self.taskDataProvider(
 				new ArrayDataProvider(tasksArray, { keyAttributes: "id" })
 			);
 			}
