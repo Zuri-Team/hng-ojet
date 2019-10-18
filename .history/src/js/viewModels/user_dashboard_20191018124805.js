@@ -1,38 +1,16 @@
 define([
-    'ojs/ojcore', 
-    'knockout', 
-    'jquery', 
-    'ojs/ojbootstrap', 
-    'ojs/ojresponsiveutils', 
-    'ojs/ojresponsiveknockoututils',
-    "ojs/ojinputtext", 
-    'ojs/ojknockout', 
-    'ojs/ojselectcombobox', 
-    'ojs/ojoffcanvas', 
-    'ojs/ojbutton', 
-    'ojs/ojmodule', 
-    'ojs/ojcomposite', 
-    'ojs/ojavatar', 
-    'ojs/ojlabel',
-    'ojs/ojfilepicker', 
-    'ojs/ojformlayout', 
-    'ojs/ojbutton',
-    'ojs/ojcollapsible'
+    'ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbootstrap', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils',
+    "ojs/ojinputtext", 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojoffcanvas', 'ojs/ojbutton', 'ojs/ojmodule', 'ojs/ojcomposite', 'ojs/ojavatar', 'ojs/ojlabel', 'views/task-card/loader', 'ojs/ojfilepicker', 'ojs/ojformlayout', 'ojs/ojbutton'
 ],
-function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
+function(oj, ko, $, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
 
     
     function UserDashboardViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;
 
-        self.selectedItem = ko.observable("User Dashboard");
 
-        self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
-            ResponsiveUtils.getFrameworkQuery(
-                ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
-                ));
-
+        self.selectedItem = ko.observable("Dashboard");
         this.tags = ko.observableArray([
             { value: ".net", label: ".net" },
             { value: "Accounting", label: "Accounting" },
@@ -80,7 +58,6 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
         ]);
 
         this.keyword = ko.observableArray();
-
         self.submitTask = () => {
             router.go('submission');
         }
@@ -95,29 +72,38 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
           for (var i = 0; i < files.length; i++) {
             self.fileNames.push(files[i].name);
           }
+        }
+        self.name = ko.observable('');
+        self.email = ko.observable('');
+        self.bio = ko.observable('');
+        self.url = ko.observable('');
+        self.location = ko.observable('');
+        self.displayName = ko.observable('@');
+
+        self.drawer = {
+            "displayMode": "overlay",
+            "selector": "#drawer",
+            "content": "#main",
+            "modality": "modal"
         };
 
-        self.name = ko.observable("");
-        self.email = ko.observable("");
-        self.bio = ko.observable("");
-        self.url = ko.observable("");
-        self.location = ko.observable("");
-        self.displayName = ko.observable("@");
+        self.isSmall =responsiveKnockoutUtils.createMediaQueryObservable(
+            responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
 
-        self.toggleDrawer = function() {
-            $("#usercontent, #side-nav").toggleClass("smactive");
-        };
-
+        // For small screens: labels on top
+        // For medium or bigger: labels inline
+        self.labelEdge = ko.computed(function() {
+                                    return self.isSmall() ? "top" : "start";
+                                }, self);
+        self.clickedButton = ko.observable("(None clicked yet)");
         self.buttonClick = function(event){
                             self.clickedButton(event.currentTarget.id);
                             return true;
                         }.bind(self);
+        self.value = ko.observable("What");
 
-        self.vallue = ko.observable("What");
-
-        self.sb_sm = ko.observable(false);
-            self.searchbar_sm = function() {
-            self.sb_sm(!self.sb_sm());
+        self.toggleDrawer = function() {
+            return oj.OffcanvasUtils.toggle(self.drawer);
         };
 
         self.logout = function() {
@@ -125,20 +111,11 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
             router.go("login")
         }
 
-        self.connected = function() {
-            let user = sessionStorage.getItem("user");
-            user = JSON.parse(user);
-            if (sessionStorage.getItem("user_token") == null) {
-              router.go("login");
-            }
-            self.fullname(`${user.firstname} ${user.lastname}`);
-      
-            $("#navlistcontainer li a").on("click", function() {
-              let attr = $(this).attr("for");
-              $("#usercontent_body > div").hide();
-              $(`#usercontent_body > div[id='${attr}']`).show();
-            });
-          };
+        // self.connected = function() {
+        //     if (sessionStorage.getItem("user_token") == null) {
+        //         router.go("login");
+        //     }
+        // }
     }
     // var advm = new UserDashboardViewModel();
     // ko.applyBindings(advm, document.getElementById('navlist'));
