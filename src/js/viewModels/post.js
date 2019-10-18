@@ -56,7 +56,6 @@ define([
       if (data != null) {
         self.post(data);
       }
-      console.log(self.post());
     };
 
     self.viewPostModal = () => {
@@ -75,7 +74,6 @@ define([
       let category_id = self.category_id();
       let post_title = self.newpost().title;
       let post_body = self.newpost().body;
-      console.log(category_id, post_title, post_body);
       $.ajax({
         url: `${RESTurl}`,
         headers: {
@@ -90,7 +88,8 @@ define([
             self.post_btn_toggler(!self.post_btn_toggler());
             self.applicationMessages.push({
               severity: "confirmation",
-              summary: "Post created successfully"
+              summary: "Post created successfully",
+              autoTimeout: parseInt("0")
             });
           }
         },
@@ -98,7 +97,8 @@ define([
           console.log(err);
           self.applicationMessages.push({
             severity: "error",
-            summary: "An error was encountered, unable to create post"
+            summary: "An error was encountered, unable to create post",
+            autoTimeout: parseInt("0")
           });
         }
       });
@@ -131,7 +131,6 @@ define([
       let post_id = self.post().id;
       let post_title = self.post().post_title;
       let post_body = self.post().post_body;
-      console.log(category_id, post_title, post_body);
       $.ajax({
         url: `${RESTurl}/${post_id}`,
         headers: {
@@ -140,18 +139,26 @@ define([
         method: "PUT",
         data: { category_id, post_title, post_body },
         success: res => {
-          self.post({});
-          self.fetchPost();
-          self.applicationMessages.push({
-            severity: "confirmation",
-            summary: "Post Updated"
-          });
+          if (res.status == true) {
+            // send a success message notification to the category view
+            self.applicationMessages.push({
+              severity: "confirmation",
+              summary: "Post updated",
+              detail: "A post has been updated",
+              autoTimeout: parseInt("0")
+            });
+            self.fetchPost();
+          }
         },
         error: err => {
           console.log(err);
+
+          // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
-            summary: "Post could not be updated"
+            summary: "Error updating post",
+            detail: "Error trying to update post",
+            autoTimeout: parseInt("0")
           });
         }
       });
@@ -170,14 +177,16 @@ define([
           self.fetchPost();
           self.applicationMessages.push({
             severity: "confirmation",
-            summary: "Post deleted"
+            summary: "Post deleted",
+            autoTimeout: parseInt("0")
           });
         },
         error: err => {
           console.log(err);
           self.applicationMessages.push({
             severity: "error",
-            summary: "An error was encountered, could not delete post"
+            summary: "An error was encountered, could not delete post",
+            autoTimeout: parseInt("0")
           });
         }
       });
@@ -188,7 +197,6 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Posts") {
-        console.log(pm.selectedItem());
         fetchCategories();
         self.fetchPost();
       }

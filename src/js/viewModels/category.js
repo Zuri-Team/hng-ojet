@@ -26,6 +26,9 @@ define([
     self.categorySelected = ko.observable(false);
     self.firstSelectedCategory = ko.observable();
 
+    // notification messages observable
+    self.applicationMessages = ko.observableArray([]);
+
     //REST endpoint
     var RESTurl = `${api}/api/categories`;
 
@@ -46,7 +49,6 @@ define([
     self.selectedCategoryChanged = function(event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
-        console.log(event.detail);
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedCategory();
@@ -75,18 +77,24 @@ define([
         data: { title, description },
         success: () => {
           self.fetchCategories();
+
+          // send a success message notification to the category view
           self.applicationMessages.push({
             severity: "confirmation",
-            summary: "Category created successfully"
+            summary: "New category created",
+            detail: "The new category " + title + " has been created",
+            autoTimeout: parseInt("0")
           });
         },
         error: err => {
           console.log(err);
+
+          // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
             summary: "Error creating category",
-            detail:
-              "An error occured while trying to create category, please try again"
+            detail: "Error trying to create new category",
+            autoTimeout: parseInt("0")
           });
         }
       });
@@ -146,29 +154,32 @@ define([
         success: res => {
           self.fetchCategories();
           self.categorySelected(false);
-
-          // send a success message notification to the tracks view
-          self.applicationMessages.push({
+           // send a success message notification to the category view
+           self.applicationMessages.push({
             severity: "confirmation",
-            summary: "Category updated successfully"
+            summary: title + " Category updated",
+            detail: "The category " + title + " has been updated",
+            autoTimeout: parseInt("0")
           });
         },
-        error: err => {
-          console.log(err);
-          // send an error message notification to the tracks view
+        error: err => {console.log(err)
+
+          // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
             summary: "Error updating category",
-            detail:
-              "An error occured on updating category"
+            detail: "Error trying to update category",
+            autoTimeout: parseInt("0")
           });
+
         }
       });
       document.getElementById("editDialog").close();
     };
 
     self.deleteCategory = function(event, data) {
-      var categoryId = self.categoryData().id;
+      var categoryId = self.firstSelectedCategory().data.id;
+      let title = self.firstSelectedCategory().data.category_name;
       $.ajax({
         url: `${RESTurl}/${categoryId}`,
         headers: {
@@ -178,18 +189,24 @@ define([
         success: res => {
           self.fetchCategories();
           self.categorySelected(false);
-          self.applicationMessages.push({
+           // send a success message notification to the category view
+           self.applicationMessages.push({
             severity: "confirmation",
-            summary: "Category deleted"
+            summary: "Category deleted",
+            detail: "The category " + title + " has been deleted",
+            autoTimeout: parseInt("0")
           });
         },
-        error: err => {
-          console.log(err);
+        error: err => {console.log(err)
+
+          // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
             summary: "Error deleting category",
-            detail: "An error occured while trying to delete category."
+            detail: "Error trying to delete category",
+            autoTimeout: parseInt("0")
           });
+
         }
       });
 
@@ -219,7 +236,6 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Categories") {
-        console.log(pm.selectedItem());
         self.categorySelected(false);
         self.firstSelectedCategory({});
         self.fetchCategories();
