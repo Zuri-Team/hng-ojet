@@ -48,7 +48,6 @@ define([
       var itemId = event.detail.value;
       // Access current item via ui.item
       self.currentItemId(itemId);
-      console.log(self.currentItemId());
     };
 
 
@@ -78,7 +77,6 @@ define([
           data: { data }
         } = await response.json();
 
-        console.log(data);
         self.dataProvider(
           new ArrayTreeDataProvider(data, { keyAttributes: "id" })
         );
@@ -93,7 +91,7 @@ define([
     self.createTrack = async () => {
       let track_name = self.newTrack.track_name;
       let track_description = self.newTrack.track_description;
-      console.log(track_name, track_description);
+
 
       try {
         const response = await fetch(`${tracksURL}/create`, {
@@ -113,7 +111,8 @@ define([
 
           severity: "confirmation",
           summary: "New track created",
-          detail: "The new track " + track_name + " has been created"
+          detail: "The new track " + track_name + " has been created",
+          autoTimeout: parseInt("0")
 
         });
 
@@ -121,6 +120,8 @@ define([
         document.getElementById("createNewDesc").value = "";
         document.getElementById("createTrack").close();
         self.fetchTracks();
+
+        console.log("track created");
 
       } catch (err) {
 
@@ -131,13 +132,12 @@ define([
         self.applicationMessages.push({
           severity: "error",
           summary: "Error creating track",
-          detail: "Error trying to create new track"
+          detail: "Error trying to create new track",
+          autoTimeout: parseInt("0")
 
         });
 
       }
-
-      console.log("track created");
 
     };
 
@@ -150,7 +150,6 @@ define([
         data: { id, track_description, track_name }
       } = self.firstSelectedItem();
 
-      console.log(id, track_name, track_description);
 
 
       let track_id = id;  // Form data needs id as track_id
@@ -174,10 +173,13 @@ define([
         self.applicationMessages.push({
           severity: "confirmation",
           summary: track_name + " updated",
-          detail: "Track " + track_name + " has been updated"
+          detail: "Track " + track_name + " has been updated",
+          autoTimeout: parseInt("0")
         });
         document.getElementById("editTrack").close();
         self.fetchTracks();
+
+        console.log("track updated");
 
       } catch (err) {
 
@@ -188,19 +190,22 @@ define([
 
           severity: "error",
           summary: "Error updating track",
-          detail: "Error trying to update track " + track_name
+          detail: "Error trying to update track " + track_name,
+          autoTimeout: parseInt("0")
 
         });
 
       }
-
-      console.log("track updated");
     };
 
     self.deleteTrack = async () => {
 
+        // Get the id of the selected element
       let track_id = self.currentItemId();
-      console.log(self.currentItemId(), "yes");
+
+      let {
+        data: { track_name }
+      } = self.firstSelectedItem();
 
       try {
 
@@ -220,8 +225,9 @@ define([
         self.applicationMessages.push({
 
           severity: "confirmation",
-          summary: track_name + "deleted",
-          detail: "Track " + track_name + " has been deleted"
+          summary: track_name + " deleted",
+          detail: "Track " + track_name + " has been deleted",
+          autoTimeout: parseInt("0")
 
         });
 
@@ -237,11 +243,10 @@ define([
         self.applicationMessages.push({
           severity: "error",
           summary: "Error deleting track",
-          detail: "Error trying to delete track " + track_name
+          detail: "Error trying to delete track " + track_name,
+          autoTimeout: parseInt("0")
         });
       }
-
-      console.log("papa");
     };
   }
   return new tracksViewModel();
