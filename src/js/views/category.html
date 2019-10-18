@@ -13,6 +13,9 @@
       Delete
     </button>
   </oj-bind-if>
+  <oj-bind-if test="[[!categorySelected()]]">
+    <span><strong>Please click on a category below to edit or delete</strong></span>
+  </oj-bind-if>
 </div>
 
 <div class="oj-flex justify-content-between my-3">
@@ -97,3 +100,18 @@
 
 
 </oj-bind-if>
+
+  <!-- Start Messages Component -->
+
+  <oj-messages
+  id="application-messages"
+  messages="{{applicationMessages}}"
+  display="notification"
+  position='{
+  "my": {"vertical" : "bottom", "horizontal": "end"},
+  "at": {"vertical": "bottom", "horizontal": "end"},
+  "of": "window"
+  }'>
+  </oj-messages>
+
+<!-- End Messages Component -->
