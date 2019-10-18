@@ -12,7 +12,7 @@ define(['knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojknockou
           {TeamName: 'Jupiter', TeamLead: 'Jon Jude \n @judejay', Member: 312},
           {TeamName: 'Dauntless', TeamLead: 'Austin okoro \n @austyno', Member: 340},
           {TeamName: 'Jupiter', TeamLead: 'Jon Jude \n @judejay', Member: 200},
-          {TeamName: 'Dauntless', TeamLead: 'Austin okoro \n @austyno', Member: 270}
+          {TeamName: 'Dauntless', TeamLead: 'Austin okoro \n @austyno', Member: 270},
       ]
     
       self.teamsObservableArray = ko.observableArray(teamsArray);
