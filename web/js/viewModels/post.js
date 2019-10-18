@@ -78,20 +78,30 @@ define([
     };
 
     //  fetch list of categories
-    $.ajax({
-      url: `${api}/api/categories`,
-      headers: {
-        Authorization: "Bearer " + " " + userToken
-      },
-      method: "GET",
-      success: res => {
-        res.data.map(cats => {
-          self.categories.push(cats);
-        });
+    function fetchCategories() {
+      self.categories([]);
+      $.ajax({
+        url: `${api}/api/categories`,
+        headers: {
+          Authorization: "Bearer " + " " + userToken
+        },
+        method: "GET",
+        success: res => {
+          res.data.map(cats => {
+            self.categories.push(cats);
+          });
+        }
+      });
+    }
+
+    let pm = ko.dataFor(document.querySelector("#admin"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Posts") {
+        console.log(pm.selectedItem());
+        fetchCategories();
+        fetchposts();
       }
     });
-
-    fetchposts();
   }
 
   return new postModel();

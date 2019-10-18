@@ -73,7 +73,7 @@
 
         <oj-bind-if test="[[!editMode()]]">
             <div class="container ">
-                <oj-form-layout id="ofl1" label-edge="[[labelEdge]]" max-columns="1" class="oj-form-control-full-width m-5">
+                <oj-form-layout id="ofl1" class="oj-form-control-full-width m-5">
 
                     <div class="oj-flex-items-pad demo-flex-display ">
                         <div class="oj-flex d-flex ">
@@ -112,7 +112,7 @@
                                 </oj-input-text>
 
                                 <div class="input-profile mt-1 mb-1">
-                                    <oj-select-many placeholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
+                                    <oj-select-many p // notification messages observable self.applicationMessages=k o.observableArray([]);laceholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
                                     </oj-select-many>
                                 </div>
                                 <div class="input-profile mt-1 mb-1">
@@ -161,5 +161,10 @@
             </div>
         </oj-bind-if>
     </div>
-
+    <oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+      "my": {"vertical" : "bottom", "horizontal": "end"},
+      "at": {"vertical": "bottom", "horizontal": "end"},
+      "of": "window"
+      }'>
+    </oj-messages>
 </div>

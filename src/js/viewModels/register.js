@@ -14,7 +14,6 @@ define([
 
         self.devstack = ko.observableArray([
             { value: 'UI/UX', label: 'UI/UX' },
-            { value: 'FrontEnd', label: 'FrontEnd' },
             { value: 'Backend', label: 'Backend' },
             { value: 'Digital Marketing', label: 'Digital Marketing' },
             { value: 'DevOps', label: 'DevOps' },

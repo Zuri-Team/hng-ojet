@@ -3,11 +3,11 @@ define(['ojs/ojcore',
         'jquery', './api',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
-        'ojs/ojresponsiveknockoututils',
+        'ojs/ojresponsiveknockoututils', 'ojs/ojarraydataprovider', 'ojs/ojmessages',
         'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojavatar', 'ojs/ojselectcombobox',
         'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'
     ],
-    function(oj, ko, $, api, Bootstrap, responsiveUtils, responsiveKnockoutUtils) {
+    function(oj, ko, $, api, ArrayDataProvider, ) {
 
         function ProfileViewModel() {
             var self = this;
@@ -15,18 +15,12 @@ define(['ojs/ojcore',
             // 
             var RESTurl = `${api}/api/profile`;
             var userToken = sessionStorage.getItem("user_token");
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            const id = user.id
 
 
-            // Below are a set of the ViewModel methods invoked by the oj-module component.
-            // Please reference the oj-module jsDoc for additional information.
-            self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
-                responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
-
-            // For small screens: labels on top
-            // For medium or bigger: labels inline
-            self.labelEdge = ko.computed(function() {
-                return self.isSmall() ? "top" : "start";
-            }, self);
+            // notification messages observable
+            self.applicationMessages = ko.observableArray([]);
 
 
             self.firstname = ko.observable('');
@@ -40,7 +34,8 @@ define(['ojs/ojcore',
             self.location = ko.observable('');
             self.profile_img = ko.observable('');
 
-            self.picture = ko.observable('');
+
+            self.profile = ko.observable('');
 
             self.devstack = ko.observableArray([
                 { value: 'UI/UX', label: 'UI/UX' },
@@ -50,9 +45,6 @@ define(['ojs/ojcore',
                 { value: 'DevOps', label: 'DevOps' },
                 { value: 'FrontEnd', label: 'FrontEnd' },
             ]);
-
-
-            self.profile = ko.observable('');
 
             //Events
             self.acceptStr = ko.observable("image/*");
@@ -64,8 +56,45 @@ define(['ojs/ojcore',
 
             self.selectListener = function(event) {
                 const file = event.detail.files[0];
-                console.log(file);
-                self.picture(file);
+
+                let form = new FormData();
+
+                form.append('profile_img', file);
+
+                $.ajax({
+                    url: `${RESTurl}/${id}/edit`,
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: "Bearer " + userToken
+                    },
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                        self.applicationMessages.push({
+
+                            severity: "confirmation",
+                            summary: "Update Successful",
+                            detail: "Your profile has been successfully updated"
+
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error)
+                        self.applicationMessages.push({
+                            severity: "error",
+                            summary: "Failed to Update",
+                            detail: "An error occurred while updating your profile. Try Again"
+
+                        });
+
+                    }
+                });
+
+
             }
 
             self.editMode = ko.observable("false");
@@ -89,48 +118,51 @@ define(['ojs/ojcore',
 
             self.update = function() {
 
-                const {...data } = self.profile;
+                const {...user } = self.profile;
 
-                const photo = self.picture();
-                let user = [];
+                console.log("You clicked this button", user.firstname);
 
-                console.log("You clicked this button", data, photo);
-                let formData = new FormData();
+                let form = new FormData();
 
-                formData.append("data", { "photo": photo, "user": data });
-                fetch(user, {
+                form.append('firstname', user.firstname);
+
+                $.ajax({
+                    url: `${RESTurl}/${id}/edit`,
                     headers: {
-                        contentType: false,
+                        Accept: 'application/json',
                         Authorization: "Bearer " + userToken
                     },
-                    method: "PUT",
-                    body: formData,
-                    success: function(r) {
-                        console.log('success', r, user);
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                        self.applicationMessages.push({
+
+                            severity: "confirmation",
+                            summary: "Update Successful",
+                            detail: "Your profile has been successfully updated"
+
+                        });
                     },
-                    error: function(r) {
-                        console.log('error', r);
+                    error: function(error) {
+                        console.log(error)
+                        self.applicationMessages.push({
+                            severity: "error",
+                            summary: "Failed to Update",
+                            detail: "An error occurred while updating your profile. Try Again"
+
+                        });
                     }
                 });
 
-                // $.ajax({
-                //     url: `${RESTurl}/${id}/edit`,
-                //     headers: {
-                //         Authorization: "Bearer " + userToken
-                //     },
-                //     method: "POST",
-                //     data: data,
-                //     success: res => {
-
-                //     }
-                // });
 
 
             }
 
             self.getProfile = function() {
-                const user = JSON.parse(sessionStorage.getItem("user"));
-                const id = user.id
 
                 $.ajax({
                     url: `${RESTurl}/${id}`,

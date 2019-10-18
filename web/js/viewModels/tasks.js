@@ -1,24 +1,28 @@
 define([
+  "ojs/ojcore",
   "knockout",
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
-  "ojs/ojcollectiondataprovider",
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
   "ojs/ojdialog",
-  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout'
-], function(ko, $, api, ArrayDataProvider, CollectionDataProvider,) {
+  "ojs/ojlabel", 
+  "ojs/ojinputtext", 
+  "ojs/ojformlayout"
+], function(oj, ko, $, api, ArrayDataProvider,) {
 	
   function taskModel() {
+	  
+	  var self = this;
 	  
 	const userToken = sessionStorage.getItem("user_token");
 	
 	
 	self.trackDataProvider = ko.observable();   //gets data for Tracks list
       self.taskDataProvider = ko.observable();      //gets data for tasks list
-
+    self.trackTask = ko.observable(); // gets data for posts under selected category
       self.taskData = ko.observable('');             //holds data for the Task details
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
@@ -36,9 +40,12 @@ define([
 
 	const RESTurl = "https://api.start.ng/api/track/list";
 	
+							
 	self.showCreateDialog = function (event) {
-								document.getElementById("createDialog").open();
-							}
+    document.getElementById("createDialog").open();
+}				
+	
+	
 		  
 	self.showEditDialog = function(event) {
 							document.getElementById("editDialog").open();
@@ -56,9 +63,10 @@ define([
           //var itemsArray = self.firstSelectedActivity().data.items;
           // Populate items list using DataProvider fetch on key attribute
 		let { data } = self.firstSelectedTrack();
-          
-		  self.taskData(data);
-			self.trackSelected(true);
+		
+          self.track_tasks(data.id);
+		  self.trackData(data);
+		  self.trackSelected(true);
 		} else {
 			// If deselection, hide list
 			self.trackSelected(false);
@@ -74,7 +82,7 @@ define([
         if (event.detail.value.length != 0) {
           // If selection, populate and display Item details
           // Populate items list observable using firstSelectedXxx API
-          self.TaskData(self.firstSelectedTask().data);
+          self.taskData(self.firstSelectedTask().data);
           self.taskSelected(true);
         } else {
           // If deselection, hide list
@@ -90,7 +98,7 @@ define([
         });
 			
 	//Fetch Track lists		
-	const fetchTracks = () => {
+	self.fetchTracks = () => {
 		
 		$.ajax({
 		   url:RESTurl, 
@@ -112,10 +120,31 @@ define([
     });
 	};
 	
+	
+	self.track_tasks = function(track_id) {
+      $.ajax({
+        url: "https://api.start.ng/tracks" + "/$/"+track_id,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: response => {
+          let { data } = response.data;
+          self.trackTask(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                return value.id;
+              })
+            })
+          );
+        }
+      });
+    }; 
+	
 	//const track_id = selectedTrack().data.id;
 	
 	//Fetch Task lists		
-	const fetchTasks = () => {
+	self.fetchTasks = () => {
 		
 		$.ajax({
 		   url:"http://api.start.ng/tasks" + '/' +selectedTrack().data.track_name + "/`{track_id}`" , 
@@ -268,6 +297,4 @@ define([
        */
 
   return new taskModel();
-
 });
-

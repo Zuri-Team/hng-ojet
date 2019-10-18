@@ -9,6 +9,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', './api', 'ojs/ojta
             // create observables for the team collection and teams data provider
             self.TeamCol = ko.observable();
             self.teamsDataProvider = ko.observable();
+            self.newTeam = ko.observableArray([]);
 
             // API Endpoint
             var teamsURL = `${api}/api/teams`;
@@ -17,6 +18,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', './api', 'ojs/ojta
 
             // create team model
             self.team = oj.Model.extend({
+                url: teamsURL,
                 idAttribute: "id"
             });
 
@@ -39,7 +41,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', './api', 'ojs/ojta
                         }
                     });
                     const {
-                        data: { data }
+                        data = data[data[0]]
                     } = await response.json();
                     console.log("Data", data);
                     self.teamsDataProvider(new oj.CollectionTableDataSource(self.TeamCol()));
@@ -50,6 +52,36 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', './api', 'ojs/ojta
 
             self.fetchTeams();
 
+            self.createTeam = async() => {
+                let team_name = self.newTeam.team_name;
+                let max_team_mates = self.newTeam.max_team_mates;
+                console.log(team_name, max_team_mates);
+                try {
+                    const response = await fetch(`${teamsURL}/`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${userToken}`
+                        },
+                        body: JSON.stringify({
+                            team_name,
+                            max_team_mates
+                        })
+                    });
+                    document.getElementById("newTeamName").value = "";
+                    document.getElementById("maxTeamMates").value = "";
+                    document.getElementById("createTeamDialog").close();
+                    self.fetchTeams();
+                } catch (err) {
+                    console.log(err);
+                }
+                console.log("team created");
+            };
+
+            self.addMember = function() {
+
+            };
+
             self.addNewTeamDialog = function(event) {
                 document.getElementById("createTeamDialog").open();
             };
@@ -57,12 +89,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', './api', 'ojs/ojta
             self.addNewMemberDialog = function(event) {
                 document.getElementById("addMemberDialog").open();
             };
-            self.createTeam = function() {
 
-            };
-            self.addMember = function() {
-
-            };
         }
         return new TeamViewModel();
     });
