@@ -129,7 +129,7 @@ define([
             Authorization: "Bearer " + userToken
           },
           success: resp => {
-            //console.log(resp.data.members);
+            console.log(resp.data.members);
             let members = resp.data.members;
             self.numOfMembers()[`${team_id}`] = `${members.length}`;
             self.numOfMembers(self.numOfMembers());

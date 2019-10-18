@@ -21,7 +21,7 @@ define([
     var self = this;
     var router = oj.Router.rootInstance;
 
-    self.selectedItem = ko.observable("");
+    self.selectedItem = ko.observable("Dashboard");
 
     self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
       ResponsiveUtils.getFrameworkQuery(
@@ -77,9 +77,9 @@ define([
 
     this.keyword = ko.observableArray();
 
-    self.fullname = ko.observable("");
-    self.track = ko.observable("");
-    self.slack = ko.observable("");
+    self.fullname = ko.observable("Admin");
+    self.track = ko.observable("Design");
+    self.slack = ko.observable("@xyluz");
     self.fileNames = ko.observableArray([]);
 
     self.selectListener = function(event) {
