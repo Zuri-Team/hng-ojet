@@ -47,6 +47,7 @@ define([
         });
       });
     };
+
   }
   return new ControllerViewModel();
 });

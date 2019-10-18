@@ -23,6 +23,9 @@ define([
     self.teamSelected = ko.observable(false);
     self.firstSelectedTeam = ko.observable();
 
+    // notification messages observable
+    self.applicationMessages = ko.observableArray([]);
+
     //REST endpoint
     var RESTurl = `${api}/api/teams`;
 
@@ -46,9 +49,13 @@ define([
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedTeam();
-        self.members_under_team(data.id);
-        self.teamData(data);
-        self.teamSelected(true);
+        if (data == null) {
+          self.teamSelected(false);
+        } else {
+          self.members_under_team(data.id);
+          self.teamData(data);
+          self.teamSelected(true);
+        }
       } else {
         // If deselection, hide list
         self.teamSelected(false);
@@ -68,8 +75,25 @@ define([
         data: { team_name, max_team_mates, team_description },
         success: () => {
           self.fetchTeams();
+          // send a success message notification to the teams view
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "New team created",
+            detail: "The new team " + team_name + " has been created",
+            autoTimeout: parseInt("0")
+          });
         },
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+
+          // send an error message notification to the teams view
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Error creating team",
+            detail: "Error trying to create new team",
+            autoTimeout: parseInt("0")
+          });
+        }
       });
       document.getElementById("createNewTitle").value = "";
       document.getElementById("createNewMaxMembers").value = "";
@@ -131,14 +155,33 @@ define([
         success: res => {
           self.fetchTeams();
           self.teamSelected(false);
+
+          // send a success message notification to the teams view
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "New team updated",
+            detail: "The team " + team_name + " has been updated",
+            autoTimeout: parseInt("0")
+          });
         },
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+
+          // send an error message notification to the teams view
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Error updating team",
+            detail: "Error trying to update team",
+            autoTimeout: parseInt("0")
+          });
+        }
       });
       document.getElementById("editTeamDialog").close();
     };
 
     self.deleteTeam = function(event, data) {
       var teamId = self.firstSelectedTeam().data.id;
+      let team_name = self.firstSelectedTeam().data.team_name;
       $.ajax({
         url: `${RESTurl}/${teamId}`,
         headers: {
@@ -148,8 +191,26 @@ define([
         success: res => {
           self.fetchTeams();
           self.teamSelected(false);
+
+          // send a success message notification to the teams view
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "New team deleted",
+            detail: "The team " + team_name + " has been deleted",
+            autoTimeout: parseInt("0")
+          });
         },
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+
+          // send an error message notification to the teams view
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Error deleting team",
+            detail: "Error trying to delete team",
+            autoTimeout: parseInt("0")
+          });
+        }
       });
 
       document.getElementById("deleteTeamDialog").close();

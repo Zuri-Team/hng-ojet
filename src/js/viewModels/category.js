@@ -8,7 +8,8 @@ define([
   "ojs/ojlistview",
   "ojs/ojmodel",
   "ojs/ojdialog",
-  "ojs/ojinputtext"
+  "ojs/ojinputtext",
+  "ojs/ojmessages"
 ], function(oj, ko, $, api, ArrayDataProvider) {
   function CategoryViewModel() {
     var self = this;
@@ -19,9 +20,14 @@ define([
     self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
     self.numOfPosts = ko.observableArray([]);
 
+    // notification messages observable
+    self.applicationMessages = ko.observableArray([]);
     // Activity selection observables
     self.categorySelected = ko.observable(false);
     self.firstSelectedCategory = ko.observable();
+
+    // notification messages observable
+    self.applicationMessages = ko.observableArray([]);
 
     //REST endpoint
     var RESTurl = `${api}/api/categories`;
@@ -43,7 +49,6 @@ define([
     self.selectedCategoryChanged = function(event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
-        console.log(event.detail);
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedCategory();
@@ -72,8 +77,26 @@ define([
         data: { title, description },
         success: () => {
           self.fetchCategories();
+
+          // send a success message notification to the category view
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "New category created",
+            detail: "The new category " + title + " has been created",
+            autoTimeout: parseInt("0")
+          });
         },
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+
+          // send an error message notification to the category view
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Error creating category",
+            detail: "Error trying to create new category",
+            autoTimeout: parseInt("0")
+          });
+        }
       });
       document.getElementById("createNewTitle").value = "";
       document.getElementById("createNewDesc").value = "";
@@ -118,9 +141,9 @@ define([
     };
 
     self.updateCategorySubmit = function(event) {
-      var categoryId = self.firstSelectedCategory().data.id;
-      let title = self.firstSelectedCategory().data.category_name;
-      let description = self.firstSelectedCategory().data.dsecription;
+      var categoryId = self.categoryData().id;
+      let title = self.categoryData().category_name;
+      let description = self.categoryData().dsecription;
       $.ajax({
         url: `${RESTurl}/update/${categoryId}`,
         headers: {
@@ -131,14 +154,32 @@ define([
         success: res => {
           self.fetchCategories();
           self.categorySelected(false);
+           // send a success message notification to the category view
+           self.applicationMessages.push({
+            severity: "confirmation",
+            summary: title + " Category updated",
+            detail: "The category " + title + " has been updated",
+            autoTimeout: parseInt("0")
+          });
         },
-        error: err => console.log(err)
+        error: err => {console.log(err)
+
+          // send an error message notification to the category view
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Error updating category",
+            detail: "Error trying to update category",
+            autoTimeout: parseInt("0")
+          });
+
+        }
       });
       document.getElementById("editDialog").close();
     };
 
     self.deleteCategory = function(event, data) {
       var categoryId = self.firstSelectedCategory().data.id;
+      let title = self.firstSelectedCategory().data.category_name;
       $.ajax({
         url: `${RESTurl}/${categoryId}`,
         headers: {
@@ -148,8 +189,25 @@ define([
         success: res => {
           self.fetchCategories();
           self.categorySelected(false);
+           // send a success message notification to the category view
+           self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "Category deleted",
+            detail: "The category " + title + " has been deleted",
+            autoTimeout: parseInt("0")
+          });
         },
-        error: err => console.log(err)
+        error: err => {console.log(err)
+
+          // send an error message notification to the category view
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Error deleting category",
+            detail: "Error trying to delete category",
+            autoTimeout: parseInt("0")
+          });
+
+        }
       });
 
       document.getElementById("deleteDialog").close();
@@ -178,7 +236,6 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Categories") {
-        console.log(pm.selectedItem());
         self.categorySelected(false);
         self.firstSelectedCategory({});
         self.fetchCategories();
