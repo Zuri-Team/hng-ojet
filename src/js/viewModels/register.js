@@ -14,7 +14,7 @@ define([
 
     var tracksURL = `${api}/api/track`;
 
-    // self.devstack = ko.observableArray([]);
+    self.devstack = ko.observableArray();
     // [
     //   { value: "UI/UX", label: "UI/UX" },
     //   { value: "Backend", label: "Backend" },
