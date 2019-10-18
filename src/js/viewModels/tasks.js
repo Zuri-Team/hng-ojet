@@ -172,7 +172,7 @@ define([
 		
   	  
 
-	self.createTask = function (event, data) {
+	self.createTask = () => {
 		
 		let track_id = self.firstSelectedTrack().data.id;
 		let title = self.newTask.title;
