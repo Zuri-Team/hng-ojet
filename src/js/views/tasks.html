@@ -71,25 +71,39 @@
           </template>
         </oj-list-view>
       </div>
+	  <!--Lists all Tasks that belongs to a Track -->
       <oj-bind-if test="[[trackSelected()]]">
         <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
-          <div class="oj-flex-item oj-md-6 oj-sm-12" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+          <div class="oj-flex-item oj-sm-12" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);margin-left:16em;">
             <h3><oj-label for="tasksList">Tasks</oj-label></h3>			
-            <oj-list-view id="tasksList" style="width:30em;height:500px;overflow-x:hidden" 
+            <oj-list-view id="tasksList" style="width:50em;height:500px;overflow-x:hidden" 
 						  data="[[taskDataProvider]]"
                           selection-mode="single" selection="{{selectedTask}}" 
 						  on-selection-changed="[[selectedTaskChanged]]"
                           first-selected-item="{{firstSelectedTask}}" 
 						  scroll-policy="loadMoreOnScroll"
-                          scroll-policy-options.fetch-size="5">						  
+                          scroll-policy-options.fetch-size="5">
+				<template slot="itemTemplate" data-oj-as="item" class="py-0">
+            <div class="oj-flex" style="flex-wrap: nowrap">
+              <!--<span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>-->
+              <div class="demo-content oj-flex-item">
+                <div>
+                  <strong>
+                    <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </template>			
             </oj-list-view>
+			
           </div>		  
           <oj-bind-if test="[[taskSelected()]]">
             <div class="oj-flex-item oj-sm-12 oj-md-6">
               <h3><oj-label for="basicSelect">Tasks</oj-label></h3>
               <hr style="margin-top:12px;">
               <div id="taskTitle" style="font-size: 20px; font-weight: bolder;">
-                <oj-bind-text value="[[taskData().title]]"></oj-bind-text>
+                <oj-bind-text value="[[data.title]]"></oj-bind-text>
 				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
 				<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditDialog]]">Update</oj-button>
 				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
