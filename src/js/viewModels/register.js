@@ -39,6 +39,8 @@ define([
         console.log(result);
 
         self.devstack = ko.observableArray(result);
+
+        console.log(self.devstack());
       } catch (err) {
         console.log(err);
       }
