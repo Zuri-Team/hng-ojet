@@ -13,7 +13,7 @@
 
 <div class="oj-hybrid-padding">
 	<div>
-			<oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="createDialog" dialog-title="Add Task" style="width:50em; display: inline-block">  
+			<oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="createTaskDialog" dialog-title="Add Task" style="width:50em; display: inline-block">  
               <div slot="body">
                 <oj-form-layout id="form-container">
 				<!-- <oj-label class="oj-label oj-label-inline" for="createActivityId">Activity ID</oj-label> -->
@@ -32,7 +32,7 @@
 				</div>
 				<div class="oj-flex-item">
 				<oj-label class="oj-label oj-label-inline" for="createNewStatus">Status</oj-label>
-					<oj-input-text id="input" required value="{{newTask.status}}"></oj-input-text>
+					<oj-input-text id="input" required value="{{newTask.is_active}}"></oj-input-text>
 				</div>
 			    </oj-form-layout></div>
               <div slot="footer">
@@ -57,7 +57,7 @@
               <!--<span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>-->
               <div class="demo-content oj-flex-item">			  
 			<!-- Create new Task-->
-            <oj-button id="createButton" on-oj-action="[[showCreateDialog]]" class="create-task">Create Task</oj-button>
+            <oj-button id="createButton" on-oj-action="[[showCreateTaskDialog]]" class="create-task">Create Task</oj-button>
                 <div>
                   <strong>
                     <oj-bind-text value="[[$current.data.track_name]]"></oj-bind-text>
@@ -76,7 +76,7 @@
         <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
           <div class="oj-flex-item oj-sm-12" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);margin-left:16em;">
             <h3><oj-label for="tasksList">Tasks</oj-label></h3>			
-            <oj-list-view id="tasksList" style="width:50em;height:500px;overflow-x:hidden" 
+            <oj-list-view id="tasksList" style="width:40em;height:500px;overflow-x:hidden" 
 						  data="[[taskDataProvider]]"
                           selection-mode="single" selection="{{selectedTask}}" 
 						  on-selection-changed="[[selectedTaskChanged]]"
@@ -95,19 +95,15 @@
               </div>
             </div>
           </template>			
-            </oj-list-view>
-			
+            </oj-list-view>			
           </div>		  
           <oj-bind-if test="[[taskSelected()]]">
-            <div class="oj-flex-item oj-sm-12 oj-md-6">
-              <h3><oj-label for="basicSelect">Tasks</oj-label></h3>
-              <hr style="margin-top:12px;">
-              <div id="taskTitle" style="font-size: 20px; font-weight: bolder;">
-                <oj-bind-text value="[[data.title]]"></oj-bind-text>
-				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
-				<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditDialog]]">Update</oj-button>
-				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
-				<oj-button id="deleteButton" disabled="[[!taskSelected()]]" on-oj-action="[[deleteTask]]">Delete</oj-button>
+		  say hi
+		  <!--<div class="oj-flex-item oj-sm-12 oj-md-6">-->
+		  <oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="viewTaskDialog" dialog-title="View" style="width:50em;display:inline-block">
+			<div slot="body">
+				<div id="taskTitle" style="font-size: 20px; font-weight: bolder;">
+                <oj-bind-text value="[[taskData().title]]"></oj-bind-text>
               </div>
               <div id="taskBody" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
                 <oj-bind-text value="[[taskData().body]]"></oj-bind-text>
@@ -117,11 +113,19 @@
               </div>
               <div id="taskStatus">
                 <oj-bind-text value="[[taskData().status]]"></oj-bind-text>
-              </div>
-            </div>
+              </div>	
+			</div>
+			<div slot="footer">
+				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
+				<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditTaskDialog]]">Update</oj-button>
+				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
+				<oj-button id="deleteButton" disabled="[[!taskSelected()]]" on-oj-action="[[deleteTask]]">Delete</oj-button>
+			</div>		  
+            </oj-dialog>
+            <!--</div>-->
           </oj-bind-if>
 		  <!-- Update Task -->
-        <oj-bind-if test="[[taskSelected()]]">
+       <!-- <oj-bind-if test="[[taskSelected()]]">
           <div class="oj-flex-item  oj-sm-12 oj-md-6">
 			<oj-dialog id="editDialog" style="width:40em;height:100%;display:none" title="Task">
 				<div slot="body">
@@ -139,7 +143,7 @@
 			    </div>
 			</oj-dialog>
           </div>
-        </oj-bind-if>
+        </oj-bind-if>-->
       </div>
     </oj-bind-if>
     <!--<oj-bind-if test="[[!trackSelected()]]">

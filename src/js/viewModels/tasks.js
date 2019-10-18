@@ -45,13 +45,17 @@ define([
 
 	const RESTurl = "https://api.start.ng/api/track/list";
 	
-	self.showCreateDialog = function (event) {
-								document.getElementById("createDialog").open();
+	self.showCreateTaskDialog = function (event) {
+								document.getElementById("createTaskDialog").open();
 							}
 		  
-	self.showEditDialog = function(event) {
-							document.getElementById("editDialog").open();
+	self.showEditTaskDialog = function(event) {
+							document.getElementById("editTaskDialog").open();
 							};
+							
+	self.showViewTaskDialog = function(event) {
+							document.getElementById("viewTaskDialog").open();
+							};						
 	
 	//console.log(tasksURL + '/' + selectedTrack().data.track_name + "/`{track_id}`" );
 	
@@ -180,7 +184,16 @@ define([
 		let title = self.newTask.title;
         let body = self.newTask.body;
 		let deadline = self.newTask.deadline;
-		//let is_active = self.newTask.is_active;
+		let is_active = self.newTask.is_active;
+		
+		/*var bet = {
+    tournament: '',
+    bo: '1',
+    bet_team: '2',
+    betted: '3',
+    potential: '4',
+    percent: '5'
+};*/
 		
 		$.ajax({
                  method: "POST",
@@ -192,12 +205,13 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: { track_id, title, body, deadline },
+				 data: JSON.stringify({'track_id':track_id, 'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active}),
                  //contentType: "application/json",
                  dataType: "json",
-                 processData: true,
+                 //processData: true,
                  success: function (response) {
 					 alert('create');
+					 self.fetchTasks();
                  console.log('Successful Task');
                  },
                  error: function (xhr) {
@@ -205,10 +219,10 @@ define([
 					 alert('Error');
                  }
              });
-		document.getElementById("createNewTitle").value = "";
-      document.getElementById("createNewBody").value = "";
-      document.getElementById("createNewDeadline").value = "";
-		document.getElementById('createDialog').close();
+		//document.getElementById("createNewTitle").value = "";
+      //document.getElementById("createNewBody").value = "";
+      //document.getElementById("createNewDeadline").value = "";
+		document.getElementById('createTaskDialog').close();
 	};
 	
 	
@@ -229,7 +243,7 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: { title, body, deadline, is_active },
+				 data: {'track_id':track_id, 'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active},
                  contentType: "application/json",
                  dataType: "json",
                  success: function (data, status, jqXHR) {
