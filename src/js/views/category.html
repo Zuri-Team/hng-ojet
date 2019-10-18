@@ -32,17 +32,9 @@
                 data-bind="text: numOfPosts()[item.data.id]"></span>
             </span>
           </strong>
-          <div class="d-block d-sm-flex justify-content-between align-items-center">
             <strong>
               <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
             </strong>
-            <div class="pt-2 ">
-              <button data-bind="click: showEditDialog" class="btn btn-sm btn-dark mr-2"><i
-                  class="fa fa-edit"></i></button>
-              <button data-bind="click: showDeleteDialog" class="btn btn-sm btn-danger"><i
-                  class="fa fa-trash-o"></i></button>
-            </div>
-          </div>
         </div>
       </template>
     </oj-list-view>
