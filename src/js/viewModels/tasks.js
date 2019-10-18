@@ -89,7 +89,7 @@ define([
        * Handle selection from Task list based on track_id
        */
       self.selectedTaskChanged = function (event) {
-        // Check whether click is an Activity Item selection or deselection
+        // Check whether click is a Track task selection or deselection
         if (event.detail.value.length != 0) {
             // If selection, populate and display Item details
             // Populate items list observable using firstSelectedXxx API
@@ -213,9 +213,9 @@ define([
                  dataType: "json",
                  //processData: true,
                  success: function (response) {
-					 alert('create');
+					 alert('Task created successfully');
 					 self.fetchTasks();
-                 console.log('Successful Task');
+                 console.log('Successful Task creation');
                  },
                  error: function (xhr) {
                      //alert(xhr.responseText);
@@ -252,6 +252,7 @@ define([
                  contentType: "application/json",
                  dataType: "json",
                  success: function (data, status, jqXHR) {
+					 //self.fetchTasks();
 					 alert('Update Successful');
                  console.log('Successfully updated Task');
                  },
@@ -263,6 +264,7 @@ define([
 		
 		document.getElementById('editTaskDialog').close();
 		document.getElementById('viewTaskDialog').close();
+		//self.fetchTasks();
 	};
 	
 	self.deleteTask = function (event, data) {
