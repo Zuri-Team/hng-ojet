@@ -27,34 +27,42 @@
       </div>
     </oj-bind-if>
     <oj-bind-if test="[[!post_btn_toggler()]]">
-      <div class="col-sm-12 posts">
+      <div class="col-sm-12">
         <div>
-            <h4 class="float-left">My posts</h4>
-            <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
-                <span data-bind="text: post_view_title"></span>
-              </p>
+          <h4 class="float-left">My posts</h4>
+          <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
+            <span data-bind="text: post_view_title"></span>
+          </p>
         </div>
         <div class="clearfix"></div>
-        <oj-list-view id="listview" class="w-100" style="overflow-x:hidden" data="[[dataProvider]]"
+        <oj-list-view id="Postmodel-post-list" class="w-100 overflow-hidden bg-light" data="[[dataProvider]]"
           selection-mode="single" scroll-policy="loadMoreOnScroll" scroll-policy-options.fetch-size="5">
-          <template slot="itemTemplate" data-oj-as="item" style="border:none">
-            <div class="p-2 border rounded bg-light">
+          <template slot="itemTemplate" data-oj-as="item" class="border-0">
+            <div>
               <div>
                 <strong class="text-capitalize">
                   <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
+                  <p><small data-bind="text: `By Me`"></></small></p>
+                  <p></p>
                 </strong>
               </div>
-              <div class="my-2 ">
+              
+              <div class="mt-3">
+                  <button class="btn btn-sm btn-info mr-2"><i class="fa fa-eye"></i></button>
+                  <button class="btn btn-sm btn-dark mr-2"><i class="fa fa-edit"></i></button>
+                  <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+              </div>
+
+              <!-- <div class="my-2 ">
                 <span style="word-wrap: break-word">
                   <oj-bind-text value="[[item.data.post_body]]"></oj-bind-text>
                 </span>
               </div>
               <span>
                 Posted: <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
-              </span>
+              </span> -->
             </div>
           </template>
         </oj-list-view>
       </div>
   </div>
-</div>
