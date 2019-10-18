@@ -90,7 +90,8 @@ define([
             self.post_btn_toggler(!self.post_btn_toggler());
             self.applicationMessages.push({
               severity: "confirmation",
-              summary: "Post created successfully"
+              summary: "Post created successfully",
+              autoTimeout: parseInt("0")
             });
           }
         },
@@ -98,7 +99,8 @@ define([
           console.log(err);
           self.applicationMessages.push({
             severity: "error",
-            summary: "An error was encountered, unable to create post"
+            summary: "An error was encountered, unable to create post",
+            autoTimeout: parseInt("0")
           });
         }
       });
@@ -180,14 +182,16 @@ define([
           self.fetchPost();
           self.applicationMessages.push({
             severity: "confirmation",
-            summary: "Post deleted"
+            summary: "Post deleted",
+            autoTimeout: parseInt("0")
           });
         },
         error: err => {
           console.log(err);
           self.applicationMessages.push({
             severity: "error",
-            summary: "An error was encountered, could not delete post"
+            summary: "An error was encountered, could not delete post",
+            autoTimeout: parseInt("0")
           });
         }
       });
