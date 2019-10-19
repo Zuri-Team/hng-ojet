@@ -22,7 +22,9 @@
         },
         method: "GET",
         success: res => {
+          if (res.status == true) {
             self.dataProvider(new ArrayDataProvider(res.data, {keyAttribute: 'id'}));
+          }
         }
       });
     }
