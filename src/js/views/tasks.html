@@ -1,98 +1,134 @@
 <style>
-    .grid-parent {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
-        grid-gap: 20px;
-    }
-
-    /* TASKS CSS */
-
-    #tasks .shadow {
-        height: 200px;
-        max-width: 100%;
-        background: #FFFFFF;
-        box-shadow: 0px 6px 10px rgba(126, 126, 126, 0.25);
-    }
-
-    #tasks .grid-child h2 {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 25px;
-        line-height: 30px;
-        color: #2159A8;
-    }
-
-    #tasks .grid-child h6 {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 24px;
-        color: #768093;
-    }
-
-    #tasks .grid-child p {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 26px;
-        margin: 2px;
-    }
-
-    #tasks .grid-child .icons {
-        /* height: 30px; */
-        color: #eee;
-        background: #768093;
-    }
-
-    #tasks .grid-child .line {
-        margin: 1px auto;
-        max-width: 200px;
-        border: .5px solid #1E7FF6;
-    }
-
-    #tasks .col-10 h2 {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 30px;
-        color: #768093;
-    }
+.oj-listview-element, .oj-listview-group {
+	box-shadow: 15px 5px 15px grey;
+}	
+.create-task > .oj-button-button, #updateButton > .oj-button-button, #deleteButton > .oj-button-button {
+	border-radius:60px;
+}
+.create-task > .oj-button-button{
+	background-color: red;
+	color: white;
+}
 </style>
-<div class="container-fluid mb-5" id="tasks">
-    <div class="oj-hybrid-paddig">
 
-
-        <div class="row">
-            <div class="col-10 mb-2 mt-3">
-                <h2>Week One Tasks</h2>
-            </div>
-
-            <div class="col-2 mt-3">
-                <span class="fa fa-chevron-right fa-2x"></span>
-            </div>
-        </div>
-
-        <oj-bind-for-each data="[[dataProvider]]">
-
-            <div class="grid-parent justify-content-center text-center mb-3">
-                <div class="grid-child shadow m-1" style=" background:#fff;">
-                    <div class="mt-2 mb-4">
-                        <h2 class="mt-4">Design</h2>
-                        <div class="line"></div>
-                        <h6 class="mb-3">Task Title</h6>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis commodi, doloremque
-                            cupiditate
-                            quod, ipsam</p>
-                    </div>
-                    <div class="icons justify-content-end">
-                        <span class="fa fa-pencil fa-2x mr-3"></span>
-                        <span class="fa fa-play fa-2x"></span>
-                    </div>
+<div class="oj-hybrid-padding">
+	<div class="oj-flex oj-flex-init">
+		<!-- Create new Task-->
+		<!--<button id="createButton" class="btn btn-outline-success mr-1" data-bind="click:showCreateDialog">
+		Create Task</button>-->
+            <oj-button id="createButton" on-oj-action="[[showCreateDialog]]" class="create-task">
+			Create Task
+			</oj-button>
+			<oj-dialog class="oj-flex-item oj-md-4 oj-sm-12" id="createDialog" dialog-title="Add Task" style="width:50em;display:inline-style">  
+              <div slot="body">
+                <oj-form-layout id="form-container">
+				<!-- <oj-label class="oj-label oj-label-inline" for="createActivityId">Activity ID</oj-label> -->
+             <!-- <oj-input-text id="createActivityId" readonly value="[[firstSelectedTask().data.id]]"></oj-input-text> -->
+				<div class="oj-md-6 oj-sm-12 oj-flex-item">
+					<oj-label class="oj-label oj-label-inline" for="createNewTitle">Title</oj-label>
+					<oj-input-text id="input" required value="{{newTask.title}}"></oj-input-text>
+				</div>
+				<div class="oj-flex-item">
+				<oj-label class="oj-label oj-label-inline" for="createNewBody">Body</oj-label>
+					<oj-input-text id="input" required value="{{newTask.body}}"></oj-input-text>
+				</div>
+				<div class="oj-flex-item">
+				<oj-label class="oj-label oj-label-inline" for="createNewDeadline">Deadline</oj-label>
+					<oj-input-text id="input" required value="{{newTask.deadline}}"></oj-input-text>
+				</div>
+				<div class="oj-flex-item">
+				<oj-label class="oj-label oj-label-inline" for="createNewStatus">Status</oj-label>
+					<oj-input-text id="input" required value="{{newTask.status}}"></oj-input-text>
+				</div>
+			   </oj-form-layout>
+				</div>
+              <div slot="footer">
+                <oj-button id="okButton" on-oj-action="[[createTask]]">Submit
+                </oj-button>
+              </div>
+            </oj-dialog>
+	</div>
+    <div class="oj-flex oj-flex-init">
+      <div class="oj-flex-item oj-md-4 oj-sm-12">
+        <oj-list-view id="tracksList" style="width:40em;height:500px;overflow-x:hidden;" data="[[trackDataProvider]]"
+                      selection-mode="single" selection="{{selectedTrack}}" on-selection-changed="[[selectedTrackChanged]]"
+                      first-selected-item="{{firstSelectedTrack}}" scroll-policy="loadMoreOnScroll"
+                      scroll-policy-options.fetch-size="5">
+          <template slot="itemTemplate">
+            <div class="oj-flex" style="flex-wrap: nowrap">
+              <!--<span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>-->
+              <div class="demo-content oj-flex-item">
+                <div>
+                  <strong>
+                    <oj-bind-text value="[[$current.data.track_name]]"></oj-bind-text>
+                  </strong>
                 </div>
+                <span class="demo-metadata">
+                  <oj-bind-text value="[[$current.data.track_description]]"></oj-bind-text>
+                </span>
+              </div>
             </div>
-
-        </oj-bind-for-each>
-
-
-    </div>
+          </template>
+        </oj-list-view>
+      </div>
+      <oj-bind-if test="[[trackSelected()]]">
+        <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
+          <div class="oj-flex-item oj-md-6 oj-sm-12" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+            <h3><oj-label for="tasksList">Tasks</oj-label></h3>			
+			<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
+			<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditDialog]]">Update</oj-button>
+			<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
+			<oj-button id="deleteButton" disabled="[[!taskSelected()]]" on-oj-action="[[deleteTask]]">Delete</oj-button>
+            <oj-list-view id="tasksList" style="width:100%;height:500px;overflow-x:hidden" data="[[tasksDataProvider]]"
+                          selection-mode="single" selection="{{selectedTask}}" on-selection-changed="[[selectedTaskChanged]]"
+                          first-selected-item="{{firstSelectedTask}}" scroll-policy="loadMoreOnScroll"
+                          scroll-policy-options.fetch-size="5">
+            </oj-list-view>
+          </div>		  
+          <oj-bind-if test="[[taskSelected()]]">
+            <div class="oj-flex-item oj-sm-12 oj-md-6">
+              <h3><oj-label for="basicSelect">Tasks</oj-label></h3>
+              <hr style="margin-top:12px;">
+              <div id="taskTitle" style="font-size: 20px; font-weight: bolder;">
+                <oj-bind-text value="[[taskData().title]]"></oj-bind-text>
+              </div>
+              <div id="taskBody" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
+                <oj-bind-text value="[[taskData().body]]"></oj-bind-text>
+              </div>
+              <div id="taskDeadline">
+                <oj-bind-text value="[[taskData().deadline]]"></oj-bind-text>
+              </div>
+              <div id="taskStatus">
+                <oj-bind-text value="[[taskData().status]]"></oj-bind-text>
+              </div>
+            </div>
+          </oj-bind-if>
+		  <!-- Update Task -->
+        <oj-bind-if test="[[taskSelected()]]">
+          <div class="oj-flex-item  oj-sm-12 oj-md-6">
+			<oj-dialog id="editDialog" style="display:none" title="Update Task">
+				<div slot="body">
+					<oj-label class="oj-label oj-label-inline" for="newName">Title</oj-label>
+					<oj-input-text id="newTitle" value='{{trackData().title}}'></oj-input-text>
+					<oj-label class="oj-label oj-label-inline" for="newBody">Body</oj-label>
+					<oj-input-text id="newBody" value="{{taskData().body}}"></oj-input-text>
+					<oj-label class="oj-label oj-label-inline" for="newDeadline">Deadline</oj-label>
+					<oj-input-text id="newDeadline" value="{{taskData().deadline}}"></oj-input-text>
+					<oj-label class="oj-label oj-label-inline" for="newStatus">Status</oj-label>
+					<oj-input-text id="newStatus" value="{{taskData().status}}"></oj-input-text>
+			    </div>
+			    <div slot="footer">					
+					<oj-button id="submitBtn" on-oj-action="[[updateTask]]" style="border: 5px">Update</oj-button>
+			    </div>
+			</oj-dialog>
+          </div>
+        </oj-bind-if>
+      </div>
+    </oj-bind-if>
+    <!--<oj-bind-if test="[[!trackSelected()]]">
+      <div class="oj-flex-item oj-sm-6">
+        <h4>Select an Activity to see Items</h4>
+      </div>
+    </oj-bind-if>-->
+  </div>
 </div>

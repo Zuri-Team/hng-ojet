@@ -24,6 +24,7 @@ define([
       user_dashboard: { label: "User_dashboard" },
       register: { label: "Register" },
       login: { label: "Login", isDefault: true },
+      tracks: { label: "Tracks" },
       password_reset: { label: "Reset password" },
       submission: { label: "Submission" }
     });

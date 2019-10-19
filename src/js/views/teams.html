@@ -1,0 +1,122 @@
+<div>
+  <button id="createButton" class="btn btn-outline-success mr-1" data-bind="click:showCreateDialog">
+    Create new team
+  </button>
+  <!-- If teamSelected is set to false, disabled is true, and vice-versa. -->
+  <oj-bind-if test="[[teamSelected()]]">
+    <button id="updateButton" class="btn btn-outline-dark mr-1"
+      data-bind="disable: !teamSelected(), click: showEditDialog">
+      Edit
+    </button>
+    <button id="deleteButton" class="btn btn-outline-danger"
+      data-bind="disable: !teamSelected(), click: showDeleteDialog">
+      Delete
+    </button>
+  </oj-bind-if>
+</div>
+
+<div class="oj-flex justify-content-between my-3">
+  <div class="oj-flex-item oj-sm-12 oj-md-6 p-0" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+    <oj-list-view id="Categorymodel-category-list" data="[[teamDataProvider]]" selection-mode="single"
+      on-selected-changed="[[selectedTeamChanged]]" first-selected-item="{{firstSelectedTeam}}"
+      scroll-policy="loadMoreOnScroll">
+      <template slot="itemTemplate" data-oj-as="item">
+        <div class="">
+          <strong class="d-block mb-3 text-capitalize">
+            <oj-bind-text value="[[item.data.team_name]]"></oj-bind-text>
+            <span class="float-right h5"> <span class="badge badge-info"
+                data-bind="text: numOfMembers()[item.data.id]"></span>
+            </span>
+          </strong>
+          <span style="font-size: 12px;" class="d-block mb-2">
+            "<oj-bind-text value="[[item.data.team_description]]"></oj-bind-text>"
+          </span>
+          <strong>
+            Maximum Allowed Members: <oj-bind-text value="[[item.data.max_team_mates]]"></oj-bind-text>
+          </strong>
+        </div>
+      </template>
+    </oj-list-view>
+  </div>
+  <!-- display category details if a category is selected -->
+  <oj-bind-if test="[[teamSelected()]]">
+    <div class="oj-flex-item ml-lg-3 ml-md-3 bg-light mt-4 mt-sm-0 rounded"
+      style="height: fit-content; box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+      <h3 class="mb-0 pt-3 oj-padding-horizontal border border-right-0 border-left-0 border-top-0 border-secondary ">
+        <oj-label for="basicSelect" class="h6 m-0"><span class="mx-1" data-bind="text: `(${teamData().team_name})`">
+          </span> Team Members
+        </oj-label>
+      </h3>
+      <oj-list-view id="Categorymodel-post-list" data="[[teamMembers]]" selection-mode="single">
+        <template slot="itemTemplate" data-oj-as="item" class="py-2">
+          <div class="oj-flex">
+            <div class="oj-flex-item oj-md-2">
+              <img src="https://res.cloudinary.com/judejax/image/upload/v1567639756/avatar.png" class="img-thumbnail"
+                width="60" height="65">
+            </div>
+            <div class="oj-flex-item oj-md-9">
+              <strong class="text-capitalize d-block">
+                <oj-bind-text value="[[item.data.firstname]]"></oj-bind-text>
+                <oj-bind-text value="[[item.data.lastname]]"></oj-bind-text>
+              </strong>
+              <button data-bind="click: ''" class="btn btn-sm mt-1 mb-1 text-light"
+                style="background-color: #3F0F3F; color: #FFF"><i class="fa fa-slack text-light"></i>
+                &nbsp;
+                <strong>
+                  <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
+                </strong></button>
+            </div>
+            <div class="oj-flex-item oj-md-1">
+              <i class="fa fa-trash fa-2x trash text-danger" data-bind="click: ''"></i>
+            </div>
+          </div>
+        </template>
+      </oj-list-view>
+    </div>
+  </oj-bind-if>
+</div>
+
+<!-- create new  category modal -->
+<oj-dialog id="createTeamDialog" style="display:none" title="Create New Team">
+  <div slot="body">
+    <oj-label class="oj-label oj-label-inline" for="createNewTitle">Team Name</oj-label>
+    <oj-input-text id="createNewTitle" value='{{newTeam.team_name}}'></oj-input-text>
+    <oj-label class="oj-label oj-label-inline" for="createMaxMembers">Maximum Members</oj-label>
+    <oj-input-text id="createNewMaxMembers" value='{{newTeam.max_team_mates}}'></oj-input-text>
+    <oj-label class="oj-label oj-label-inline" for="createNewDesc">Description</oj-label>
+    <oj-input-text id="createNewDesc" value="{{newTeam.team_description}}"></oj-input-text>
+  </div>
+  <div slot="footer">
+    <oj-button id="submitBtn" on-oj-action="[[createTeam]]">Submit</oj-button>
+  </div>
+</oj-dialog>
+
+<!-- update category modal, if category is selected -->
+<oj-bind-if test="[[teamSelected()]]">
+  <oj-dialog id="editTeamDialog" style="display:none" title="Edit Team Info">
+    <div slot="body">
+      <oj-label class="oj-label oj-label-inline" for="newName">Team Name</oj-label>
+      <oj-input-text id="newName" value='{{teamData().team_name}}'></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="newName">Maximum Mambers</oj-label>
+      <oj-input-text id="newName" value='{{teamData().max_team_mates}}'></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="newDesc">Description</oj-label>
+      <oj-input-text id="newDesc" value="{{teamData().team_description}}"></oj-input-text>
+    </div>
+    <div slot="footer">
+      <oj-button id="submitBtn" on-oj-action="[[updateTeamSubmit]]">Edit
+      </oj-button>
+    </div>
+  </oj-dialog>
+  <!-- delete category modal -->
+  <oj-dialog id="deleteTeamDialog" style="display:none" title="Delete Team">
+    <div slot="body">
+      <p>Confirm you want to delete this Team <span data-bind="text: teamData().team_name"></span>?</p>
+    </div>
+    <div slot="footer">
+      <oj-button id="submitBtn" on-oj-action="[[deleteTeam]]">Delete
+      </oj-button>
+    </div>
+  </oj-dialog>
+
+
+</oj-bind-if>
