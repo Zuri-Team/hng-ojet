@@ -89,17 +89,20 @@ define([
        * Handle selection from Task list based on track_id
        */
       self.selectedTaskChanged = function (event) {
-        // Check whether click is an Activity Item selection or deselection
+        // Check whether click is a Track task selection or deselection
         if (event.detail.value.length != 0) {
             // If selection, populate and display Item details
             // Populate items list observable using firstSelectedXxx API
 			//console.log(self.firstSelectedTask());
+			let { data } = self.firstSelectedTask();
+			
             self.fetchTasks(self.firstSelectedTask().data.id);
             self.taskSelected(true);
+			self.taskData(data);
 			self.taskDataProvider();
         } else {
           // If deselection, hide list
-           self.taskSelected(false);
+           //self.taskSelected(false);
         }
       };
 	  
@@ -210,9 +213,9 @@ define([
                  dataType: "json",
                  //processData: true,
                  success: function (response) {
-					 alert('create');
+					 alert('Task created successfully');
 					 self.fetchTasks();
-                 console.log('Successful Task');
+                 console.log('Successful Task creation');
                  },
                  error: function (xhr) {
                      //alert(xhr.responseText);
@@ -226,16 +229,18 @@ define([
 	};
 	
 	
+	//Updates Task
+	
 	self.updateTask = function (event) {
 		
-		let title = self.firstSelectedTask().data.title;
-        let body = self.firstSelectedTask().data.body;
-		let deadline = self.newTask.firstSelectedTask().data.deadline;
-		let is_active = self.newTask.is_active;
+		let title = self.taskData().title;
+        let body = self.taskData().body;
+		let deadline = self.taskData().deadline;
+		let is_active = self.taskData().is_active;
 		
 		$.ajax({
                  method: "PUT",
-                 url: tasksURL + firstSelectedTask().data.id,
+                 url: tasksURL + "/"+self.taskData().id,
 				 headers:{
 				 'Authorization' : "Bearer " + userToken,
 				 'Access-Control-Allow-Origin': '*',
@@ -243,10 +248,11 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: {'track_id':track_id, 'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active},
+				 data: JSON.stringify({'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active}),
                  contentType: "application/json",
                  dataType: "json",
                  success: function (data, status, jqXHR) {
+					 //self.fetchTasks();
 					 alert('Update Successful');
                  console.log('Successfully updated Task');
                  },
@@ -256,18 +262,20 @@ define([
                  }
              });
 		
-		document.getElementById('editDialog').close();
+		document.getElementById('editTaskDialog').close();
+		document.getElementById('viewTaskDialog').close();
+		//self.fetchTasks();
 	};
 	
 	self.deleteTask = function (event, data) {
 		
-		let taskId = self.firstSelectedTask().data.id;
-		let taskTitle = self.firstSelectedTask().data.title;
+		let taskId = self.taskData().id;
+		let taskTitle = self.taskData().title;
 		
 		const confirm_ques = confirm("Are you sure you want to delete " + taskTitle + "?");
 		
 		if(confirm_ques){
-			$.ajax({ url:tasksURL + "/`{taskId}`", method: "DELETE" })
+			$.ajax({ url:tasksURL + "/" +taskId, method: "DELETE" })
             .then(function (data) {
                 alert('Task Successfully deleted!');
             })
