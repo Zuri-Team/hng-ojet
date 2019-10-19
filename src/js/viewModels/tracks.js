@@ -1,5 +1,6 @@
 define(["ojs/ojcore",
     "knockout",
+    "jquery",
     "ojs/ojarraytreedataprovider",
     "./api",
     "ojs/ojknockout-keyset",
@@ -10,15 +11,29 @@ define(["ojs/ojcore",
     "ojs/ojdialog",
     "ojs/ojinputtext",
     "ojs/ojmessages",
-    "ojs/ojvalidation-datetime",
-    "jquery"
-], function(oj, ko, ArrayTreeDataProvider, api, keySet, $) {
+    "ojs/ojvalidation-datetime"
+
+], function(oj, ko, $, ArrayTreeDataProvider, api, keySet) {
     function tracksViewModel() {
         var self = this;
 
         var tracksURL = `${api}/api/track`;
 
         var userToken = sessionStorage.getItem("user_token");
+
+        // var date = "2019-10-09 00:22:40";
+        // date = date.toISOString();
+        // datetime converter
+        self.formatDateTime = function(date) {
+            var formatDateTime = oj.Validation.converterFactory(oj.ConverterFactory.CONVERTER_TYPE_DATETIME).createConverter({
+                'formatType': 'datetime',
+                'dateFormat': 'medium',
+                'timeFormat': 'short'
+            });
+            return formatDateTime.format(new Date(date).toISOString());
+        };
+
+        // console.log(self.formatDateTime(date));
 
         self.trackData = ko.observable(""); //holds data for the track details
         self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
@@ -54,15 +69,7 @@ define(["ojs/ojcore",
 
 
 
-        // datetime converter
-        self.formatDateTime = function(date) {
-            var formatDateTime = oj.Validation.converterFactory(oj.ConverterFactory.CONVERTER_TYPE_DATETIME).createConverter({
-                'formatType': 'datetime',
-                'dateFormat': 'medium',
-                'timeFormat': 'short'
-            });
-            return formatDateTime.format(date);
-        };
+
 
 
         // Show dialogs
