@@ -13,34 +13,40 @@ define([
         var self = this;
         var router = oj.Router.rootInstance;
 
-        self.devstack = ko.observableArray([])
-
         var tracksURL = `${api}/api/track`;
 
+        let stacks = [
+         { value: "UI/UX", label: "UI/UX" },
+         { value: "Backend", label: "Backend" },
+         { value: "Digital Marketing", label: "Digital Marketing" },
+         { value: "DevOps", label: "DevOps" },
+         { value: "FrontEnd", label: "FrontEnd" }
+       ];
+
+
         //  Fetch all tracks
-        self.fetchTracks = async() => {
-          try {
-              const response = await fetch(`${tracksURL}/all`, {});
-              const {
-                  data: { data }
-              } = await response.json();
-
-              // var result = data.data.map(track => [track.id]);
-              var result = data.map(track => ({
-                  value: `${track.id}`,
-                  label: track.track_name
-              }));
-              //console.log(result);
-
-              self.devstack(result);
-
-              //console.log(self.devstack());
-          } catch (err) {
-              console.log(err);
-          }
-      };
-      self.fetchTracks();
+        self.fetchTracks = () => {
+          return new Promise((resolve, reject) => {
+            fetch(`${tracksURL}/all`).then(res => {
+              return res.json()
+            }).then(({ data }) => {
+              resolve(data.data)
+            }).catch(err => {
+              reject(err)
+            });
+          })
+        };
         
+        let hey = []
+        self.fetchTracks().then(data => hey = data.map(dat => ({ value: dat.track_name, label: dat.track_name })))
+        console.log(hey)
+
+        self.devstack = new ArrayDataProvider(hey);
+        // self.fetchTracks().then(data => {
+        //   console.log(data)
+        //   // self.devstack = ko.observableArray([]);
+        //   // self.devstack = new ArrayDataProvider(data.map(dat => ({ label: dat.track_name, value: dat.id })));
+        // })
 
         self.firstname = ko.observable("");
         self.lastname = ko.observable("");
@@ -82,8 +88,8 @@ define([
                 let username = self.username();
                 let password = self.pass();
                 let confirm_password = self.rpass();
-                let tracks = self.stack().map((stack) => {
-                  return stack
+                let tracks = self.stack().map(function(stack) {
+                    return stack.value;
                 });
 
                 let location = self.location();
@@ -123,7 +129,7 @@ define([
                         location: location
                     });
 
-                    //console.log(data);
+                    console.log(data);
                     sect.html(progressbar());
                     $.post(`https://api.start.ng/api/register`, {
                             firstname,
