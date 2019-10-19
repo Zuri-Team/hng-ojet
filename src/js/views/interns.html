@@ -1,88 +1,30 @@
 <div id="sampleDemo" style="" class="demo-padding demo-container">
-    <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+    <div id="componentDemoContent" style="width: 1px; min-width: 100%; min-height: 100%;">
+      
+      <oj-table id='table' aria-label='Interns Table'
+                                      data='[[dataProvider]]'
+                                      selection-mode='{"row": "multiple", "column": "multiple"}'
+                                      dnd='{"reorder": {"columns": "enabled"}}'
+                                      scroll-policy='loadMoreOnScroll'
+                                      columns='[{"headerText": "Intern Id", 
+                                                 "field": "id",
+                                                 "headerClassName": "oj-sm-only-hide",
+                                                 "className": "oj-sm-only-hide",
+                                                 "resizable": "enabled"},
+                                                {"headerText": "Username", 
+                                                 "field": "username",
+                                                 "resizable": "enabled"},
+                                                {"headerText": "First Name", 
+                                                 "field": "firstname",
+                                                 "headerClassName": "oj-sm-only-hide",
+                                                 "className": "oj-sm-only-hide",
+                                                 "resizable": "enabled"},
+                                                {"headerText": "Last Name", 
+                                                 "field": "lastname",
+                                                 "resizable": "enabled"}]'
+                                      style='width: 100%; height: 100%;'>
+      </oj-table>
 
-        <div id="tableDemo" class="oj-flex oj-flex-items-pad">
-            <div class="oj-8 oj-xl-8 oj-lg-8 oj-md-8 oj-flex-item" style="overflow-x: scroll;">
-                <oj-table id="table" aria-label="Interns Table" data='[[dataprovider]]'
-                    columns-default='{"sortable": "enabled"}' columns='[{"headerText": "ID", 
-                                                     "field": "InternId"},
-                                                    {"headerText": "NAME", 
-                                                     "field": "InternName"},
-                                                    {"headerText": "PHONE NUMBER", 
-                                                     "field": "PhoneNumber"},
-                                                    {"headerText": "TRACK",
-                                                     "field": "Track"},
-                                                    {"headerText": "POINTS", 
-                                                     "field": "Points"},
-                                                    {"headerText": "STAGE", 
-                                                     "field": "Stage"},
-                                                    {"headerText": "PROMOTE", 
-                                                     "field": "Stage"},
-                                                    {"headerText": "DEMOTE", 
-                                                     "field": "Stage"}]' style='width: 100%; height:100%;'>
-                </oj-table>
-            </div>
-            <div class="oj-4 oj-xl-4 oj-lg-4 oj-md-4 oj-flex-item">
-                <oj-validation-group valid="{{groupValid}}">
-                    <div class="oj-flex oj-flex-items-pad">
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-label for="InternIdInput">ID</oj-label>
-                        </div>
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-input-text id="InternIdInput" value="{{inputInternId}}"></oj-input-text>
-                        </div>
-                    </div>
-                    <div class="oj-flex oj-flex-items-pad">
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-label for="InternNameInput">NAME</oj-label>
-                        </div>
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-input-text id="InternNameInput" value="{{inputInternName}}"></oj-input-text>
-                        </div>
-                    </div>
-                    <div class="oj-flex oj-flex-items-pad">
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-label for="PhoneNumberInput">PHONE NUMBER</oj-label>
-                        </div>
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-input-number id="PhoneNumberInput" value="{{inputPhoneNumber}}"></oj-input-number>
-                        </div>
-                    </div>
-                    <div class="oj-flex oj-flex-items-pad">
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-label for="TrackInput">TRACK</oj-label>
-                        </div>
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-input-text id="TrackInput" value="{{inputTrack}}"></oj-input-text>
-                        </div>
-                    </div>
-                    <div class="oj-flex oj-flex-items-pad">
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-label for="PointsInput">POINTS</oj-label>
-                        </div>
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-input-number id="PointsInput" max="2000" min="0" step="1" value="{{inputPoints}}">
-                            </oj-input-number>
-                        </div>
-                    </div>
-                    <div class="oj-flex oj-flex-items-pad">
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-label for="StageInput">STAGE</oj-label>
-                        </div>
-                        <div class="oj-flex-item deprecated-col-default-width">
-                            <oj-input-number id="StageInput" max="10" min="0" step="1" value="{{inputStage}}">
-                            </oj-input-number>
-                        </div>
-                    </div>
-                    <div class="oj-flex oj-flex-items-pad">
-                        <oj-button id='addbutton' on-oj-action='[[addRow]]'>Add to end</oj-button>
-                        <oj-button id='updateButton' on-oj-action='[[updateRow]]'>Update</oj-button>
-                        <oj-button id='removeButton' on-oj-action='[[removeRow]]'>Remove</oj-button>
-                    </div>
-                </oj-validation-group>
-            </div>
-        </div>
-
-
+      
     </div>
-</div>
+  </div>

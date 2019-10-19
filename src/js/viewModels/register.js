@@ -12,18 +12,44 @@ define([
         var self = this;
         var router = oj.Router.rootInstance;
 
-        self.devstack = ko.observableArray([
-            { value: 'UI/UX', label: 'UI/UX' },
-            { value: 'Backend', label: 'Backend' },
-            { value: 'Digital Marketing', label: 'Digital Marketing' },
-            { value: 'DevOps', label: 'DevOps' },
-            { value: 'FrontEnd', label: 'FrontEnd' },
-        ]);
+        var tracksURL = `${api}/api/track`;
 
+        self.devstack = ko.observableArray();
+        // [
+        //   { value: "UI/UX", label: "UI/UX" },
+        //   { value: "Backend", label: "Backend" },
+        //   { value: "Digital Marketing", label: "Digital Marketing" },
+        //   { value: "DevOps", label: "DevOps" },
+        //   { value: "FrontEnd", label: "FrontEnd" }
+        // ];
+
+        //  Fetch all tracks
+        self.fetchTracks = async() => {
+            try {
+                const response = await fetch(`${tracksURL}/all`, {});
+                const {
+                    data: { data }
+                } = await response.json();
+
+                // var result = data.data.map(track => [track.id]);
+                var result = data.map(track => ({
+                    value: `${track.id}`,
+                    label: track.track_name
+                }));
+                console.log(result);
+
+                self.devstack(result);
+
+                console.log(self.devstack());
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        self.fetchTracks();
 
         self.firstname = ko.observable("");
         self.lastname = ko.observable("");
-        self.stack = ko.observableArray();
+        self.stack = ko.observableArray([]);
         self.location = ko.observable("");
 
         //account info
@@ -61,7 +87,10 @@ define([
                 let username = self.username();
                 let password = self.pass();
                 let confirm_password = self.rpass();
-                let stack = self.stack().join(' ');
+                let tracks = self.stack().map(function(stack) {
+                    return stack.value;
+                });
+
                 let location = self.location();
 
                 if (
@@ -69,11 +98,10 @@ define([
                         lastname &&
                         email &&
                         username &&
-                        stack &&
+                        // tracks &&
                         location &&
                         password &&
-                        confirm_password
-                    ) !== undefined
+                        confirm_password) !== undefined
                 ) {
                     if (!(email.match(/([@])/) && email.match(/([.])/))) {
                         validated = false;
@@ -96,11 +124,11 @@ define([
                         username: username,
                         password: password,
                         confirm_password: confirm_password,
-                        stack: stack,
+                        tracks: tracks,
                         location: location
-                    })
+                    });
 
-                    console.log(data)
+                    console.log(data);
                     sect.html(progressbar());
                     $.post(`https://api.start.ng/api/register`, {
                             firstname,
@@ -109,7 +137,7 @@ define([
                             username,
                             password,
                             confirm_password,
-                            stack,
+                            tracks,
                             location
                         })
                         .done(({ status }) => {
@@ -152,6 +180,10 @@ define([
             };
         };
 
+        // self.connected = function() {
+        //   self.fetchTracks();
+        // };
+
         self.disconnected = function() {
             // Implement if needed
         };
@@ -162,4 +194,4 @@ define([
     }
 
     return new RegisterViewModel();
-})
+});

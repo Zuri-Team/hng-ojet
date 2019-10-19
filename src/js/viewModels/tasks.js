@@ -45,13 +45,17 @@ define([
 
 	const RESTurl = "https://api.start.ng/api/track/list";
 	
-	self.showCreateDialog = function (event) {
-								document.getElementById("createDialog").open();
+	self.showCreateTaskDialog = function (event) {
+								document.getElementById("createTaskDialog").open();
 							}
 		  
-	self.showEditDialog = function(event) {
-							document.getElementById("editDialog").open();
+	self.showEditTaskDialog = function(event) {
+							document.getElementById("editTaskDialog").open();
 							};
+							
+	self.showViewTaskDialog = function(event) {
+							document.getElementById("viewTaskDialog").open();
+							};						
 	
 	//console.log(tasksURL + '/' + selectedTrack().data.track_name + "/`{track_id}`" );
 	
@@ -85,16 +89,20 @@ define([
        * Handle selection from Task list based on track_id
        */
       self.selectedTaskChanged = function (event) {
-        // Check whether click is an Activity Item selection or deselection
+        // Check whether click is a Track task selection or deselection
         if (event.detail.value.length != 0) {
             // If selection, populate and display Item details
             // Populate items list observable using firstSelectedXxx API
-			console.log(self.firstSelectedTask());
-            self.fetchTask(self.firstSelectedTask().data);
+			//console.log(self.firstSelectedTask());
+			let { data } = self.firstSelectedTask();
+			
+            self.fetchTasks(self.firstSelectedTask().data.id);
             self.taskSelected(true);
+			self.taskData(data);
+			self.taskDataProvider();
         } else {
           // If deselection, hide list
-           self.taskSelected(false);
+           //self.taskSelected(false);
         }
       };
 	  
@@ -160,10 +168,11 @@ define([
 		   dataType: 'json',
 		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			console.log(response);
+			
+			let { data } = response;
 			var tasksArray = data;
 				
-			self.tasksTrack(
+			self.taskDataProvider(
 				new ArrayDataProvider(tasksArray, { keyAttributes: "id" })
 			);
 			}
@@ -172,12 +181,22 @@ define([
 		
   	  
 
-	self.createTask = function (event, data) {
+	self.createTask = () => {
 		
+		let track_id = self.firstSelectedTrack().data.id;
 		let title = self.newTask.title;
         let body = self.newTask.body;
 		let deadline = self.newTask.deadline;
-		//let isactive = self.newTask.isactive;
+		let is_active = self.newTask.is_active;
+		
+		/*var bet = {
+    tournament: '',
+    bo: '1',
+    bet_team: '2',
+    betted: '3',
+    potential: '4',
+    percent: '5'
+};*/
 		
 		$.ajax({
                  method: "POST",
@@ -189,34 +208,39 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: { title, body, deadline },
+				 data: JSON.stringify({'track_id':track_id, 'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active}),
                  //contentType: "application/json",
                  dataType: "json",
-                 processData: true,
+                 //processData: true,
                  success: function (response) {
-					 alert('create');
-                 console.log('Successful Task');
+					 alert('Task created successfully');
+					 self.fetchTasks();
+                 console.log('Successful Task creation');
                  },
                  error: function (xhr) {
                      //alert(xhr.responseText);
 					 alert('Error');
                  }
              });
-		
-		document.getElementById('createDialog').close();
+		//document.getElementById("createNewTitle").value = "";
+      //document.getElementById("createNewBody").value = "";
+      //document.getElementById("createNewDeadline").value = "";
+		document.getElementById('createTaskDialog').close();
 	};
 	
 	
+	//Updates Task
+	
 	self.updateTask = function (event) {
 		
-		let title = self.firstSelectedTask().data.title;
-        let body = self.firstSelectedTask().data.body;
-		let deadline = self.newTask.firstSelectedTask().data.deadline;
-		//let isactive = self.newTask.isactive;
+		let title = self.taskData().title;
+        let body = self.taskData().body;
+		let deadline = self.taskData().deadline;
+		let is_active = self.taskData().is_active;
 		
 		$.ajax({
                  method: "PUT",
-                 url: "https://api.start.ng/api/tasks/" + firstSelectedTask().data.id,
+                 url: tasksURL + "/"+self.taskData().id,
 				 headers:{
 				 'Authorization' : "Bearer " + userToken,
 				 'Access-Control-Allow-Origin': '*',
@@ -224,11 +248,12 @@ define([
 				 'Access-Control-Allow-Methods': '*',
 				 'Access-Control-Allow-Headers': '*',
 				 },
-				 data: { title, body, deadline },
+				 data: JSON.stringify({'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active}),
                  contentType: "application/json",
                  dataType: "json",
                  success: function (data, status, jqXHR) {
-					 alert('create');
+					 //self.fetchTasks();
+					 alert('Update Successful');
                  console.log('Successfully updated Task');
                  },
                  error: function (xhr) {
@@ -237,18 +262,20 @@ define([
                  }
              });
 		
-		document.getElementById('editDialog').close();
+		document.getElementById('editTaskDialog').close();
+		document.getElementById('viewTaskDialog').close();
+		//self.fetchTasks();
 	};
 	
 	self.deleteTask = function (event, data) {
 		
-		let taskId = self.firstSelectedTask().data.id;
-		let taskTitle = self.firstSelectedTask().data.title;
+		let taskId = self.taskData().id;
+		let taskTitle = self.taskData().title;
 		
 		const confirm_ques = confirm("Are you sure you want to delete " + taskTitle + "?");
 		
 		if(confirm_ques){
-			$.ajax({ url:"https://api.start.ng/api/tasks" + "/`{taskId}`", method: "DELETE" })
+			$.ajax({ url:tasksURL + "/" +taskId, method: "DELETE" })
             .then(function (data) {
                 alert('Task Successfully deleted!');
             })
@@ -303,3 +330,4 @@ define([
   return new taskModel();
 
 });
+
