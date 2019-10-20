@@ -22,17 +22,28 @@
 					<oj-input-text id="input" placeholder="Task Title" required value="{{newTask.title}}"></oj-input-text>
 				</div>
 				<div class="oj-sm-12 oj-flex-item">
-					<oj-input-text id="input" placeholder="Task Description" required value="{{newTask.body}}"></oj-input-text>
+					<oj-text-area id="input" placeholder="Task Description" required value="{{newTask.body}}"></oj-text-area>
 				</div>
 				<div class="oj-sm-12 oj-flex-item">
-					<oj-input-text id="input" placeholder="e.g YYYY-MM-DD" required value="{{newTask.deadline}}"></oj-input-text>
+				<oj-input-date id="date" value={{newTask.deadline}}> </oj-input-date>
+				<!--<oj-input-date id="date" value='{{value}}'>
+            </oj-input-date>-->
+				<!--<oj-date-picker id="dateinline" value="{{isoDate}}"
+              label-hint="date picker"
+              converter= '[[mySlowLoadingDateTimeConverter]]'
+              ></oj-date-picker>-->
+			 <!-- <oj-label for="format">Format converter</oj-label>
+            <oj-input-date id="format" value={{dateValue}} converter=[[dateConverter]] date-picker=[[datePicker]]>
+            </oj-input-date>-->
+				<!--<oj-input-date id="d1" value='{{currentDate}}' converter=[[dateConverter]] style="max-width:10em"></oj-input-date>-->
+				<!--<oj-input-text id="input" placeholder="e.g YYYY-MM-DD" required value="{{newTask.deadline}}"></oj-input-text>-->
 				</div>
 				<div class="oj-sm-12 oj-flex-item">
 					<oj-label for="basicSelect">Status</oj-label>
 					<oj-select-one id="basicSelect" value="{{newTask.is_active}}" style="max-width:20em">
 					  <oj-option value="">Select...</oj-option>
-					  <oj-option value="1">Active</oj-option>
-					  <oj-option value="0">Not Active</oj-option>
+					  <oj-option value="1">Publish</oj-option>
+					  <oj-option value="0">Draft</oj-option>
 					</oj-select-one>
 				</div>
 			    </oj-form-layout></div>
@@ -115,7 +126,7 @@
                 <oj-bind-text value="[[taskData().deadline]]"></oj-bind-text>
               </div>
               <div id="taskStatus">
-                <oj-bind-text value="[[taskData().status]]"></oj-bind-text>
+                <oj-bind-text value="[[taskData().is_active]]"></oj-bind-text>
               </div>	
 			</div>
 			<div slot="footer">
@@ -136,17 +147,18 @@
 					<oj-input-text id="input" placeholder="Task Title" required value="{{taskData().title}}"></oj-input-text>
 				</div>
 				<div class="oj-sm-12 oj-flex-item">
-					<oj-input-text id="input" placeholder="Task Description" required value="{{taskData().body}}"></oj-input-text>
+					<oj-text-area id="input" placeholder="Task Description" required value="{{taskData().body}}"></oj-text-area>
 				</div>
 				<div class="oj-sm-12 oj-flex-item">
-					<oj-input-text id="input" placeholder="e.g YYYY-MM-DD" required value="{{taskData().deadline}}"></oj-input-text>
+				<oj-input-date id="date" value={{taskData().deadline}}> </oj-input-date>
+					<!--<oj-input-text id="input" placeholder="e.g YYYY-MM-DD" required value="{{taskData().deadline}}"></oj-input-text>-->
 				</div>
 				<div class="oj-sm-12 oj-flex-item">
 					<oj-label for="basicSelect">Status</oj-label>
 					<oj-select-one id="basicSelect" value="{{taskData().is_active}}" style="max-width:20em">
 					  <oj-option value="">Select...</oj-option>
-					  <oj-option value="1">Active</oj-option>
-					  <oj-option value="0">Not Active</oj-option>
+					  <oj-option value="1">Publish</oj-option>
+					  <oj-option value="0">Draft</oj-option>
 					</oj-select-one>
 				</div>
 			    </oj-form-layout></div>
