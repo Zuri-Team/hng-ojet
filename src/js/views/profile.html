@@ -50,7 +50,7 @@
                     </div>
                     <div class="col">
                         <div class="m-2 d-flex justify-content-center">
-                            <img class=" h-50 w-50 rounded-circle " role="img " src="../../css/images/avatar-f.jpg ">
+                            <img class=" h-50 w-50 rounded-circle " role="img " src="" id='profile_img'>
                             </img>
 
                         </div>
@@ -81,42 +81,42 @@
 
                                 <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='{{profile.firstname}}'>
+                                        <oj-input-text class='input-profile' value='{{profile.firstname}}' placeholder='[[firstname]]'>
                                         </oj-input-text>
                                     </div>
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='{{profile.lastname}}'>
+                                        <oj-input-text class='input-profile' value='{{profile.lastname}}' placeholder='[[lastname]]'>
                                         </oj-input-text>
                                     </div>
 
                                 </div>
 
-                                <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.email}}'>
+                                <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.email}}' placeholder='[[email]]'>
                                 </oj-input-text>
 
                                 <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='{{profile.username}}'>
+                                        <oj-input-text class='input-profile' value='{{profile.username}}' placeholder='[[username]]'>
                                         </oj-input-text>
                                     </div>
                                     <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                        <oj-input-text class='input-profile' value='{{profile.phone}}'>
+                                        <oj-input-text class='input-profile' value='{{profile.phone}}' placeholder='[[phone]]'>
                                         </oj-input-text>
                                     </div>
 
                                 </div>
 
-                                <oj-text-area class='input-profile mt-1 mb-1' rows="6 " value='{{profile.bio}}'></oj-text-area>
+                                <oj-text-area class='input-profile mt-1 mb-1' rows="6 " value='{{profile.bio}}' placeholder='[[bio]]'></oj-text-area>
 
                                 <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.url}}'>
                                 </oj-input-text>
 
                                 <div class="input-profile mt-1 mb-1">
-                                    <oj-select-many p // notification messages observable self.applicationMessages=k o.observableArray([]);laceholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
+                                    <oj-select-many placeholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
                                     </oj-select-many>
                                 </div>
                                 <div class="input-profile mt-1 mb-1">
-                                    <oj-input-text class='mt-1 mb-1' value='{{profile.location}}'>
+                                    <oj-input-text class='mt-1 mb-1' label-hint='Location' value='{{profile.location}}' placeholder="[[location]]">
                                     </oj-input-text>
                                 </div>
 
@@ -126,7 +126,7 @@
                                     <div class="d-flex justify-content-end ">
                                         <div class="m-2 ">
                                             <oj-button id='button3' display='icons' on-oj-action="[[cancelButton]]">
-                                                <img slot="startIcon" src="../../css/images/cancel.png" alt="Button 3" width="16" height="16" />Cancel
+                                                <span class=" oj-fwk-icon-cross03 oj-fwk-icon"></span>
                                             </oj-button>
                                         </div>
                                     </div>

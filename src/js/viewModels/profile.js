@@ -32,8 +32,9 @@ define(['ojs/ojcore',
             self.stack = ko.observable('');
             self.url = ko.observable('');
             self.location = ko.observable('');
-            self.profile_img = ko.observable('');
 
+
+            self.editMode = ko.observable("false");
 
             self.profile = ko.observable('');
 
@@ -53,6 +54,8 @@ define(['ojs/ojcore',
                 var accept = self.acceptStr();
                 return accept ? accept.split(",") : [];
             }, self);
+
+
 
             self.selectListener = function(event) {
                 const file = event.detail.files[0];
@@ -97,7 +100,6 @@ define(['ojs/ojcore',
 
             }
 
-            self.editMode = ko.observable("false");
 
 
             self.editButton = function() {
@@ -113,6 +115,8 @@ define(['ojs/ojcore',
                 self.editMode() ?
                     self.editMode(false) :
                     self.editMode(true);
+
+                self.getProfile();
 
             }.bind(self);
 
@@ -182,13 +186,19 @@ define(['ojs/ojcore',
                         self.bio(bio);
                         self.url(url);
                         self.phone(phone);
-                        self.profile_img(profile_img);
+
+                        let profileImg = document.getElementById('profile_img');
+
+                        profileImg.src = profile_img;
+
+
                     }
                 });
 
             };
 
             self.getProfile();
+
 
 
             /**
