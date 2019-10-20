@@ -2,12 +2,13 @@ define([
     "knockout",
     "./api",
     "jquery",
+    "ojs/ojarraydataprovider",
     "ojs/ojcore",
     "ojs/ojrouter",
     "ojs/ojformlayout",
     "ojs/ojinputtext",
     "ojs/ojselectcombobox"
-], function(ko, api, $) {
+], function(ko, api, $, ArrayDataProvider) {
     function RegisterViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;
@@ -122,7 +123,7 @@ define([
                         location: location
                     });
 
-                    console.log(data);
+                    //console.log(data);
                     sect.html(progressbar());
                     $.post(`https://api.start.ng/api/register`, {
                             firstname,
