@@ -1,6 +1,7 @@
 define([
   "ojs/ojcore",
   "knockout",
+  "ojs/ojbootstrap",
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
@@ -8,8 +9,8 @@ define([
   "ojs/ojlistview",
   "ojs/ojbutton",
   "ojs/ojdialog",
-  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout'
-], function(oj, ko, $, api, ArrayDataProvider,) {
+  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojvalidation-base', 'ojs/ojselectcombobox',, 'ojs/ojdatetimepicker'
+], function(oj, ko, Bootstrap, $, api, ArrayDataProvider, ValidationBase) {
 	
   function taskModel() {
 	  
@@ -25,6 +26,8 @@ define([
 	self.tasksTrack = ko.observable('');    //Tasks that belongs to a track
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
+	
+	self.trackOptions = ko.observableArray([]); //values for the tracks shown in the multiselect
 	
 	var tracksURL = `${api}/api/track`;
 	
@@ -113,7 +116,6 @@ define([
 			'Access-Control-Allow-Origin': '*',
           }
         });
-			
 	
 	//Fetch Track lists		
 	self.fetchTracks = () => {
