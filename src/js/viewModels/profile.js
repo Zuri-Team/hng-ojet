@@ -17,6 +17,7 @@ define(['ojs/ojcore',
             var userToken = sessionStorage.getItem("user_token");
             const user = JSON.parse(sessionStorage.getItem("user"));
             const id = user.id
+      
 
 
             // notification messages observable
@@ -120,7 +121,7 @@ define(['ojs/ojcore',
 
                 const {...user } = self.profile;
 
-                console.log("You clicked this button", user.firstname);
+                console.log("You clicked this button", user.firstname, user.id);
 
                 let form = new FormData();
 
@@ -143,7 +144,8 @@ define(['ojs/ojcore',
 
                             severity: "confirmation",
                             summary: "Update Successful",
-                            detail: "Your profile has been successfully updated"
+                            detail: "Your profile has been successfully updated",
+                            autoTimeout: parseInt("0")
 
                         });
                     },
@@ -152,7 +154,8 @@ define(['ojs/ojcore',
                         self.applicationMessages.push({
                             severity: "error",
                             summary: "Failed to Update",
-                            detail: "An error occurred while updating your profile. Try Again"
+                            detail: "An error occurred while updating your profile. Try Again",
+                            autoTimeout: parseInt("0")
 
                         });
                     }
@@ -171,6 +174,7 @@ define(['ojs/ojcore',
                     },
                     method: "GET",
                     success: res => {
+                        console.log(res)
                         const { user, profile } = res
                         const { firstname, lastname, username, email, } = user;
                         const { bio, url, phone, profile_img } = profile;

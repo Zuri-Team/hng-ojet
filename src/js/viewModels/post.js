@@ -29,7 +29,6 @@ define([
 
     //  fetch list of categories
     function fetchCategories() {
-      self.categories([]);
       $.ajax({
         url: `${api}/api/categories`,
         headers: {
