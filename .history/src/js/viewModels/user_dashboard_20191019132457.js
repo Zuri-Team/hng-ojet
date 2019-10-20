@@ -128,7 +128,6 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
         self.connected = function() {
             let user = sessionStorage.getItem("user");
             user = JSON.parse(user);
-            console.log(user);
             if (sessionStorage.getItem("user_token") == null) {
               router.go("login");
             }

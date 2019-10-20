@@ -13,9 +13,16 @@ define([
         var self = this;
         var router = oj.Router.rootInstance;
 
-        self.devstack = ko.observableArray([])
-
         var tracksURL = `${api}/api/track`;
+
+        let stacks = [
+         { value: "UI/UX", label: "UI/UX" },
+         { value: "Backend", label: "Backend" },
+         { value: "Digital Marketing", label: "Digital Marketing" },
+         { value: "DevOps", label: "DevOps" },
+         { value: "FrontEnd", label: "FrontEnd" }
+       ];
+
 
         //  Fetch all tracks
         self.fetchTracks = async() => {
@@ -30,17 +37,23 @@ define([
                   value: `${track.id}`,
                   label: track.track_name
               }));
-              //console.log(result);
+              console.log(result);
 
               self.devstack(result);
 
-              //console.log(self.devstack());
+              console.log(self.devstack());
           } catch (err) {
               console.log(err);
           }
       };
       self.fetchTracks();
         
+        
+        // self.fetchTracks().then(data => {
+        //   console.log(data)
+        //   // self.devstack = ko.observableArray([]);
+        //   // self.devstack = new ArrayDataProvider(data.map(dat => ({ label: dat.track_name, value: dat.id })));
+        // })
 
         self.firstname = ko.observable("");
         self.lastname = ko.observable("");
@@ -82,8 +95,8 @@ define([
                 let username = self.username();
                 let password = self.pass();
                 let confirm_password = self.rpass();
-                let tracks = self.stack().map((stack) => {
-                  return stack
+                let tracks = self.stack().map(function(stack) {
+                    return stack.value;
                 });
 
                 let location = self.location();
@@ -123,7 +136,7 @@ define([
                         location: location
                     });
 
-                    //console.log(data);
+                    console.log(data);
                     sect.html(progressbar());
                     $.post(`https://api.start.ng/api/register`, {
                             firstname,
