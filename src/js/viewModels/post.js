@@ -129,7 +129,7 @@ define([
             self.dataProvider(
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
-                  value.created_at = self.formatDateTime(value.created_at);
+                  // value.created_at = self.formatDateTime(value.created_at);
                   return value.post_title;
                 })
               })
