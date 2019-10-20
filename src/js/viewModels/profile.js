@@ -19,8 +19,12 @@ define(['ojs/ojcore',
             const id = user.id
 
 
+
             // notification messages observable
             self.applicationMessages = ko.observableArray([]);
+
+            // For the selected file
+            self.fileNames = ko.observableArray([]);
 
 
             self.firstname = ko.observable('');
@@ -124,30 +128,41 @@ define(['ojs/ojcore',
 
                 const {...user } = self.profile;
 
-                console.log("You clicked this button", user.firstname);
+                console.log("You clicked this button", user);
 
-                let form = new FormData();
+                const data = {
+                    user: {
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        username: user.username,
+                        email: user.email,
+                        // stack: user.stack,
+                    },
+                    profile: {
+                        bio: user.bio,
+                        url: user.url,
+                        // profile_img: self.fileNames()[0],
+                        user_id: id
+                    }
 
-                form.append('firstname', user.firstname);
+                }
+                console.log(data)
 
                 $.ajax({
                     url: `${RESTurl}/${id}/edit`,
                     headers: {
-                        Accept: 'application/json',
                         Authorization: "Bearer " + userToken
                     },
-                    data: form,
-                    contentType: false,
-                    processData: false,
+                    data,
                     method: 'POST',
-                    type: 'POST',
                     success: function(data) {
                         console.log(data);
                         self.applicationMessages.push({
 
                             severity: "confirmation",
                             summary: "Update Successful",
-                            detail: "Your profile has been successfully updated"
+                            detail: "Your profile has been successfully updated",
+                            autoTimeout: parseInt("0")
 
                         });
                     },
@@ -156,7 +171,8 @@ define(['ojs/ojcore',
                         self.applicationMessages.push({
                             severity: "error",
                             summary: "Failed to Update",
-                            detail: "An error occurred while updating your profile. Try Again"
+                            detail: "An error occurred while updating your profile. Try Again",
+                            autoTimeout: parseInt("0")
 
                         });
                     }
@@ -175,6 +191,7 @@ define(['ojs/ojcore',
                     },
                     method: "GET",
                     success: res => {
+                        console.log(res)
                         const { user, profile } = res
                         const { firstname, lastname, username, email, } = user;
                         const { bio, url, phone, profile_img } = profile;
