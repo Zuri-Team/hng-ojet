@@ -24,7 +24,7 @@ define([
         dateFormat: "medium",
         timeFormat: "short"
       });
-      return formatDateTime.format(date);
+      return formatDateTime.format(new Date(date).toISOString());
     };
 
     // form-data for new post
