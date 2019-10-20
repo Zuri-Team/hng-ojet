@@ -1,6 +1,6 @@
 <span class="btn btn-primary" data-bind="click: showCreateTrack"><i class="fa fa-plus plus"></i>Create New Track</span>
 <div id="listviewContainer">
-  <oj-list-view id="listview"  aria-label="list with card layout for items in group" 
+  <oj-list-view id="listview"  aria-label="listview with paging control"
        data="[[dataProvider]]" drill-mode="none" selected="{{selectedItems}}"
        selection-required="[[selectedSelectionRequired]]"
        selection-mode="multiple"
@@ -29,6 +29,8 @@
   
     </template>       
   </oj-list-view>
+  <oj-paging-control id="paging" data="[[dataProvider]]" page-size="5" slot="bottom">
+    </oj-paging-control>
 
 
   <!-- create new  track modal -->

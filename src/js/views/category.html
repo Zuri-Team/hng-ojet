@@ -1,9 +1,9 @@
 <div>
   <button id="createButton" class="btn btn-outline-success mr-1" data-bind="click:showCreateDialog">
-    New category
+    Create New category
   </button>
   <!-- If categorySelected is set to false, disabled is true, and vice-versa. -->
-  <oj-bind-if test="[[categorySelected()]]">
+  <!-- <oj-bind-if test="[[categorySelected()]]">
     <button id="updateButton" class="btn btn-outline-dark mr-1"
       data-bind="disable: !categorySelected(), click: showEditDialog">
       Update
@@ -12,9 +12,9 @@
       data-bind="disable: !categorySelected(), click: showDeleteDialog">
       Delete
     </button>
-  </oj-bind-if>
+  </oj-bind-if> -->
   <oj-bind-if test="[[!categorySelected()]]">
-    <span><strong>Please click on a category below to edit or delete</strong></span>
+    <span><strong>Please click on a category below to view its related posts</strong></span>
   </oj-bind-if>
 </div>
 
