@@ -167,7 +167,11 @@ define(['ojs/ojcore',
                         self.bio(bio);
                         self.url(url);
                         self.phone(phone);
-                        self.profile_img(profile_img);
+                        
+                        let profile_pic = document.getElementById('profile_img');
+                        profile_pic.src = profile_img;
+
+
                     }
                 });
 
