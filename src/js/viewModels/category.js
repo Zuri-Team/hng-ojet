@@ -144,6 +144,7 @@ define([
       var categoryId = self.categoryData().id;
       let title = self.categoryData().category_name;
       let description = self.categoryData().dsecription;
+      console.log(title, description)
       $.ajax({
         url: `${RESTurl}/update/${categoryId}`,
         headers: {
