@@ -177,7 +177,7 @@ define(['ojs/ojcore',
 
             };
 
-            self.getProfile();
+            self.fetchProfile();
 
 
             /**
