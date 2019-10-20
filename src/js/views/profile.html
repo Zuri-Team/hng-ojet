@@ -127,13 +127,18 @@
                                             </oj-button>
                                         </div>
                                     </div>
-                                    <div class="m-2 d-flex justify-content-center">
-                                        <img class=" h-50 w-50 rounded-circle " role="img " src="../../css/images/avatar-f.jpg ">
-                                        </img>
+                                    <div class="m-2 d-flex justify-content-center col-md-2">
+                                            <oj-label for="selected">Selected files: </oj-label>
+                                            <span id="selected" class="col-md-2">
+                                              <oj-bind-text value="[[ko.toJSON(selectedFile)]]"></oj-bind-text>
+                                            </span>
+                                        <!-- <img class=" h-50 w-50 rounded-circle " role="img " data-bind="style: { backgroundImage: 'url(fileNames)'}">
+                                        </img> -->
+                                        <!-- <span class="demo-thumbnail oj-flex-item h-50 w-50 rounded-circle " :style.background-image="[[' url('+$current.data.image+')']]"></span> -->
 
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <oj-file-picker class='oj-filepicker-custom ' accept="[[acceptArr]]" id="myFile" selection-mode="single" select-on='click' on-oj-select='[[selectListener]]'>
+                                        <oj-file-picker class='oj-filepicker-custom'  id="myFile" selection-mode="single" select-on='click' on-oj-select='[[selectListener]]'>
                                             <oj-button slot='trigger'>
                                                 <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n '></span> Upload
                                             </oj-button>
