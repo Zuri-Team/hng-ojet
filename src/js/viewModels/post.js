@@ -15,17 +15,17 @@ define([
 
     self.categories = ko.observableArray([]);
 
-    // datetime converter
-    self.formatDateTime = function(date) {
-      var formatDateTime = oj.Validation.converterFactory(
-        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-      ).createConverter({
-        formatType: "datetime",
-        dateFormat: "medium",
-        timeFormat: "short"
-      });
-      return formatDateTime.format(date);
-    };
+    // // datetime converter
+    // self.formatDateTime = function(date) {
+    //   var formatDateTime = oj.Validation.converterFactory(
+    //     oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+    //   ).createConverter({
+    //     formatType: "datetime",
+    //     dateFormat: "medium",
+    //     timeFormat: "short"
+    //   });
+    //   return formatDateTime.format(date);
+    // };
 
     // form-data for new post
     self.category_id = ko.observable();
@@ -129,7 +129,7 @@ define([
             self.dataProvider(
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
-                  value.created_at = self.formatDateTime(value.created_at);
+                  // value.created_at = self.formatDateTime(value.created_at);
                   return value.post_title;
                 })
               })
