@@ -146,7 +146,7 @@ define(['ojs/ojcore',
 
             }
 
-            self.getProfile = function() {
+            self.fetchProfile = function() {
 
                 $.ajax({
                     url: `${RESTurl}/${id}`,
