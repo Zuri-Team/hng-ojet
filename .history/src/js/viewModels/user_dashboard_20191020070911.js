@@ -17,8 +17,7 @@ define([
     'ojs/ojfilepicker', 
     'ojs/ojformlayout', 
     'ojs/ojbutton',
-    'ojs/ojcollapsible',
-    'ojs/ojtrain'
+    'ojs/ojcollapsible'
 ],
 function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
 

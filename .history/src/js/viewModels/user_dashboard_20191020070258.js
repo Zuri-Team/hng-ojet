@@ -17,8 +17,7 @@ define([
     'ojs/ojfilepicker', 
     'ojs/ojformlayout', 
     'ojs/ojbutton',
-    'ojs/ojcollapsible',
-    'ojs/ojtrain'
+    'ojs/ojcollapsible'
 ],
 function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
 
@@ -43,7 +42,7 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
                    {label:'Stage Nine', id:'stg9'},
                    {label:'Stage Ten', id:'stg10'}
                 ]);
-        self.updateLabelText = (event) =>{
+        self.updateLabelText = (event) => {
            var train = document.getElementById("train");
            self.selectedStepLabel(train.getStep(event.detail.value).label);
         };
