@@ -85,6 +85,8 @@ define(['ojs/ojcore',
                     self.editMode(false) :
                     self.editMode(true);
 
+                self.getProfile();
+
             }.bind(self);
 
             self.update = function() {
