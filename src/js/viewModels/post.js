@@ -3,29 +3,18 @@ define([
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
+  "ojs/ojpagingdataproviderview",
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojdialog",
   "ojs/ojvalidation-datetime"
-], function(ko, $, api, ArrayDataProvider) {
+], function(ko, $, api, ArrayDataProvider, Paging) {
   function postModel() {
     self = this;
     var RESTurl = `${api}/api/posts`;
     var userToken = sessionStorage.getItem("user_token");
 
     self.categories = ko.observableArray([]);
-
-    // datetime converter
-    self.formatDateTime = function(date) {
-      var formatDateTime = oj.Validation.converterFactory(
-        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-      ).createConverter({
-        formatType: "datetime",
-        dateFormat: "medium",
-        timeFormat: "short"
-      });
-      return formatDateTime.format(new Date(date).toISOString()); 
-    };
 
     // form-data for new post
     self.category_id = ko.observable();
@@ -41,7 +30,7 @@ define([
     self.applicationMessages = ko.observableArray([]);
 
     //  fetch list of categories
-    function fetchCategories() {
+    (function fetchCategories() {
       $.ajax({
         url: `${api}/api/categories`,
         headers: {
@@ -54,7 +43,7 @@ define([
           });
         }
       });
-    }
+    })();
 
     self.post_view_toggle = () => {
       self.post_btn_toggler(!self.post_btn_toggler());
@@ -80,6 +69,18 @@ define([
 
     self.deletePostModal = () => {
       document.getElementById("deleteModal").open();
+    };
+
+    // datetime converter
+    self.formatDateTime = date => {
+      var formatDateTime = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "datetime",
+        dateFormat: "medium",
+        timeFormat: "short"
+      });
+      return formatDateTime.format(new Date(date).toISOString());
     };
 
     self.createPost = () => {
@@ -127,12 +128,14 @@ define([
           if (res.status == true) {
             let { data } = res.data;
             self.dataProvider(
-              new ArrayDataProvider(data, {
-                keys: data.map(function(value) {
-                  // value.created_at = self.formatDateTime(value.created_at);
-                  return value.post_title;
+              new Paging(
+                new ArrayDataProvider(data, {
+                  keys: data.map(function(value) {
+                    value.created_at = self.formatDateTime(value.created_at);
+                    return value.post_title;
+                  })
                 })
-              })
+              )
             );
           }
         }
@@ -210,8 +213,6 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Posts") {
-        self.categories([]);
-        fetchCategories();
         self.fetchPost();
       }
     });
