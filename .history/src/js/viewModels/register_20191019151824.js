@@ -30,11 +30,11 @@ define([
                   value: `${track.id}`,
                   label: track.track_name
               }));
-              //console.log(result);
+              console.log(result);
 
               self.devstack(result);
 
-              //console.log(self.devstack());
+              console.log(self.devstack());
           } catch (err) {
               console.log(err);
           }
@@ -123,7 +123,7 @@ define([
                         location: location
                     });
 
-                    //console.log(data);
+                    console.log(data);
                     sect.html(progressbar());
                     $.post(`https://api.start.ng/api/register`, {
                             firstname,
