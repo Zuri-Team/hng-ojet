@@ -14,11 +14,17 @@
         </div>
 
         <hr />
+
+
+
         <div id="main" class="oj-flex oj-sm-justify-content-center">
+
+
             <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
                 <div class="oj-flex-item">
                     <span class="oj-fwk-icon-clock oj-fwk-icon oj-sm-margin-2x"></span>
-                    <span>Stage <span data-bind="text: stage"></span> Intern</span>
+                    <!-- <span>Stage <span data-bind="text: stage"></span> Intern</span> -->
+                    <span>Stage 1 Intern</span>
                 </div>
                 <div class="oj-flex-item">
                     <span class="oj-fwk-icon-minimize oj-fwk-icon oj-sm-margin-2x"></span>
@@ -27,16 +33,20 @@
 
                 <div class="oj-flex-item">
                     <span class="oj-fwk-icon-calendar oj-fwk-icon oj-sm-margin-2x"></span>
-                    <span>Week <span data-bind="text: currentweek"></span> of
-                    <span data-bind="text: totalweeks"></span></span>
+                    <!-- <span>Week <span data-bind="text: currentweek"></span> of
+                        <span data-bind="text: totalweeks"></span></span> -->
+                    <span>Week 1 of
+                        10</span>
                 </div>
             </div>
         </div>
+
+
     </div>
     <!-- End offcanvas -->
 
     <!-- main content -->
-    <div  class="main" style="height: 100vh;" style="width:150px">
+    <div class="main" style="height: 100vh;" style="width:150px">
         <!-- start offcanvas launch button -->
         <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
             <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]">
@@ -58,12 +68,12 @@
             <hr />
             <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">
                 <div>
-                    <h5>Stage 5 Intern 😎</h5>
-                    <h6>5 Stages to Completion</h6>
+                    <h5>Stage 1 Intern 😎</h5>
+                    <h6>9 Stages to Completion</h6>
                 </div>
                 <hr />
                 <div>
-                    <h5>Teams 🚴‍♀️</h5>
+                    <h5>Tracks 🚴‍♀️</h5>
                     <ol>
                         <li>Front End</li>
                         <li>Ojet</li>
@@ -91,35 +101,47 @@
 
 
 
-                     <div class="oj-panel oj-panel-shadow-sm">
-                        <h3 class="oj-header-border">Tasks for the week 🚀</h3>
-                        <h5 id="h1" slot="header">Create a chatbot App</h5>
-                        <h6>Create ChatBot App</h6>
-                        <ul>
-                            <li>
-                                App should be able to answer question about HNG internship
-                            </li>
-                            <li>Design should be superb</li>
-                        </ul>
+                <div class="oj-panel oj-panel-shadow-sm">
+                    <h3 class="oj-header-border">Tasks for the week 🚀</h3>
+                    <h5 id="h1" slot="header">Create a chatbot App</h5>
+                    <h6>Create ChatBot App</h6>
+                    <ul>
+                        <li>
+                            App should be able to answer question about HNG internship
+                        </li>
+                        <li>Design should be superb</li>
+                    </ul>
 
-                        <div class="oj-flex oj-sm-justify-content-flex-end">
-                            <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
-                                <!-- <oj-button class="oj-button-sm oj-button-primary" chroming="full">
+                    <div class="oj-flex oj-sm-justify-content-flex-end">
+                        <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
+                            <!-- <oj-button class="oj-button-sm oj-button-primary" chroming="full">
                                     View details
                                 </oj-button> -->
-                            </div>
-                            <div class="oj-flex-items-pad">
-                                <oj-button class="oj-button-sm oj-button-confirm" on-oj-action="[[submitTask]]"chroming="full">
-                                    Submit
-                                </oj-button>
-
-                            </div>
                         </div>
-                    </div> 
+                        <div class="oj-flex-items-pad">
+                            <oj-button class="oj-button-sm oj-button-confirm" on-oj-action="[[submitTask]]"
+                                chroming="full">
+                                Submit
+                            </oj-button>
 
-
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
         </div>
+
+        <div id="">
+            <oj-train id="train" class="oj-train-stretch" style="max-width:700px;margin-left:auto;margin-right:auto;"
+                on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}"
+                steps="[[stepArray]]">
+            </oj-train>
+            <br />
+            <h3 id="currentStepText" data-bind="text: 'You are in ' + selectedStepLabel()" style="text-align: center">
+            </h3>
+            <br />
+        </div>
     </div>
+</div>
 </div>
