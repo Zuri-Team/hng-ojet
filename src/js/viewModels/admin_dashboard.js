@@ -108,7 +108,7 @@ define([
     self.buttonClick = function(event) {
       self.clickedButton(event.currentTarget.id);
       return true;
-    }.bind(self);
+    }
 
     self.logout = function() {
       sessionStorage.clear();
