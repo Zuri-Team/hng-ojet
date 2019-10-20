@@ -5,7 +5,8 @@ define([
   "ojs/ojarraydataprovider",
   "ojs/ojmodel",
   "ojs/ojlistview",
-  "ojs/ojdialog"
+  "ojs/ojdialog",
+  "ojs/ojvalidation-datetime"
 ], function(ko, $, api, ArrayDataProvider) {
   function postModel() {
     self = this;
@@ -13,6 +14,18 @@ define([
     var userToken = sessionStorage.getItem("user_token");
 
     self.categories = ko.observableArray([]);
+
+    // datetime converter
+    self.formatDateTime = function(date) {
+      var formatDateTime = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "datetime",
+        dateFormat: "medium",
+        timeFormat: "short"
+      });
+      return formatDateTime.format(date);
+    };
 
     // form-data for new post
     self.category_id = ko.observable();
@@ -116,6 +129,7 @@ define([
             self.dataProvider(
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
+                  value.created_at = self.formatDateTime(value.created_at);
                   return value.post_title;
                 })
               })
@@ -196,6 +210,7 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Posts") {
+        self.categories([]);
         fetchCategories();
         self.fetchPost();
       }
