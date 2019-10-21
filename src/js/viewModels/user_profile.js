@@ -20,7 +20,8 @@ function UserProfileModel(params) {
     self.team = ko.observable("");
     self.stage = ko.observable("");
     self.role = ko.observable("")
-
+    self.firstStage = ko.observable(false)
+    self.lastStage = ko.observable(false)
 
     // extract the user ID we have to work with
     const user_id = params.userModel().data.id;
@@ -213,6 +214,15 @@ function UserProfileModel(params) {
                 self.activate(false)
             } else {
                 self.activate(true)
+            }
+
+            if(data.stage === 10) {
+                self.lastStage(true)
+            } else if (data.stage === 1) {
+                self.firstStage(true)
+            } else {
+                rself.lastStage(false)
+                rself.firstStage(false)
             }
             console.log(data);
         } catch (err) {

@@ -51,6 +51,7 @@
                   id="createButton"
                   class="btn btn-outline-success mr-2"
                   data-bind="click: promote"
+                  disabled="[[lastStage()]]"
                 >
                   Promote
                 </button>
@@ -60,6 +61,7 @@
                   id="createButton"
                   class="btn btn-outline-danger mr-2"
                   data-bind="click: demote"
+                  disabled="[[firstStage()]]"
                 >
                   Demote
                 </button>
