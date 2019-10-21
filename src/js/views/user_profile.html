@@ -22,6 +22,12 @@
               </span>
             </div>
             <div>
+                <span><strong>Role:</strong></span
+                ><span>
+                  <oj-bind-text value="[[role]]"></oj-bind-text>
+                </span>
+              </div>
+            <div>
               <span><strong>Track:</strong></span>
               <span>
                 <oj-bind-text>Back End</oj-bind-text>
@@ -44,7 +50,7 @@
                 <button
                   id="createButton"
                   class="btn btn-outline-success mr-2"
-                  data-bind=""
+                  data-bind="click: promote"
                 >
                   Promote
                 </button>
@@ -53,7 +59,7 @@
                 <button
                   id="createButton"
                   class="btn btn-outline-danger mr-2"
-                  data-bind=""
+                  data-bind="click: demote"
                 >
                   Demote
                 </button>
@@ -89,14 +95,13 @@
                     <oj-bind-if test="[[!isUser()]]">
                       <oj-option
                         id="zoomout"
-                        value="Remove Admin Rights"
-                        disabled="true"
+                        value="Make User"
                       >
                         <span
                           class="demo-icon-font demo-bookmark-icon-16"
                           slot="startIcon"
                         ></span
-                        >Remove Admin Rights
+                        >Make User
                       </oj-option>
                     </oj-bind-if>
                     <oj-option id="divider"></oj-option>
@@ -146,6 +151,13 @@
                       ></span
                       >Remove from team
                     </oj-option>
+                    <oj-option id="print" value="Remove from team">
+                        <span
+                          class="demo-icon-font demo-chat-icon-24"
+                          slot="startIcon"
+                        ></span
+                        >Delete
+                      </oj-option>
                   </oj-menu>
                 </oj-menu-button>
               </div>

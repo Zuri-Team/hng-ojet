@@ -19,6 +19,7 @@ function UserProfileModel(params) {
     self.fullName = ko.observable("");
     self.team = ko.observable("");
     self.stage = ko.observable("");
+    self.role = ko.observable("")
 
 
     // extract the user ID we have to work with
@@ -34,9 +35,155 @@ function UserProfileModel(params) {
 
 
 
+    // utility functions 
+
+    self.promote = async() => {
+
+        try {
+            const response = await fetch(`${userProfileURL}/promote/${user_id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                }
+            });
+            const { data, message } = await response.json();
+            console.log(data, message);
+            self.fetchUserProfile();
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+
+    self.demote = async() => {
+
+        try {
+            const response = await fetch(`${userProfileURL}/demote/${user_id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                }
+            });
+            const { data, message } = await response.json();
+            console.log(data, message);
+            self.fetchUserProfile();
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+
+
     self.menuItemAction = function( event ) {
         self.selectedMenuItem(event.target.value);
+
+    switch(event.target.value) {
+            case ("Make Admin"): {
+                (async() => {
+
+                    try {
+                        const response = await fetch(`${userProfileURL}/make-admin/${user_id}`, {
+                            method: "PUT",
+                            headers: {
+                                Authorization: `Bearer ${userToken}`
+                            }
+                        });
+                        const { data, message } = await response.json();
+                        console.log(data, message);
+                        self.isUser(false);
+                        self.fetchUserProfile();
+                    } catch (err) {
+                        console.log(err);
+                    }
+            
+                })()
+                break;
+        }
+            case ("Make User"): {
+                (async() => {
+
+                    try {
+                        const response = await fetch(`${userProfileURL}/remove-admin/${user_id}`, {
+                            method: "PUT",
+                            headers: {
+                                Authorization: `Bearer ${userToken}`
+                            }
+                        });
+                        const { data, message } = await response.json();
+                        console.log(data, message);
+                        self.isUser(true);
+                        self.fetchUserProfile();
+                    } catch (err) {
+                        console.log(err);
+                    }
+            
+                })()
+                break;
+        }
+            case ("Activate"): {
+                (async() => {
+
+                    try {
+                        const response = await fetch(`${userProfileURL}/activate/${user_id}`, {
+                            method: "PUT",
+                            headers: {
+                                Authorization: `Bearer ${userToken}`
+                            }
+                        });
+                        const { data, message } = await response.json();
+                        console.log(data, message);
+                        self.activate(false);
+                        self.fetchUserProfile();
+                    } catch (err) {
+                        console.log(err);
+                    }
+            
+                })()
+                break;
+        }
+            case ("Deactivate"): {
+                (async() => {
+
+                    try {
+                        const response = await fetch(`${userProfileURL}/deactivate/${user_id}`, {
+                            method: "PUT",
+                            headers: {
+                                Authorization: `Bearer ${userToken}`
+                            }
+                        });
+                        const { data, message } = await response.json();
+                        console.log(data, message);
+                        self.activate(true);
+                        self.fetchUserProfile();
+                    } catch (err) {
+                        console.log(err);
+                    }
+            
+                })()
+                break;
+        }
+            case ("Delete"): {
+                (async() => {
+
+                    try {
+                        const response = await fetch(`${userProfileURL}/delete/${user_id}`, {
+                            method: "DELETE",
+                            headers: {
+                                Authorization: `Bearer ${userToken}`
+                            }
+                        });
+                        const { data, message } = await response.json();
+                        console.log(data, message);
+                        self.fetchUserProfile();
+                    } catch (err) {
+                        console.log(err);
+                    }
+            
+                })()
+                break;
+        }
     }
+}
     console.log(self.selectedMenuItem())
 
 
@@ -51,8 +198,22 @@ function UserProfileModel(params) {
             });
             const { data } = await response.json();
             self.fullName(`${data.firstname} ${data.lastname}`)
-            self.team(`${data.teams[0]['team_name']}`)
+            // self.team(`${data.teams[0]['team_name']}`)
             self.stage(`${data.stage}`)
+            self.role(`${data.role}`)
+
+                console.log(data, data.role, data.active)
+            if(data.role == "admin" || data.role == "superadmin"){
+                self.isUser(false)
+            } else {
+                self.isUser(true)
+            }
+        
+            if(data.active == 1){
+                self.activate(false)
+            } else {
+                self.activate(true)
+            }
             console.log(data);
         } catch (err) {
             console.log(err);
@@ -62,8 +223,7 @@ function UserProfileModel(params) {
     self.fetchUserProfile();
 
 
-
-    self.Home = () => {
+   self.Home = () => {
         self.hideProfile(params.hideProfile(false))
     }
 console.log(params.userModel().key, params.hideProfile())
