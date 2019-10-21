@@ -40,6 +40,7 @@ define([
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
 
+
     //  fetch list of categories
     function fetchCategories() {
       $.ajax({
