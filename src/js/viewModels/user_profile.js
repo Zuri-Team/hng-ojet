@@ -1,14 +1,79 @@
 define(['ojs/ojcore',
 'knockout',
 'jquery',
-'ojs/ojarraydataprovider'
+'./api',
+'ojs/ojarraydataprovider',
+'ojs/ojavatar',
+'ojs/ojbutton', 'ojs/ojmenu', 'ojs/ojoption'
 ],
-function (oj, ko, $) {
+function (oj, ko, $, api) {
 function UserProfileModel(params) {
     var self = this;
     self.hideProfile = ko.observable();
+    self.activate = ko.observable(false)
+    self.isUser = ko.observable(true)
+    self.selectedMenuItem = ko.observable("");
 
-    //     /* Variables */
+
+    // User Profile Observables
+    self.fullName = ko.observable("");
+    self.team = ko.observable("");
+    self.stage = ko.observable("");
+
+
+    // extract the user ID we have to work with
+    const user_id = params.userModel().data.id;
+
+
+    // Get auth token from session storage 
+    var userToken = sessionStorage.getItem("user_token");
+  
+
+    // base URL
+    const userProfileURL = `${api}/api/user-profile`
+
+
+
+    self.menuItemAction = function( event ) {
+        self.selectedMenuItem(event.target.value);
+    }
+    console.log(self.selectedMenuItem())
+
+
+
+    self.fetchUserProfile = async() => {
+
+        try {
+            const response = await fetch(`${userProfileURL}/${user_id}`, {
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                }
+            });
+            const { data } = await response.json();
+            self.fullName(`${data.firstname} ${data.lastname}`)
+            self.team(`${data.teams[0]['team_name']}`)
+            self.stage(`${data.stage}`)
+            console.log(data);
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+    self.fetchUserProfile();
+
+
+
+    self.Home = () => {
+        self.hideProfile(params.hideProfile(false))
+    }
+console.log(params.userModel().key, params.hideProfile())
+}
+return UserProfileModel;
+});
+
+
+
+   //     /* Variables */
     // self.ticketId = ko.observable();
     // self.title = ko.observable();
     // self.author = ko.observable();
@@ -30,11 +95,3 @@ function UserProfileModel(params) {
     //     return params.ticketModel();
         
     //     });
-
-    self.Home = () => {
-        self.hideProfile(params.hideProfile(false))
-    }
-console.log(params.userModel(), params.hideProfile())
-}
-return UserProfileModel;
-});
