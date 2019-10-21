@@ -15,17 +15,17 @@ define([
 
     self.categories = ko.observableArray([]);
 
-    // // datetime converter
-    // self.formatDateTime = function(date) {
-    //   var formatDateTime = oj.Validation.converterFactory(
-    //     oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-    //   ).createConverter({
-    //     formatType: "datetime",
-    //     dateFormat: "medium",
-    //     timeFormat: "short"
-    //   });
-    //   return formatDateTime.format(date);
-    // };
+    // datetime converter
+    self.formatDateTime = function(date) {
+      var formatDateTime = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "datetime",
+        dateFormat: "medium",
+        timeFormat: "short"
+      });
+      return formatDateTime.format(new Date(date).toISOString()); 
+    };
 
     // form-data for new post
     self.category_id = ko.observable();

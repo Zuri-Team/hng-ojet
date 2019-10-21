@@ -1,10 +1,10 @@
 <section class="page__container h-100" id="user">
-    <div class="oj-flex oj-sm-justify-content-center oj-sm-flex-direction-column">
+    <div class="oj-flex oj-sm-justify-content-center">
             <h5 class="my-4 text-light logo text-center">
               <i class="oj-navigationlist-item-icon fa  fa-bandcamp"></i><span>HNG BOARD</span>
             </h5>
             
-            <div id="usercontent_nav" class="oj-flex-item">
+            <div id="usercontent_nav" class="w-100 position-relative oj-flex-item">
                 <nav class="d-flex justify-content-between">
                             <h4 class="d-flex">
                               <span data-bind="text: selectedItem"></span>
@@ -29,21 +29,6 @@
                   <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
                   <div></div>
                  </div>
-                <div id="train-container" >
-                  <oj-train id="train"
-                            class="oj-train-stretch"
-                            style="max-width:700px;margin-left:auto;margin-right:auto;"
-                            on-selected-step-changed="[[updateLabelText]]"
-                            selected-step="{{selectedStepValue}}"
-                            steps="[[stepArray]]">
-                  </oj-train>
-                  <br/>
-                  <h3 id="currentStepText"
-                          data-bind="text: 'You are in ' + selectedStepLabel()"
-                          style="text-align: center">
-                  </h3>
-                  <br/>
-                </div>
             </div>
             
             <div class="clearfix"></div>
@@ -54,7 +39,23 @@
                 <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
                         <oj-collapsible id="collapsiblePage">
                           <h3 id="h" slot="header" id="overview-user">Overview</h3>
-                          <p id="c"></p>
+                          <p id="c">
+                            <div id="train-container" >
+                              <oj-train id="train"
+                                        class="oj-train-stretch"
+                                        style="max-width:700px;margin-left:auto;margin-right:auto;"
+                                        on-selected-step-changed="[[updateLabelText]]"
+                                        selected-step="{{selectedStepValue}}"
+                                        steps="[[stepArray]]">
+                              </oj-train>
+                              <br/>
+                              <h3 id="currentStepText"
+                                      data-bind="text: 'You are on ' + selectedStepLabel()"
+                                      style="text-align: center">
+                              </h3>
+                              <br/>
+                            </div>
+                          </p>
                         </oj-collapsible>
                 </div>
                 <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
@@ -68,7 +69,7 @@
                 <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
                         <oj-collapsible id="collapsiblePage">
                           <h3 id="h" slot="header" id="categories-user">Categories</h3>
-                          <p id="c" data-bind="ojModule: 'category'"></p>
+                          <p id="c"></p>
                         </oj-collapsible>
                 </div>
 
@@ -77,15 +78,7 @@
                     <oj-collapsible id="collapsiblePage">
                         <h3 id="h" slot="header">Tasks</h3>
                         <p id="c">
-                            <h3 class="oj-header-border">Tasks for the week 🚀</h3>
-                        <h5 id="h1" slot="header">(Create a chatbot App)</h5>
-                        <h6>Create ChatBot App</h6>
-                        <ul>
-                            <li>
-                                App should be able to answer questions about HNG internship
-                            </li>
-                            <li>Design should be superb</li>
-                        </ul>
+                            Tasks for the week:
                         <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
                         </p>
                     </oj-collapsible>
