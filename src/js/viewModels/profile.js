@@ -85,6 +85,8 @@ define(['ojs/ojcore',
                     self.editMode(false) :
                     self.editMode(true);
 
+                self.getProfile();
+
             }.bind(self);
 
             self.update = function() {
@@ -146,7 +148,7 @@ define(['ojs/ojcore',
 
             }
 
-            self.getProfile = function() {
+            self.fetchProfile = function() {
 
                 $.ajax({
                     url: `${RESTurl}/${id}`,
@@ -167,13 +169,17 @@ define(['ojs/ojcore',
                         self.bio(bio);
                         self.url(url);
                         self.phone(phone);
-                        self.profile_img(profile_img);
+                        
+                        let profile_pic = document.getElementById('profile_img');
+                        profile_pic.src = profile_img;
+
+
                     }
                 });
 
             };
 
-            self.getProfile();
+            self.fetchProfile();
 
 
             /**

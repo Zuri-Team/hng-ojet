@@ -17,8 +17,7 @@ define([
     'ojs/ojfilepicker', 
     'ojs/ojformlayout', 
     'ojs/ojbutton',
-    'ojs/ojcollapsible',
-    'ojs/ojtrain'
+    'ojs/ojcollapsible'
 ],
 function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
 
@@ -30,6 +29,7 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
         self.selectedItem = ko.observable("User Dashboard");
         self.selectedStepValue = ko.observable('stg1');
         self.selectedStepLabel = ko.observable('Stage One');
+        self.checkValue = ko.observableArray();
         self.stepArray =
           ko.observableArray(
                   [{label:'Stage One', id:'stg1'},
@@ -43,11 +43,15 @@ function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
                    {label:'Stage Nine', id:'stg9'},
                    {label:'Stage Ten', id:'stg10'}
                 ]);
-        self.updateLabelText = (event) =>{
+        self.updateLabelText = (event) => {
            var train = document.getElementById("train");
            self.selectedStepLabel(train.getStep(event.detail.value).label);
         };
-  
+        self.dircolumn = ko.pureComputed(function(){
+                  return (typeof self.checkValue()[0] !== 'undefined' && self.checkValue()[0] != null && 
+                          self.checkValue()[0] === "dirColumn") ? true : false;
+                }.bind(self));
+              }
 
         self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
             ResponsiveUtils.getFrameworkQuery(
