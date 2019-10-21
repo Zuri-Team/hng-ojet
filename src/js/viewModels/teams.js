@@ -10,7 +10,7 @@ define([
   "ojs/ojdialog",
   "ojs/ojinputtext"
 ], function(oj, ko, $, api, ArrayDataProvider) {
-  function CategoryViewModel() {
+  function TeamViewModel() {
     var self = this;
 
     self.teamDataProvider = ko.observable(); //gets data for Categories list
@@ -129,7 +129,6 @@ define([
             Authorization: "Bearer " + userToken
           },
           success: resp => {
-            console.log(resp.data.members);
             let members = resp.data.members;
             self.numOfMembers()[`${team_id}`] = `${members.length}`;
             self.numOfMembers(self.numOfMembers());
@@ -239,5 +238,5 @@ define([
     self.fetchTeams();
   }
 
-  return new CategoryViewModel();
+  return new TeamViewModel();
 });

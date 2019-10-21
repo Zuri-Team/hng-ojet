@@ -1,9 +1,9 @@
 define(["ojs/ojcore",
     "knockout",
-    "jquery",
-    "ojs/ojarraytreedataprovider",
+    "ojs/ojarraydataprovider",
     "./api",
     "ojs/ojknockout-keyset",
+    'ojs/ojpagingdataproviderview',
     "ojs/ojknockout",
     "ojs/ojlistview",
     "ojs/ojbutton",
@@ -11,9 +11,10 @@ define(["ojs/ojcore",
     "ojs/ojdialog",
     "ojs/ojinputtext",
     "ojs/ojmessages",
-    "ojs/ojvalidation-datetime"
-
-], function(oj, ko, $, ArrayTreeDataProvider, api, keySet) {
+    "ojs/ojvalidation-datetime",
+    'ojs/ojpagingcontrol',
+    "jquery"
+], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView) {
     function tracksViewModel() {
         var self = this;
 
@@ -98,8 +99,7 @@ define(["ojs/ojcore",
                 } = await response.json();
 
                 self.dataProvider(
-                    new ArrayTreeDataProvider(data, { keyAttributes: "id" })
-                );
+                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
             } catch (err) {
                 console.log(err);
             }

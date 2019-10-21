@@ -2,12 +2,13 @@ define([
     "knockout",
     "./api",
     "jquery",
+    "ojs/ojarraydataprovider",
     "ojs/ojcore",
     "ojs/ojrouter",
     "ojs/ojformlayout",
     "ojs/ojinputtext",
     "ojs/ojselectcombobox"
-], function(ko, api, $) {
+], function(ko, api, $, ArrayDataProvider) {
     function RegisterViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;

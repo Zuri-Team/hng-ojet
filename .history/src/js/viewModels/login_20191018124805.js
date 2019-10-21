@@ -60,7 +60,6 @@ define([
                         .done(({ status, user, token }) => {
                             // start user session with token
                             if (status == true) {
-                                console.log(user);
                                 sessionStorage.setItem("user", JSON.stringify(user));
                                 sessionStorage.setItem("user_token", token);
                                 setTimeout(function() {
