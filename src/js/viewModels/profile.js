@@ -17,7 +17,7 @@ define(['ojs/ojcore',
             var userToken = sessionStorage.getItem("user_token");
             const user = JSON.parse(sessionStorage.getItem("user"));
             const id = user.id
-      
+
 
 
             // notification messages observable
@@ -36,11 +36,11 @@ define(['ojs/ojcore',
             self.stack = ko.observable('');
             self.url = ko.observable('');
             self.location = ko.observable('');
-            self.profile_img = ko.observable('');
-            self.selectedFile = ko.observable();
 
 
-            self.profile = ko.observable("");
+            self.editMode = ko.observable("false");
+
+            self.profile = ko.observable('');
 
             self.devstack = ko.observableArray([
                 { value: 'UI/UX', label: 'UI/UX' },
@@ -59,16 +59,51 @@ define(['ojs/ojcore',
                 return accept ? accept.split(",") : [];
             }, self);
 
-            self.selectListener = function (event) {
-                var files = event.detail.files;
-                for (var i = 0; i < files.length; i++) {
-                  self.fileNames.push(files[i].name);
-                  console.log(self.fileNames()[0])
-                  self.selectedFile(self.fileNames()[0])
-                }
-              }
 
-            self.editMode = ko.observable("false");
+
+            self.selectListener = function(event) {
+                const file = event.detail.files[0];
+
+                let form = new FormData();
+
+                form.append('profile_img', file);
+
+                $.ajax({
+                    url: `${RESTurl}/${id}/edit`,
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: "Bearer " + userToken
+                    },
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                        self.applicationMessages.push({
+
+                            severity: "confirmation",
+                            summary: "Update Successful",
+                            detail: "Your profile has been successfully updated"
+
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error)
+                        self.applicationMessages.push({
+                            severity: "error",
+                            summary: "Failed to Update",
+                            detail: "An error occurred while updating your profile. Try Again"
+
+                        });
+
+                    }
+                });
+
+
+            }
+
 
 
             self.editButton = function() {
@@ -95,24 +130,23 @@ define(['ojs/ojcore',
 
                 console.log("You clicked this button", user);
 
-                const data = 
-                    {
+                const data = {
                     user: {
                         firstname: user.firstname,
                         lastname: user.lastname,
                         username: user.username,
                         email: user.email,
-                        stack: user.stack[0],
+                        // stack: user.stack,
                     },
-                    profile:{
+                    profile: {
                         bio: user.bio,
                         url: user.url,
-                        profile_img: self.fileNames()[0],
+                        // profile_img: self.fileNames()[0],
                         user_id: id
                     }
-                   
-                    }
-                    console.log(data)
+
+                }
+                console.log(data)
 
                 $.ajax({
                     url: `${RESTurl}/${id}/edit`,
@@ -169,9 +203,10 @@ define(['ojs/ojcore',
                         self.bio(bio);
                         self.url(url);
                         self.phone(phone);
-                        
-                        let profile_pic = document.getElementById('profile_img');
-                        profile_pic.src = profile_img;
+
+                        let profileImg = document.getElementById('profile_img');
+
+                        profileImg.src = profile_img;
 
 
                     }
@@ -180,6 +215,7 @@ define(['ojs/ojcore',
             };
 
             self.fetchProfile();
+
 
 
             /**
