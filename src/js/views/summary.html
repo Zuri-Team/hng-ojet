@@ -1,0 +1,80 @@
+<!-- <div id="sampleDemo" class="demo-padding demo-container">
+  <div
+    id="componentDemoContent"
+    style="width: 1px; min-width: 100%; min-height: 100%;"
+  >
+    <oj-table
+      id="table"
+      aria-label="Interns Table"
+      data="[[dataProvider]]"
+      selection-mode='{"row": "multiple", "column": "multiple"}'
+      dnd='{"reorder": {"columns": "enabled"}}'
+      scroll-policy="loadMoreOnScroll"
+      columns='[{"headerText": "Intern Id", 
+                  "field": "id",
+                  "headerClassName": "oj-sm-only-hide",
+                  "className": "oj-sm-only-hide",
+                  "resizable": "enabled"},
+                  {"headerText": "Username", 
+                  "field": "username",
+                  "resizable": "enabled"},
+                  {"headerText": "First Name", 
+                  "field": "firstname",
+                  "headerClassName": "oj-sm-only-hide",
+                  "className": "oj-sm-only-hide",
+                  "resizable": "enabled"},
+                  {"headerText": "Last Name", 
+                  "field": "lastname",
+                  "resizable": "enabled"}]'
+      style="width: 100%; height: 100%;"
+    >
+    <oj-paging-control
+    id="paging"
+    data="[[dataProvider]]"
+    page-size="10"
+    slot="bottom"
+  >
+  </oj-paging-control>
+    </oj-table>
+  </div>
+
+</div> -->
+
+<!-- gender summary chart -->
+<!-- <div id='chart-container'>
+  <oj-chart id="pieChart"
+      type="pie" 
+      data="[[genderDataProvider]]"
+      animation-on-display="auto"
+      animation-on-data-change="auto"
+      hover-behavior="dim"
+      style="max-width:500px;width:100%;height:350px;">
+
+      <template slot='itemTemplate' data-oj-as='item'>
+          <oj-chart-item 
+            value='[[genderValue]]'
+            gender-id='[[ [item.data.gender] ]]'> 
+          </oj-chart-item>
+      </template>
+  </oj-chart>
+</div> -->
+
+
+<div id='chart-container'>
+  <oj-chart id="pieChart"
+      type="pie" 
+      data="[[dataProvider]]"
+      animation-on-display="auto"
+      animation-on-data-change="auto"
+      hover-behavior="dim"
+      style="max-width:500px;width:100%;height:350px;">
+
+      <template slot='itemTemplate' data-oj-as='item'>
+          <oj-chart-item 
+            value='[[item.data.value]]'
+            group-id='[[ [item.data.group] ]]'
+            series-id='[[item.data.series]]'> 
+          </oj-chart-item>
+      </template>
+  </oj-chart>
+</div>

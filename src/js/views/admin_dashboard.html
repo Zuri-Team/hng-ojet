@@ -1,6 +1,6 @@
 <section class="page__container h-100" id="admin">
   <div>
-    <div id="sidebar" class=" h-100">
+    <div id="sidebar" class=" h-100" style="z-index: 100">
       <h5 class="my-4 text-light logo text-center">
         <i class="oj-navigationlist-item-icon fa  fa-bandcamp"></i> <span>HNG
           BOARD</span>
@@ -43,6 +43,11 @@
           <li id="Interns">
             <a for="interns-admin">
               <i class="oj-navigationlist-item-icon fa fa-user-o"></i> INTERNS
+            </a>
+          </li>
+          <li id="Summary">
+            <a for="summary">
+              <i class="oj-navigationlist-item-icon fa fa-cog"></i> SUMMARY
             </a>
           </li>
           <li id="Settings">
@@ -117,10 +122,13 @@
           <h3>Interns</h3>
           <div data-bind="ojModule: 'interns'"></div>
         </div>
+        <div class="oj-flex-item" id="summary">
+          <h3>Summary of Interns</h3>
+          <div data-bind="ojModule: 'summary'"></div>
+        </div>
         <div class="oj-flex-item" id="admin-settings">
           <h3>Your profile</h3>
           <div data-bind="ojModule: 'profile'"></div>
-
         </div>
       </div>
     </div>
