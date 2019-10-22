@@ -11,30 +11,32 @@ define([
   "ojs/ojdialog",
   'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojvalidation-base', 'ojs/ojselectcombobox',, 'ojs/ojdatetimepicker'
 ], function(oj, ko, Bootstrap, $, api, ArrayDataProvider, ValidationBase) {
-	
+
   function taskModel() {
-	  
+
 	  var self = this;
-	  
+
 	const userToken = sessionStorage.getItem("user_token");
-	
-	
+
+
 	self.trackDataProvider = ko.observable();   //gets data for Tracks list
     self.taskDataProvider = ko.observable();      //gets data for tasks list
 
     self.taskData = ko.observable('');             //holds data for the Task details
-	self.tasksTrack = ko.observable('');    //Tasks that belongs to a track
+  self.tasksTrack = ko.observable('');    //Tasks that belongs to a track
+
+  self.submissionView = ko.observable("false");
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
-	
+
 	self.trackOptions = ko.observableArray([]); //values for the tracks shown in the multiselect
-	
+
 	var tracksURL = `${api}/api/track`;
-	
+
 	var tasksURL = `${api}/api/tasks`;
-	
+
     self.dataProvider = ko.observable();
-		  
+
 
 	// Track selection observables
       self.trackSelected = ko.observable(false);
@@ -47,21 +49,34 @@ define([
       self.firstSelectedTask = ko.observable();
 
 	const RESTurl = "https://api.start.ng/api/track/list";
-	
-	self.showCreateTaskDialog = function (event) {
+
+  self.viewSubmissions = function () {
+      self.submissionView() ?
+          self.submissionView(false) :
+          self.submissionView(true);
+  }.bind(self);
+
+  self.backButton = function() {
+      self.submissionView() ?
+          self.submissionView(false) :
+          self.submissionView(true);
+          self.fetchTasks();
+  }.bind(self);
+
+  self.showCreateTaskDialog = function (event) {
 								document.getElementById("createTaskDialog").open();
 							}
-		  
+
 	self.showEditTaskDialog = function(event) {
 							document.getElementById("editTaskDialog").open();
 							};
-							
+
 	self.showViewTaskDialog = function(event) {
 							document.getElementById("viewTaskDialog").open();
-							};						
-	
+							};
+
 	//console.log(tasksURL + '/' + selectedTrack().data.track_name + "/`{track_id}`" );
-	
+
 	/**
        * Handle selection from Track
        */
@@ -86,8 +101,8 @@ define([
            self.taskSelected(false);
         }
       };
-	  
-	  
+
+
 	  /**
        * Handle selection from Task list based on track_id
        */
@@ -98,7 +113,7 @@ define([
             // Populate items list observable using firstSelectedXxx API
 			//console.log(self.firstSelectedTask());
 			let { data } = self.firstSelectedTask();
-			
+
             self.fetchTasks(self.firstSelectedTask().data.id);
             self.taskSelected(true);
 			self.taskData(data);
@@ -108,20 +123,20 @@ define([
            //self.taskSelected(false);
         }
       };
-	  
-	
+
+
 	$.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 			'Access-Control-Allow-Origin': '*',
           }
         });
-	
-	//Fetch Track lists		
+
+	//Fetch Track lists
 	self.fetchTracks = () => {
-		
+
 		$.ajax({
-		   url:tracksURL+"/list", 
+		   url:tracksURL+"/list",
 		   method: 'GET',
 		   headers:{
 					'Authorization' : "Bearer " + userToken,
@@ -136,7 +151,7 @@ define([
 			// Create variable for Activities list and populate list using key attribute fetch
 			let {data} = response.data;
 			var tracksArray = data;
-				
+
 			self.trackDataProvider(
 				new ArrayDataProvider(tracksArray, { keyAttributes: "id" })
 			);
@@ -152,10 +167,10 @@ define([
     });
 	};
 	self.fetchTracks();
-	
-	
+
+
 	self.fetchTasks = (track_id) => {
-		
+
 		$.ajax({
 		   url:tracksURL +"/"+ track_id + "/tasks",
 		   method: 'GET',
@@ -170,27 +185,27 @@ define([
 		   dataType: 'json',
 		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			
+
 			let { data } = response;
 			var tasksArray = data;
-				
+
 			self.taskDataProvider(
 				new ArrayDataProvider(tasksArray, { keyAttributes: "id" })
 			);
 			}
     });
 	};
-		
-  	  
+
+
 
 	self.createTask = () => {
-		
+
 		let track_id = self.firstSelectedTrack().data.id;
 		let title = self.newTask.title;
         let body = self.newTask.body;
 		let deadline = self.newTask.deadline;
 		let is_active = self.newTask.is_active;
-		
+
 		/*var bet = {
     tournament: '',
     bo: '1',
@@ -199,7 +214,7 @@ define([
     potential: '4',
     percent: '5'
 };*/
-		
+
 		$.ajax({
                  method: "POST",
                  url: "https://api.start.ng/api/tasks",
@@ -229,17 +244,17 @@ define([
       //document.getElementById("createNewDeadline").value = "";
 		document.getElementById('createTaskDialog').close();
 	};
-	
-	
+
+
 	//Updates Task
-	
+
 	self.updateTask = function (event) {
-		
+
 		let title = self.taskData().title;
         let body = self.taskData().body;
 		let deadline = self.taskData().deadline;
 		let is_active = self.taskData().is_active;
-		
+
 		$.ajax({
                  method: "PUT",
                  url: tasksURL + "/"+self.taskData().id,
@@ -263,19 +278,19 @@ define([
 					 alert('Error');
                  }
              });
-		
+
 		document.getElementById('editTaskDialog').close();
 		document.getElementById('viewTaskDialog').close();
 		//self.fetchTasks();
 	};
-	
+
 	self.deleteTask = function (event, data) {
-		
+
 		let taskId = self.taskData().id;
 		let taskTitle = self.taskData().title;
-		
+
 		const confirm_ques = confirm("Are you sure you want to delete " + taskTitle + "?");
-		
+
 		if(confirm_ques){
 			$.ajax({ url:tasksURL + "/" +taskId, method: "DELETE" })
             .then(function (data) {
@@ -286,19 +301,19 @@ define([
             });
 		}
 	};
-	  
+
 	  /**
        * This section is standard navdrawer starter template code
-       */ 
+       */
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
 
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being
-       * attached here. 
-       * This method might be called multiple times - after the View is created 
-       * and inserted into the DOM and after the View is reconnected 
+       * attached here.
+       * This method might be called multiple times - after the View is created
+       * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
       self.connected = function () {
