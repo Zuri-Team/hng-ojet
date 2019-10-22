@@ -3,7 +3,6 @@ define([
   "knockout",
   "ojs/ojmodule-element-utils",
   "jquery",
-  "./api",
   "ojs/ojknockout",
   "ojs/ojoffcanvas",
   "ojs/ojbutton",
@@ -14,7 +13,7 @@ define([
   "ojs/ojprogress",
   "views/task-card/loader",
   "ojs/ojtrain"
-], function(oj, ko, moduleUtils, $, api) {
+], function(oj, ko, moduleUtils) {
   function DashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -59,7 +58,7 @@ define([
       }
     ];
 
-    self.fetchNotifs = async() => {
+    self.fetchNotifications = async() => {
       try {
           const response = await fetch(`${internsURL}/list`, {
               headers: {
@@ -69,13 +68,12 @@ define([
           const {
               data: { data }
           } = await response.json();
-          console.log(data);
 
       } catch (err) {
           console.log(err);
       }
   };
-  self.fetchNotifs();
+  self.fetchNotifications();
 
     self.submitTask = () => {
       router.go("submission");

@@ -69,7 +69,6 @@ define([
           const {
               data: { data }
           } = await response.json();
-          console.log(data);
 
       } catch (err) {
           console.log(err);
