@@ -100,16 +100,16 @@
 
 
   <div class="row">
-    <div class="card oj-md-11 mx-auto mt-3">
+    <div class="card oj-md-11 oj-sm-12 mx-auto mt-3">
       <div class="card-body">
         <button class="btn btn-info float-right" data-bind="click: Home">
           <span>Go back</span>
         </button>
         <div class="oj-flex">
-          <div class="oj-flex-item oj-sm-2">
+          <div class="oj-flex-item oj-md-2 oj-sm-6">
             <oj-avatar> </oj-avatar>
           </div>
-          <div class="oj-flex-item oj-sm-8 mx-auto">
+          <div class="oj-flex-item oj-md-10 oj-sm-12 mx-auto">
             <div>
               <h2>
                 <oj-bind-text value="[[fullName]]"></oj-bind-text>
@@ -145,29 +145,29 @@
                 <oj-bind-text value="[[stage]]"></oj-bind-text>
               </span>
             </div>
-            <div class="oj-flex mt-4">
-              <div>
+            <div class="oj-flex mt-4 oj-sm-12">
+              <div class="">
                 <button
                   id="createButton"
-                  class="btn btn-outline-success mr-2"
+                  class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
                   data-bind="click: promote, disable: lastStage()"
                 >
                   Promote
                 </button>
               </div>
-              <div>
+              <div class="">
                 <button
                   id="createButton"
-                  class="btn btn-outline-danger mr-2"
+                  class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
                   data-bind="click: demote, disable: firstStage()"
                 >
                   Demote
                 </button>
               </div>
-              <div>
+              <div class="">
                 <button
                   id="createButton"
-                  class="btn btn-outline-warning mr-2"
+                  class="btn btn-outline-warning mr-2 oj-sm-margin-4x-bottom"
                   data-bind="click: updateStage"
                 >
                   Update Stage

@@ -104,11 +104,10 @@ self.fetchTrack = async() => {
         });
         const {data }
          = await response.json();
-        console.log(data)
 
         self.track(data.tracks.map(track => track)
             );
-            console.log(self.track())
+           
     } catch (err) {
         console.log(err);
     }
@@ -147,7 +146,7 @@ self.fetchTeam = async() => {
         });
         const {data }
          = await response.json();
-        console.log(data)
+       
 
         self.team(data.teams.map(team => team)
             );
@@ -173,8 +172,8 @@ self.fetchTeam();
                     Authorization: `Bearer ${userToken}`
                 }
             });
-            const { data, message } = await response.json();
-            console.log(data, message);
+            const { data } = await response.json();
+            
             self.fetchUserProfile();
             self.applicationMessages.push({
 
@@ -199,8 +198,8 @@ self.fetchTeam();
                     Authorization: `Bearer ${userToken}`
                 }
             });
-            const { data, message } = await response.json();
-            console.log(data, message);
+            const { data } = await response.json();
+          
             self.fetchUserProfile();
             self.applicationMessages.push({
                 severity: "confirmation",
@@ -234,8 +233,8 @@ self.fetchTeam();
                     stage
                 })
             });
-            const { data, message } = await response.json();
-            console.log(data, message);
+            const { data } = await response.json();
+          
             self.fetchUserProfile();
             document.getElementById("updateStage").close();
             self.applicationMessages.push({
@@ -267,8 +266,8 @@ self.fetchTeam();
                                 Authorization: `Bearer ${userToken}`
                             }
                         });
-                        const { data, message } = await response.json();
-                        console.log(data, message);
+                        const { data } = await response.json();
+                      
                         self.isUser(false);
                         self.fetchUserProfile();
 
@@ -297,8 +296,8 @@ self.fetchTeam();
                                 Authorization: `Bearer ${userToken}`
                             }
                         });
-                        const { data, message } = await response.json();
-                        console.log(data, message);
+                        const { data  } = await response.json();
+                     
                         self.isUser(true);
                         self.fetchUserProfile();
                         self.applicationMessages.push({
@@ -326,8 +325,8 @@ self.fetchTeam();
                                 Authorization: `Bearer ${userToken}`
                             }
                         });
-                        const { data, message } = await response.json();
-                        console.log(data, message);
+                        const { data } = await response.json();
+                      
                         self.activate(false);
                         self.fetchUserProfile();
                         self.applicationMessages.push({
@@ -355,8 +354,8 @@ self.fetchTeam();
                                 Authorization: `Bearer ${userToken}`
                             }
                         });
-                        const { data, message } = await response.json();
-                        console.log(data, message);
+                        const { data } = await response.json();
+                   
                         self.activate(true);
                         self.fetchUserProfile();
                         self.applicationMessages.push({
@@ -388,8 +387,7 @@ self.fetchTeam();
                                 Authorization: `Bearer ${userToken}`
                             }
                         });
-                        const { data, message } = await response.json();
-                        console.log(data, message);
+                    
                         self.fetchUserProfile();
                         setTimeout(() => self.hideProfile(params.hideProfile(false)), 1000)
                         document.getElementById("deleteUser").close();
@@ -426,8 +424,8 @@ self.fetchTeam();
                                 track_id
                             })
                         });
-                        const { data, message } = await response.json();
-                        console.log(data, message);
+                        const { message } = await response.json();
+                    
                         self.fetchTrack();
                         self.fetchTracks();
                         self.fetchUserProfile();
@@ -465,16 +463,16 @@ self.fetchTeam();
                             track_id
                         })
                     });
-                    const { data, message } = await response.json();
-                    console.log(data, message);
+                    const {  message } = await response.json();
+                 
                     self.fetchTrack();
                     self.fetchTracks();
                     self.fetchUserProfile();
                     document.getElementById("removeFromTrack").close();
                     self.applicationMessages.push({
 
-                        severity: "confirmation",
-                        summary: `Add to track`,
+                        severity: "warning",
+                        summary: `Remove to track`,
                         detail: `${message}`,
                         autoTimeout: parseInt("0")
 
@@ -504,8 +502,8 @@ self.fetchTeam();
                         team_id
                     })
                 });
-                const { data, message } = await response.json();
-                console.log(data, message);
+                const { message } = await response.json();
+          
                 self.fetchTeam();
                 self.fetchTeams();
                 self.fetchUserProfile();
@@ -543,8 +541,8 @@ self.fetchTeam();
                     team_id
                 })
             });
-            const { data, message } = await response.json();
-            console.log(data, message);
+            const { message } = await response.json();
+     
             self.fetchTeam();
             self.fetchTeams();
             self.fetchUserProfile();
@@ -618,7 +616,7 @@ self.fetchTeam();
                 self.lastStage(false)
                 self.firstStage(false)
             }
-            console.log(data);
+      
         } catch (err) {
             console.log(err);
         }
