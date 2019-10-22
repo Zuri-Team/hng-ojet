@@ -50,9 +50,8 @@ define([
         },
         method: "GET",
         success: res => {
-          res.data.map(cats => {
-            self.categories.push(cats);
-          });
+          
+            self.categories(res.data.map(cats => cats))
         }
       });
     }
@@ -211,7 +210,7 @@ define([
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Posts") {
-        self.categories([]);
+        // self.categories([]);
         fetchCategories();
         self.fetchPost();
       }
