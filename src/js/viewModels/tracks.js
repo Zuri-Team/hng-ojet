@@ -91,6 +91,7 @@ define(["ojs/ojcore",
                 const {
                     data: { data }
                 } = await response.json();
+                console.log(data)
 
                 self.dataProvider(
                     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })
