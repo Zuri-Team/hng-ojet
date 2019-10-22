@@ -22,6 +22,20 @@ define(["ojs/ojcore",
 
         var userToken = sessionStorage.getItem("user_token");
 
+        // var date = "2019-10-09 00:22:40";
+        // date = date.toISOString();
+        // datetime converter
+        self.formatDateTime = function(date) {
+            var formatDateTime = oj.Validation.converterFactory(oj.ConverterFactory.CONVERTER_TYPE_DATETIME).createConverter({
+                'formatType': 'datetime',
+                'dateFormat': 'medium',
+                'timeFormat': 'short'
+            });
+            return formatDateTime.format(new Date(date).toISOString());
+        };
+
+        // console.log(self.formatDateTime(date));
+
         self.trackData = ko.observable(""); //holds data for the track details
         self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
         self.selectedItems = new keySet.ObservableKeySet(); // observable bound to selection option to monitor current selections
@@ -56,15 +70,7 @@ define(["ojs/ojcore",
 
 
 
-        // datetime converter
-        self.formatDateTime = function(date) {
-            var formatDateTime = oj.Validation.converterFactory(oj.ConverterFactory.CONVERTER_TYPE_DATETIME).createConverter({
-                'formatType': 'datetime',
-                'dateFormat': 'medium',
-                'timeFormat': 'short'
-            });
-            return formatDateTime.format(date);
-        };
+
 
 
         // Show dialogs
@@ -91,10 +97,10 @@ define(["ojs/ojcore",
                 const {
                     data: { data }
                 } = await response.json();
+                console.log(data)
 
                 self.dataProvider(
-                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })
-                ));
+                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
             } catch (err) {
                 console.log(err);
             }
