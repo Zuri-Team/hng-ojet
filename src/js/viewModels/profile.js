@@ -191,10 +191,9 @@ define(['ojs/ojcore',
                     },
                     method: "GET",
                     success: res => {
-                        console.log(res)
-                        const { user, profile } = res
-                        const { firstname, lastname, username, email, } = user;
-                        const { bio, url, phone, profile_img } = profile;
+                        // console.log(res)
+                        const { data} = res
+                        const { firstname, lastname, username, email, bio, url, phone, profile_img } = data;
 
                         self.firstname(firstname);
                         self.lastname(lastname);
@@ -202,7 +201,7 @@ define(['ojs/ojcore',
                         self.email(email);
                         self.bio(bio);
                         self.url(url);
-                        self.phone(phone);
+                        // self.phone(phone);
 
                         let profileImg = document.getElementById('profile_img');
 
