@@ -473,8 +473,8 @@ self.fetchTeam();
                     document.getElementById("removeFromTrack").close();
                     self.applicationMessages.push({
 
-                        severity: "confirmation",
-                        summary: `Add to track`,
+                        severity: "warning",
+                        summary: `Remove to track`,
                         detail: `${message}`,
                         autoTimeout: parseInt("0")
 
