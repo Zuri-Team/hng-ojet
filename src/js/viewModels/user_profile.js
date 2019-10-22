@@ -239,7 +239,7 @@ self.fetchTeam();
             document.getElementById("updateStage").close();
             self.applicationMessages.push({
                 severity: "confirmation",
-                summary: `Demote ${data.role}`,
+                summary: `Update ${data.role}`,
                 detail: `${data.role} ${data.username} successfully updated to stage ${data.stage}`,
                 autoTimeout: parseInt("0")
 
