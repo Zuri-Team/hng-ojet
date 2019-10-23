@@ -22,7 +22,7 @@ define([
     var self = this;
     var router = oj.Router.rootInstance;
 
-    self.selectedItem = ko.observable("Dashboard");
+    self.selectedItem = ko.observable();
 
     self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
       ResponsiveUtils.getFrameworkQuery(

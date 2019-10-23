@@ -19,12 +19,16 @@ define([
     self.categoryData = ko.observable(""); //holds data for the Category details
     self.newCategory = ko.observableArray([]); //newItem holds data for the create item dialog
     self.numOfPosts = ko.observableArray([]);
-
+    self.postData = ko.observable("")
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
-    // Activity selection observables
+
+    // category selection observables
     self.categorySelected = ko.observable(false);
     self.firstSelectedCategory = ko.observable();
+
+    // post selection observables
+    self.firstSelectedPost = ko.observable();
 
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
@@ -63,6 +67,23 @@ define([
         // If deselection, hide list
         self.categorySelected(false);
       }
+    };
+
+    self.selectedPostChanged = function(event) {
+      // Check whether click is a category selection or deselection
+      if (event.detail.value.length != 0) {
+        // If selection, populate and display Category details
+        // Populate items list observable using firstSelectedXxx API
+        let { data } = self.firstSelectedPost();
+          self.postData(data);
+          self.viewPostModal();
+
+        }
+
+    };
+
+    self.viewPostModal = () => {
+      document.getElementById("viewPost").open();
     };
 
     self.createCategory = function(event, data) {

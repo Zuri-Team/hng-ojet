@@ -120,7 +120,7 @@ define(['ojs/ojcore',
                     self.editMode(false) :
                     self.editMode(true);
 
-                self.getProfile();
+                self.fetchProfile();
 
             }.bind(self);
 
