@@ -13,7 +13,7 @@ define([
   "ojs/ojpagingcontrol"
 ], function(ko, $, api, ArrayDataProvider, Paging) {
   function postModel() {
-    self = this;
+    let self = this;
     var RESTurl = `${api}/api/posts`;
     var userToken = sessionStorage.getItem("user_token");
 
