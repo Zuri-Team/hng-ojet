@@ -2,7 +2,7 @@
   function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
   { 
   function internModel() {
-    self = this;
+    var self = this;
     self.interns = ko.observableArray([]);
 
     self.id = ko.observable();
