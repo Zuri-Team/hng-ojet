@@ -3,7 +3,6 @@ define([
   "knockout",
   "ojs/ojmodule-element-utils",
   "jquery",
-  "./api",
   "ojs/ojknockout",
   "ojs/ojoffcanvas",
   "ojs/ojbutton",
@@ -14,11 +13,10 @@ define([
   "ojs/ojprogress",
   "views/task-card/loader",
   "ojs/ojtrain"
-], function(oj, ko, moduleUtils, $, api) {
+], function(oj, ko, moduleUtils) {
   function DashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
-    var internsURL = `${api}/api/interns`;
     self.fullname = ko.observable("Seye Oyeniran");
     self.stage = ko.observable(1);
     self.track = ko.observable("Design");
@@ -58,24 +56,6 @@ define([
         details: "Here are the details for the Serverless App"
       }
     ];
-
-    self.fetchNotifs = async() => {
-      try {
-          const response = await fetch(`${internsURL}/list`, {
-              headers: {
-                  Authorization: `Bearer ${userToken}`
-              }
-          });
-          const {
-              data: { data }
-          } = await response.json();
-          console.log(data);
-
-      } catch (err) {
-          console.log(err);
-      }
-  };
-  self.fetchNotifs();
 
     self.submitTask = () => {
       router.go("submission");

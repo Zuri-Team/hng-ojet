@@ -59,7 +59,7 @@ define([
       }
     ];
 
-    self.fetchNotifs = async() => {
+    self.fetchNotifications = async() => {
       try {
           const response = await fetch(`${internsURL}/list`, {
               headers: {
@@ -69,13 +69,12 @@ define([
           const {
               data: { data }
           } = await response.json();
-          console.log(data);
 
       } catch (err) {
           console.log(err);
       }
   };
-  self.fetchNotifs();
+  self.fetchNotifications();
 
     self.submitTask = () => {
       router.go("submission");

@@ -2,7 +2,8 @@
     <div class="oj-md-5 oj-sm-12 oj-md-align-self-center oj-sm-align-self-center">
         <div style="text-align:center">
             
-            <oj-form-layout id="register" max-columns="2" class="oj-form-control-full-width">
+            <div id="fbk" style="min-width: 100%; margin: auto"></div>
+            <oj-form-layout id="register" label-edge="{{labelEdge}}" max-columns="1" class="oj-form-control-full-width">
                     <div>
                             <h5>Grow HNG Board!</h5>
                             <p>
@@ -10,7 +11,6 @@
                                 <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
                             </p>
                     </div>
-                    <div id="fbk" style="min-width: 100%; margin: auto"></div>
                     <oj-input-text class="inputs" value="{{firstname}}" placeholder="First name" required>
                     </oj-input-text>
                     <oj-input-text class="inputs" value="{{lastname}}" placeholder="Last name" required>

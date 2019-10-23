@@ -81,15 +81,6 @@ define([
         </div>`;
                 };
 
-                var progressbar = function() {
-                  return `<div class="progress position-relative mt-3">
-        <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
-          role="progressbar">
-          <span class="oj-text-sm font-weight-bold">Processing registration</span>
-        </div>
-      </div>`;
-              };
-
                 let firstname = self.firstname();
                 let lastname = self.lastname();
                 let email = self.email();
@@ -137,9 +128,9 @@ define([
                         location: location
                     });
 
-                    //console.log(data);
+                    console.log(data);
                     sect.html(progressbar());
-                    $.post(`${api}/api/register`, {
+                    $.post(`https://api.start.ng/api/register`, {
                             firstname,
                             lastname,
                             email,

@@ -65,8 +65,6 @@ define([
     self.pass = ko.observable("password");
     self.rpass = ko.observable("confirm password");
 
-    self.clickedButton = ko.observable("(None clicked yet)");
-
       self.login = function() {
           router.go("login");
       };
@@ -80,15 +78,6 @@ define([
           <small>${text}</small>
         </div>`;
                 };
-
-                var progressbar = function() {
-                  return `<div class="progress position-relative mt-3">
-        <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
-          role="progressbar">
-          <span class="oj-text-sm font-weight-bold">Processing registration</span>
-        </div>
-      </div>`;
-              };
 
                 let firstname = self.firstname();
                 let lastname = self.lastname();
@@ -137,9 +126,9 @@ define([
                         location: location
                     });
 
-                    //console.log(data);
+                    console.log(data);
                     sect.html(progressbar());
-                    $.post(`${api}/api/register`, {
+                    $.post(`https://api.start.ng/api/register`, {
                             firstname,
                             lastname,
                             email,
@@ -219,14 +208,10 @@ define([
                 $("#profileinfo").show();
                 $("#accinfo").hide();
             });
-            
-            self.buttonClick = function(){
-              validate();
-            }.bind(self);
 
-            /*self.signup = function() {
+            self.signup = function() {
                 validate();
-            };*/
+            };
         };
 
         // self.connected = function() {
