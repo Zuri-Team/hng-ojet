@@ -1,170 +1,187 @@
 define([
-    'ojs/ojcore', 
-    'knockout', 
-    'jquery', 
-    'ojs/ojbootstrap', 
-    'ojs/ojresponsiveutils', 
-    'ojs/ojresponsiveknockoututils',
-    "ojs/ojinputtext", 
-    'ojs/ojknockout', 
-    'ojs/ojselectcombobox', 
-    'ojs/ojoffcanvas', 
-    'ojs/ojbutton', 
-    'ojs/ojmodule', 
-    'ojs/ojcomposite', 
-    'ojs/ojavatar', 
-    'ojs/ojlabel',
-    'ojs/ojfilepicker', 
-    'ojs/ojformlayout', 
-    'ojs/ojbutton',
-    'ojs/ojcollapsible',
-    'ojs/ojtrain'
-],
-function(oj, ko, $, Bootstrap, ResponsiveUtils, ResponsiveKnockoutUtils) {
+  "ojs/ojcore",
+  "knockout",
+  "jquery",
+  "ojs/ojresponsiveutils",
+  "ojs/ojresponsiveknockoututils",
+  "ojs/ojinputtext",
+  "ojs/ojknockout",
+  "ojs/ojselectcombobox",
+  "ojs/ojoffcanvas",
+  "ojs/ojbutton",
+  "ojs/ojmodule",
+  "ojs/ojcomposite",
+  "ojs/ojavatar",
+  "ojs/ojlabel",
+  "ojs/ojfilepicker",
+  "ojs/ojformlayout",
+  "ojs/ojbutton",
+  "ojs/ojcollapsible",
+  "ojs/ojtrain",
+  "ojs/ojmessages"
+], function(oj, ko, $, ResponsiveUtils, ResponsiveKnockoutUtils) {
+  function UserDashboardViewModel() {
+    var self = this;
+    var router = oj.Router.rootInstance;
 
-    
-    function UserDashboardViewModel() {
-        var self = this;
-        var router = oj.Router.rootInstance;
+    self.selectedItem = ko.observable("Dashboard");
 
-        self.selectedItem = ko.observable("User Dashboard");
-        self.selectedStepValue = ko.observable('stg1');
-        self.selectedStepLabel = ko.observable('Stage One');
-        self.stepArray =
-          ko.observableArray(
-                  [{label:'Stage One', id:'stg1'},
-                   {label:'Stage Two', id:'stg2'},
-                   {label:'Stage Three', id:'stg3'},
-                   {label:'Stage Four', id:'stg4'},
-                   {label:'Stage Five', id:'stg5'},
-                   {label:'Stage Six', id:'stg6'},
-                   {label:'Stage Seven', id:'stg7'},
-                   {label:'Stage Eight', id:'stg8'},
-                   {label:'Stage Nine', id:'stg9'},
-                   {label:'Stage Ten', id:'stg10'}
-                ]);
-        self.updateLabelText = (event) =>{
-           var train = document.getElementById("train");
-           self.selectedStepLabel(train.getStep(event.detail.value).label);
-        };
-  
+    self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
+      ResponsiveUtils.getFrameworkQuery(
+        ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
+      )
+    );
+    // toggle hambuger on navbar
+    self.toggleDrawer = function() {
+      $("#maincontent, #sidebar").toggleClass("smactive");
+    };
+    self.sb_sm = ko.observable(false);
+    self.searchbar_sm = function() {
+      self.sb_sm(!self.sb_sm());
+    };
 
-        self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
-            ResponsiveUtils.getFrameworkQuery(
-                ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
-                ));
+    self.selectedStepValue = ko.observable();
+    self.selectedStepLabel = ko.observable();
 
-        this.tags = ko.observableArray([
-            { value: ".net", label: ".net" },
-            { value: "Accounting", label: "Accounting" },
-            { value: "ADE", label: "ADE" },
-            { value: "Adf", label: "Adf" },
-            { value: "Adfc", label: "Adfc" },
-            { value: "Adfm", label: "Adfm" },
-            { value: "Android", label: "Android" },
-            { value: "Aria", label: "Aria" },
-            { value: "C", label: "C" },
-            { value: "C#", label: "C#" },
-            { value: "C++", label: "C++" },
-            { value: "Chrome", label: "Chrome" },
-            { value: "Cloud", label: "Cloud" },
-            { value: "CSS3", label: "CSS3" },
-            { value: "DBA", label: "DBA" },
-            { value: "Eclipse", label: "Eclipse" },
-            { value: "Firefox", label: "Firefox" },
-            { value: "Git", label: "Git" },
-            { value: "Hibernate", label: "Hibernate" },
-            { value: "HTML", label: "HTML" },
-            { value: "HTML5", label: "HTML5" },
-            { value: "IE", label: "IE" },
-            { value: "IOS", label: "IOS" },
-            { value: "Java", label: "Java" },
-            { value: "Javascript", label: "Javascript" },
-            { value: "JDeveloper", label: "JDeveloper" },
-            { value: "Jet", label: "jet" },
-            { value: "JQuery", label: "JQuery" },
-            { value: "JQueryUI", label: "JQueryUI" },
-            { value: "JS", label: "JS" },
-            { value: "Knockout", label: "Knockout" },
-            { value: "MAF", label: "MAF" },
-            { value: "Maven", label: "Maven" },
-            { value: "MCS", label: "MCS" },
-            { value: "MySql", label: "MySql" },
-            { value: "Netbeans", label: "Netbeans" },
-            { value: "Oracle", label: "Oracle" },
-            { value: "Solaris", label: "solaris" },
-            { value: "Spring", label: "spring" },
-            { value: "Svn", label: "Svn" },
-            { value: "UX", label: "UX" },
-            { value: "xhtml", label: "xhtml" },
-            { value: "XML", label: "XML" }
-        ]);
+    self.stepArray = ko.observableArray([
+      { label: "Stage One", id: "1" },
+      { label: "Stage Two", id: "2" },
+      { label: "Stage Three", id: "3" },
+      { label: "Stage Four", id: "4" },
+      { label: "Stage Five", id: "5" },
+      { label: "Stage Six", id: "6" },
+      { label: "Stage Seven", id: "7" },
+      { label: "Stage Eight", id: "8" },
+      { label: "Stage Nine", id: "9" },
+      { label: "Stage Ten", id: "10" }
+    ]);
+    self.updateLabelText = event => {
+      var train = document.getElementById("train");
+      self.selectedStepLabel(train.getStep(event.detail.value).label);
+    };
 
-        this.keyword = ko.observableArray();
+    self.stepArray().map((stage, i) => {
+      stage.disabled = true;
+      if (i + 1 == 7) {
+        stage.disabled = false;
+        self.selectedStepValue(stage.id);
+        self.selectedStepLabel = ko.observable(stage.id);
+      }
+    });
+    // console.log(self.stepArray());
 
-        self.submitTask = () => {
-            router.go('submission');
-        }
+    self.tasks = ko.observableArray([
+      {
+        taskTitle: "Chatbot App",
+        details:
+          "Create a chatbot app for slack. The app should be able to save conversations to external hard drive."
+      },
+      {
+        taskTitle: "Deploy a Serverless App",
+        details: "Here are the details for the Serverless App"
+      }
+    ]);
 
-        self.fullname = ko.observable('');
-        self.tracks = ko.observable('');
-        self.slack = ko.observable('');
-        self.fileNames = ko.observableArray([]);
-  
-        self.selectListener = function(event) {
-          var files = event.detail.files;
-          for (var i = 0; i < files.length; i++) {
-            self.fileNames.push(files[i].name);
-          }
-        };
+    self.applicationMessages = ko.observableArray([]);
+    self.url = ko.observable("");
+    self.taskDescription = ko.observable("");
 
-        self.name = ko.observable("");
-        self.email = ko.observable("");
-        self.bio = ko.observable("");
-        self.url = ko.observable("");
-        self.location = ko.observable("");
-        self.displayName = ko.observable("@");
+    self.submitTask = () => {
+      if (self.url() !== "" && self.taskDescription() != "") {
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Task has been submitted successfully",
+          autoTimeout: parseInt("0")
+        });
+      } else {
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "Please fill in all the fields before submitting task",
+          autoTimeout: parseInt("0")
+        });
+      }
+    };
 
-        self.toggleDrawer = function() {
-            $("#usercontent, #side-nav").toggleClass("smactive");
-        };
+    this.tags = ko.observableArray([
+      { value: ".net", label: ".net" },
+      { value: "Accounting", label: "Accounting" },
+      { value: "ADE", label: "ADE" },
+      { value: "Adf", label: "Adf" },
+      { value: "Adfc", label: "Adfc" },
+      { value: "Adfm", label: "Adfm" },
+      { value: "Android", label: "Android" },
+      { value: "Aria", label: "Aria" },
+      { value: "C", label: "C" },
+      { value: "C#", label: "C#" },
+      { value: "C++", label: "C++" },
+      { value: "Chrome", label: "Chrome" },
+      { value: "Cloud", label: "Cloud" },
+      { value: "CSS3", label: "CSS3" },
+      { value: "DBA", label: "DBA" },
+      { value: "Eclipse", label: "Eclipse" },
+      { value: "Firefox", label: "Firefox" },
+      { value: "Git", label: "Git" },
+      { value: "Hibernate", label: "Hibernate" },
+      { value: "HTML", label: "HTML" },
+      { value: "HTML5", label: "HTML5" },
+      { value: "IE", label: "IE" },
+      { value: "IOS", label: "IOS" },
+      { value: "Java", label: "Java" },
+      { value: "Javascript", label: "Javascript" },
+      { value: "JDeveloper", label: "JDeveloper" },
+      { value: "Jet", label: "jet" },
+      { value: "JQuery", label: "JQuery" },
+      { value: "JQueryUI", label: "JQueryUI" },
+      { value: "JS", label: "JS" },
+      { value: "Knockout", label: "Knockout" },
+      { value: "MAF", label: "MAF" },
+      { value: "Maven", label: "Maven" },
+      { value: "MCS", label: "MCS" },
+      { value: "MySql", label: "MySql" },
+      { value: "Netbeans", label: "Netbeans" },
+      { value: "Oracle", label: "Oracle" },
+      { value: "Solaris", label: "solaris" },
+      { value: "Spring", label: "spring" },
+      { value: "Svn", label: "Svn" },
+      { value: "UX", label: "UX" },
+      { value: "xhtml", label: "xhtml" },
+      { value: "XML", label: "XML" }
+    ]);
 
-        self.buttonClick = function(event){
-                            self.clickedButton(event.currentTarget.id);
-                            return true;
-                        }.bind(self);
+    this.keyword = ko.observableArray();
 
-        self.vallue = ko.observable("What");
+    self.fullname = ko.observable("");
+    self.tracks = ko.observable("");
+    self.slack = ko.observable("");
+    self.fileNames = ko.observableArray([]);
 
-        self.sb_sm = ko.observable(false);
-            self.searchbar_sm = function() {
-            self.sb_sm(!self.sb_sm());
-        };
+    self.selectListener = function(event) {
+      var files = event.detail.files;
+      for (var i = 0; i < files.length; i++) {
+        self.fileNames.push(files[i].name);
+      }
+    };
 
-        self.logout = function() {
-            sessionStorage.clear();
-            router.go("login")
-        }
+    self.logout = function() {
+      sessionStorage.clear();
+      router.go("login");
+    };
 
-        self.connected = function() {
-            let user = sessionStorage.getItem("user");
-            user = JSON.parse(user);
-            console.log(user);
-            if (sessionStorage.getItem("user_token") == null) {
-              router.go("login");
-            }
-            self.fullname(`${user.firstname} ${user.lastname}`);
-            self.tracks(`${user.stack}`);
-      
-            $("#navlistcontainer li a").on("click", function() {
-              let attr = $(this).attr("for");
-              $("#usercontent_body > div").hide();
-              $(`#usercontent_body > div[id='${attr}']`).show();
-            });
-          };
-    }
-    // var advm = new UserDashboardViewModel();
-    // ko.applyBindings(advm, document.getElementById('navlist'));
+    self.connected = function() {
+      let user = sessionStorage.getItem("user");
+      user = JSON.parse(user);
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
+      }
+      self.fullname(`${user.firstname} ${user.lastname}`);
+      self.tracks(`${user.stack}`);
 
-    return new UserDashboardViewModel();
+      $("#sidebar li a").on("click", function() {
+        let attr = $(this).attr("for");
+        $("#maincontent_intern_body > div").hide();
+        $(`#maincontent_intern_body > div[id='${attr}']`).show();
+      });
+    };
+  }
+  return new UserDashboardViewModel();
 });

@@ -7,14 +7,15 @@ define([
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojdialog",
-  "ojs/ojvalidation-datetime"
+  "ojs/ojvalidation-datetime",
+  "ojs/ojtimezonedata",
+  "ojs/ojmessages",
+  "ojs/ojpagingcontrol"
 ], function(ko, $, api, ArrayDataProvider, Paging) {
   function postModel() {
     self = this;
     var RESTurl = `${api}/api/posts`;
     var userToken = sessionStorage.getItem("user_token");
-
-    self.categories = ko.observableArray([]);
 
     // form-data for new post
     self.category_id = ko.observable();
@@ -25,25 +26,9 @@ define([
 
     self.post_btn_toggler = ko.observable(false);
     self.post_view_title = ko.observable("New Post");
-
+    self.categories = ko.observableArray([]);
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
-
-    //  fetch list of categories
-    (function fetchCategories() {
-      $.ajax({
-        url: `${api}/api/categories`,
-        headers: {
-          Authorization: "Bearer " + " " + userToken
-        },
-        method: "GET",
-        success: res => {
-          res.data.map(cats => {
-            self.categories.push(cats);
-          });
-        }
-      });
-    })();
 
     self.post_view_toggle = () => {
       self.post_btn_toggler(!self.post_btn_toggler());
@@ -58,6 +43,22 @@ define([
         self.post(data);
       }
     };
+
+    function fetchCategories() {
+      self.categories([]);
+      $.ajax({
+        url: `${api}/api/categories`,
+        headers: {
+          Authorization: "Bearer " + " " + userToken
+        },
+        method: "GET",
+        success: res => {
+          res.data.map(cats => {
+            self.categories.push(cats);
+          });
+        }
+      });
+    }
 
     self.viewPostModal = () => {
       document.getElementById("viewModal").open();
@@ -78,8 +79,10 @@ define([
       ).createConverter({
         formatType: "datetime",
         dateFormat: "medium",
-        timeFormat: "short"
+        timeFormat: "short",
+        timeZone: "Africa/Lagos"
       });
+
       return formatDateTime.format(new Date(date).toISOString());
     };
 
@@ -208,11 +211,13 @@ define([
       });
       document.getElementById("deleteModal").close();
     };
-
+    fetchCategories();
+    self.fetchPost();
     // listen for changes
     let pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function() {
       if (pm.selectedItem() == "Posts") {
+        fetchCategories();
         self.fetchPost();
       }
     });
