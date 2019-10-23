@@ -172,6 +172,67 @@
       <oj-button id='button3' on-oj-action="[[backButton]]">
         Back
     </oj-button>
+    <div id="sampleDemo" class="demo-padding demo-container">
+      <div
+        id="componentDemoContent"
+        style="width: 1px; min-width: 100%; min-height: 100%;"
+      >
+        <oj-table
+          id="table"
+          aria-label="Submissions Table"
+          data="[[submissionDataProvider]]"
+          selection-mode='{"row": "multiple", "column": "multiple"}'
+          dnd='{"reorder": {"columns": "enabled"}}'
+          scroll-policy="loadMoreOnScroll"
+          edit-mode="rowEdit"
+          columns='[{"headerText": "Task Id",
+                                                     "field": "task_id",
+                                                     "headerClassName": "oj-sm-only-hide",
+                                                     "className": "oj-sm-only-hide",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 5%"},
+                                                     {"headerText": "Submitted On",
+                                                     "field": "submitted_on",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 10%"},
+                                                    {"headerText": "Task Title",
+                                                     "field": "taskTitle",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 15%"},
+                                                     {"headerText": "Date Assigned",
+                                                     "field": "assigned_on",
+                                                     "headerClassName": "oj-sm-only-hide",
+                                                     "className": "oj-sm-only-hide",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 10%"},
+                                                     {"headerText": "Deadline",
+                                                     "field": "deadline",
+                                                     "headerClassName": "oj-sm-only-hide",
+                                                     "className": "oj-sm-only-hide",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 10%"},
+                                                    {"headerText": "Submitted by",
+                                                     "field": "fullname",
+                                                     "style": "width: 20%"},
+                                                    {"headerText": "Submission",
+                                                     "field": "submission_link",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 20%"},
+                                                     {"headerText": "Grade",
+                                                     "field": "grade",
+                                                     "resizable": "enabled",
+                                                     "style": "width: 10%"}]'
+          style="width: 100%; height: 100%;"
+        >
+        <oj-paging-control
+        id="paging"
+        data="[[submissionDataProvider]]"
+        page-size="10"
+        slot="bottom"
+      >
+      </oj-paging-control>
+        </oj-table>
+      </div>
   </div>
 </oj-bind-if>
 
