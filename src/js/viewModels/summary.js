@@ -21,6 +21,7 @@ var userToken = sessionStorage.getItem("user_token");
           headers:{
             Authorization: "Bearer " + userToken
           },
+          wait: true,
           method: "GET",
           success: ({status, data}) => {
             if (status == "success") {
@@ -31,7 +32,10 @@ var userToken = sessionStorage.getItem("user_token");
               self.trackProvider(new ArrayDataProvider(data.tracks, {keyAttributes: 'id'}));
               // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
           }
-        }
+        },
+          error: (err) => {
+            console.log(err)
+          }
         });  
       }
 
