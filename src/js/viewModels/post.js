@@ -53,9 +53,7 @@ define([
         },
         method: "GET",
         success: res => {
-          res.data.map(cats => {
-            self.categories.push(cats);
-          });
+          self.categories(res.data.map(cats => cats));
         }
       });
     }

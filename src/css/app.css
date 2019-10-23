@@ -358,6 +358,15 @@ body {
 }
 
 span.btn.btn-primary {
-  display: inline- !important;
+  display: inline-block !important;
   margin-bottom: 1.5rem !important;
+}
+
+.demo-search-button,
+.demo-search-button:hover {
+  text-decoration: none;
+}
+
+.demo-search-button:active {
+  background: none;
 }
