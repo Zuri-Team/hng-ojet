@@ -137,7 +137,7 @@ define([
                         location: location
                     });
 
-                    //console.log(data);
+                    console.log(data);
                     sect.html(progressbar());
                     $.post(`https://api.start.ng/api/register`, {
                             firstname,
