@@ -69,13 +69,17 @@
             <h4 class="position-relative" style="top:2px"><i class=" fa fa-bell-o"></i> </h4>
             <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
                 class="fa fa-search "></i></h4>
-            <form id="form1" class="mx-3 oj-sm-only-hide">
-              <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
-                        component: 'ojInputSearch',
-                        value: keyword,
-                        options: tags,
-                        rootAttributes: {style:'max-width: 20em'}}" />
-            </form>
+                <div id="form1">
+                  <oj-combobox-one id="search"
+                    options="[[tagsDataProvider]]"
+                    filter-on-open="rawValue"
+                    on-oj-value-updated="[[search]]"
+                    placeholder="Search..."
+                    style="max-width:20em">
+                    <a slot="end" id="search-button" class="demo-search-button oj-fwk-icon-magnifier oj-fwk-icon oj-clickable-icon-nocontext"
+                      style="width: 32px;" role="button" aria-label="search" on-click="[[search]]"></a> 
+                  </oj-combobox-one>
+                </div>
             <oj-button display="icons" chroming="full" on-click="[[logout]]">
               <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
             </oj-button>
@@ -95,6 +99,9 @@
       <div id="maincontent_body" class="px-3 w-100">
         <div id="overview-admin">
           <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
+          <br/>
+          <div style="color: blue"><oj-bind-text value="[[searchTerm]]"></oj-bind-text></div>
+          <div style="color: blue"><oj-bind-text value="[[searchTimeStamp]]"></oj-bind-text></div>
           <div data-bind="ojModule: 'overview'"></div>
         </div>
 
