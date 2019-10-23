@@ -139,7 +139,7 @@ define([
 
                     //console.log(data);
                     sect.html(progressbar());
-                    $.post(`https://api.start.ng/api/register`, {
+                    $.post(`${api}/api/register`, {
                             firstname,
                             lastname,
                             email,

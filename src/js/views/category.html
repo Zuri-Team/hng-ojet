@@ -3,7 +3,7 @@
     Create New category
   </button>
   <!-- If categorySelected is set to false, disabled is true, and vice-versa. -->
-  <!-- <oj-bind-if test="[[categorySelected()]]">
+  <oj-bind-if test="[[categorySelected()]]">
     <button id="updateButton" class="btn btn-outline-dark mr-1"
       data-bind="disable: !categorySelected(), click: showEditDialog">
       Update
@@ -12,7 +12,7 @@
       data-bind="disable: !categorySelected(), click: showDeleteDialog">
       Delete
     </button>
-  </oj-bind-if> -->
+  </oj-bind-if>
   <oj-bind-if test="[[!categorySelected()]]">
     <span><strong>Please click on a category below to view its related posts</strong></span>
   </oj-bind-if>
@@ -32,9 +32,9 @@
                 data-bind="text: numOfPosts()[item.data.id]"></span>
             </span>
           </strong>
-            <strong>
-              <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
-            </strong>
+          <strong>
+            <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
+          </strong>
         </div>
       </template>
     </oj-list-view>
@@ -100,17 +100,13 @@
 
 </oj-bind-if>
 
-  <!-- Start Messages Component -->
+<!-- Start Messages Component -->
 
-  <oj-messages
-  id="application-messages"
-  messages="{{applicationMessages}}"
-  display="notification"
-  position='{
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
   "my": {"vertical" : "bottom", "horizontal": "end"},
   "at": {"vertical": "bottom", "horizontal": "end"},
   "of": "window"
   }'>
-  </oj-messages>
+</oj-messages>
 
 <!-- End Messages Component -->

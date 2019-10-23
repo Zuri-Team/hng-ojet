@@ -1,0 +1,17 @@
+
+<div class="oj-flex justify-content-between my-3">
+    <div class="oj-flex-item oj-sm-12 oj-md-6 p-0"
+        style=" height: fit-content; box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+        <oj-list-view id="Categorymodel-category-list" data="[[categoryDataProvider]]" selection-mode="single">
+            <template slot="itemTemplate" data-oj-as="item">
+                <div class="">
+                    <strong class="d-block mb-3 text-capitalize">
+                        <oj-bind-text value="[[item.data.category_name]]"></oj-bind-text>
+                    </strong>
+                    <strong>
+                        <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
+                    </strong>
+                </div>
+            </template>
+        </oj-list-view>
+    </div>

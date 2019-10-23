@@ -9,8 +9,8 @@ define([
   "ojs/ojlistview",
   "ojs/ojbutton",
   "ojs/ojdialog",
-  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojvalidation-base', 'ojs/ojselectcombobox',, 'ojs/ojdatetimepicker'
-], function(oj, ko, Bootstrap, $, api, ArrayDataProvider, ValidationBase) {
+  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojvalidation-base', 'ojs/ojselectcombobox',, 'ojs/ojdatetimepicker', 'ojs/ojtable', 'ojs/ojpagingdataproviderview'
+], function(oj, ko, Bootstrap, $, api, ArrayDataProvider, ValidationBase, PagingDataProviderView) {
 
   function taskModel() {
 
@@ -21,6 +21,7 @@ define([
 
 	self.trackDataProvider = ko.observable();   //gets data for Tracks list
     self.taskDataProvider = ko.observable();      //gets data for tasks list
+    self.submissionDataProvider = ko.observable();  //gets data for submitted tasks
 
     self.taskData = ko.observable('');             //holds data for the Task details
   self.tasksTrack = ko.observable('');    //Tasks that belongs to a track
@@ -29,11 +30,20 @@ define([
 
 	self.newTask = ko.observableArray([]); //holds data for the create task dialog
 
-	self.trackOptions = ko.observableArray([]); //values for the tracks shown in the multiselect
+  self.trackOptions = ko.observableArray([]); //values for the tracks shown in the multiselect
+
+  //Observables for submission table
+  self.task_id = ko.observable();
+  self.taskTitle = ko.observable();
+  self.fullname = ko.observable();
+  self.submission_link = ko.observable();
+  self.grade = ko.observable();
 
 	var tracksURL = `${api}/api/track`;
 
-	var tasksURL = `${api}/api/tasks`;
+  var tasksURL = `${api}/api/tasks`;
+
+  var submissionURL = `${api}/api/submissions`;
 
     self.dataProvider = ko.observable();
 
@@ -62,6 +72,31 @@ define([
           self.submissionView(true);
           self.fetchTasks();
   }.bind(self);
+
+  function fetchSubmission() {
+    $.ajax({
+      url: submissionURL,
+      headers: {
+        'Authorization': "Bearer " + userToken,
+        'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json',
+
+					'Access-Control-Allow-Headers': '*'
+      },
+      method: "GET",
+
+      success: ({status, data}) => {
+
+        if (status == true) {
+          self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'task_id'})));
+          console.log(data);
+      }
+    }
+  });
+}
+fetchSubmission();
+
+
 
   self.showCreateTaskDialog = function (event) {
 								document.getElementById("createTaskDialog").open();
@@ -302,49 +337,8 @@ define([
 		}
 	};
 
-	  /**
-       * This section is standard navdrawer starter template code
-       */
-      // Below are a set of the ViewModel methods invoked by the oj-module component.
-      // Please reference the oj-module jsDoc for additional information.
 
-      /**
-       * Optional ViewModel method invoked after the View is inserted into the
-       * document DOM.  The application can put logic that requires the DOM being
-       * attached here.
-       * This method might be called multiple times - after the View is created
-       * and inserted into the DOM and after the View is reconnected
-       * after being disconnected.
-       */
-      self.connected = function () {
-        // Implement if needed
-      };
-
-      /**
-       * Optional ViewModel method invoked after the View is disconnected from the DOM.
-       */
-      self.disconnected = function () {
-        // Implement if needed
-        //self.activitySelected(false);
-        //self.itemSelected(false);
-      };
-
-      /**
-       * Optional ViewModel method invoked after transition to the new View is complete.
-       * That includes any possible animation between the old and the new View.
-       */
-      self.transitionCompleted = function () {
-        // Implement if needed
-      };
-    }
-
-      /*
-       * Returns a constructor for the ViewModel so that the ViewModel is constructed
-       * each time the view is displayed.  Return an instance of the ViewModel if
-       * only one instance of the ViewModel is needed.
-       */
-
+  }
   return new taskModel();
 
 });
-
