@@ -68,6 +68,91 @@ define([
             router.go("login");
         };
 
+        var PatternMatchValidator = function (progressBarValueKO, passwordStrengthDetailKO)
+          {
+            this.entries = document.querySelectorAll('#listing li');
+            this.progressBarValue = progressBarValueKO;
+            this.passwordStrengthDetail = passwordStrengthDetailKO;
+          };
+  
+          //Below validate function will perform the necessary validation
+          PatternMatchValidator.prototype.validate = function (val)
+          {
+  
+            //test how many failed
+            var regExp = [/^.*[A-Z].*[A-Z].*$/, /^.*[0-9].*$/, /^.{8}$/],
+              progress = 0,
+              passedIndices = {}; //can't use model since within keyup the value hasn't been updated yet
+  
+            for (var i = 0, j = regExp.length; i < j; i++)
+            {
+              if (regExp[i].test(val))
+              {
+                progress += 33;
+                passedIndices[i] = true;
+              }
+            }
+  
+            if (progress === 0)
+            {
+              //means all fail
+              this.passwordStrengthDetail("Dang it all");
+            }
+            else if (progress === 99)
+            {
+              //means all pass
+              progress = 100;
+              this.passwordStrengthDetail("Horrah!");
+            }
+            else
+            {
+              this.passwordStrengthDetail("Got some");
+            }
+            for (var i = 0; i < this.entries.length; i++) {
+              this.entries[i].className = "";
+              this.entries[i].classList.add("demo-failed");
+            }
+  
+            for (var passed in passedIndices)
+            {
+              this.entries[passed].className = "";
+              this.entries[passed].classList.add("demo-passed");
+            }
+  
+            this.progressBarValue(progress);
+  
+            if (progress !== 100)
+            {
+              throw {summary: "Heyo there were failures", detail: "Check out the unordered list of what passed+failed."};
+            }
+            else
+            {
+              return val;
+            }
+  
+          };
+  
+          //No hint for this validator
+          PatternMatchValidator.prototype.getHint = function ()
+          {
+            return null;
+          };
+  
+          {
+            this.passwordValue = ko.observable("");
+            this.progressBarValue = ko.observable(0);
+            this.passwordStrengthDetail = ko.observable("Enter something");
+            this.validator = [new PatternMatchValidator(this.progressBarValue, this.passwordStrengthDetail)];
+            this.elem = document.getElementById("password-pattern-match");
+  
+            this._keyupHandler = function(model, event)
+            {
+              this.elem.validate();
+            }.bind(this);
+  
+            this.elem.addEventListener('keyup', this._keyupHandler);
+          };
+
         self.connected = function() {
             // Implement if needed
             function validate() {

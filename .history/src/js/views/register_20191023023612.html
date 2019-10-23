@@ -8,28 +8,20 @@
                     <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
                 </p>
             </div>
-            <div id="fbk" style="max-width: 300px; margin: auto"></div>
-            <oj-form-layout id="register" label-edge="{{labelEdge}}" style="max-width: 300px; margin: 0 auto">
-                    <oj-input-text class="inputs" value="{{firstname}}" placeholder="First name" style="max-width: 300px" required>
+            <div id="fbk" style="width: 300px; margin: auto"></div>
+            <oj-form-layout id="register" label-edge="{{labelEdge}}">
+                    <oj-input-text id="firstname" value="{{firstname}}" placeholder="First name" autocomplete="off" required label-hint="'required' html attribute">
                     </oj-input-text>
-                    <oj-input-text class="inputs" value="{{lastname}}" placeholder="Last name" style="max-width: 300px" required>
-                    </oj-input-text>
-                    <oj-input-text class="inputs" value="{{email}}" placeholder="Email" style="max-width: 300px" required>
-                    </oj-input-text>
-                    <oj-input-text class="inputs" value="{{username}}" placeholder="Slack Username" style="max-width: 300px" required>
-                    </oj-input-text>
-                    <oj-input-text class="inputs" value="{{location}}" placeholder="Location" style="max-width: 300px" required>
-                    </oj-input-text>
-                    <oj-select-many placeholder="select one or more tracks" class="inputs" options="{{devstack}}"
-                    value="{{stack}}" style="max-width:300px">
-                    </oj-select-many>
-                    <oj-input-password class="inputs" value="{{pass}}" placeholder="password" autocomplete="off" style="max-width: 300px" required>
-                    </oj-input-password>
-                    <oj-input-password class="inputs" value="{{rpass}}" placeholder="confirm password" autocomplete="off" style="max-width: 300px" required>
-                    </oj-input-password>
+                    <!--<oj-input-number id="required3" value="{{requiredValue3}}" autocomplete="off" required placeholder="enter a valid number"
+                      translations='{
+                          "required": {
+                            "hint": "custom: enter at least one number", 
+                            "messageSummary": "Custom: Value Required",  
+                            "messageDetail": "Custom: A value is required for the field - {label}"}}' label-hint="'required' option with custom translations">
+                    </oj-input-number>-->
             </oj-form-layout>
             <!--<div>
-                <input type="text" data-bind="textInput: firstname" placeholder="First name" class="inputs" autocomplete="off" required/>
+                <input type="text" data-bind="textInput: firstname" placeholder="First name" class="inputs" autocomplete="off" required label-hint="'required' html attribute" />
             </div>
             <div>
                 <input type="text" data-bind="textInput: lastname" placeholder="Last name" class="inputs" />

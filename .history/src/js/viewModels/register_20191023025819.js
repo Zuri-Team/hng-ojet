@@ -56,13 +56,13 @@ define([
         self.firstname = ko.observable("First Name");
         self.lastname = ko.observable("Last Name");
         self.stack = ko.observableArray([]);
-        self.location = ko.observable("Location");
+        self.location = ko.observable("");
 
         //account info
-        self.username = ko.observable("Slack Username");
-        self.email = ko.observable("Email");
-        self.pass = ko.observable("password");
-        self.rpass = ko.observable("confirm password");
+        self.username = ko.observable("");
+        self.email = ko.observable("");
+        self.pass = ko.observable("");
+        self.rpass = ko.observable("");
 
         self.login = function() {
             router.go("login");

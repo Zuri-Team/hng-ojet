@@ -1,28 +1,17 @@
 define([
     "knockout",
     "./api",
-    "jquery", 
-    "ojs/ojresponsiveutils", 
-    "ojs/ojresponsiveknockoututils",
+    "jquery",
     "ojs/ojcore",
     "ojs/ojrouter",
     "ojs/ojformlayout",
     "ojs/ojinputtext", 
     "ojs/ojlabel",
     "ojs/ojselectcombobox"
-], function(ko, api, $, responsiveUtils, responsiveKnockoutUtils) {
+], function(ko, api, $) {
     function RegisterViewModel() {
         var self = this;
         var router = oj.Router.rootInstance;
-
-        self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
-          responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
-
-        // For small screens: labels on top
-        // For medium screens and up: labels inline
-        self.labelEdge = ko.computed(function () {
-          return self.isSmall() ? "top" : "start";
-        }, self);
 
         self.devstack = ko.observableArray([])
 
@@ -53,16 +42,16 @@ define([
       self.fetchTracks();
         
 
-        self.firstname = ko.observable("First Name");
-        self.lastname = ko.observable("Last Name");
+        self.firstname = ko.observable("");
+        self.lastname = ko.observable("");
         self.stack = ko.observableArray([]);
-        self.location = ko.observable("Location");
+        self.location = ko.observable("");
 
         //account info
-        self.username = ko.observable("Slack Username");
-        self.email = ko.observable("Email");
-        self.pass = ko.observable("password");
-        self.rpass = ko.observable("confirm password");
+        self.username = ko.observable("");
+        self.email = ko.observable("");
+        self.pass = ko.observable("");
+        self.rpass = ko.observable("");
 
         self.login = function() {
             router.go("login");

@@ -25,6 +25,19 @@
                     </oj-select-many>
                     <oj-input-password class="inputs" value="{{pass}}" placeholder="password" autocomplete="off" style="max-width: 300px" required>
                     </oj-input-password>
+                    <div>
+                            <br/>
+                            <ul id="listing">
+                              <li class="failed">2 upper case</li>
+                              <li class="failed">1 number</li>
+                              <li class="failed">8 characters long (and no more)</li>
+                            </ul>
+                    </div>
+                    <div style="margin-top:15px">
+                            <oj-progress id='passwordStrength' value="{{progressBarValue}}"></oj-progress>
+                            <span id="passwordStrengthLabel"
+                                  data-bind="text: passwordStrengthDetail"></span>
+                          </div>
                     <oj-input-password class="inputs" value="{{rpass}}" placeholder="confirm password" autocomplete="off" style="max-width: 300px" required>
                     </oj-input-password>
             </oj-form-layout>
