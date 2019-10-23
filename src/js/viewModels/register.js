@@ -148,17 +148,53 @@ define([
                             }
                         })
                         .fail(() => {
+                         if (firstname == ''){
+                             console.log('Firstname field is required')
                             sect.html(
                                 feedback(
-                                    "Sorry, your registration could not be completed. Your username or email is already registered to an account"
+                                    'The firstname field is required'
+                                
                                 )
                             );
+                        } else if ( lastname == '') {
+                            console.log('Lastname field is required')
+                            sect.html(
+                                feedback(
+                                    'The lastname field is required'
+                                )
+                            )
+                        } else if ( username == '') {
+                            console.log('Username field is required')
+                            sect.html(
+                                feedback(
+                                    'The username field is required'
+                                )
+                            )
+                        } else if (email == '') {
+                          console.log('email is required')
+                            sect.html(
+                                feedback (
+                                    'The email field is required'
+                                )
+                            )       
+                        } else if (password.length < 4 ) {
+                            sect.html(
+                                feedback(
+                                    'Complete your password'
+                                )
+                            )
+                        }
+                        
+                    
+                            
                         });
                 } else {
                     console.log("wrong");
                     sect.html(feedback("All fields are required"));
                 }
             }
+
+   
 
             $("#next").click(function() {
                 $("#profileinfo").hide();
