@@ -10,7 +10,7 @@ define([
   "ojs/ojdialog",
   "ojs/ojinputtext"
 ], function(oj, ko, $, api, ArrayDataProvider) {
-  function CategoryViewModel() {
+  function TeamViewModel() {
     var self = this;
 
     self.teamDataProvider = ko.observable(); //gets data for Categories list
@@ -18,14 +18,19 @@ define([
     self.teamData = ko.observable(""); //holds data for the Category details
     self.newTeam = ko.observableArray([]); //newItem holds data for the create item dialog
     self.numOfMembers = ko.observableArray([]);
+    self.isUserProfile = ko.observable(false);
 
     // Activity selection observables
     self.teamSelected = ko.observable(false);
     self.firstSelectedTeam = ko.observable();
+    self.firstSelectedTeamMember = ko.observable();
 
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
 
+       // initialize the router
+       const router = oj.Router.rootInstance;
+      
     //REST endpoint
     var RESTurl = `${api}/api/teams`;
 
@@ -59,6 +64,22 @@ define([
       } else {
         // If deselection, hide list
         self.teamSelected(false);
+      }
+    };
+
+    self.selectedTeamMemberChanged = function(event) {
+      // Check whether click is a category selection or deselection
+      if (event.detail.value.length != 0) {
+        // If selection, populate and display Category details
+        // Populate items list observable using firstSelectedXxx API
+        let { data } = self.firstSelectedTeamMember();
+        console.log(data)
+        if (data == null) {
+          return;
+        } else {
+         console.log("clicked")
+         self.isUserProfile(true);
+        }
       }
     };
 
@@ -129,7 +150,6 @@ define([
             Authorization: "Bearer " + userToken
           },
           success: resp => {
-            console.log(resp.data.members);
             let members = resp.data.members;
             self.numOfMembers()[`${team_id}`] = `${members.length}`;
             self.numOfMembers(self.numOfMembers());
@@ -239,5 +259,5 @@ define([
     self.fetchTeams();
   }
 
-  return new CategoryViewModel();
+  return new TeamViewModel();
 });

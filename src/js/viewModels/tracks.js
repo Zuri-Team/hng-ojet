@@ -1,8 +1,9 @@
 define(["ojs/ojcore",
     "knockout",
-    "ojs/ojarraytreedataprovider",
+    "ojs/ojarraydataprovider",
     "./api",
     "ojs/ojknockout-keyset",
+    'ojs/ojpagingdataproviderview',
     "ojs/ojknockout",
     "ojs/ojlistview",
     "ojs/ojbutton",
@@ -11,14 +12,29 @@ define(["ojs/ojcore",
     "ojs/ojinputtext",
     "ojs/ojmessages",
     "ojs/ojvalidation-datetime",
+    'ojs/ojpagingcontrol',
     "jquery"
-], function(oj, ko, ArrayTreeDataProvider, api, keySet, $) {
+], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView) {
     function tracksViewModel() {
         var self = this;
 
         var tracksURL = `${api}/api/track`;
 
         var userToken = sessionStorage.getItem("user_token");
+
+        // var date = "2019-10-09 00:22:40";
+        // date = date.toISOString();
+        // datetime converter
+        self.formatDateTime = function(date) {
+            var formatDateTime = oj.Validation.converterFactory(oj.ConverterFactory.CONVERTER_TYPE_DATETIME).createConverter({
+                'formatType': 'datetime',
+                'dateFormat': 'medium',
+                'timeFormat': 'short'
+            });
+            return formatDateTime.format(new Date(date).toISOString());
+        };
+
+        // console.log(self.formatDateTime(date));
 
         self.trackData = ko.observable(""); //holds data for the track details
         self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
@@ -54,15 +70,7 @@ define(["ojs/ojcore",
 
 
 
-        // datetime converter
-        self.formatDateTime = function(date) {
-            var formatDateTime = oj.Validation.converterFactory(oj.ConverterFactory.CONVERTER_TYPE_DATETIME).createConverter({
-                'formatType': 'datetime',
-                'dateFormat': 'medium',
-                'timeFormat': 'short'
-            });
-            return formatDateTime.format(date);
-        };
+
 
 
         // Show dialogs
@@ -89,10 +97,10 @@ define(["ojs/ojcore",
                 const {
                     data: { data }
                 } = await response.json();
+                // console.log(data)
 
                 self.dataProvider(
-                    new ArrayTreeDataProvider(data, { keyAttributes: "id" })
-                );
+                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
             } catch (err) {
                 console.log(err);
             }

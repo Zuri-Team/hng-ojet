@@ -1,5 +1,5 @@
-  define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojknockout', 'ojs/ojtable'],
-  function(ko, $, api, Bootstrap, ArrayDataProvider)
+  define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable'],
+  function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
   { 
   function internModel() {
     self = this;
@@ -21,16 +21,14 @@
           Authorization: "Bearer " + userToken
         },
         method: "GET",
-        success: res => {
-          if (res.status == true) {
-            self.dataProvider(new ArrayDataProvider(res.data, {keyAttribute: 'id'}));
-          }
+        success: ({status, data}) => {
+          if (status == true) {
+            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'id'})));
         }
-      });
-    }
-    
-    fetchinterns();
+      }
+    });  
   }
-
+  fetchinterns();
+}
   return new internModel();
-});
+  });

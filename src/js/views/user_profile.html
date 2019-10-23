@@ -1,0 +1,285 @@
+<div class="container">
+
+<!-- Tracks dialogs -->
+
+  <oj-dialog id="addToTrack" dialog-title="Add to track" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+    position.at.vertical="top">
+    <div slot="body">
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Tracks</oj-label>
+        <select
+          data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select a track', value: tracks_id,"
+          class="form-control">
+        </select>
+      </div>
+      <button data-bind="click: addToTrack" class="btn btn-success float-right">
+        Confirm
+      </button>
+    </div>
+  </oj-dialog>
+
+  <oj-dialog id="removeFromTrack" dialog-title="Remove From track" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+    position.at.vertical="top">
+    <div slot="body">
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Track</oj-label>
+        <select
+          data-bind="options: track, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select a track', value: track_id,"
+          class="form-control">
+        </select>
+      </div>
+      <button data-bind="click: removeFromTrack" class="btn btn-success float-right">
+        Confirm
+      </button>
+    </div>
+  </oj-dialog>
+
+  <!-- Teams dialogs -->
+
+  <oj-dialog id="addToTeam" dialog-title="Add to team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+    position.at.vertical="top">
+    <div slot="body">
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Teams</oj-label>
+        <select
+          data-bind="options: teams, optionsText: 'team_name',  optionsValue:'id', optionsCaption: 'Select a team', value: teams_id,"
+          class="form-control">
+        </select>
+      </div>
+      <button data-bind="click: addToTeam" class="btn btn-success float-right">
+        Confirm
+      </button>
+    </div>
+  </oj-dialog>
+
+  <oj-dialog id="removeFromTeam" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+    position.at.vertical="top">
+    <div slot="body">
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Team</oj-label>
+        <select
+          data-bind="options: team, optionsText: 'team_name',  optionsValue:'id', optionsCaption: 'Select a team', value: team_id,"
+          class="form-control">
+        </select>
+      </div>
+      <button data-bind="click: removeFromTeam" class="btn btn-success float-right">
+        Confirm
+      </button>
+    </div>
+  </oj-dialog>
+
+  <!-- Delete Dialog -->
+
+  <oj-dialog id="deleteUser" title="Delete User" position.at.vertical="top" class="mt-5">
+      <div slot="body">
+        <p>
+          Confirm you want to delete this user?
+        </p>
+        <button data-bind="click: deleteUser" class="btn btn-danger float-right">Delete User</button>
+      </div>
+    </oj-dialog>
+
+    <!-- update a stage -->
+
+    <oj-dialog id="updateStage" dialog-title="Update Stage" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+    position.at.vertical="top">
+    <div slot="body">
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Stages</oj-label>
+        <select
+          data-bind="options: stages, optionsText: 'stage',  optionsValue:'stage', optionsCaption: 'Select a stage', value: stage,"
+          class="form-control">
+        </select>
+      </div>
+      <button data-bind="click: update" class="btn btn-primary float-right">
+        Confirm
+      </button>
+    </div>
+  </oj-dialog>
+
+
+
+  <div class="row">
+    <div class="card oj-md-11 oj-sm-12 mx-auto mt-3">
+      <div class="card-body">
+        <button class="btn btn-info float-right" data-bind="click: Home">
+          <span>Go back</span>
+        </button>
+        <div class="oj-flex">
+          <div class="oj-flex-item oj-md-2 oj-sm-6">
+            <oj-avatar> </oj-avatar>
+          </div>
+          <div class="oj-flex-item oj-md-10 oj-sm-12 mx-auto">
+            <div>
+              <h2>
+                <oj-bind-text value="[[fullName]]"></oj-bind-text>
+              </h2>
+            </div>
+            <div>
+              <span><strong>Code:</strong></span>
+              <span>
+                <oj-bind-text>HNG_1234</oj-bind-text>
+              </span>
+            </div>
+            <div>
+                <span><strong>Role:</strong></span
+                ><span>
+                  <oj-bind-text value="[[role]]"></oj-bind-text>
+                </span>
+              </div>
+            <div>
+              <span><strong>Track:</strong></span>
+              <span>
+                <oj-bind-text value="[[tracksArray]]"></oj-bind-text>
+              </span>
+            </div>
+            <div>
+              <span>
+                <span><strong>Team:</strong></span>
+                <oj-bind-text value="[[teamName]]"></oj-bind-text>
+              </span>
+            </div>
+            <div>
+              <span><strong>Stage:</strong></span
+              ><span>
+                <oj-bind-text value="[[stage]]"></oj-bind-text>
+              </span>
+            </div>
+            <div class="oj-flex mt-4 oj-sm-12">
+              <div class="">
+                <button
+                  id="createButton"
+                  class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
+                  data-bind="click: promote, disable: lastStage()"
+                >
+                  Promote
+                </button>
+              </div>
+              <div class="">
+                <button
+                  id="createButton"
+                  class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
+                  data-bind="click: demote, disable: firstStage()"
+                >
+                  Demote
+                </button>
+              </div>
+              <div class="">
+                <button
+                  id="createButton"
+                  class="btn btn-outline-warning mr-2 oj-sm-margin-4x-bottom"
+                  data-bind="click: updateStage"
+                >
+                  Update Stage
+                </button>
+              </div>
+              <div id="menubutton-container">
+                <oj-menu-button id="menuButton">
+                  More Actions
+                  <!-- To handle menu item selection, use an action listener as shown, not a click listener. -->
+                  <oj-menu
+                    id="myMenu"
+                    slot="menu"
+                    style="display:none"
+                    on-oj-action="[[menuItemAction]]"
+                  >
+                    <oj-bind-if test="[[isUser()]]">
+                      <oj-option id="zoomin" value="Make Admin">
+                        <span
+                          class="oj-fwk-icon oj-fwk-icon-arrow-n"
+                          slot="startIcon"
+                        ></span
+                        >Make Admin
+                      </oj-option>
+                    </oj-bind-if>
+                    <oj-bind-if test="[[!isUser()]]">
+                      <oj-option
+                        id="zoomout"
+                        value="Make User"
+                      >
+                        <span
+                          class="demo-icon-font demo-bookmark-icon-16"
+                          slot="startIcon"
+                        ></span
+                        >Make User
+                      </oj-option>
+                    </oj-bind-if>
+                    <oj-option id="divider"></oj-option>
+                    <oj-bind-if test="[[activate()]]">
+                      <oj-option id="save" value="Activate">
+                        <span
+                          class="demo-icon-font demo-palette-icon-24"
+                          slot="startIcon"
+                        ></span
+                        >Activate
+                      </oj-option>
+                    </oj-bind-if>
+                    <oj-bind-if test="[[!activate()]]">
+                      <oj-option id="print" value="Deactivate">
+                        <span
+                          class="demo-icon-font demo-chat-icon-24"
+                          slot="startIcon"
+                        ></span
+                        >Deactivate
+                      </oj-option>
+                    </oj-bind-if>
+                    <oj-option id="print" value="Add to track">
+                      <span
+                        class="demo-icon-font demo-chat-icon-24"
+                        slot="startIcon"
+                      ></span
+                      >Add to track
+                    </oj-option>
+                    <oj-option id="print" value="Remove from track">
+                      <span
+                        class="demo-icon-font demo-chat-icon-24"
+                        slot="startIcon"
+                      ></span
+                      >Remove from track
+                    </oj-option>
+                    <oj-option id="print" value="Add to team">
+                      <span
+                        class="demo-icon-font demo-chat-icon-24"
+                        slot="startIcon"
+                      ></span
+                      >Add to team
+                    </oj-option>
+                    <oj-option id="print" value="Remove from team">
+                      <span
+                        class="demo-icon-font demo-chat-icon-24"
+                        slot="startIcon"
+                      ></span
+                      >Remove from team
+                    </oj-option>
+                    <oj-option id="print" value="Delete">
+                        <span
+                          class="demo-icon-font demo-chat-icon-24"
+                          slot="startIcon"
+                        ></span
+                        >Delete
+                      </oj-option>
+                  </oj-menu>
+                </oj-menu-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Start Messages Component -->
+
+    <oj-messages
+    id="application-messages"
+    messages="{{applicationMessages}}"
+    display="notification"
+    position='{
+    "my": {"vertical" : "bottom", "horizontal": "end"},
+    "at": {"vertical": "bottom", "horizontal": "end"},
+    "of": "window"
+    }'>
+    </oj-messages>
+
+<!-- End Messages Component -->

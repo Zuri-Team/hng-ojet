@@ -67,7 +67,7 @@ define([
                                     if (user.role == "superadmin") {
                                         router.go("admin_dashboard");
                                     } else {
-                                        router.go("user_dashboard");
+                                        router.go("dashboard");
                                     }
                                 }, 0);
                             }
@@ -83,7 +83,7 @@ define([
 
         self.connected = function() {
             if (sessionStorage.getItem("user_token") !== null) {
-                router.go("user_dashboard");
+                router.go("dashboard");
             }
         };
 
