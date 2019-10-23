@@ -23,7 +23,7 @@
         method: "GET",
         success: ({status, data}) => {
           if (status == true) {
-            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'id'})));
+            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
         }
       }
     });  

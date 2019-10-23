@@ -1,7 +1,7 @@
 define([
   "ojs/ojcore",
   "knockout",
-  "jquery",
+  "jquery", 'ojs/ojarraydataprovider',
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext",
@@ -15,8 +15,9 @@ define([
   "ojs/ojlabel",
   "ojs/ojfilepicker",
   "ojs/ojformlayout",
-  "ojs/ojbutton"
-], function(oj, ko, $, ResponsiveUtils, ResponsiveKnockoutUtils) {
+  "ojs/ojbutton",
+  'ojs/ojchart'
+], function(oj, ko, $, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function AdminDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -29,7 +30,7 @@ define([
       )
     );
 
-    this.tags = ko.observableArray([
+    self.tags = [
       { value: ".net", label: ".net" },
       { value: "Accounting", label: "Accounting" },
       { value: "ADE", label: "ADE" },
@@ -73,7 +74,40 @@ define([
       { value: "UX", label: "UX" },
       { value: "xhtml", label: "xhtml" },
       { value: "XML", label: "XML" }
-    ]);
+  ];
+  
+  self.tagsDataProvider = new ArrayDataProvider(this.tags, {keyAttributes: 'value'});
+  // self.searchTriggered = ko.observable();
+  self.searchTerm = ko.observable();
+  self.searchTimeStamp = ko.observable();
+  
+  self.search = function (event) {           
+    var eventTime = getCurrentTime();
+    var trigger = event.type;
+    var term;         
+    
+    if (trigger === "ojValueUpdated") {
+      // search triggered from input field
+      // getting the search term from the ojValueUpdated event
+      term = event['detail']['value'];
+      trigger += " event";
+    } else { 
+      // search triggered from end slot
+      // getting the value from the element to use as the search term.
+      term = document.getElementById("search").value;
+      trigger = "click on search button";
+    }
+    
+    // self.searchTriggered("Search triggered by: " + trigger);
+    self.searchTerm("Search term: " + term);
+    self.searchTimeStamp("Last search fired at: " + eventTime);
+  };
+  
+  function getCurrentTime() {
+    var date = new Date();
+    return date.getHours() + ":" + date.getMinutes() 
+            + ":" + date.getSeconds() + "." + date.getMilliseconds();
+  }
 
     this.keyword = ko.observableArray();
 
