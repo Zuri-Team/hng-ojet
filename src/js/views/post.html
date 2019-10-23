@@ -4,7 +4,7 @@
   <div slot="body">
     <div>
       <h5>
-        <oj-bind-text class="oj-text-secondary-color" value="[[post().post_title]]"></oj-bind-text> <small> By Me
+        <oj-bind-text class="oj-text-secondary-color" value="[[post().post_title]]"></oj-bind-text> <small>
         </small>
       </h5>
     </div>
@@ -91,7 +91,7 @@
       <div class="clearfix"></div>
       <oj-list-view id="Postmodel-post-list" class="col-12 col-md-11 mx-auto overflow-hidden bg-light p-0"
         data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[postSelectedChanged]]"
-        first-selected-item="{{postSelected}}" >
+        first-selected-item="{{postSelected}}">
         <template slot="itemTemplate" data-oj-as="item" class="border-0">
           <div>
             <strong class="text-capitalize d-block mb-1">
@@ -101,7 +101,9 @@
               <p class="py-3 m-0 oj-text-sm oj-text-secondary-color">
                 <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
                 <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
-                <span class="ml-1 font-weight-bold" data-bind="text: `By Me`"></></span>
+                <span class="ml-1 font-weight-bold"
+                  data-bind="text: `By ` + item.data.user.firstname +  ' ' + item.data.user.lastname"></span>
+              </p>
               </p>
               <div>
                 <button data-bind="click: viewPostModal" class="btn btn-sm btn-info mr-2"><i

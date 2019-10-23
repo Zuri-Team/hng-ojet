@@ -40,6 +40,7 @@ define([
     self.postSelectedChanged = () => {
       let { data } = self.postSelected();
       if (data != null) {
+        console.log(data)
         self.post(data);
       }
     };
