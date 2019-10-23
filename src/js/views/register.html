@@ -10,19 +10,20 @@
             </div>
             <div id="fbk" style="width: 300px; margin: auto"></div>
             <div>
-                <input type="text" data-bind="textInput: firstname" placeholder="First name" class="inputs" />
+                <input type="text" data-bind="textInput: firstname" placeholder="first name" class="inputs" required/>
             </div>
             <div>
-                <input type="text" data-bind="textInput: lastname" placeholder="Last name" class="inputs" />
+                <input type="text" data-bind="textInput: lastname" placeholder="last name" class="inputs" required />
             </div>
             <div>
-                <input type="email" data-bind="textInput: email" placeholder="Email" class="inputs" />
+                <input type="text" data-bind="textInput: email" placeholder="email" class="inputs"  required />
+               
             </div>
             <div>
-                <input type="text" data-bind="textInput: username" placeholder="Slack Username" class="inputs" />
+                <input type="text" data-bind="textInput: username" placeholder="username" class="inputs" required />
             </div>
             <div>
-                <input type="text" data-bind="textInput: location" placeholder="Location" class="inputs" />
+                <input type="text" data-bind="textInput: location" placeholder="location" class="inputs" required />
             </div>
             <div>
                 <oj-select-many placeholder="select one or more tracks" class="inputs" options="{{devstack}}"
@@ -31,10 +32,10 @@
             </div>
 
             <div>
-                <input type="password" data-bind="textInput: pass" placeholder="password" class="inputs" />
+                <input type="password" data-bind="textInput: pass" placeholder="password" class="inputs" required />
             </div>
             <div>
-                <input type="password" data-bind="textInput: rpass" placeholder="confirm password" class="inputs" />
+                <input type="password" data-bind="textInput: rpass" placeholder="confirm password" class="inputs" required />
 
                 <div class="oj-flex-items-pad">
                     <button data-bind="click: signup" class="fbtn">
