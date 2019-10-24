@@ -64,7 +64,7 @@
           <input placeholder="Search..." data-bind="ojComponent: {
                             component: 'ojInputSearch',
                             value: keyword,
-                            options: tags, 
+                            options: tags,
                             rootAttributes: {style:'max-width: 20em'}}" />
         </form>
       </oj-bind-if>
@@ -111,11 +111,11 @@
             <div>
               <div>
                 <label class="col-form-label">Link</label>
-                <input type="url" data-bind="textInput: url" class="form-control">
+                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.taskURL" class="form-control">
               </div>
               <div class="form-group">
                 <label class="col-form-label">Comment</label>
-                <textarea class="form-control" data-bind="textInput: taskDescription" rows="5"></textarea>
+                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.taskComment" rows="5"></textarea>
               </div>
               <div class="clearfix"></div>
               <button class="btn btn-sm text-light float-right" data-bind="click: submitTask"
