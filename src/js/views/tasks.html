@@ -14,23 +14,23 @@
 <div class="oj-hybrid-padding">
 	<div>
 
-			<oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="createTaskDialog" dialog-title="Add Task" style="width:50em; display: inline-block">
+			<oj-dialog class=oj-flex-item oj-md-3" id="createTaskDialog" dialog-title="Add Task" style="display: inline-block;">
               <div slot="body">
                 <oj-form-layout id="form-container">
 
-				<div class="oj-sm-12 oj-flex-item">
-					<oj-input-text id="input" placeholder="Task Title" required value="{{newTask.title}}"></oj-input-text>
+				<div class="oj-md-3 oj-flex-item">
+					<oj-input-text id="input" placeholder="Task Title" required value="{{newTask.title}}" class="oj-form-control"></oj-input-text>
 				</div>
-				<div class="oj-sm-12 oj-flex-item">
-					<oj-text-area id="input" placeholder="Task Description" required value="{{newTask.body}}"></oj-text-area>
+				<div class="oj-md-3 oj-flex-item">
+					<oj-text-area id="input" placeholder="Task Description" required value="{{newTask.body}}" class="oj-form-control"></oj-text-area>
 				</div>
-				<div class="oj-sm-12 oj-flex-item">
-				<oj-input-date id="date" value={{newTask.deadline}}> </oj-input-date>
+				<div class="oj-md-3 oj-flex-item">
+				<oj-input-date id="date" value={{newTask.deadline}} class="oj-form-control"> </oj-input-date>
 
 				</div>
-				<div class="oj-sm-12 oj-flex-item">
+				<div class="oj-md-3 oj-flex-item">
 					<oj-label for="basicSelect">Status</oj-label>
-					<oj-select-one id="basicSelect" value="{{newTask.is_active}}" style="max-width:20em">
+					<oj-select-one id="basicSelect" value="{{newTask.is_active}}" class="oj-form-control">
 					  <oj-option value="">Select...</oj-option>
 					  <oj-option value="1">Publish</oj-option>
 					  <oj-option value="0">Draft</oj-option>
@@ -48,7 +48,7 @@
 <oj-bind-if test="[[submissionView()]]">
     <oj-button id="viewSubmissions" on-oj-action="[[viewSubmissions]]">View Submissions</oj-button>
 <div class="oj-flex oj-flex-init">
-      <div class="oj-flex-item oj-md-4 oj-sm-12">
+      <div class="oj-flex-item oj-md-4>
         <oj-list-view id="tracksList" style="width:40em;height:500px;overflow-x:hidden;"
 				data="[[trackDataProvider]]"
                 selection-mode="single" selection="{{selectedTrack}}"
@@ -58,10 +58,10 @@
                 scroll-policy-options.fetch-size="5">
           <template slot="itemTemplate">
             <div class="oj-flex" style="flex-wrap: nowrap">
-              <!--<span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>-->
+              
               <div class="demo-content oj-flex-item">
 			<!-- Create new Task-->
-            <oj-button id="createButton" on-oj-action="[[showCreateTaskDialog]]" class="create-task">Create Task</oj-button>
+            <oj-button id="createButton" on-oj-action="[[showCreateTaskDialog]]" class="create-task btn btn-success">Create Task</oj-button>
                 <div>
                   <strong>
                     <oj-bind-text value="[[$current.data.track_name]]"></oj-bind-text>
@@ -77,10 +77,10 @@
       </div>
 	  <!--Lists all Tasks that belongs to a Track -->
       <oj-bind-if test="[[trackSelected()]]">
-        <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
-          <div class="oj-flex-item oj-sm-12" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);margin-left:16em;">
+        <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8">
+          <div class="oj-flex-item" style="box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);margin-left:16em;">
             <h3><oj-label for="tasksList">Tasks</oj-label></h3>
-            <oj-list-view id="tasksList" style="width:40em;height:500px;overflow-x:hidden"
+            <oj-list-view id="tasksList" style="height:500px;overflow-x:hidden"
 						  data="[[taskDataProvider]]"
                           selection-mode="single" selection="{{selectedTask}}"
 						  on-selection-changed="[[selectedTaskChanged]]"
@@ -89,15 +89,15 @@
                           scroll-policy-options.fetch-size="5">
 				<template slot="itemTemplate" data-oj-as="item" class="py-0">
             <div class="oj-flex" style="flex-wrap: nowrap">
-              <!--<span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>-->
-              <div class="demo-content oj-flex-item">
+              
+              <div class="demo-content oj-flex-item oj-md-3">
                 <div>
                   <strong>
                     <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
                   </strong>
                 </div>
 				<div>
-				   <oj-button id="viewButton" disabled="[[!taskSelected()]]" on-oj-action="[[showViewTaskDialog]]">View</oj-button>
+				   <oj-button id="viewButton" on-oj-action="[[showViewTaskDialog]]">View</oj-button>
 				</div>
               </div>
             </div>
@@ -105,47 +105,47 @@
             </oj-list-view>
           </div>
           <oj-bind-if test="[[taskSelected()]]">
-		  <!--<div class="oj-flex-item oj-sm-12 oj-md-6">-->
-		  <oj-dialog class=oj-flex-item oj-md-4 oj-sm-12" id="viewTaskDialog" dialog-title="View" style="width:50em;display:inline-block">
+		  
+		  <oj-dialog class=oj-flex-item oj-md-3" id="viewTaskDialog" dialog-title="View" style="display:inline-block;">
 			<div slot="body">
 				<div id="taskTitle" style="font-size: 20px; font-weight: bolder;">
                 <oj-bind-text value="[[taskData().title]]"></oj-bind-text>
               </div>
-              <div id="taskBody" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
-                <oj-bind-text value="[[taskData().body]]"></oj-bind-text>
+              <div id="taskBody" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;" class="oj-md-3">
+                <oj-bind-text value="[[taskData().body]]" class="oj-form-control"></oj-bind-text>
               </div>
-              <div id="taskDeadline">
-                <oj-bind-text value="[[taskData().deadline]]"></oj-bind-text>
+              <div id="taskDeadline" class="oj-md-3">
+                <oj-bind-text value="[[taskData().deadline]]" class="oj-form-control"></oj-bind-text>
               </div>
-              <div id="taskStatus">
+              <div id="taskStatus" class="oj-md-3">
                 <oj-bind-text value="[[taskData().is_active]]"></oj-bind-text>
               </div>
 			</div>
-			<div slot="footer">
+			<div slot="footer" class="oj-md-3">
 				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
-				<oj-button id="updateButton" disabled="[[!taskSelected()]]" on-oj-action="[[showEditTaskDialog]]">Update</oj-button>
+				<oj-button id="updateButton" on-oj-action="[[showEditTaskDialog]]" class="btn btn-primary">Update</oj-button>
 				<!-- If itemSelected is set to false, disabled is true, and vice-versa. -->
-				<oj-button id="deleteButton" disabled="[[!taskSelected()]]" on-oj-action="[[deleteTask]]">Delete</oj-button>
-			</div>
+				<oj-button id="deleteButton" on-oj-action="[[deleteTask]]" class="btn btn-danger">Delete</oj-button>
+			</div>nger
             </oj-dialog>
             <!--</div>-->
           </oj-bind-if>
-		  <!-- Update Task -->
+		  <!--Update Task-->
         <oj-bind-if test="[[taskSelected()]]">
-          <div class="oj-flex-item  oj-sm-12">
-			<oj-dialog id="editTaskDialog" style="width:40em;display:inline-block" title="Update Task">
+          <div class="oj-flex-item oj-md-3">
+			<oj-dialog id="editTaskDialog" style="display:inline-block" title="Update Task">
 				<div slot="body">
-					<div class="oj-sm-12 oj-flex-item">
+					<div class="oj-md-3 oj-flex-item">
 					<oj-input-text id="input" placeholder="Task Title" required value="{{taskData().title}}"></oj-input-text>
 				</div>
-				<div class="oj-sm-12 oj-flex-item">
+				<div class="oj-md-3 oj-flex-item">
 					<oj-text-area id="input" placeholder="Task Description" required value="{{taskData().body}}"></oj-text-area>
 				</div>
-				<div class="oj-sm-12 oj-flex-item">
+				<div class="oj-md-3 oj-flex-item">
 				<oj-input-date id="date" value={{taskData().deadline}}> </oj-input-date>
 					<!--<oj-input-text id="input" placeholder="e.g YYYY-MM-DD" required value="{{taskData().deadline}}"></oj-input-text>-->
 				</div>
-				<div class="oj-sm-12 oj-flex-item">
+				<div class="oj-md-3 oj-flex-item">
 					<oj-label for="basicSelect">Status</oj-label>
 					<oj-select-one id="basicSelect" value="{{taskData().is_active}}" style="max-width:20em">
 					  <oj-option value="">Select...</oj-option>
