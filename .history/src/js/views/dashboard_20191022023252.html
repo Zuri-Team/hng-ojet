@@ -1,0 +1,151 @@
+<div class="oj-offcanvas-outer-wrapper">
+    <!-- start offcanvas -->
+    <div id="drawer" class="oj-offcanvas-start oj-offcanvas-overlay-shadow oj-panel oj-panel-alt2">
+        <div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-margin-2x">
+            <div class="oj-flex-item">
+                <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                </oj-avatar>
+            </div>
+            <h3 data-bind="text: fullname"></h3>
+            <div class="oj-flex-item">
+                <span class="fa fa-slack"></span>
+                <span><span data-bind="text: slack"></span></span>
+            </div>
+        </div>
+
+        <hr />
+
+
+
+        <div id="main" class="oj-flex oj-sm-justify-content-center">
+
+
+            <div class="oj-sm-flex-direction-column oj-sm-margin-2x">
+                <div class="oj-flex-item">
+                    <span class="oj-fwk-icon-clock oj-fwk-icon oj-sm-margin-2x"></span>
+                    <!-- <span>Stage <span data-bind="text: stage"></span> Intern</span> -->
+                    <span>Stage 1 Intern</span>
+                </div>
+                <div class="oj-flex-item">
+                    <span class="oj-fwk-icon-minimize oj-fwk-icon oj-sm-margin-2x"></span>
+                    <span><span data-bind="text: track"></span> Track</span>
+                </div>
+
+                <div class="oj-flex-item">
+                    <span class="oj-fwk-icon-calendar oj-fwk-icon oj-sm-margin-2x"></span>
+                    <!-- <span>Week <span data-bind="text: currentweek"></span> of
+                        <span data-bind="text: totalweeks"></span></span> -->
+                    <span>Week 1 of
+                        10</span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End offcanvas -->
+
+    <!-- main content -->
+    <div class="main" style="height: 100vh;" style="width:150px">
+        <!-- start offcanvas launch button -->
+        <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-1x-horizontal">
+            <oj-button display="icons" chroming="half" on-click="[[toggleDrawer]]">
+                <span slot="startIcon" class="oj-fwk-icon-hamburger oj-fwk-icon"></span> Menu
+            </oj-button>
+            <oj-button class="float-right" display="icons" chroming="full" on-click="[[logout]]">
+                <span slot="startIcon" class="fa fa-power-off"> Logout </span>
+            </oj-button>
+            <oj-button class="float-right" display="icons" chroming="full" on-click="">
+                <i class=" fa fa-bell-o"></i>
+            </oj-button>
+            
+        </div>
+        <!-- End offcanvas launch button -->
+        <div class="clearfix"></div>
+        <!-- Start main dashboard content -->
+        <div class="oj-flex oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal">
+            <h1 data-bind="text: welcomeMessage"></h1>
+
+            <!-- Progress bar to show internship progression -->
+            <oj-progress style="width:100%" value="{{ progress }}"></oj-progress>
+
+            <hr />
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">
+                <div>
+                    <h5>Stage 1 Intern 😎</h5>
+                    <h6>9 Stages to Completion</h6>
+                </div>
+                <hr />
+                <div>
+                    <h5>Tracks 🚴‍♀️</h5>
+                    <ol>
+                        <li>Front End</li>
+                        <li>Ojet</li>
+                        <li>Back End (PHP)</li>
+                        <li>Back End (Node JS)</li>
+                        <li>Design</li>
+                        <li>DevOps</li>
+                        <li>Digital Marketing</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="oj-sm-only-padding-2x-horizontal oj-md-padding-4x-horizontal oj-md-6 oj-sm-12">
+
+                <!-- Start tasks section -->
+                <!-- <div>
+                    <h3 class="oj-header-border">Tasks for the week 🚀</h3>
+                    <template>
+                        <oj-bind-for-each data="[[tasks]]">
+                            <task-card taskTitle="[[$current.data.taskTitle]]" details="[[$current.data.details]]"></task-card>
+                        </oj-bind-for-each>
+                    </template>
+                    <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
+ -->
+
+
+
+
+                <div class="oj-panel oj-panel-shadow-sm">
+                    <h3 class="oj-header-border">Tasks for the week 🚀</h3>
+                    <h5 id="h1" slot="header">Create a chatbot App</h5>
+                    <h6>Create ChatBot App</h6>
+                    <ul>
+                        <li>
+                            App should be able to answer question about HNG internship
+                        </li>
+                        <li>Design should be superb</li>
+                    </ul>
+
+                    <div class="oj-flex oj-sm-justify-content-flex-end">
+                        <div class="oj-flex-items-pad oj-md-padding-4x-horizontal">
+                            <!-- <oj-button class="oj-button-sm oj-button-primary" chroming="full">
+                                    View details
+                                </oj-button> -->
+                        </div>
+                        <div class="oj-flex-items-pad">
+                            <oj-button class="oj-button-sm oj-button-confirm" on-oj-action="[[submitTask]]"
+                                chroming="full">
+                                Submit
+                            </oj-button>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div id="">
+            <oj-train id="train" class="oj-train-stretch" style="max-width:700px;margin-left:auto;margin-right:auto;"
+                on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}"
+                steps="[[stepArray]]">
+            </oj-train>
+            <br />
+            <h3 id="currentStepText" data-bind="text: 'You are in ' + selectedStepLabel()" style="text-align: center">
+            </h3>
+            <br />
+        </div>
+    </div>
+</div>
+</div>
