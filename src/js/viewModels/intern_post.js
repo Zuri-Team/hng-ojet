@@ -12,25 +12,26 @@ define([
   "ojs/ojpagingcontrol"
 ], function(ko, $, api, ArrayDataProvider, Paging) {
   function postModel() {
-    self = this;
-    var RESTurl = `${api}/api/posts`;
-    var userToken = sessionStorage.getItem("user_token");
+    let self = this;
+    let RESTurl = `${api}/api/posts`;
+    let userToken = sessionStorage.getItem("user_token");
 
     self.postSelected = ko.observable();
     self.post = ko.observable({});
     self.dataProvider = ko.observable();
-    self.categories;
+    self.categories = ko.observableArray([]);
+    self.category_id = ko.observable();
 
     self.postSelectedChanged = () => {
       let { data } = self.postSelected();
       if (data != null) {
         self.post(data);
-        self.viewPostModal(data)
+        self.viewPostModal(data);
       }
     };
 
     function fetchCategories() {
-      self.categories = ko.observableArray([]);
+      self.categories([]);
       $.ajax({
         url: `${api}/api/categories`,
         headers: {
@@ -38,9 +39,7 @@ define([
         },
         method: "GET",
         success: res => {
-          res.data.map(cats => {
-            self.categories.push(cats);
-          });
+          self.categories(res.data.map(cats => cats));
         }
       });
     }
@@ -64,6 +63,7 @@ define([
       return formatDateTime.format(new Date(date).toISOString());
     };
 
+    self.search = ko.observable(false);
     self.fetchPost = () => {
       $.ajax({
         url: `${RESTurl}`,
@@ -85,6 +85,39 @@ define([
               )
             );
           }
+        }
+      });
+    };
+    self.filterpost = function() {
+      self.search(false);
+      let catId = self.category_id();
+      if (catId == undefined) {
+        self.fetchPost();
+      } else {
+        self.search(true);
+        self.posts_under_category(catId);
+      }
+    };
+
+    self.posts_under_category = function(category_id) {
+      $.ajax({
+        url: `${api}/api/categories/posts/${category_id}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: res => {
+          let { data } = res.data;
+
+          self.dataProvider(
+            new Paging(
+              new ArrayDataProvider(data, {
+                keys: data.map(function(value) {
+                  return value.id;
+                })
+              })
+            )
+          );
         }
       });
     };

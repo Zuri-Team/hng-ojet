@@ -48,7 +48,9 @@
             data-bind="text: `(${categoryData().category_name})`"></span>
         </oj-label>
       </h3>
-      <oj-list-view id="Categorymodel-post-list" data="[[postsInCategory]]" selection-mode="single">
+      <oj-list-view id="Categorymodel-post-list" data="[[postsInCategory]]" selection-mode="single"
+      on-selected-changed="[[selectedPostChanged]]" first-selected-item="{{firstSelectedPost}}"
+      scroll-policy="loadMoreOnScroll">
         <template slot="itemTemplate" data-oj-as="item" class="py-2">
           <strong class="text-capitalize d-block">
             <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
@@ -96,6 +98,27 @@
     <oj-button id="submitBtn" on-oj-action="[[deleteCategory]]">Delete
     </oj-button>
   </div>
+</oj-dialog>
+
+<!-- view a single selected post -->
+
+<oj-dialog id="viewPost" title="View post" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
+  position.at.vertical="top">
+  <div slot="body">
+    <div>
+      <h5>
+        <oj-bind-text class="oj-text-secondary-color" value="[[postData().post_title]]"></oj-bind-text> <small> By Me
+        </small>
+      </h5>
+    </div>
+    <div style="word-wrap: break-word">
+      <oj-bind-text value="[[postData().post_body]]"></oj-bind-text>
+    </div>
+    <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+      <oj-bind-text value="[[postData().created_at]]"></oj-bind-text>
+    </p>
+  </div>
+
 </oj-dialog>
 
 </oj-bind-if>
