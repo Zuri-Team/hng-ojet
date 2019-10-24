@@ -150,17 +150,12 @@ define([
 
     this.keyword = ko.observableArray();
 
-    self.fullname = ko.observable("");
-    self.tracks = ko.observable("");
-    self.slack = ko.observable("");
     self.fileNames = ko.observableArray([]);
 
     self.selectListener = function(event) {
       var files = event.detail.files;
-      for (var i = 0; i < files.length; i++) {
         self.fileNames.push(files[i].name);
-      }
-    };
+      };
 
     self.logout = function() {
       sessionStorage.clear();
@@ -168,14 +163,21 @@ define([
     };
 
     self.connected = function() {
-      let user = sessionStorage.getItem("user");
-      user = JSON.parse(user);
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
+      let user = sessionStorage.getItem("user");
+      user = JSON.parse(user);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.tracks(`${user.stack}`);
-
+      self.stepArray().map((stage, i) => {
+        stage.disabled = true;
+        if (i + 1 == user.stage) {
+          stage.disabled = false;
+          self.selectedStepValue(stage.id);
+          self.selectedStepLabel = ko.observable(stage.id);
+        }
+      });
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();

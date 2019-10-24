@@ -7,7 +7,7 @@ define([
   "ojs/ojlistview"
 ], function(ko, $, api, ArrayDataProvider) {
   function internCategory() {
-    self = this;
+    let self = this;
     self.categoryDataProvider = ko.observable(); //gets data for Categories list
 
     var RESTurl = `${api}/api/categories`;
@@ -22,7 +22,7 @@ define([
         method: "GET",
         success: res => {
           let { data } = res;
-          self.categoryDataProvider(
+           self.categoryDataProvider(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
                 return value.id;
@@ -32,8 +32,12 @@ define([
         }
       });
     };
-
-    fetchCategories();
+    let pm = ko.dataFor(document.querySelector("#user"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Categories") {
+        fetchCategories();
+      }
+    });
   }
   return new internCategory();
 });

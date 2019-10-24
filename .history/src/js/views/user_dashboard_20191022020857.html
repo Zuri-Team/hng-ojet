@@ -1,0 +1,146 @@
+<section class="page__container h-100" id="user">
+    <div class="oj-flex oj-sm-justify-content-center oj-sm-flex-direction-column">
+            <h5 class="my-4 text-light logo text-center">
+              <i class="oj-navigationlist-item-icon fa  fa-bandcamp"></i><span>HNG BOARD</span>
+            </h5>
+            
+            <div id="usercontent_nav" class="oj-flex-item">
+                <nav class="d-flex justify-content-between">
+                            <h4 class="d-flex">
+                              <span data-bind="text: selectedItem"></span>
+                            </h4>
+                            <span class="d-flex ml-5">
+                             <!--<h4 class="position-relative" style="top:2px"><i class=" fa fa-bell-o"></i> </h4>-->
+                              <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
+                                  class="fa fa-search "></i></h4>
+                              <form id="form1" class="mx-3 oj-sm-only-hide">
+                                <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
+                                          component: 'ojInputSearch',
+                                          value: keyword,
+                                          options: tags,
+                                          rootAttributes: {style:'max-width: 20em'}}" />
+                              </form>
+                              <oj-button display="icons" chroming="full" on-click="[[logout]]">
+                                <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
+                              </oj-button>
+                            </span>
+                </nav>
+                <div id="welcome-user">
+                  <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
+                  <div></div>
+                 </div>
+                <div id="train-container" >
+                  <oj-train id="train"
+                            class="oj-train-stretch"
+                            style="max-width:700px;margin-left:auto;margin-right:auto;"
+                            on-selected-step-changed="[[updateLabelText]]"
+                            selected-step="{{selectedStepValue}}"
+                            steps="[[stepArray]]">
+                  </oj-train>
+                  <br/>
+                  <h3 id="currentStepText"
+                          data-bind="text: 'You are in ' + selectedStepLabel()"
+                          style="text-align: center">
+                  </h3>
+                  <br/>
+                </div>
+            </div>
+            
+            <div class="clearfix"></div>
+            
+            <div id="usercontent_body" class="oj-flex-item">
+                
+               <div>
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+                        <oj-collapsible id="collapsiblePage">
+                          <h3 id="h" slot="header" id="overview-user">Overview</h3>
+                          <p id="c"></p>
+                        </oj-collapsible>
+                </div>
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+                        <oj-collapsible id="collapsiblePage">
+                          <h3 id="h" slot="header" id="posts-user">Posts</h3>
+                          <p id="c" data-bind="ojModule: 'post'"></p>
+                        </oj-collapsible>
+                </div>
+
+                <!-- Categories start -->
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+                        <oj-collapsible id="collapsiblePage">
+                          <h3 id="h" slot="header" id="categories-user">Categories</h3>
+                          <p id="c" data-bind="ojModule: 'category'"></p>
+                        </oj-collapsible>
+                </div>
+
+                <!-- Categories end -->
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+                    <oj-collapsible id="collapsiblePage">
+                        <h3 id="h" slot="header">Tasks</h3>
+                        <p id="c">
+                            <h3 class="oj-header-border">Tasks for the week 🚀</h3>
+                        <h5 id="h1" slot="header">(Create a chatbot App)</h5>
+                        <h6>Create ChatBot App</h6>
+                        <ul>
+                            <li>
+                                App should be able to answer questions about HNG internship
+                            </li>
+                            <li>Design should be superb</li>
+                        </ul>
+                        <oj-button id="createButton" on-oj-action="[[submitTask]]">Click here to submit</oj-button>
+                        </p>
+                    </oj-collapsible>
+                </div>
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+          
+                        <oj-collapsible id="collapsiblePage">
+                          <h3 id="h" slot="header">Tracks</h3>
+                          <p id="c" data-bind="text: tracks"></p>
+                        </oj-collapsible>
+                </div>
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+          
+                        <oj-collapsible id="collapsiblePage">
+                          <h3 id="h" slot="header">Team(s)</h3>
+                          <p id="c"></p>
+                        </oj-collapsible>
+                </div>
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+          
+                        <oj-collapsible id="collapsiblePage">
+                          <h3 id="h" slot="header" class="oj-flex-item" id="user-settings">Public profile settings</h3>
+                          <p id="c">
+                                <div class="oj-flex-item aside">
+                                        <label><h5> Profile picture</h5></label> 
+                                        <oj-file-picker on-oj-select='[[selectListener]]'>
+                                            <div tabindex='0' slot='trigger'
+                                                    class='oj-filepicker-dropzone'>
+                                                <oj-avatar role="img" aria-label="Placeholder Avatar" size="lg">
+                                                </oj-avatar>
+                                                <p class='oj-filepicker-text'>Pls click here or drag an image here to change profile picture</p>
+                                            </div>
+                                        </oj-file-picker>
+                                    </div>
+                                    <div class="oj-hybrid-padding center">
+                                        <oj-form-layout id="form-container" style="display: inline-block">
+                                            <oj-input-text class="input__profile" id="input1" type="text" label-hint="Name" data-bind="textInput:name"></oj-input-text>
+                                            <oj-input-text class="input__profile" id="input2" type="email" label-hint="Public email" data-bind="textInput:email"></oj-input-text>
+                                            <oj-input-text class="input__profile" id="input3" type="text" label-hint="Display Name" data-bind="textInput:displayName"></oj-input-text>
+                                            <oj-text-area class="input__profile" id="text-area" label-hint="Bio" data-bind="textInput:bio">
+                                            </oj-text-area>
+                                            <oj-input-text class="input__profile" id="input4" type="text" label-hint="URL" data-bind="textInput:url"></oj-input-text>
+                                            <oj-input-text class="input__profile" id="input5" type="text" label-hint="Location" data-bind="textInput:location"></oj-input-text>
+                                            <h6>All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.</h6>
+                                    
+                                            <oj-button class="fbtn" on-oj-action='[[buttonClick]]'>Update Profile</oj-button>
+                                        </oj-form-layout>
+                                    </div>
+                          </p>
+                        </oj-collapsible>
+                </div>
+                
+               </div>
+            </div>
+
+    </div>
+</section>
+
