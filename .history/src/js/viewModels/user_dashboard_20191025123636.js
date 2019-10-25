@@ -49,7 +49,6 @@ define([
     self.taskSubmit = ko.observableArray([]);
 
     var submissionURL = `${api}/api/submissions`;
-    var notificationsURL = `${api}/api/notifications`;
 
     self.stepArray = ko.observableArray([
       { label: "Stage One", id: "1" },
@@ -91,55 +90,6 @@ define([
     ]);
 
     self.applicationMessages = ko.observableArray([]);
-
-    //Get All Notifications
-    /*self.fetchNotifications = async() => {
-      try {
-        const response = await fetch(`${notificationsURL}`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`
-            }
-        });
-        var notifications = [];
-        const {data} = await response.json();
-
-        data.array.forEach((notif) => {
-          let messages = notif.data.message;
-          notifications.push(messages);
-        });
-
-        //console.log(data)
-
-       //self.notifsCount(notification_count);
-
-    } catch (err) {
-        console.log(err);
-    }
-    };
-
-    self.fetchNotifications();*/
-
-    //Get the count of all notifications
-    self.notificationsCount = async() => {
-      try {
-        const response = await fetch(`${notificationsURL}/notification_count`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`
-            }
-        });
-        const {
-            data: { notification_count }
-        } = await response.json();
-        console.log(notification_count)
-
-       self.notifsCount(notification_count);
-
-    } catch (err) {
-      console.log(err);
-  }
-}
-
-self.notificationsCount();
 
     self.submitTask = async() => {
       let task_title = self.taskSubmit.task_title;
