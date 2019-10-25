@@ -8,170 +8,145 @@ define([
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
-  "ojs/ojdialog",
-  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojvalidation-base', 'ojs/ojselectcombobox',, 'ojs/ojdatetimepicker', 'ojs/ojtable', 'ojs/ojpagingdataproviderview'
-], function(oj, ko, Bootstrap, $, api, ArrayDataProvider, ValidationBase, PagingDataProviderView) {
-
+  "ojs/ojdialog", 'ojs/ojvalidation-datetime',
+  'ojs/ojlabel', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojvalidation-base', 'ojs/ojselectcombobox', 'ojs/ojdatetimepicker', 'ojs/ojpagingdataproviderview', 'ojs/ojmessages', 'ojs/ojpagingcontrol', 'ojs/ojtimezonedata'
+], function(oj, ko, $, api, ArrayDataProvider, Paging) {
   function taskModel() {
-
 	  var self = this;
 
-	const userToken = sessionStorage.getItem("user_token");
+	  var userToken = sessionStorage.getItem("user_token");
 
-
-	self.trackDataProvider = ko.observable();   //gets data for Tracks list
     self.taskDataProvider = ko.observable();      //gets data for tasks list
-    self.submissionDataProvider = ko.observable();  //gets data for submitted tasks
 
     self.taskData = ko.observable('');             //holds data for the Task details
-  self.tasksTrack = ko.observable('');    //Tasks that belongs to a track
 
-  self.submissionView = ko.observable("false");
+    self.newTask = ko.observable({}); //holds data for the create task dialog
 
-	self.newTask = ko.observableArray([]); //holds data for the create task dialog
+    self.task_btn_toggler = ko.observable(false);
+    self.task_view_title = ko.observable("New Task");
 
-  self.trackOptions = ko.observableArray([]); //values for the tracks shown in the multiselect
+    self.task_view_toggle = () => {
+    self.task_btn_toggler(!self.task_btn_toggler());
+    self.task_view_title() == "New Task"
+      ? self.task_view_title("Back")
+      : self.task_view_title("New Task");
+  };
 
-  //Observables for submission table
-  self.task_id = ko.observable();
-  self.taskTitle = ko.observable();
-  self.fullname = ko.observable();
-  self.submission_link = ko.observable();
-  self.grade = ko.observable();
+  // //Observables for submission table
+  //   self.task_id = ko.observable();
+  //   self.taskTitle = ko.observable();
+  //   self.fullname = ko.observable();
+  //   self.submission_link = ko.observable();
+  //   self.grade = ko.observable();
 
-	var tracksURL = `${api}/api/track`;
+	  var tracksURL = `${api}/api/track`;
 
-  var tasksURL = `${api}/api/tasks`;
+    var tasksURL = `${api}/api/tasks`;
 
-  var submissionURL = `${api}/api/submissions`;
+    // var submissionURL = `${api}/api/submissions`;
 
     self.dataProvider = ko.observable();
 
-
-	// Track selection observables
-      self.trackSelected = ko.observable(false);
-      self.selectedTrack = ko.observable();
-      self.firstSelectedTrack = ko.observable();
-
       // Task selection observables
-      self.taskSelected = ko.observable(false);
-      self.selectedTask = ko.observable();
-      self.firstSelectedTask = ko.observable();
+    self.taskSelected = ko.observable();
 
-	const RESTurl = "https://api.start.ng/api/track/list";
+    self.tracks = ko.observableArray([]);
 
-  self.viewSubmissions = function () {
-      self.submissionView() ?
-          self.submissionView(false) :
-          self.submissionView(true);
-  }.bind(self);
-
-  self.backButton = function() {
-      self.submissionView() ?
-          self.submissionView(false) :
-          self.submissionView(true);
-          self.fetchTasks();
-  }.bind(self);
-
-  function fetchSubmission() {
-    $.ajax({
-      url: submissionURL,
-      headers: {
-        'Authorization': "Bearer " + userToken,
-        'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json',
-
-					'Access-Control-Allow-Headers': '*'
-      },
-      method: "GET",
-
-      success: ({status, data}) => {
-
-        if (status == true) {
-          self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'task_id'})));
-          console.log(data);
-      }
-    }
-  });
-}
-fetchSubmission();
+	  const RESTurl = "https://api.start.ng/api/track/list";
 
 
 
-  self.showCreateTaskDialog = function (event) {
-								document.getElementById("createTaskDialog").open();
+
+
+//   function fetchSubmission() {
+//     $.ajax({
+//       url: submissionURL,
+//       headers: {
+//         'Authorization': "Bearer " + userToken,
+//         'Access-Control-Allow-Origin': '*',
+// 					'Content-Type': 'application/json',
+
+// 					'Access-Control-Allow-Headers': '*'
+//       },
+//       method: "GET",
+
+//       success: ({status, data}) => {
+
+//         if (status == true) {
+//           self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'task_id'})));
+//           console.log(data);
+//       }
+//     }
+//   });
+// }
+// fetchSubmission();
+
+
+
+  self.deleteTaskModal = function (event) {
+								document.getElementById("deleteModal").open();
 							}
 
-	self.showEditTaskDialog = function(event) {
-							document.getElementById("editTaskDialog").open();
+	self.editTaskModal = function(event) {
+							document.getElementById("editModal").open();
 							};
 
-	self.showViewTaskDialog = function(event) {
-							document.getElementById("viewTaskDialog").open();
+	self.viewTaskModal = function(event) {
+							document.getElementById("viewModal").open();
 							};
 
-	//console.log(tasksURL + '/' + selectedTrack().data.track_name + "/`{track_id}`" );
+              self.taskSelectedChanged = () => {
+                let { data } = self.taskSelected();
+                if (data != null) {
+                  console.log(data)
+                  self.taskData(data);
+                }
+              };
 
-	/**
-       * Handle selection from Track
-       */
-      self.selectedTrackChanged = function (event) {
-        // Check whether click is an Activity selection or a deselection
-        if (event.detail.value.length != 0) {
-            // If selection, populate and display list
-            // Create variable for items list using firstSelectedXxx API from List View
-            var trackId = self.firstSelectedTrack().data.id;
-            // Populate items list using DataProvider fetch on key attribute
-            //self.taskDataProvider(new ArrayDataProvider(tasksArray, { keyAttributes: "id" }))
-            // Set List View properties
-			self.fetchTasks(trackId);
-            self.trackSelected(true);
-            self.taskSelected(false);
-            // Clear item selection
-            self.selectedTask([]);
-            self.taskData();
-        } else {
-          // If deselection, hide list
-           self.trackSelected(false);
-           self.taskSelected(false);
-        }
-      };
+ // datetime converter
+ self.formatDateTime = date => {
+  var formatDateTime = oj.Validation.converterFactory(
+    oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+  ).createConverter({
+    formatType: "datetime",
+    dateFormat: "medium",
+    timeFormat: "short",
+    timeZone: "Africa/Lagos"
+  });
+
+  return formatDateTime.format(new Date(date).toISOString());
+};
 
 
-	  /**
-       * Handle selection from Task list based on track_id
-       */
-      self.selectedTaskChanged = function (event) {
-        // Check whether click is a Track task selection or deselection
-        if (event.detail.value.length != 0) {
-            // If selection, populate and display Item details
-            // Populate items list observable using firstSelectedXxx API
-			//console.log(self.firstSelectedTask());
-			let { data } = self.firstSelectedTask();
-
-            self.fetchTasks(self.firstSelectedTask().data.id);
-            self.taskSelected(true);
-			self.taskData(data);
-			self.taskDataProvider();
-        } else {
-          // If deselection, hide list
-           //self.taskSelected(false);
-        }
-      };
-
-
-	$.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-			'Access-Control-Allow-Origin': '*',
-          }
-        });
+	// $.ajaxSetup({
+  //         headers: {
+  //           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+	// 		'Access-Control-Allow-Origin': '*',
+  //         }
+  //       });
 
 	//Fetch Track lists
-	self.fetchTracks = () => {
+	// function fetchTracks() {
+  // self.tracks([]);
+	// 	$.ajax({
+	// 	   url: `${tracksURL}/list`,
+	// 	   method: 'GET',
+	// 	   headers: {
+	// 				'Authorization' : "Bearer " + userToken,
+	// 				},
+  //      success: res => {
+  //       self.tracks(res.data.map(tracks => tracks));
+  //      }
+  //       }
+	// 		);
+
+	// 		}
+
+
+	self.fetchTasks = () => {
 
 		$.ajax({
-		   url:tracksURL+"/list",
+		   url: `${tasksURL}`,
 		   method: 'GET',
 		   headers:{
 					'Authorization' : "Bearer " + userToken,
@@ -184,50 +159,21 @@ fetchSubmission();
 		   dataType: 'json',
 		   success: function(response) {
 			// Create variable for Activities list and populate list using key attribute fetch
-			let {data} = response.data;
-			var tracksArray = data;
-
-			self.trackDataProvider(
-				new ArrayDataProvider(tracksArray, { keyAttributes: "id" })
-			);
-			/*self.trackDataProvider(
-            new ArrayDataProvider(data, {
-              keys: data.map(function(value) {
-                //numberOfPosts(value.id);
-                return value.id;
-              })
-            })
-          );*/
-			}
-    });
-	};
-	self.fetchTracks();
-
-
-	self.fetchTasks = (track_id) => {
-
-		$.ajax({
-		   url:tracksURL +"/"+ track_id + "/tasks",
-		   method: 'GET',
-		   headers:{
-					'Authorization' : "Bearer " + userToken,
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json',
-					//Access-Control-Allow-Origin: http://localhost:8000
-					//'Access-Control-Allow-Methods': '*',
-					'Access-Control-Allow-Headers': '*',
-					},
-		   dataType: 'json',
-		   success: function(response) {
-			// Create variable for Activities list and populate list using key attribute fetch
-
-			let { data } = response;
-			var tasksArray = data;
+if (response.status == true) {
+			let { data } = response.data;
 
 			self.taskDataProvider(
-				new ArrayDataProvider(tasksArray, { keyAttributes: "id" })
-			);
-			}
+        new Paging(
+          new ArrayDataProvider(dateFormat, {
+            keys: data.map(function(value) {
+              value.created_at = self.formatDateTime(value.created_at);
+              return value.title;
+            })
+          })
+        )
+      );
+      }
+    }
     });
 	};
 
@@ -235,24 +181,15 @@ fetchSubmission();
 
 	self.createTask = () => {
 
-		let track_id = self.firstSelectedTrack().data.id;
-		let title = self.newTask.title;
-        let body = self.newTask.body;
-		let deadline = self.newTask.deadline;
-		let is_active = self.newTask.is_active;
-
-		/*var bet = {
-    tournament: '',
-    bo: '1',
-    bet_team: '2',
-    betted: '3',
-    potential: '4',
-    percent: '5'
-};*/
+		let track_id = self.track_id();
+		let title = self.newTask().title;
+    let body = self.newTask().body;
+		let deadline = self.newTask().deadline;
+		let is_active = self.newTask().is_active;
 
 		$.ajax({
                  method: "POST",
-                 url: "https://api.start.ng/api/tasks",
+                 url: `${tasksURL}`,
 				 headers:{
 				 'Authorization' : "Bearer " + userToken,
 				 'Access-Control-Allow-Origin': '*',
@@ -264,20 +201,27 @@ fetchSubmission();
                  //contentType: "application/json",
                  dataType: "json",
                  //processData: true,
-                 success: function (response) {
-					 alert('Task created successfully');
-					 self.fetchTasks();
-                 console.log('Successful Task creation');
+                 success: res => {
+                   if(res.status == true) {
+                     self.newTask({});
+                     self.fetchTasks();
+                     self.task_btn_toggler(!self.task_btn_toggler());
+                     self.applicationMessages.push({
+                       severity: "confirmation",
+                       summary: "Task created successfully",
+                       autoTimeout: parseInt("0")
+                     });
+                   }
                  },
-                 error: function (xhr) {
-                     //alert(xhr.responseText);
-					 alert('Error');
-                 }
+                 error: err => {
+                  console.log(err);
+                  self.applicationMessages.push({
+                    severity: "error",
+                    summary: "An error was encountered, unable to create task",
+                    autoTimeout: parseInt("0")
+                  });
+                }
              });
-		//document.getElementById("createNewTitle").value = "";
-      //document.getElementById("createNewBody").value = "";
-      //document.getElementById("createNewDeadline").value = "";
-		document.getElementById('createTaskDialog').close();
 	};
 
 
@@ -303,40 +247,65 @@ fetchSubmission();
 				 data: JSON.stringify({'title':title, 'body':body, 'deadline':deadline, 'is_active':is_active}),
                  contentType: "application/json",
                  dataType: "json",
-                 success: function (data, status, jqXHR) {
-					 //self.fetchTasks();
-					 alert('Update Successful');
-                 console.log('Successfully updated Task');
-                 },
-                 error: function (xhr) {
-                     //alert(xhr.responseText);
-					 alert('Error');
-                 }
-             });
+                 success: res => {
+                  if (res.status == true) {
+                    // send a success message notification to the category view
+                    self.applicationMessages.push({
+                      severity: "confirmation",
+                      summary: "Task updated",
+                      detail: "Task successfully updated",
+                      autoTimeout: parseInt("0")
+                    });
+                    self.fetchTasks();
+                  }
+                },
+                error: err => {
+                  console.log(err);
 
-		document.getElementById('editTaskDialog').close();
-		document.getElementById('viewTaskDialog').close();
-		//self.fetchTasks();
+                  // send an error message notification to the category view
+                  self.applicationMessages.push({
+                    severity: "error",
+                    summary: "Error updating task",
+                    detail: "Error trying to update task",
+                    autoTimeout: parseInt("0")
+                  });
+                }
+              });
+
+		document.getElementById('editTaskModal').close();
+		document.getElementById('viewTaskModal').close();
+
 	};
 
-	self.deleteTask = function (event, data) {
-
-		let taskId = self.taskData().id;
-		let taskTitle = self.taskData().title;
-
-		const confirm_ques = confirm("Are you sure you want to delete " + taskTitle + "?");
-
-		if(confirm_ques){
-			$.ajax({ url:tasksURL + "/" +taskId, method: "DELETE" })
-            .then(function (data) {
-                alert('Task Successfully deleted!');
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
-		}
-	};
-
+	self.deleteTask = () => {
+    let task_id = self.taskData().id;
+    $.ajax({
+      url: `${tasksURL}/${task_id}`,
+      headers: {
+        Authorization: "Bearer " + userToken
+      },
+      method: "DELETE",
+      success: () => {
+        self.fetchTasks();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Task deleted",
+          autoTimeout: parseInt("0")
+        });
+      },
+      error: err => {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "An error was encountered, could not delete task",
+          autoTimeout: parseInt("0")
+        });
+      }
+    });
+    document.getElementById("deleteModal").close();
+  };
+// fetchTracks();
+self.fetchTasks();
 
   }
   return new taskModel();

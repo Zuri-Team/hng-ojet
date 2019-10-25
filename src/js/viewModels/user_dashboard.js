@@ -181,6 +181,9 @@ define([
 
     this.keyword = ko.observableArray();
 
+    self.fullname = ko.observable("");
+    self.tracks = ko.observable("");
+    self.slack = ko.observable("");
     self.fileNames = ko.observableArray([]);
 
     self.selectListener = function(event) {
