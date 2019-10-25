@@ -1,7 +1,6 @@
 define([
   "ojs/ojcore",
   "knockout",
-  "ojs/ojbootstrap",
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
