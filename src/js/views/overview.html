@@ -34,6 +34,7 @@
 
 
 <!-- Teams table -->
+<h4 class="my-4">Teams List:</h4>
 <div id="sampleDemo" class="demo-padding demo-container">
   <div
     id="componentDemoContent"
@@ -48,8 +49,6 @@
       scroll-policy="loadMoreOnScroll"
       columns='[{"headerText": "Id", 
                 "field": "id",
-                "headerClassName": "oj-sm-only-hide",
-                "className": "oj-sm-only-hide",
                 "resizable": "enabled"},
               {"headerText": "Team Name", 
                 "field": "team_name",
@@ -77,9 +76,47 @@
   </oj-paging-control>
     </oj-table>
   </div>
+
+<!-- Interns table -->
+<h4 class="my-4">Interns List:</h4>
+<div
+    style="width: 1px; min-width: 100%; min-height: 100%;"
+  >
+<oj-table
+      id="interns-table"
+      aria-label="Interns Table"
+      data="[[dataProvider]]"
+      selection-mode='{"row": "single", "column": "single"}'
+      dnd='{"reorder": {"columns": "enabled"}}'
+      scroll-policy="loadMoreOnScroll"
+      columns='[{"headerText": "Intern Id", 
+                "field": "id",
+                "resizable": "enabled"},
+              {"headerText": "Username", 
+                "field": "username",
+                "resizable": "enabled"},
+              {"headerText": "First Name", 
+                "field": "firstname",
+                "resizable": "enabled"},
+              {"headerText": "Last Name", 
+                "field": "lastname",
+                "headerClassName": "oj-sm-only-hide",
+                "className": "oj-sm-only-hide",
+                "resizable": "enabled"}]'
+      style="width: 100%; height: 100%;"
+    > 
+    <oj-paging-control
+    id="paging"
+    data="[[dataProvider]]"
+    page-size="10"
+    slot="bottom"
+  >
+  </oj-paging-control>
+   </oj-table>
+</div>
 <!-- Summary button -->
 <div id="dialogWrapper">
-  <oj-dialog style="display:none; width: 80%;" id="summary-modal" dialog-title="Interns Summary">
+  <oj-dialog style="display:none;" id="summary-modal" dialog-title="Interns Summary">
     <div slot="body">
       <div data-bind="ojModule: 'summary'"></div>
     </div>
