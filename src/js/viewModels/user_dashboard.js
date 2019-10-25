@@ -44,7 +44,6 @@ define([
 
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
-    self.fullname = ko.observable();
 
     self.taskSubmit = ko.observableArray([]);
 
@@ -182,6 +181,9 @@ define([
 
     this.keyword = ko.observableArray();
 
+    self.fullname = ko.observable("");
+    self.tracks = ko.observable("");
+    self.slack = ko.observable("");
     self.fileNames = ko.observableArray([]);
 
     self.selectListener = function(event) {
