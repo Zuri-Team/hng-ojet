@@ -12,11 +12,11 @@
           </a>
         </li>
 
-        <li id="Categories">
+        <!-- <li id="Categories">
           <a for="categories-intern">
             <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
           </a>
-        </li>
+        </li> -->
 
         <li id="Posts">
           <a for="posts-intern">
@@ -64,7 +64,7 @@
           <input placeholder="Search..." data-bind="ojComponent: {
                             component: 'ojInputSearch',
                             value: keyword,
-                            options: tags, 
+                            options: tags,
                             rootAttributes: {style:'max-width: 20em'}}" />
         </form>
       </oj-bind-if>
@@ -111,38 +111,40 @@
             <div>
               <div>
                 <label class="col-form-label">Link</label>
-                <input type="url" data-bind="textInput: url" class="form-control">
+                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.taskURL" class="form-control">
               </div>
               <div class="form-group">
                 <label class="col-form-label">Comment</label>
-                <textarea class="form-control" data-bind="textInput: taskDescription" rows="5"></textarea>
+                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.taskComment" rows="5"></textarea>
               </div>
               <div class="clearfix"></div>
               <button class="btn btn-sm text-light float-right" data-bind="click: submitTask"
                 style=" background-color: #5882BE !important">
                 Submit
               </button>
-            </div> 
+            </div>
           </div>
         </div>
       </div>
 
 
-      <div id="categories-intern" class="my-4">
+      <!-- <div id="categories-intern" class="my-4">
         <div data-bind="ojModule: 'intern_category'"></div>
-      </div>
+      </div> -->
 
       <div id="posts-intern">
         <div data-bind="ojModule: 'intern_post'" class="my-4"></div>
       </div>
 
-      <!-- <div id="tasks-intern">  
-        <div data-bind="ojModule: 'intern/tasks'"></div>
+      <div id="tasks-intern">
+        <h5>Tasks feature coming soon</h5>
+        <!-- <div data-bind="ojModule: 'intern/tasks'"></div> -->
       </div>
 
       <div class="oj-flex-item" id="intern-settings">
-        <div data-bind="ojModule: 'intern/profile'"></div>
-      </div>  -->
+        <h5>Settings feature coming soon</h5>
+        <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
+      </div>
 
     </div>
   </div>
