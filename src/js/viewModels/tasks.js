@@ -1,7 +1,6 @@
 define([
   "ojs/ojcore",
   "knockout",
-  "ojs/ojbootstrap",
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
@@ -142,8 +141,35 @@ define([
 
 	// 		}
 
+	  
+	self.fetchTasks =  async() => {
+            try {
+                const response = await fetch(`${tasksURL}`, {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                });
+                const {
+                    data: { data }
+                } = await response.json();
+                // console.log(data)
 
-	self.fetchTasks = () => {
+		self.taskDataProvider(
+        new Paging(
+          new ArrayDataProvider(dateFormat, {
+            keys: data.map(function(value) {
+              value.created_at = self.formatDateTime(value.created_at);
+              return value.title;
+            })
+          })
+        )
+      );    
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+	/*self.fetchTasks = () => {
 
 		$.ajax({
 		   url: `${tasksURL}`,
@@ -176,7 +202,7 @@ if (response.status == true) {
     }
     });
 	};
-
+*/
 
 
 	self.createTask = () => {

@@ -93,7 +93,7 @@ define([
     self.applicationMessages = ko.observableArray([]);
 
     //Get All Notifications
-    /*self.fetchNotifications = async() => {
+    self.fetchNotifications = async() => {
       try {
         const response = await fetch(`${notificationsURL}`, {
             headers: {
@@ -117,7 +117,7 @@ define([
     }
     };
 
-    self.fetchNotifications();*/
+    self.fetchNotifications();
 
     //Get the count of all notifications
     self.notificationsCount = async() => {
