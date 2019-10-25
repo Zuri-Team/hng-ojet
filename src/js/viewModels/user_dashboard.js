@@ -44,6 +44,7 @@ define([
 
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
+    self.fullname = ko.observable();
 
     self.taskSubmit = ko.observableArray([]);
 
