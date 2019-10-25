@@ -546,8 +546,11 @@ tr:nth-child(even) {
 #buttonOpener {
   cursor: pointer;
 }
+#summary-modal {
+  width: 80%;
+}
 @media only screen and (min-width:768px) {
   #summary-modal {
-    width: 50%;
+    width: 60%;
 }
 }
