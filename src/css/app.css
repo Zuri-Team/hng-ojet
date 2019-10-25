@@ -30,10 +30,11 @@ body {
 @keyframes slide {
   from {
     display: block;
+    visibility: visible;
   }
   to {
-    width: 0px;
-    height: 0px;
+    visibility: hidden;
+   
   }
 }
 
