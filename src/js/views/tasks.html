@@ -34,15 +34,15 @@
     </div>
     <div class="form-group">
       <oj-input-date id="date" value={{taskData().deadline}}> </oj-input-date>
-      </div>
-      <div class="form-group">
-        <oj-label for="basicSelect">Status</oj-label>
-        <oj-select-one id="basicSelect" value="{{taskData().is_active}}" style="max-width:20em">
-          <oj-option value="">Select...</oj-option>
-          <oj-option value="1">Publish</oj-option>
-          <oj-option value="0">Draft</oj-option>
-        </oj-select-one>
-      </div>
+    </div>
+    <div class="form-group">
+      <oj-label for="basicSelect">Status</oj-label>
+      <oj-select-one id="basicSelect" value="{{taskData().is_active}}" style="max-width:20em">
+        <oj-option value="">Select...</oj-option>
+        <oj-option value="1">Publish</oj-option>
+        <oj-option value="0">Draft</oj-option>
+      </oj-select-one>
+    </div>
     <button data-bind="click: updateTask" class="btn btn-success">
       Update
     </button>
@@ -76,29 +76,26 @@
         </select>
       </div>
       <div class="my-3">
-        <input data-bind="textInput: newTask().title" type="text" placeholder="Title"
-          class="form-control" />
+        <input data-bind="textInput: newTask().title" type="text" placeholder="Title" class="form-control" />
       </div>
       <textarea data-bind="textInput: newTask().body" class="form-control my-3" placeholder="Task description..."
         style="height: 200px;">
       </textarea>
       <div class="my-3">
-				<oj-input-date id="date" value={{newTask().deadline}} class="oj-form-control"> </oj-input-date>
+        <oj-input-date  value="{{newTask().deadline}}" class="oj-form-control"> </oj-input-date>
 
-				</div>
-				<div class="my-3">
-					<oj-label for="basicSelect">Status</oj-label>
-					<oj-select-one id="basicSelect" value="{{newTask().is_active}}" class="oj-form-control">
-					  <oj-option value="">Select...</oj-option>
-					  <oj-option value="1">Publish</oj-option>
-					  <oj-option value="0">Draft</oj-option>
-					</oj-select-one>
-				</div>
+      </div>
+      <div class="my-3">
+        <oj-label for="basicSelect">Status</oj-label>
+        <oj-select-one id="basicSelect" value="{{newTask().is_active}}" class="oj-form-control">
+          <oj-option value="">Select...</oj-option>
+          <oj-option value="1">Publish</oj-option>
+          <oj-option value="0">Draft</oj-option>
+        </oj-select-one>
+      </div>
       <div class="my-3">
         <input data-bind="click: createTask" type="submit" class="btn btn-success" value="Create task" />
-        <oj-button id='button3' on-oj-action="[[backButton]]">
-          Back
-      </oj-button>
+
       </div>
     </div>
   </oj-bind-if>
@@ -140,9 +137,10 @@
 
         </template>
       </oj-list-view>
-      <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
-      </oj-paging-control>
-    </div>
+  </oj-bind-if>
+  <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
+  </oj-paging-control>
+</div>
 </div>
 
 <!-- Start Messages Component -->
