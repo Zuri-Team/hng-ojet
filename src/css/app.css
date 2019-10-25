@@ -554,3 +554,6 @@ tr:nth-child(even) {
     width: 60%;
 }
 }
+button {
+  cursor: pointer;
+}
