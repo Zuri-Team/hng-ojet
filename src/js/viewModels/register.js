@@ -1,79 +1,94 @@
 define([
-    "knockout",
-    "./api",
-    "jquery",
-    "ojs/ojcore",
-    "ojs/ojrouter",
-    "ojs/ojformlayout",
-    "ojs/ojinputtext",
-    "ojs/ojselectcombobox"
-], function(ko, api, $) {
-    function RegisterViewModel() {
-        var self = this;
-        var router = oj.Router.rootInstance;
+  "knockout",
+  "./api",
+  "jquery",
+  "ojs/ojresponsiveutils", 
+  "ojs/ojresponsiveknockoututils",
+  "ojs/ojcore",
+  "ojs/ojrouter",
+  "ojs/ojformlayout",
+  "ojs/ojinputtext",
+  "ojs/ojlabel",
+  "ojs/ojselectcombobox",
+  "ojs/ojbutton"
+], function(ko, api, $, responsiveUtils, responsiveKnockoutUtils) {
+  function RegisterViewModel() {
+      var self = this;
+      var router = oj.Router.rootInstance;
 
-        self.devstack = ko.observableArray([])
+      self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
+        responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
 
-        var tracksURL = `${api}/api/track`;
+      // For small screens: labels on top
+      // For medium screens and up: labels inline
+      self.labelEdge = ko.computed(function () {
+        return self.isSmall() ? "top" : "start";
+      }, self);
 
-        //  Fetch all tracks
-        self.fetchTracks = async() => {
-          try {
-              const response = await fetch(`${tracksURL}/all`, {});
-              const {
-                  data: { data }
-              } = await response.json();
+      self.devstack = ko.observableArray([])
 
-              // var result = data.data.map(track => [track.id]);
-              var result = data.map(track => ({
-                  value: `${track.id}`,
-                  label: track.track_name
-              }));
-              //console.log(result);
+      var tracksURL = `${api}/api/track`;
 
-              self.devstack(result);
+      //  Fetch all tracks
+      self.fetchTracks = async() => {
+        try {
+            const response = await fetch(`${tracksURL}/all`, {});
+            const {
+                data: { data }
+            } = await response.json();
 
-              //console.log(self.devstack());
-          } catch (err) {
-              console.log(err);
-          }
+            // var result = data.data.map(track => [track.id]);
+            var result = data.map(track => ({
+                value: `${track.id}`,
+                label: track.track_name
+            }));
+            //console.log(result);
+
+            self.devstack(result);
+
+            //console.log(self.devstack());
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    self.fetchTracks();
+      
+
+    self.firstname = ko.observable("First Name");
+    self.lastname = ko.observable("Last Name");
+    self.stack = ko.observableArray([]);
+    self.location = ko.observable("Location");
+
+    //account info
+    self.username = ko.observable("Slack Username");
+    self.email = ko.observable("Email");
+    self.pass = ko.observable("password");
+    self.rpass = ko.observable("confirm password");
+
+    self.clickedButton = ko.observable("(None clicked yet)");
+
+      self.login = function() {
+          router.go("login");
       };
-      self.fetchTracks();
-        
 
-        self.firstname = ko.observable("");
-        self.lastname = ko.observable("");
-        self.stack = ko.observableArray([]);
-        self.location = ko.observable("");
-
-        //account info
-        self.username = ko.observable("");
-        self.email = ko.observable("");
-        self.pass = ko.observable("");
-        self.rpass = ko.observable("");
-
-        self.login = function() {
-            router.go("login");
-        };
-
-        self.connected = function() {
-            // Implement if needed
-            function validate() {
-                var sect = $("#fbk");
-                var feedback = function(text, color = "danger") {
-                    return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
-            <small>${text}</small>
-          </div>`;
+      self.connected = function() {
+          // Implement if needed
+          function validate() {
+              var sect = $("#fbk");
+              var feedback = function(text, color = "danger") {
+                  return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
+          <small>${text}</small>
+        </div>`;
                 };
 
                 var progressbar = function() {
-                    return `<div class="progress position-relative mt-3">
-          <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
-            role="progressbar">
-            <span class="oj-text-sm font-weight-bold">Processing registration</span>
-          </div>
-        </div>`;
-                };
+                  return `<div class="progress position-relative mt-3">
+        <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
+          role="progressbar">
+          <span class="oj-text-sm font-weight-bold">Processing registration</span>
+        </div>
+      </div>`;
+              };
 
                 let firstname = self.firstname();
                 let lastname = self.lastname();
@@ -122,9 +137,9 @@ define([
                         location: location
                     });
 
-                    console.log(data);
+                    //console.log(data);
                     sect.html(progressbar());
-                    $.post(`https://api.start.ng/api/register`, {
+                    $.post(`${api}/api/register`, {
                             firstname,
                             lastname,
                             email,
@@ -204,10 +219,14 @@ define([
                 $("#profileinfo").show();
                 $("#accinfo").hide();
             });
+            
+            self.buttonClick = function(){
+              validate();
+            }.bind(self);
 
-            self.signup = function() {
+            /*self.signup = function() {
                 validate();
-            };
+            };*/
         };
 
         // self.connected = function() {

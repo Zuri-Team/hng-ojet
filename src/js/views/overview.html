@@ -170,10 +170,6 @@
 
 <div class="container-fluid">
   <div class="container oj-hybrid-padding">
-
-    <div class="row">
-
-      <div class="col-md-8">
         <div class="row ">
           <div class="col-md-6">
             <div class="box1 m-1">
@@ -181,10 +177,11 @@
                 <span class="fa fa-list-ul fa-4x"></span>
               </div>
               <div class="taskinfo">
-                <p class="taskheading">Tasks</p>
+                <p class="taskheading"> Tasks</p>
                 <div class="line"></div>
-                <p class="p-stat"><span data-bind="text:total_teams"></span>Assigned</p>
-                <p class="p-stat"> <span class="p-text"></span>Graded</p>
+                <p class="p-stat"><span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>
+                   Assigned</p>
+                <p class="p-stat"> <span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>  Graded</p>
               </div>
             </div>
           </div>
@@ -197,253 +194,57 @@
               <div class="taskinfo">
                 <p class="taskheading">Interns</p>
                 <div class="line"></div>
-                <p class="p-stat"><span data-bind="text:total_interns"></span>Assigned</p>
-                <p class="p-stat"><span class="p-text"></span>Graded</p>
+                <p class="p-stat"><span><oj-bind-text value="[[totalInterns]]"></oj-bind-text></span> Registered</p>
+                <p class="p-stat"><span><oj-bind-text value="[[totalInterns]]"></oj-bind-text></span> Active</p>
               </div>
             </div>
           </div>
-         <!---- <div class="col-md-6">
-            <div class="box4 m-1">
-              <div class="p-img">
-                <span class="fa fa-user-o fa-4x"></span>
-              </div>
-              <div class="taskinfo">
-                <p class="taskheading">Posts</p>
-                <div class="line"></div>
-                <p class="p-stat"> <span data-bind="text:total_posts"> Assigned</span></p>
-                <p class="p-stat"><span class="p-text"> Graded</span></p>
-              </div>
-            </div>
-          </div>
-        -->
-         <div id ="sampleDemo" style="" class="demo-padding demo-container">
-            <div id="componentDemoContent" style="width: 1px; min-width:100%;">
-                <oj-table id="table" aria-label="Overview Table"
-                    data='[[dataprovider]]'
-                    selection-mode='{"row":"multiple", "column": "multiple"}'
+        </div>
+  </div></div>
 
-                    dnd ='{"reorder": {"columns": "enabled"}}'
-                    scroll-policy='loadMoreOnScroll'
-                    columns='[{"headerText": "Posts", 
-                               "field": "total_post",
-                               "headerClassName": "oj-sm-only-hide",
-                               "className": "oj-sm-only-hide",
-                               "resizable": "enabled"},
-                              {"headerText": "Teams", 
-                               "field": "total_teams",
-                               "resizable": "enabled"},
-                              {"headerText": "Interns", 
-                               "field": "total_interns",
-                               "resizable": "enabled"}]'
-                    style='width: 100%; height: 100%;'>
-</oj-table>
+<!-- Teams table -->
+<div id="sampleDemo" class="demo-padding demo-container">
+  <div
+    id="componentDemoContent"
+    style="width: 1px; min-width: 100%; min-height: 100%;"
+  >
+    <oj-table
+      id="table"
+      aria-label="Interns Table"
+      data="[[overviewProvider]]"
+      selection-mode='{"row": "multiple", "column": "multiple"}'
+      dnd='{"reorder": {"columns": "enabled"}}'
+      scroll-policy="loadMoreOnScroll"
+      columns='[{"headerText": "Id", 
+                "field": "id",
+                "headerClassName": "oj-sm-only-hide",
+                "className": "oj-sm-only-hide",
+                "resizable": "enabled"},
+              {"headerText": "Team Name", 
+                "field": "team_name",
+                "resizable": "enabled"},
+              {"headerText": "Task", 
+                "field": "task",
+                "resizable": "enabled"},
+              {"headerText": "Team Lead", 
+                "field": "team_lead",
+                "resizable": "enabled"},
+              {"headerText": "Deadline", 
+                "field": "deadline",
+                "resizable": "enabled"},
+              {"headerText": "Status", 
+                "field": "status",
+                "resizable": "enabled"}]'
+      style="width: 100%; height: 100%;"
+    >
+    <oj-paging-control
+    id="paging"
+    data="[[overviewProvider]]"
+    page-size="10"
+    slot="bottom"
+  >
+  </oj-paging-control>
+    </oj-table>
+  </div>
 
-
-</div>
-</div> 
-          
-                     
-
-
-
-
-
-<!--<div class="col-md-12 col-xs-12 mt-4">
-  <table class="table table-hover table-responsive-md">
-    <thead class="thead-light">
-      <tr>
-        <th> Teams </th>
-        <th> Task </th>
-        <th> Teamlead </th>
-        <th> Deadline </th>
-        <th> Status </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td> Mavin </td>
-        <td> Networth Calculator</td>
-        <td> Tundeednut<br>
-          @hermit</td>
-        <td> 13/10/19</td>
-        <td><span
-            style="padding: 5px; border:1px #10A252 solid; border-radius: 9px; color: #10A252;">Graded</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td> Heist</td>
-        <td> Goal tracker app</td>
-        <td> Tonistack <br>
-          @tonistack</td>
-        <td> 13/10/19</td>
-        <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;">
-            Submitted</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td> Synergy</td>
-        <td> Chatbot</td>
-        <td> Walebakare<br>
-          @placeholder</td>
-        <td> 13/10/19</td>
-        <td><span
-            style="padding: 5px; border:1px #10A252 solid; border-radius: 9px; color: #10A252;">Graded</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td> Jupiter </td>
-        <td> Solar calculator</td>
-        <td> Jon jude<br>
-          @Judejay</td>
-        <td> 13/10/19</td>
-        <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;">
-            Submitted</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td> Dauntless</td>
-        <td> Slackbot</td>
-        <td> AustinOkoro<br>
-          @austyno</td>
-        <td> 13/10/19</td>
-        <td> <span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;">
-            Submitted</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td> Jupiter</td>
-        <td> Solar calculator</td>
-        <td> Jon jude<br>
-          @Judejay</td>
-        <td> 13/10/19</td>
-        <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;">
-            Submitted</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td> Dauntless</td>
-        <td> Slackbot</td>
-        <td> AustinOkoro<br>
-          @austyno</td>
-        <td> 13/10/19</td>
-        <td><span style="padding: 5px; border:1px #1E7FF6 solid; border-radius: 9px; color: #37409E;">
-            Submitted</span>
-        </td>
-
-      </tr>
-    </tbody>
-  </table>
-</div>
-</div>
-<div class="col-md-4 col-xs-4">
-<div class="box3">
-<div class="headbox">
-<p class="sectionheading"><span class="fa fa-random fa-1x"></span> Top Interns</p>-->
-
-<!-- <img src="../../css/images/avatar_24px.png" alt=""> -->
-<!--</div>
-<hr>
-
-<div class="section-item">
-<div class="sec-img">
-  <img src="../../css/images/avatar_24px_2x.png" alt="" />
-</div>
-
-<div class="sec-detail">
-  <p>Tunde Ednut</p>
-  <br />
-  <p class="sociallink">@hermit</p>
-</div>
-
-<div class="sec-fig">
-  <p class="sec-num">352</p>
-</div>
-</div>
-<div class="section-item">
-<div class="sec-img">
-  <img src="../../css/images/avatar_24px_2x.png" alt="" />
-</div>
-
-<div class="sec-detail">
-  <p>Toni Stack</p>
-  <br />
-  <p class="sociallink">@tonistack</p>
-</div>
-
-<div class="sec-fig">
-  <p class="sec-num">340</p>
-</div>
-</div>
-<div class="section-item">
-<div class="sec-img">
-  <img src="../../css/images/avatar_24px_2x.png" alt="" />
-</div>
-
-<div class="sec-detail">
-  <p>Wale Bakare</p>
-  <br />
-  <p class="sociallink">@placeholder</p>
-</div>
-
-<div class="sec-fig">
-  <p class="sec-num">312</p>
-</div>
-</div>
-<div class="section-item">
-<div class="sec-img">
-  <img src="../../css/images/avatar_24px_2x.png" alt="" />
-</div>
-
-<div class="sec-detail">
-  <p>Jon Jude</p>
-  <br />
-  <p class="sociallink">@Judejay</p>
-</div>
-
-<div class="sec-fig">
-  <p class="sec-num">270</p>
-</div>
-</div>
-<div class="section-item">
-<div class="sec-img">
-  <img src="../../css/images/avatar_24px_2x.png" alt="" />
-</div>
-
-<div class="sec-detail">
-  <p>Austin Okoro</p>
-  <br />
-  <p class="sociallink">@austyno</p>
-</div>
-
-<div class="sec-fig">
-  <p class="sec-num">231</p>
-</div>
-</div>
-<div class="section-item">
-<div class="sec-img">
-  <img src="../../css/images/avatar_24px_2x.png" alt="" />
-</div>
-
-<div class="sec-detail">
-  <p>Jon Jude</p>
-  <br />
-  <p class="sociallink">@Judejay</p>
-</div>
-
-<div class="sec-fig">
-  <p class="sec-num">200</p>
-</div>
-</div>
-
-
-</div>
-</div>
-</div>
-</div>
 </div>

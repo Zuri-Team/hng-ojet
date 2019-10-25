@@ -3,7 +3,7 @@
     Create New category
   </button>
   <!-- If categorySelected is set to false, disabled is true, and vice-versa. -->
-  <!-- <oj-bind-if test="[[categorySelected()]]">
+  <oj-bind-if test="[[categorySelected()]]">
     <button id="updateButton" class="btn btn-outline-dark mr-1"
       data-bind="disable: !categorySelected(), click: showEditDialog">
       Update
@@ -12,7 +12,7 @@
       data-bind="disable: !categorySelected(), click: showDeleteDialog">
       Delete
     </button>
-  </oj-bind-if> -->
+  </oj-bind-if>
   <oj-bind-if test="[[!categorySelected()]]">
     <span><strong>Please click on a category below to view its related posts</strong></span>
   </oj-bind-if>
@@ -32,9 +32,9 @@
                 data-bind="text: numOfPosts()[item.data.id]"></span>
             </span>
           </strong>
-            <strong>
-              <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
-            </strong>
+          <strong>
+            <oj-bind-text value="[[item.data.dsecription]]"></oj-bind-text>
+          </strong>
         </div>
       </template>
     </oj-list-view>
@@ -48,7 +48,9 @@
             data-bind="text: `(${categoryData().category_name})`"></span>
         </oj-label>
       </h3>
-      <oj-list-view id="Categorymodel-post-list" data="[[postsInCategory]]" selection-mode="single">
+      <oj-list-view id="Categorymodel-post-list" data="[[postsInCategory]]" selection-mode="single"
+      on-selected-changed="[[selectedPostChanged]]" first-selected-item="{{firstSelectedPost}}"
+      scroll-policy="loadMoreOnScroll">
         <template slot="itemTemplate" data-oj-as="item" class="py-2">
           <strong class="text-capitalize d-block">
             <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
@@ -98,19 +100,36 @@
   </div>
 </oj-dialog>
 
+<!-- view a single selected post -->
+
+<oj-dialog id="viewPost" title="View post" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
+  position.at.vertical="top">
+  <div slot="body">
+    <div>
+      <h5>
+        <oj-bind-text class="oj-text-secondary-color" value="[[postData().post_title]]"></oj-bind-text> <small> By Me
+        </small>
+      </h5>
+    </div>
+    <div style="word-wrap: break-word">
+      <oj-bind-text value="[[postData().post_body]]"></oj-bind-text>
+    </div>
+    <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+      <oj-bind-text value="[[postData().created_at]]"></oj-bind-text>
+    </p>
+  </div>
+
+</oj-dialog>
+
 </oj-bind-if>
 
-  <!-- Start Messages Component -->
+<!-- Start Messages Component -->
 
-  <oj-messages
-  id="application-messages"
-  messages="{{applicationMessages}}"
-  display="notification"
-  position='{
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
   "my": {"vertical" : "bottom", "horizontal": "end"},
   "at": {"vertical": "bottom", "horizontal": "end"},
   "of": "window"
   }'>
-  </oj-messages>
+</oj-messages>
 
 <!-- End Messages Component -->
