@@ -92,54 +92,24 @@ define([
 
     self.applicationMessages = ko.observableArray([]);
 
-    //Get All Notifications
-    /*self.fetchNotifications = async() => {
-      try {
-        const response = await fetch(`${notificationsURL}`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`
-            }
-        });
-        var notifications = [];
-        const {data} = await response.json();
-
-        data.array.forEach((notif) => {
-          let messages = notif.data.message;
-          notifications.push(messages);
-        });
-
-        //console.log(data)
-
-       //self.notifsCount(notification_count);
-
-    } catch (err) {
-        console.log(err);
-    }
-    };
-
-    self.fetchNotifications();*/
-
-    //Get the count of all notifications
     self.notificationsCount = async() => {
       try {
-        const response = await fetch(`${notificationsURL}/notification_count`, {
+        const response = await fetch(`${notificationsUrl}/notification_count`, {
             headers: {
                 Authorization: `Bearer ${userToken}`
             }
         });
         const {
-            data: { notification_count }
+            data: { data }
         } = await response.json();
-        console.log(notification_count)
+        console.log(data)
 
-       self.notifsCount(notification_count);
+        /*var result = data.map( => ({
+          value: `${track.id}`,
+          label: track.track_name
+      }));*/
 
-    } catch (err) {
-      console.log(err);
-  }
-}
-
-self.notificationsCount();
+    };
 
     self.submitTask = async() => {
       let task_title = self.taskSubmit.task_title;
