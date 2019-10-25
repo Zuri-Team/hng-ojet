@@ -18,13 +18,8 @@ define(['ojs/ojcore',
             const user = JSON.parse(sessionStorage.getItem("user"));
             const id = user.id
 
-
-
             // notification messages observable
             self.applicationMessages = ko.observableArray([]);
-
-            // For the selected file
-            self.fileNames = ko.observableArray([]);
 
 
             self.firstname = ko.observable('');
@@ -60,7 +55,6 @@ define(['ojs/ojcore',
             }, self);
 
 
-
             self.selectListener = function(event) {
                 const file = event.detail.files[0];
 
@@ -69,7 +63,7 @@ define(['ojs/ojcore',
                 form.append('profile_img', file);
 
                 $.ajax({
-                    url: `${RESTurl}/${id}/edit`,
+                    url: `${RESTurl}/${id}/upload`,
                     headers: {
                         Accept: 'application/json',
                         Authorization: "Bearer " + userToken
@@ -80,7 +74,7 @@ define(['ojs/ojcore',
                     method: 'POST',
                     type: 'POST',
                     success: function(data) {
-                        console.log(data);
+
                         self.applicationMessages.push({
 
                             severity: "confirmation",
@@ -90,7 +84,7 @@ define(['ojs/ojcore',
                         });
                     },
                     error: function(error) {
-                        console.log(error)
+
                         self.applicationMessages.push({
                             severity: "error",
                             summary: "Failed to Update",
@@ -112,6 +106,8 @@ define(['ojs/ojcore',
                     self.editMode(false) :
                     self.editMode(true);
 
+                self.fetchProfile();
+
             }.bind(self);
 
             self.cancelButton = function() {
@@ -124,39 +120,38 @@ define(['ojs/ojcore',
 
             }.bind(self);
 
-            self.update = function() {
+            self.update = function(data, event) {
+
+                event.preventDefault();
 
                 const {...user } = self.profile;
 
-                console.log("You clicked this button", user);
 
-                const data = {
-                    user: {
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        username: user.username,
-                        email: user.email,
-                        // stack: user.stack,
-                    },
-                    profile: {
-                        bio: user.bio,
-                        url: user.url,
-                        // profile_img: self.fileNames()[0],
-                        user_id: id
-                    }
+
+                const form = {
+
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    username: user.username,
+                    email: user.email,
+
+                    bio: user.bio,
+                    url: user.url,
 
                 }
-                console.log(data)
 
                 $.ajax({
                     url: `${RESTurl}/${id}/edit`,
                     headers: {
+                        Accept: 'application/json',
                         Authorization: "Bearer " + userToken
                     },
-                    data,
+                    data: form,
+                    contentType: 'application/x-www-form-urlencoded',
                     method: 'POST',
+                    type: 'POST',
                     success: function(data) {
-                        console.log(data);
+
                         self.applicationMessages.push({
 
                             severity: "confirmation",
@@ -167,7 +162,7 @@ define(['ojs/ojcore',
                         });
                     },
                     error: function(error) {
-                        console.log(error)
+
                         self.applicationMessages.push({
                             severity: "error",
                             summary: "Failed to Update",
@@ -191,9 +186,13 @@ define(['ojs/ojcore',
                     },
                     method: "GET",
                     success: res => {
-                        // console.log(res)
-                        const { data} = res
-                        const { firstname, lastname, username, email, bio, url, phone, profile_img } = data;
+
+
+                        const [...data] = res.data
+                        const [user, profile] = data
+
+                        const { firstname, lastname, username, email, } = user;
+                        const { bio, url, phone, profile_img } = profile;
 
                         self.firstname(firstname);
                         self.lastname(lastname);
@@ -201,12 +200,13 @@ define(['ojs/ojcore',
                         self.email(email);
                         self.bio(bio);
                         self.url(url);
-                        // self.phone(phone);
+                        // self.phone(phone)
 
-                        let profileImg = document.getElementById('profile_img');
+                        let profileImg = document.getElementsByClassName('profile_img');
 
-                        profileImg.src = profile_img;
-
+                        for (i = 0; i < profileImg.length; i++) {
+                            profileImg[i].src = profile_img;
+                        }
 
                     }
                 });
