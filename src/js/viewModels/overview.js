@@ -1,4 +1,4 @@
-define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable'],
+define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable', 'ojs/ojbutton', 'ojs/ojdialog'],
 function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
 { 
 function overviewModel() {
@@ -11,6 +11,14 @@ function overviewModel() {
   self.username = ko.observable();
 
   self.overviewProvider = ko.observable();
+
+  self.close = function (event) {
+    document.getElementById('summary-modal').close();
+  }
+
+  self.open = function (event) {
+    document.getElementById('summary-modal').open();
+  }
 
   var userToken = sessionStorage.getItem("user_token");
 
