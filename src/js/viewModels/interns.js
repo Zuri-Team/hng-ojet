@@ -24,11 +24,11 @@
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedIntern();
-        console.log(data)
+        // console.log(data)
         if (data == null) {
           return;
         } else {
-         console.log("clicked")
+        //  console.log("clicked")
          self.isUserProfile(true);
         }
       }
@@ -43,7 +43,7 @@
         method: "GET",
         success: ({status, data}) => {
           if (status == true) {
-            console.log(data)
+            // console.log(data)
             self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
         }
   

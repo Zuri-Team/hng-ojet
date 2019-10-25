@@ -50,11 +50,16 @@ define([
 
     fetchsummary();
 
-    self.connected = function() {
-      //new
 
-      // Components.subtreeAttached(document.getElementById("summary-admin"));
-    };
+    let pm = ko.dataFor(document.querySelector("#admin"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Summary") {
+
+      Components.subtreeShown(document.getElementById('summary-admin'))
+
+      }
+    });
+
   }
 
   return new summaryModel();
