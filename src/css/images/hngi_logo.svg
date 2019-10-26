@@ -1,0 +1,10 @@
+<svg width="445.73" height="83.953" version="1.1" viewBox="0 0 117.93 22.212" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(34.244 -95.397)">
+  <g fill="#00aeff" fill-rule="evenodd">
+   <path transform="matrix(.26458 0 0 .26458 -.00013567 0)" d="m-104.2 410.56h13.875v-50h-13.875v8.4434h5.332v32.744h-5.332z" style="paint-order:stroke markers fill"/>
+   <path transform="matrix(.26458 0 0 .26458 -.00013567 0)" d="m-115.98 360.56h-14.051v50h14.051v-8.8125h-5.4492v-32.744h5.4492z" style="paint-order:stroke markers fill"/>
+  </g>
+  <text transform="scale(.96661 1.0345)" x="27.937429" y="102.8865" fill="#333333" fill-opacity=".94273" font-family="'Montserrat ExtraBold'" font-size="12.065px" letter-spacing="0px" stroke-width=".26458" text-align="center" text-anchor="middle" word-spacing="0px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:100%" xml:space="preserve"><tspan x="27.937429" y="102.8865" fill="#333333" fill-opacity=".94273" font-family="'Montserrat ExtraBold'" stroke-width=".26458">HNG Internship</tspan></text>
+  <text transform="scale(.99493 1.0051)" x="32.022171" y="115.77198" fill="#4f4f4f" font-family="Arial" font-size="5.9px" letter-spacing="0px" stroke-width=".26458" text-align="center" text-anchor="middle" word-spacing="0px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:100%" xml:space="preserve"><tspan x="32.022171" y="115.77198" fill="#4f4f4f" font-family="Arial" stroke-width=".26458">Changing the world, one intern at a time</tspan></text>
+ </g>
+</svg>

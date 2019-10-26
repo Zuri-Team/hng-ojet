@@ -1,0 +1,71 @@
+        <br><br><br>
+        <div style="text-align:center">
+            
+            <oj-form-layout id="register" max-columns="1" class="oj-form-control-full-width">
+                    <div>
+                            <h5>Grow HNG Board!</h5>
+                            <p>
+                                Already signed up?
+                                <span style="color: #488EFF; cursor: pointer;" data-bind="click: login">Log in</span>
+                            </p>
+                    </div>
+                    <div id="fbk" style="min-width: 100%; margin: auto"></div>
+                    <oj-input-text class="inputs" value="{{firstname}}" placeholder="First name" required>
+                    </oj-input-text>
+                    <oj-input-text class="inputs" value="{{lastname}}" placeholder="Last name" required>
+                    </oj-input-text>
+                    <oj-input-text class="inputs" value="{{email}}" placeholder="Email" required>
+                    </oj-input-text>
+                    <oj-input-text class="inputs" value="{{username}}" placeholder="Slack Username" required>
+                    </oj-input-text>
+                    <oj-input-text class="inputs" value="{{location}}" placeholder="Location" required>
+                    </oj-input-text>
+                    <oj-select-many placeholder="select one or more tracks" class="inputs" options="{{devstack}}"
+                    value="{{stack}}" style="max-width:280px">
+                    </oj-select-many>
+                    <oj-input-password class="inputs" value="{{pass}}" placeholder="password" autocomplete="off" required>
+                    </oj-input-password>
+                    <oj-input-password class="inputs" value="{{rpass}}" placeholder="confirm password" autocomplete="off" required>
+                    </oj-input-password>
+                    <oj-button on-oj-action="[[buttonClick]]" class="fbtn" chroming='half'> Sign Up </oj-button>
+            </oj-form-layout>
+            <!--<div>
+                <input type="text" data-bind="textInput: firstname" placeholder="First name" class="inputs" autocomplete="off" required/>
+            <div id="; margin: auto"></div>
+            <div>
+                <input type="text" data-bind="textInput: firstname" placeholder="first name" class="inputs" required/>
+            </div>
+            <div>
+                <input type="text" data-bind="textInput: lastname" placeholder="last name" class="inputs" required />
+            </div>
+            <div>
+                <input type="text" data-bind="textInput: email" placeholder="email" class="inputs"  required />
+               
+            </div>
+            <div>
+                <input type="text" data-bind="textInput: username" placeholder="username" class="inputs" required />
+            </div>
+            <div>
+                <input type="text" data-bind="textInput: location" placeholder="location" class="inputs" required />
+            </div>
+            <div>
+                <oj-select-many placeholder="select one or more tracks" class="inputs" options="{{devstack}}"
+                    value="{{stack}}>
+                </oj-select-many>
+            </div>
+
+            <div>
+                <input type="password" data-bind="textInput: pass" placeholder="password" class="inputs" required />
+            </div>
+            <div>
+                <input type="password" data-bind="textInput: rpass" placeholder="confirm password" class="inputs" required />
+
+                <div class="oj-flex-items-pad">
+                    <button data-bind="click: signup" class="fbtn">
+                        Sign Up
+                    </button>
+                </div>
+            </div>-->
+        </div>
+    
+    </div>

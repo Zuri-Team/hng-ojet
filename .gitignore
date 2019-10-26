@@ -5,6 +5,10 @@ bower_components/*
 web
 web/*
 .vscode
+.idea
+manifest.json
+sw.js
+
 
 /hybrid/node_modules
 /hybrid/platforms

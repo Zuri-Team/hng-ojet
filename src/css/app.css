@@ -30,10 +30,11 @@ body {
 @keyframes slide {
   from {
     display: block;
+    visibility: visible;
   }
   to {
-    width: 0px;
-    height: 0px;
+    visibility: hidden;
+   
   }
 }
 
@@ -546,8 +547,14 @@ tr:nth-child(even) {
 #buttonOpener {
   cursor: pointer;
 }
+#summary-modal {
+  width: 80%;
+}
 @media only screen and (min-width:768px) {
   #summary-modal {
-    width: 50%;
+    width: 60%;
 }
+}
+button {
+  cursor: pointer;
 }
