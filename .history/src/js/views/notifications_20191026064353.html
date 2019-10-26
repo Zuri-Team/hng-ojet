@@ -1,9 +1,9 @@
 <div>
-    <span class="btn m-4 pull-right" data-bind="click: markAsRead"><i
-        class="fa fa-envelope envelope float-right" style="font-size:24px"></i></span>
+    <span data-bind="click: MarkAsRead"><i
+        class="fas fa-envelope float-right" style="font-size:24px; color: red" ></i></span>
 </div>
 <div>
-    <span class="btn btn-danger m-4 pull-right" data-bind="click: showDeleteNotifications"><i
+    <span class="btn btn-danger m-4 float-right" data-bind="click: showDeleteNotifications"><i
             class="fa fa-remove plus"></i>Clear all Notifications</span>
 </div>
 <div class="clearfix"></div>
@@ -24,7 +24,7 @@
                                 <oj-bind-text value="[[item.data.data.message]]"></oj-bind-text>
                             </strong>
                         </h5>
-                        <i class="fa fa-envelope envelope float-right" data-bind="click: markOneAsRead"></i>&nbsp;
+                        <i class="fas fa-envelope float-right" data-bind="click: MarkOneAsRead"></i>&nbsp;
                     </div>
                 </div>
                 <span>

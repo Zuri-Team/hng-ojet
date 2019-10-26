@@ -74,8 +74,8 @@ define([
       document.getElementById("createTrack").open();
     };*/
 
-    self.markAsRead = ko.observable();
-    self.markOneAsRead = ko.observable();
+    self.showMarkAsRead = function(event) {
+    };
     self.showDeleteNotifications = function(event) {
       document.getElementById("deleteNotifications").open();
     };
@@ -117,6 +117,7 @@ define([
         const {
           data: { data }
         } = await response.json();
+        self.showMarkAsRead(data);
         // console.log(data)
 
         // self.dataProvider(

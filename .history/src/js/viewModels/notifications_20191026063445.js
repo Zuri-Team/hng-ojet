@@ -70,12 +70,13 @@ define([
     };
 
     // Show dialogs
-    /*self.showCreateTrack = function(event) {
+    self.showCreateTrack = function(event) {
       document.getElementById("createTrack").open();
-    };*/
+    };
 
-    self.markAsRead = ko.observable();
-    self.markOneAsRead = ko.observable();
+    self.showMarkAsRead = function(event) {
+      document.getElementById("markAsRead").open();
+    };
     self.showDeleteNotifications = function(event) {
       document.getElementById("deleteNotifications").open();
     };

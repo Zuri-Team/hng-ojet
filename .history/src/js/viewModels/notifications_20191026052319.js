@@ -70,12 +70,13 @@ define([
     };
 
     // Show dialogs
-    /*self.showCreateTrack = function(event) {
+    self.showCreateTrack = function(event) {
       document.getElementById("createTrack").open();
-    };*/
+    };
 
-    self.markAsRead = ko.observable();
-    self.markOneAsRead = ko.observable();
+    self.showEditTrack = function(event) {
+      document.getElementById("editTrack").open();
+    };
     self.showDeleteNotifications = function(event) {
       document.getElementById("deleteNotifications").open();
     };
@@ -113,32 +114,6 @@ define([
           headers: {
             Authorization: `Bearer ${userToken}`
           }
-        });
-        const {
-          data: { data }
-        } = await response.json();
-        // console.log(data)
-
-        // self.dataProvider(
-        //   new PagingDataProviderView(
-        //     new ArrayDataProvider(data, { keyAttributes: "id" })
-        //   )
-        // );
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    self.markOneAsRead = async () => {
-      try {
-        const response = await fetch(`${notificationsURL}/read`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          },
-          body: JSON.stringify({
-            notification_id
-          })
         });
         const {
           data: { data }
