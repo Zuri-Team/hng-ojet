@@ -6,69 +6,48 @@
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
-    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="css/images/hngi.png" type="image/png" />
+    
     <!-- <link rel="manifest" href="manifest.json"> -->
     <meta name="theme-color" content="#00aeff" />
+
+    <!-- Apple specific meta tag-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+   
     <link rel="canonical" href="https://dev.start.ng">
+   </head>
 
+<body>
+    <div class="boot-page" style="z-index: 100">
 
-    <!-- This is the main css file for the default Alta theme -->
+        <svg width="445.73" height="83.953" version="1.1" viewBox="0 0 117.93 22.212" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(34.244 -95.397)">
+             <g fill="#00aeff" fill-rule="evenodd">
+              <path transform="matrix(.26458 0 0 .26458 -.00013567 0)" d="m-104.2 410.56h13.875v-50h-13.875v8.4434h5.332v32.744h-5.332z" style="paint-order:stroke markers fill"/>
+              <path transform="matrix(.26458 0 0 .26458 -.00013567 0)" d="m-115.98 360.56h-14.051v50h14.051v-8.8125h-5.4492v-32.744h5.4492z" style="paint-order:stroke markers fill"/>
+             </g>
+             <text transform="scale(.96661 1.0345)" x="27.937429" y="102.8865" fill="#333333" fill-opacity=".94273" font-family="'Montserrat ExtraBold'" font-size="12.065px" letter-spacing="0px" stroke-width=".26458" text-align="center" text-anchor="middle" word-spacing="0px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:100%" xml:space="preserve"><tspan x="27.937429" y="102.8865" fill="#333333" fill-opacity=".94273" font-family="'Montserrat ExtraBold'" stroke-width=".26458">HNG Internship</tspan></text>
+             <text transform="scale(.99493 1.0051)" x="32.022171" y="115.77198" fill="#4f4f4f" font-family="Arial" font-size="5.9px" letter-spacing="0px" stroke-width=".26458" text-align="center" text-anchor="middle" word-spacing="0px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:100%" xml:space="preserve"><tspan x="32.022171" y="115.77198" fill="#4f4f4f" font-family="Arial" stroke-width=".26458">Changing the world, one intern at a time</tspan></text>
+            </g>
+           </svg>
+           
+
+    </div>
+
+ <script >
+document.head.insertAdjacentHTML('beforeend', `  
+ <!-- This is the main css file for the default Alta theme -->
     <!-- injector:theme -->
     <link rel="stylesheet" href="css/libs/oj/v7.1.0/alta/oj-alta-min.css" type="text/css" />
     <!-- endinjector -->
     <!-- This is where you would add any app specific styling -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/fa/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="css/app.css" type="text/css" />
-</head>
-
-<body>
-    <div class="boot-page" style="z-index: 100">
-        <h2>HNGI6</h2>
-        <button class="add-button">Install</button>
-    </div>
-    <!-- script tag to check for service worker -->
-    <script>
-        // Register service worker to control making site work offline
-
-        if('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('sw.js')
-                .then(function() { console.log('Service Worker Registered'); });
-        }
-
-        // Code to handle install prompt on desktop
-
-        let deferredPrompt;
-        const addBtn = document.querySelector('.add-button');
-        addBtn.style.display = 'none';
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-           // e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            e.prompt();
-            // Update UI to notify the user they can add to home screen
-            addBtn.style.display = 'block';
-
-            addBtn.addEventListener('click', (e) => {
-                // hide our user interface that shows our A2HS button
-                addBtn.style.display = 'none';
-                // Show the prompt
-                deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the A2HS prompt');
-                    } else {
-                        console.log('User dismissed the A2HS prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            });
-        });
-        </script>
+    <link rel="stylesheet" href="css/app.css" type="text/css" /> `);
+</script>
 
     <div id="globalBody" class=" oj-offcanvas-page">
         <div class="position-absolute h-100 w-100 d-flex flex-column">
