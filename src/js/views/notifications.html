@@ -1,0 +1,59 @@
+<div>
+    <span class="btn btn-danger m-4 pull-right" data-bind="click: showDeleteNotifications"><i
+            class="fa fa-remove plus"></i>Clear all Notifications</span>
+</div>
+<div class="clearfix"></div>
+<div id="listviewContainer">
+    <oj-list-view id="listview" aria-label="listview with paging control" data="[[dataProvider]]" drill-mode="none"
+        selected="{{selectedItems}}" selection-required="[[selectedSelectionRequired]]" selection-mode="multiple"
+        on-selected-changed="[[handleSelectionChanged]]" on-current-item-changed="[[handleCurrentItemChanged]]"
+        first-selected-item="{{firstSelectedItem}}">
+        <template slot="itemTemplate" data-oj-as="item">
+            <!-- template for items -->
+            <div class="p-2 border rounded bg-light" style="width: 100%">
+                <div class="oj-flex">
+                    <div class="oj-flex-item oj-sm-2 p-2">
+                        <i class="fa fa-bell fa-2x"></i>
+                    </div>
+                    <div class="oj-flex-item oj-sm-10">
+                        <h5><strong class="text-capitalize">
+                                <oj-bind-text value="[[item.data.data.message]]"></oj-bind-text>
+                            </strong>
+                        </h5>
+                    </div>
+                </div>
+                <span>
+                    <small>
+                        <oj-bind-text value="[[formatDateTime(item.data.created_at)]]"></oj-bind-text>
+                    </small>
+                </span>
+            </div>
+
+        </template>
+    </oj-list-view>
+    <oj-paging-control id="paging" data="[[dataProvider]]" page-size="5" slot="bottom">
+    </oj-paging-control>
+
+    <!-- delete track modal -->
+    <oj-dialog id="deleteNotifications" style="display:none" title="Clear Notifications">
+        <div slot="body">
+            <p>Confirm you want to delete the track clear all notifications?</p>
+        </div>
+        <div slot="footer">
+            <oj-button id="submitBtn" on-oj-action="[[clearNotifications]]">Clear
+            </oj-button>
+        </div>
+    </oj-dialog>
+
+    <!-- Start Messages Component -->
+
+    <oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+      "my": {"vertical" : "bottom", "horizontal": "end"},
+      "at": {"vertical": "bottom", "horizontal": "end"},
+      "of": "window"
+      }'>
+    </oj-messages>
+
+    <!-- End Messages Component -->
+
+</div>
