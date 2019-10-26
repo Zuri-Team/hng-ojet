@@ -92,6 +92,33 @@ define([
 
     self.applicationMessages = ko.observableArray([]);
 
+    //Get All Notifications
+    self.fetchNotifications = async() => {
+      try {
+        const response = await fetch(`${notificationsURL}`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        });
+        var notifications = [];
+        const {data} = await response.json();
+
+        data.array.forEach((notif) => {
+          let messages = notif.data.message;
+          notifications.push(messages);
+        });
+
+        //console.log(data)
+
+       //self.notifsCount(notification_count);
+
+    } catch (err) {
+        console.log(err);
+    }
+    };
+
+    self.fetchNotifications();
+
     //Get the count of all notifications
     self.notificationsCount = async() => {
       try {
