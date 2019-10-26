@@ -1,0 +1,38 @@
+<div class="d-flex position-absolute flex-column">
+
+    <oj-dialog id="viewModal" title="" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
+        position.at.vertical="top" style="top: 0px">
+        <div slot="body">
+            <div style="word-wrap: break-word">
+                <oj-bind-text value="[[taskDataProvider().body]]"></oj-bind-text>
+            </div>
+            <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+                <oj-bind-text value="[[taskDataProvider().deadline]]"></oj-bind-text>
+            </p>
+        </div>
+    </oj-dialog>
+
+</div>
+
+<div class="my-3">
+    <oj-list-view id="Taskmodel-task-list" class="col-12 mx-auto overflow-hidden bg-light p-0" data="[[taskDataProvider]]"
+        selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
+        <template slot="itemTemplate" data-oj-as="item" class="border-0">
+            <div>
+                <strong class="text-capitalize d-block mb-1">
+                    <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                </strong>
+                <div class="d-block d-sm-flex justify-content-between align-items-center">
+                    <p class="py-3 m-0 oj-text-sm oj-text-secondary-color">
+                        <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+                        <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
+                    </p>
+                </div>
+            </div>
+        </template>
+    </oj-list-view>
+
+    <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="5" slot="bottom">
+    </oj-paging-control>
+
+</div>
