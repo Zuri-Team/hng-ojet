@@ -82,7 +82,7 @@
         style="height: 200px;">
       </textarea>
       <div class="my-3">
-        <oj-input-date  value="{{newTask().deadline}}" class="oj-form-control"> </oj-input-date>
+        <oj-input-date value="{{newTask().deadline}}" class="oj-form-control"> </oj-input-date>
 
       </div>
       <div class="my-3">
@@ -117,21 +117,21 @@
               <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
             </strong>
             <div class="d-block d-sm-flex justify-content-between align-items-center">
-              <p class="py-3 m-0 oj-text-sm oj-text-secondary-color">
-                <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
-                <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
-                <span class="ml-1 font-weight-bold"
-                  data-bind="text: `By ` + item.data.user.firstname +  ' ' + item.data.user.lastname"></span>
-              </p>
-              </p>
-              <div>
+              <div class="py-3 m-0 oj-text-sm oj-text-secondary-color">
+                <p>
+                  <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+                  <oj-bind-text value="[[item.data.body]]"></oj-bind-text>
+                </p>
+                <p class=" font-weight-bold mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></p>
+              </div>
+              <!-- <div>
                 <button data-bind="click: viewTaskModal" class="btn btn-sm btn-info mr-2"><i
                     class="fa fa-eye"></i></button>
                 <button data-bind="click: editTaskModal" class="btn btn-sm btn-dark mr-2"><i
                     class="fa fa-edit"></i></button>
                 <button data-bind="click: deleteTaskModal" class="btn btn-sm btn-danger"><i
                     class="fa fa-trash-o"></i></button>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -153,74 +153,3 @@
 </oj-messages>
 
 <!-- End Messages Component -->
-
-
-<!-- <oj-bind-if test="[[!submissionView()]]">
-    <div>
-      <oj-button id='button3' on-oj-action="[[backButton]]">
-        Back
-    </oj-button>
-    <div id="sampleDemo" class="demo-padding demo-container">
-      <div
-        id="componentDemoContent"
-        style="width: 1px; min-width: 100%; min-height: 100%;"
-      >
-        <oj-table
-          id="table"
-          aria-label="Submissions Table"
-          data="[[submissionDataProvider]]"
-          selection-mode='{"row": "multiple", "column": "multiple"}'
-          dnd='{"reorder": {"columns": "enabled"}}'
-          scroll-policy="loadMoreOnScroll"
-          edit-mode="rowEdit"
-          columns='[{"headerText": "Task Id",
-                                                     "field": "task_id",
-                                                     "headerClassName": "oj-sm-only-hide",
-                                                     "className": "oj-sm-only-hide",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 5%"},
-                                                     {"headerText": "Submitted On",
-                                                     "field": "submitted_on",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 10%"},
-                                                    {"headerText": "Task Title",
-                                                     "field": "taskTitle",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 15%"},
-                                                     {"headerText": "Date Assigned",
-                                                     "field": "assigned_on",
-                                                     "headerClassName": "oj-sm-only-hide",
-                                                     "className": "oj-sm-only-hide",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 10%"},
-                                                     {"headerText": "Deadline",
-                                                     "field": "deadline",
-                                                     "headerClassName": "oj-sm-only-hide",
-                                                     "className": "oj-sm-only-hide",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 10%"},
-                                                    {"headerText": "Submitted by",
-                                                     "field": "fullname",
-                                                     "style": "width: 20%"},
-                                                    {"headerText": "Submission",
-                                                     "field": "submission_link",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 20%"},
-                                                     {"headerText": "Grade",
-                                                     "field": "grade",
-                                                     "resizable": "enabled",
-                                                     "style": "width: 10%"}]'
-          style="width: 100%; height: 100%;"
-        >
-        <oj-paging-control
-        id="paging"
-        data="[[submissionDataProvider]]"
-        page-size="10"
-        slot="bottom"
-      >
-      </oj-paging-control>
-        </oj-table>
-      </div>
-  </div>
-</oj-bind-if>
- -->
