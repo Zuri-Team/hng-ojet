@@ -6,6 +6,7 @@ define([
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojcomponentcore",
+  "./api",
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -26,7 +27,8 @@ define([
   ArrayDataProvider,
   ResponsiveUtils,
   ResponsiveKnockoutUtils,
-  Components
+  Components,
+  api
 ) {
   function AdminDashboardViewModel() {
     var self = this;
@@ -135,6 +137,10 @@ define([
     self.slack = ko.observable("@xyluz");
     self.fileNames = ko.observableArray([]);
 
+    self.notificationCount = ko.observable("");
+
+    var notificationsURL = `${api}/api/notifications`;
+
     self.selectListener = function(event) {
       var files = event.detail.files;
       for (var i = 0; i < files.length; i++) {
@@ -148,6 +154,24 @@ define([
     self.url = ko.observable("");
     self.location = ko.observable("");
     self.displayName = ko.observable("@");
+
+    //fetch unread notifications count
+    self.fetchCount = async () => {
+      try {
+        const response = await fetch(`${notificationsURL}/notification_count`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        var data = await response.json();
+        console.log(data);
+
+        if (data.data.notification_count > 0)
+          self.notificationCount(data.data.notification_count);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     // toggle hambuger on navbar
     self.toggleDrawer = function() {
@@ -168,6 +192,11 @@ define([
       router.go("login");
     };
 
+    //route to notifications
+    self.gotoNotifications = function() {
+      router.go("notifications");
+    };
+
     self.connected = function() {
       //new
 
@@ -179,6 +208,16 @@ define([
         router.go("login");
       }
       self.fullname(`${user.firstname} ${user.lastname}`);
+
+      //notifications unread count
+      self.fetchCount();
+
+      //notifications click
+      $("#notifi").on("click", function() {
+        let attr = $(this).attr("for");
+        $("#maincontent_body > div").hide();
+        $(`#maincontent_body > div[id='${attr}']`).show();
+      });
 
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");

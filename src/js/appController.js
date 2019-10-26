@@ -27,8 +27,9 @@ define([
       tasks: { label: "Tasks" },
       tracks: { label: "Tracks" },
       password_reset: { label: "Reset password" },
-      user_profile: {label: "User_profile"},
-      summary: {label: "Summary"},
+      user_profile: { label: "User_profile" },
+      summary: { label: "Summary" },
+      notifications: { label: "Notifications" },
       submission: { label: "Submission" }
     });
     Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
@@ -49,7 +50,6 @@ define([
         });
       });
     };
-
   }
   return new ControllerViewModel();
 });
