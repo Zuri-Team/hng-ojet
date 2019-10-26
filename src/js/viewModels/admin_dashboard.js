@@ -33,6 +33,7 @@ define([
   function AdminDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
+    var userToken = sessionStorage.getItem("user_token");
 
     self.selectedItem = ko.observable();
 
