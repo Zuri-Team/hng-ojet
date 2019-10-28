@@ -20,11 +20,12 @@ function TaskSubmissionsModel(params) {
   self.body = ko.observable();
   self.grade = ko.observable();
   self.is_active = ko.observable();
-  self.id = ko.observable();
 
 
 // extract the task ID we have to work with
 const task_id = params.taskModel().data.id;
+
+console.log('task id', task_id);
 
   // notification messages observable
 self.applicationMessages = ko.observableArray([]);
@@ -47,7 +48,6 @@ self.dataProvider = ko.observable()
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));
-    console.log("clicked");
   }
 
   self.deleteTaskModal = () => {
@@ -123,8 +123,10 @@ self.dataProvider = ko.observable()
       });
       const { data } = await response.json();
 
-      self.task(data.map(task => task)
-      );
+      self.title(`${data.title}`);
+      self.body(`${data.body}`);
+      self.deadline(`${data.deadline}`);
+      self.is_active(`${data.is_active}`);
     } catch (err) {
       console.log(err);
     }
@@ -138,7 +140,6 @@ self.dataProvider = ko.observable()
     let body = self.body();
     let deadline = self.deadline();
     let is_active = self.is_active();
-    let task_id = self.id();
 
     $.ajax({
       method: "PUT",
@@ -180,7 +181,6 @@ self.dataProvider = ko.observable()
   };
 
   self.deleteTask = () => {
-    let task_id = self.id();
     $.ajax({
       url: `${tasksURL}/${task_id}`,
       headers: {
@@ -206,6 +206,7 @@ self.dataProvider = ko.observable()
     });
     document.getElementById("deleteTaskModal").close();
   };
+  console.log(params.taskModel().key, params.hideSubmissions());
 }
 
 return TaskSubmissionsModel;

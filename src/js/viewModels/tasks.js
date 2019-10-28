@@ -18,8 +18,9 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojdatetimepicker",
   "ojs/ojmessages",
+  "ojs/ojpagingcontrol"
   // "ojs/ojtimezonedata"
-], function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
+], function(oj, ko, $, api, ArrayDataProvider, Paging) {
   function taskModel() {
     var self = this;
 
@@ -54,6 +55,7 @@ define([
     self.taskSelected = ko.observable();
 
     self.tracks = ko.observableArray([]);
+    self.search = ko.observable(false);
 
     const RESTurl = `${api}/api/track/list`;
 
@@ -109,7 +111,7 @@ define([
         const { data } = await response.json();
 
         self.taskDataProvider(
-          new PagingDataProviderView(
+          new Paging(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
                 console.log(value)
@@ -170,6 +172,42 @@ define([
             summary: "An error was encountered, unable to create task",
             autoTimeout: parseInt("0")
           });
+        }
+      });
+    };
+
+
+
+    self.filtertask = function() {
+      self.search(false);
+      let trackId = self.track_id();
+      if (trackId == undefined) {
+        self.fetchTasks();
+      } else {
+        self.search(true);
+        self.tasks_under_track(trackId);
+      }
+    };
+
+    self.tasks_under_track = function(track_id) {
+      $.ajax({
+        url: `${api}/api/track/${track_id}/tasks`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: res => {
+          let { data } = res.data;
+
+          self.taskDataProvider(
+            new Paging(
+              new ArrayDataProvider(data, {
+                keys: data.map(function(value) {
+                  return value.id;
+                })
+              })
+            )
+          );
         }
       });
     };
