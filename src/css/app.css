@@ -2,7 +2,7 @@
     Document   : override
     Created on : <date>
     Author     : <author>
-    Description: 
+    Description:
         This is where any of your application specific styles should be included
 */
 
@@ -244,7 +244,8 @@ body {
 
 #Categorymodel-category-list,
 #Categorymodel-post-list,
-#Postmodel-post-list {
+#Postmodel-post-list,
+#Taskmodel-task-list {
   border: none !important;
   overflow-x: hidden;
 }

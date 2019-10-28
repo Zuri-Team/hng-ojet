@@ -28,6 +28,7 @@ define([
       tracks: { label: "Tracks" },
       password_reset: { label: "Reset password" },
       user_profile: { label: "User_profile" },
+      task_submissions: { label: "Task Submission" },
       summary: { label: "Summary" },
       notifications: { label: "Notifications" },
       submission: { label: "Submission" }
