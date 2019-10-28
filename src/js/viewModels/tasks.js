@@ -5,6 +5,7 @@ define([
   "./api",
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
+  'ojs/ojknockout',
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
@@ -26,8 +27,6 @@ define([
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 
-    self.taskData = ko.observable(""); //holds data for the Task details
-
     self.newTask = ko.observable({}); //holds data for the create task dialog
 
     self.viewSubmission = ko.observable(false);
@@ -43,18 +42,11 @@ define([
 
     self.applicationMessages = ko.observableArray();
     self.track_id = ko.observable();
-    // //Observables for submission table
-    //   self.task_id = ko.observable();
-    //   self.taskTitle = ko.observable();
-    //   self.fullname = ko.observable();
-    //   self.submission_link = ko.observable();
-    //   self.grade = ko.observable();
+
 
     var tracksURL = `${api}/api/track`;
 
     var tasksURL = `${api}/api/tasks`;
-
-    // var submissionURL = `${api}/api/submissions`;
 
     self.dataProvider = ko.observable();
 
@@ -65,40 +57,12 @@ define([
 
     const RESTurl = `${api}/api/track/list`;
 
-    //   function fetchSubmission() {
-    //     $.ajax({
-    //       url: submissionURL,
-    //       headers: {
-    //         'Authorization': "Bearer " + userToken,
-    //         'Access-Control-Allow-Origin': '*',
-    // 					'Content-Type': 'application/json',
-
-    // 					'Access-Control-Allow-Headers': '*'
-    //       },
-    //       method: "GET",
-
-    //       success: ({status, data}) => {
-
-    //         if (status == true) {
-    //           self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'task_id'})));
-    //           console.log(data);
-    //       }
-    //     }
-    //   });
-    // }
-    // fetchSubmission();
-
-
-
-
-
     self.taskSelectedChanged = function(event) {
       if (event.detail.value.length != 0) {
         let { data } = self.taskSelected();
       if (data == null) {
         return;
       } else {
-        self.taskData(data);
         self.viewSubmission(true);
       }
 
