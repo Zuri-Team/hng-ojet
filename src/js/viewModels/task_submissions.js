@@ -15,20 +15,33 @@ function TaskSubmissionsModel(params) {
   // Task submission observables
   self.title = ko.observable();
   self.deadline = ko.observable();
-  self.submissionLink = ko.observable();
+  self.submission_link = ko.observable();
+  self.submitted_on = ko.observable();
   self.body = ko.observable();
-
-// notification messages observable
-self.applicationMessages = ko.observableArray([]);
-
-self.tracks = ko.observableArray([]);
+  self.grade = ko.observable();
+  self.is_active = ko.observable();
+  self.id = ko.observable();
 
 
 // extract the task ID we have to work with
 const task_id = params.taskModel().data.id;
-const track_id = params.taskModel().data.track_id;
+
+  // notification messages observable
+self.applicationMessages = ko.observableArray([]);
+
+self.tracks = ko.observableArray([]);
+self.track_id = ko.observable();
+self.task = ko.observableArray([]);
+self.tasks = ko.observableArray([]);
+
+
 
 var tracksURL = `${api}/api/track`;
+var tasksURL = `${api}/api/tasks`;
+
+var submissionURL = `${api}/api/task/${task_id}/submissions`;
+
+self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
 
@@ -44,6 +57,25 @@ var tracksURL = `${api}/api/track`;
   self.editTaskModal = () => {
     document.getElementById("editTaskModal").open();
   };
+
+  function fetchSubmission() {
+        $.ajax({
+          url: submissionURL,
+          headers: {
+            'Authorization': "Bearer " + userToken
+          },
+          method: "GET",
+
+          success: ({status, data}) => {
+
+            if (status == true) {
+              self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
+              console.log(data);
+          }
+        }
+      });
+    }
+    fetchSubmission();
 
   function fetchTracks() {
     self.tracks([]);
@@ -62,14 +94,51 @@ var tracksURL = `${api}/api/track`;
 
   fetchTracks();
 
+//   self.fetchTasks = async() => {
+//     try {
+//         const response = await fetch(`${tasksURL}`, {
+//             headers: {
+//                 Authorization: `Bearer ${userToken}`
+//             }
+//         });
+//         const {
+//             data: { data }
+//         } = await response.json();
+//         // console.log(data)
+
+//         self.tasks(data.map(tasks => tasks)
+//             );
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+// self.fetchTasks();
+
+  self.fetchTask = async () => {
+    try {
+      const response = await fetch(`${tasksURL}/${task_id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+      const { data } = await response.json();
+
+      self.task(data.map(task => task)
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  self.fetchTask();
+
   //Updates Task
 
   self.updateTask = function(event) {
-    let title = self.taskData().title;
-    let body = self.taskData().body;
-    let deadline = self.taskData().deadline;
-    let is_active = self.taskData().is_active;
-    let task_id = self.taskData().id;
+    let title = self.title();
+    let body = self.body();
+    let deadline = self.deadline();
+    let is_active = self.is_active();
+    let task_id = self.id();
 
     $.ajax({
       method: "PUT",
@@ -111,7 +180,7 @@ var tracksURL = `${api}/api/track`;
   };
 
   self.deleteTask = () => {
-    let task_id = self.taskData().id;
+    let task_id = self.id();
     $.ajax({
       url: `${tasksURL}/${task_id}`,
       headers: {
