@@ -111,7 +111,6 @@ define([
 
     // datetime converter
     self.formatDateTime = date => {
-      console.log(date);
       var formatDateTime = oj.Validation.converterFactory(
         oj.ConverterFactory.CONVERTER_TYPE_DATETIME
       ).createConverter({
@@ -152,7 +151,6 @@ define([
           new Paging(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
-                console.log(value)
                 value.deadline = self.formatDateTime(value.deadline);
                 return value.title;
               })
@@ -163,41 +161,6 @@ define([
         console.log(err);
       }
     };
-
-    /*self.fetchTasks = () => {
-
-		$.ajax({
-		   url: `${tasksURL}`,
-		   method: 'GET',
-		   headers:{
-					'Authorization' : "Bearer " + userToken,
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json',
-					//Access-Control-Allow-Origin: http://localhost:8000
-					//'Access-Control-Allow-Methods': '*',
-					'Access-Control-Allow-Headers': '*',
-					},
-		   dataType: 'json',
-		   success: function(response) {
-			// Create variable for Activities list and populate list using key attribute fetch
-if (response.status == true) {
-			let { data } = response.data;
-
-			self.taskDataProvider(
-        new Paging(
-          new ArrayDataProvider(dateFormat, {
-            keys: data.map(function(value) {
-              value.created_at = self.formatDateTime(value.created_at);
-              return value.title;
-            })
-          })
-        )
-      );
-      }
-    }
-    });
-	};
-*/
 
     self.createTask = () => {
       let track_id = self.track_id();
