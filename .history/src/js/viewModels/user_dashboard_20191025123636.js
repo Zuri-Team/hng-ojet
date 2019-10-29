@@ -47,10 +47,8 @@ define([
     self.notifsCount = ko.observable();
 
     self.taskSubmit = ko.observableArray([]);
-    self.notificationCount = ko.observable("");
 
     var submissionURL = `${api}/api/submissions`;
-    var notificationsURL = `${api}/api/notifications`;
 
     self.stepArray = ko.observableArray([
       { label: "Stage One", id: "1" },
@@ -93,62 +91,48 @@ define([
 
     self.applicationMessages = ko.observableArray([]);
 
-     //fetch unread notifications count
-    self.fetchCount = async () => {
-      try {
-        const response = await fetch(`${notificationsURL}/notification_count`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          }
-        });
-        var data = await response.json();
-        console.log(data);
-
-        if (data.data.notification_count > 0)
-          self.notificationCount(data.data.notification_count);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    self.submitTask = async () => {
+    self.submitTask = async() => {
       let task_title = self.taskSubmit.task_title;
       let task_url = self.taskSubmit.task_url;
       let task_comment = self.taskSubmit.task_comment;
 
       try {
-        const response = await fetch(`${submissionURL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`
-          },
-          body: JSON.stringify({
-            task_title,
-            task_url,
-            task_comment
-          })
-        });
+          const response = await fetch(`${submissionURL}`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${userToken}`
+              },
+              body: JSON.stringify({
+                  task_title,
+                  task_url,
+                  task_comment
+              })
+          });
 
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "Task submitted",
-          detail: "You have successfully submitted " + track_name,
-          autoTimeout: parseInt("0")
-        });
-        document.getElementById("taskURL").value = "";
-        document.getElementById("taskComment").value = "";
-        console.log("task submitted");
+
+          self.applicationMessages.push({
+              severity: "confirmation",
+              summary: "Task submitted",
+              detail: "You have successfully submitted " + track_name,
+              autoTimeout: parseInt("0")
+          });
+          document.getElementById("taskURL").value = "";
+          document.getElementById("taskComment").value = "";
+          console.log("task submitted");
       } catch (err) {
-        console.log(err);
-        self.applicationMessages.push({
-          severity: "error",
-          summary: "Error submitting task",
-          detail: "Error submitting task. Please try again.",
-          autoTimeout: parseInt("0")
-        });
+          console.log(err);
+          self.applicationMessages.push({
+              severity: "error",
+              summary: "Error submitting task",
+              detail: "Error submitting task. Please try again.",
+              autoTimeout: parseInt("0")
+
+          });
+
       }
-    };
+
+  };
 
     this.tags = ko.observableArray([
       { value: ".net", label: ".net" },
@@ -205,17 +189,12 @@ define([
 
     self.selectListener = function(event) {
       var files = event.detail.files;
-      self.fileNames.push(files[i].name);
-    };
+        self.fileNames.push(files[i].name);
+      };
 
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
-    };
-
-    //route to notifications
-    self.gotoNotifications = function() {
-      router.go("notifications");
     };
 
     self.connected = function() {
@@ -234,17 +213,6 @@ define([
           self.selectedStepLabel = ko.observable(stage.id);
         }
       });
-
-      //notifications unread count
-      self.fetchCount();
-
-      //notifications click
-      $("#notifi").on("click", function() {
-        let attr = $(this).attr("for");
-        $("#maincontent_intern_body > div").hide();
-        $(`#maincontent_intern_body > div[id='${attr}']`).show();
-      });
-
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();

@@ -1,7 +1,7 @@
   define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
   function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
   { 
-  function internModel() {
+  function underworldModel() {
     var self = this;
     self.interns = ko.observableArray([]);
     self.firstSelectedIntern = ko.observable();
@@ -11,6 +11,7 @@
     self.lastname = ko.observable();
     self.username = ko.observable();
     self.isUserProfile = ko.observable(false);
+    self.totalInterns = ko.observable('');
 
     self.dataProvider = ko.observable();
 
@@ -33,6 +34,22 @@
         }
       }
     };
+    function fetchdashboard () {
+      $.ajax({
+        url: `${api}/api/stats/dashboard`,
+        headers:{
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: ({status, data}) => {
+            if (status == true) {
+                self.totalInterns(data.total_interns);
+            }
+        }
+      });  
+    }
+  
+  fetchdashboard();
 
     function fetchinterns() {
       $.ajax({
@@ -53,5 +70,5 @@
   fetchinterns();
 }
 
-  return new internModel();
+  return new underworldModel();
   });

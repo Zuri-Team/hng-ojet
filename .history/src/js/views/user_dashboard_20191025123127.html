@@ -1,0 +1,162 @@
+<section class="page__container h-100 mb-4" id="user">
+  <div id="sidebar" class=" h-100">
+    <h5 class="my-4 text-light logo text-center">
+      <i class="oj-navigationlist-item-icon fa  fa-bandcamp"></i> <span>HNG
+        BOARD</span>
+    </h5>
+    <oj-navigation-list display="[[isSmall() ? 'icons' : 'all']]" selection="{{ selectedItem }}">
+      <ul>
+        <li id="Dashboard">
+          <a for="overview-intern">
+            <i class="oj-navigationlist-item-icon fa fa-dashboard"></i> DASHBOARD
+          </a>
+        </li>
+
+        <!-- <li id="Categories">
+          <a for="categories-intern">
+            <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
+          </a>
+        </li> -->
+
+        <li id="Posts">
+          <a for="posts-intern">
+            <i class="oj-navigationlist-item-icon fa fa-newspaper-o"></i> POSTS
+          </a>
+        </li>
+        <li id="Tasks">
+          <a for="tasks-intern">
+            <i class="oj-navigationlist-item-icon fa fa-list"></i> TASKS
+          </a>
+        </li>
+        <li id="Settings">
+          <a for="intern-settings">
+            <i class="oj-navigationlist-item-icon fa fa-cog"></i> SETTINGS
+          </a>
+        </li>
+      </ul>
+    </oj-navigation-list>
+  </div>
+  <div id="maincontent">
+    <div id="maincontent_nav" class="w-100 position-relative">
+      <nav class="d-flex justify-content-between">
+        <h4 class="d-flex">
+          <i class="fa fa-bars mr-2 " data-bind="click: toggleDrawer"></i>
+          <span data-bind="text: selectedItem"></span>
+        </h4>
+        <span class="d-flex ml-5">
+          <h4 class="position-relative" style="top:2px"><i class=" fa fa-bell-o"></i><span style="color: red; font-size: small;">2</span> </h4>
+          <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
+              class="fa fa-search "></i></h4>
+          <form id="form1" class="mx-3 oj-sm-only-hide">
+            <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
+                        component: 'ojInputSearch',
+                        value: keyword,
+                        options: tags,
+                        rootAttributes: {style:'max-width: 20em'}}" />
+          </form>
+          <oj-button display="icons" chroming="full" on-click="[[logout]]">
+            <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
+          </oj-button>
+        </span>
+      </nav>
+      <oj-bind-if test="[[sb_sm()]]">
+        <form id="form1" class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end" style="top: 4px">
+          <input placeholder="Search..." data-bind="ojComponent: {
+                            component: 'ojInputSearch',
+                            value: keyword,
+                            options: tags,
+                            rootAttributes: {style:'max-width: 20em'}}" />
+        </form>
+      </oj-bind-if>
+    </div>
+    <div class="clearfix"></div>
+    <div id="maincontent_intern_body" class="px-3 w-100">
+
+      <div id="overview-intern" class="mt-2">
+        <header class="d-flex" style=" color: #768093">
+          <div class="w-100">
+            <h4 class="py-1">Hello <span data-bind="text: fullname"></span></h4>
+            <h6 data-bind="text: ' Stage '  + selectedStepLabel() + ' Task '"></h6>
+          </div>
+          <div class="w-100 text-right">
+            <div id="currentStepText">
+              <small class="h5">Stage</small> <span class="h2" data-bind="text:  selectedStepLabel()"></span>
+            </div>
+          </div>
+        </header>
+
+        <oj-train id="train" class="oj-train-stretch col-sm-10 col-12 p-sm-0 p-0 mx-sm-auto mb-5 mt-3"
+          on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}" steps="[[stepArray]]">
+        </oj-train>
+
+        <div class="d-block d-sm-flex  justify-content-between" style="color: #768093 !important">
+          <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded align-self-baseline">
+            <!-- <oj-bind-for-each data="[[tasks]]"> -->
+            <!-- <template data-oj-as="task"> -->
+            <h5 class="pb-2" slot="header">
+              <oj-bind-text value="[[tasks()[0].taskTitle]]"></oj-bind-text>
+            </h5>
+            <h6 class="pb-2">Date Assigned:</h6>
+            <div>
+              <p class="font-weight-bold mb-0 pb-2 ">Description</p>
+              <oj-bind-text value="[[tasks()[0].details]]"></oj-bind-text>
+            </div>
+            <!-- </template>
+                  </oj-bind-for-each> -->
+          </div>
+
+          <div class="oj-panel oj-panel-shadow-sm col-sm-5 col-12 rounded mt-sm-0 mt-4 align-self-baseline">
+            <h5>Task submission</h5>
+            <p data-bind="text: tasks()[0].taskTitle" class="font-weight-bold mb-0 pb-1"></p>
+            <div>
+              <div>
+                <label class="col-form-label">Link</label>
+                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.taskURL" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Comment</label>
+                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.taskComment" rows="5"></textarea>
+              </div>
+              <div class="clearfix"></div>
+              <button class="btn btn-sm text-light float-right" data-bind="click: submitTask"
+                style=" background-color: #5882BE !important">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div id="categories-intern" class="my-4">
+        <div data-bind="ojModule: 'intern_category'"></div>
+      </div> -->
+
+      <div id="posts-intern">
+        <div data-bind="ojModule: 'intern_post'" class="my-4"></div>
+      </div>
+
+      <div id="tasks-intern">
+        <h5>Tasks feature coming soon</h5>
+        <!-- <div data-bind="ojModule: 'intern/tasks'"></div> -->
+      </div>
+
+      <div class="oj-flex-item" id="intern-settings">
+        <h5>Settings feature coming soon</h5>
+        <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Start Messages Component -->
+
+  <oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+  "my": {"vertical" : "bottom", "horizontal": "end"},
+  "at": {"vertical": "bottom", "horizontal": "end"},
+  "of": "window"
+  }'>
+  </oj-messages>
+
+  <!-- End Messages Component -->
+</section>

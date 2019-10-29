@@ -67,6 +67,27 @@
               </button>
             </div>
           </oj-dialog>
+          <!-- Underworld dialogs -->
+        
+          <oj-dialog id="addToUnderworld" dialog-title="Add to Underworld" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+            position.at.vertical="top">
+            <div slot="body">
+              <h6>Sure to add?</h6>
+              <button data-bind="click: addToUnderworld" class="btn btn-success float-right">
+                Confirm
+              </button>
+            </div>
+          </oj-dialog>
+        
+          <oj-dialog id="removeFromUnderworld" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+            position.at.vertical="top">
+            <div slot="body">
+              <h6>Sure to remove?</h6>
+              <button data-bind="click: removeFromUnderworld" class="btn btn-success float-right">
+                Confirm
+              </button>
+            </div>
+          </oj-dialog>
         
           <!-- Delete Dialog -->
         
@@ -202,6 +223,27 @@
                                   slot="startIcon"
                                 ></span
                                 >Make User
+                              </oj-option>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[isUser()]]">
+                              <oj-option id="underworld" value="Add to Underworld">
+                                <span
+                                  class="fa fa-lock"
+                                  slot="startIcon"
+                                ></span
+                                >Add to Underworld
+                              </oj-option>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[!isUser()]]">
+                              <oj-option
+                                id="underworld"
+                                value="Remove from Underworld"
+                              >
+                                <span
+                                  class="fa fa-unlock"
+                                  slot="startIcon"
+                                ></span
+                                >Remove from Underworld
                               </oj-option>
                             </oj-bind-if>
                             <oj-option id="divider"></oj-option>

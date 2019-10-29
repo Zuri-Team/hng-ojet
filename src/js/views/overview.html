@@ -1,173 +1,3 @@
-<style>
-  /* box1 stuff */
-  .box1 {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    justify-content: center;
-    background: linear-gradient(90deg, #358af3 0%, #3f6ba2 100%);
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px 10px 10px 0px;
-  }
-
-  div.box1 div.p-img span,
-  div.box2 div.p-img span {
-    width: 80px;
-    margin: 10px;
-    margin-top: 30px;
-  }
-
-  div.taskinfo {
-    margin: 5px;
-  }
-
-  p.taskheading {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 18px;
-  }
-
-  div.box1 div.taskinfo p.p-stat,
-  div.box2 div.taskinfo p.p-stat {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 3px 0;
-  }
-
-  span.p-text {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 30px;
-
-    color: #FFFFFF;
-  }
-
-  div.box1,
-  div.box2 {
-    color: #fff;
-  }
-
-  .box2 {
-
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    justify-content: center;
-    background: linear-gradient(270deg, #FDCAAD -3.75%, #FC6C1B 78.75%);
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px 10px 10px 0px;
-  }
-
-  .box3 {
-    grid-area: box3;
-    border-radius: 5px;
-    position: absolute;
-    max-width: 100%;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px 10px 10px 0px;
-  }
-
-  .box3 div.section-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-content: space-between;
-    justify-content: space-evenly;
-  }
-
-  div.section-item div.sec-img img {
-    width: 50px;
-    padding-left: 5px;
-    padding-right: 10px;
-  }
-
-  div.section-item div.sec-detail p.sociallink {
-    margin-top: -35px;
-    color: gray;
-  }
-
-
-  table {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-
-  td,
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-
-  .overview {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 18px;
-    color: #768093;
-
-    margin-top: 17px;
-  }
-
-  .line {
-    max-width: 100px;
-    border: .5px solid #fff;
-  }
-
-  .sectionheading {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
-    margin: 2px auto;
-    color: #768093;
-  }
-
-  .headbox {
-    display: flex;
-    margin-top: 10px;
-
-
-  }
-
-  .headbox p {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
-    color: #768093;
-  }
-
-  .headbox span {
-    color: #4F5EF5;
-  }
-
-
-  .sec-num {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
-
-    color: #2CCF75;
-  }
-
-  .sec-img {
-    margin: 1px auto
-  }
-
-  .sec-fig {
-    margin: 1px auto;
-  }
-</style>
-
 <div class="container-fluid">
   <div class="container oj-hybrid-padding">
         <div class="row ">
@@ -202,7 +32,9 @@
         </div>
   </div></div>
 
+
 <!-- Teams table -->
+<h4 class="my-4">Teams List:</h4>
 <div id="sampleDemo" class="demo-padding demo-container">
   <div
     id="componentDemoContent"
@@ -217,8 +49,6 @@
       scroll-policy="loadMoreOnScroll"
       columns='[{"headerText": "Id", 
                 "field": "id",
-                "headerClassName": "oj-sm-only-hide",
-                "className": "oj-sm-only-hide",
                 "resizable": "enabled"},
               {"headerText": "Team Name", 
                 "field": "team_name",
@@ -246,5 +76,58 @@
   </oj-paging-control>
     </oj-table>
   </div>
+
+<!-- Interns table -->
+<h4 class="my-4">Interns List:</h4>
+<div
+    style="width: 1px; min-width: 100%; min-height: 100%;"
+  >
+<oj-table
+      id="interns-table"
+      aria-label="Interns Table"
+      data="[[dataProvider]]"
+      selection-mode='{"row": "single", "column": "single"}'
+      dnd='{"reorder": {"columns": "enabled"}}'
+      scroll-policy="loadMoreOnScroll"
+      columns='[{"headerText": "Intern Id", 
+                "field": "id",
+                "resizable": "enabled"},
+              {"headerText": "Username", 
+                "field": "username",
+                "resizable": "enabled"},
+              {"headerText": "First Name", 
+                "field": "firstname",
+                "resizable": "enabled"},
+              {"headerText": "Last Name", 
+                "field": "lastname",
+                "headerClassName": "oj-sm-only-hide",
+                "className": "oj-sm-only-hide",
+                "resizable": "enabled"}]'
+      style="width: 100%; height: 100%;"
+    > 
+    <oj-paging-control
+    id="paging"
+    data="[[dataProvider]]"
+    page-size="10"
+    slot="bottom"
+  >
+  </oj-paging-control>
+   </oj-table>
+</div>
+<!-- Summary button -->
+<div id="dialogWrapper">
+  <oj-dialog style="display:none; height: 90vh; position: fixed;" id="summary-modal" dialog-title="Interns Summary" dragAffordance="none">
+    <div slot="body">
+      <div data-bind="ojModule: 'summary'"></div>
+    </div>
+    <div slot="footer">
+      <oj-button id="okButton" on-oj-action="[[close]]">OK
+      </oj-button>
+    </div>
+  </oj-dialog>
+  <button class="fbtn my-5" id="buttonOpener" data-bind="click: open">
+    Show Interns Summary
+  </button>
+</div>
 
 </div>
