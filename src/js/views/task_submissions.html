@@ -1,0 +1,100 @@
+<div class="container">
+    <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
+        <div slot="body">
+            <div class="form-group">
+                <oj-label class="oj-label oj-label-inline">Track</oj-label>
+                <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id," class="form-control">
+          </select>
+            </div>
+            <div class="form-group">
+                <oj-label class="oj-label oj-label-inline">Task Title</oj-label>
+                <input data-bind="textInput: title" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <oj-label class="oj-label oj-label-inline">Task Details</oj-label>
+                <textarea data-bind="textInput: body" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <oj-label for="datetime">Deadline</oj-label>
+                <oj-input-date-time id="datetime" value="{{deadline}}" style="min-width: 5em;"></oj-input-date-time>
+            </div>
+            <div class="form-group">
+                <oj-label for="basicSelect">Status</oj-label>
+                <oj-select-one id="basicSelect" value="{{parseInt(is_active)}}" style="max-width:20em">
+                    <oj-option value="">Select...</oj-option>
+                    <oj-option value="1">Publish</oj-option>
+                    <oj-option value="0">Draft</oj-option>
+                </oj-select-one>
+            </div>
+            <button data-bind="click: updateTask" class="btn btn-success">
+          Update
+        </button>
+        </div>
+    </oj-dialog>
+
+    <oj-dialog id="deleteTaskModal" dialog-title="Delete task" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal" <div slot="body">
+        <p>
+            Confirm you want to delete this task?
+        </p>
+        <button data-bind="click: deleteTask" class="btn btn-danger float-right">Delete task</button>
+</div>
+</oj-dialog>
+
+
+<div class="oj-hybrid-padding">
+    <div>
+        <button class="btn btn-outline-dark mr-1" data-bind="click: editTaskModal">
+                      Edit
+                    </button>
+        <button class="btn btn-outline-danger" data-bind="click: deleteTaskModal">
+                      Delete
+                    </button>
+        <button class="btn btn-info float-right" data-bind="click: toTasks">
+                            <span>Go back</span>
+                          </button>
+    </div>
+    <div class="oj-panel oj-panel-shadow-sm">
+        <h3 class="oj-header-border">
+            <oj-bind-text value="[[title]]"></oj-bind-text>
+        </h3>
+        <p>
+            <oj-bind-text value="[[body]]"></oj-bind-text>
+        </p>
+    </div>
+</div>
+<h4 class="my-4">Submissions</h4>
+<div style="width: 1px; min-width: 100%; min-height: 100%;">
+    <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Intern Id",
+                "field": "id",
+                "resizable": "enabled"},
+              {"headerText": "Username",
+                "field": "username",
+                "resizable": "enabled"},
+              {"headerText": "Full Name",
+                "field": "fullname",
+                "resizable": "enabled"},
+              {"headerText": "Date Submitted",
+                "field": "submitted_on",
+                "resizable": "enabled"},
+              {"headerText": "Submission",
+                "field": "submission_link",
+                "resizable": "enabled"},
+                {"headerText": "Grade",
+                "field": "grade",
+                "resizable": "enabled"}]' style="width: 100%; height: 100%;">
+        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+        </oj-paging-control>
+    </oj-table>
+</div>
+</div>
+
+<!-- Start Messages Component -->
+
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+"my": {"vertical" : "bottom", "horizontal": "end"},
+"at": {"vertical": "bottom", "horizontal": "end"},
+"of": "window"
+}'>
+</oj-messages>
+
+<!-- End Messages Component -->
