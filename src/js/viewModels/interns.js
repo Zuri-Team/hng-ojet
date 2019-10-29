@@ -1,6 +1,16 @@
-  define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
-  function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
-  { 
+define([
+  "knockout",
+  "jquery",
+  "./api",
+  "ojs/ojbootstrap",
+  "ojs/ojarraydataprovider",
+  "ojs/ojpagingdataproviderview",
+  "ojs/ojpagingcontrol",
+  "ojs/ojknockout",
+  "ojs/ojtable",
+  "ojs/ojlistview",
+  "ojs/ojlabel"
+], function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView) {
   function internModel() {
     var self = this;
     self.interns = ko.observableArray([]);
@@ -14,8 +24,6 @@
 
     self.dataProvider = ko.observable();
 
-    
-
     var userToken = sessionStorage.getItem("user_token");
 
     self.selectedInternChanged = function(event) {
@@ -28,8 +36,8 @@
         if (data == null) {
           return;
         } else {
-        //  console.log("clicked")
-         self.isUserProfile(true);
+          //  console.log("clicked")
+          self.isUserProfile(true);
         }
       }
     };
@@ -41,17 +49,20 @@
           Authorization: "Bearer " + userToken
         },
         method: "GET",
-        success: ({status, data}) => {
+        success: ({ status, data }) => {
           if (status == true) {
             // console.log(data)
-            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+            self.dataProvider(
+              new PagingDataProviderView(
+                new ArrayDataProvider(data, { keyAttributes: "id" })
+              )
+            );
+          }
         }
-  
-      }
-    });  
+      });
+    }
+    fetchinterns();
   }
-  fetchinterns();
-}
 
   return new internModel();
-  });
+});
