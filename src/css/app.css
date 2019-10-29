@@ -536,3 +536,7 @@ tr:nth-child(even) {
 button {
   cursor: pointer;
 }
+
+oj-navigation-list li {
+  cursor: pointer;
+}
