@@ -86,9 +86,20 @@
                         options: tags,
                         rootAttributes: {style:'max-width: 20em'}}" />
             </form>
-            <oj-button display="icons" chroming="full" on-click="[[logout]]">
+            <div id="dialogWrapper">
+            <oj-dialog id="logoutModal" dialog-title="Logout" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+            position.at.vertical="top">
+            <div slot="body">
+              <h6>Sure to exit?</h6>
+              <button data-bind="click: logout" class="btn btn-danger float-right">
+                Confirm
+              </button>
+            </div>
+          </oj-dialog>
+            <oj-button display="icons" id="buttonOpener" chroming="full" on-click="[[open]]">
               <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
             </oj-button>
+            </div>
           </span>
         </nav>
         <oj-bind-if test="[[sb_sm()]]">

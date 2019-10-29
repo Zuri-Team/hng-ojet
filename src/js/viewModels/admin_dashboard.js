@@ -19,7 +19,8 @@ define([
   "ojs/ojfilepicker",
   "ojs/ojformlayout",
   "ojs/ojbutton",
-  "ojs/ojchart"
+  "ojs/ojchart",
+  'ojs/ojdialog'
 ], function(
   oj,
   ko,
@@ -188,6 +189,10 @@ define([
       return true;
     };
 
+    //logout button
+    self.open = function (event) {
+      document.getElementById('logoutModal').open();
+    };
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
