@@ -16,6 +16,7 @@ define([
   "ojs/ojcomposite",
   "ojs/ojavatar",
   "ojs/ojlabel",
+  "ojs/ojdialog",
   "ojs/ojfilepicker",
   "ojs/ojformlayout",
   "ojs/ojbutton",
@@ -188,15 +189,17 @@ define([
       self.clickedButton(event.currentTarget.id);
       return true;
     };
-
-    //logout button
-    self.open = function (event) {
-      document.getElementById('logoutModal').open();
-    };
+    
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
     };
+    self.close = function(event) {
+      document.getElementById('logoutModal').close();
+      };
+      self.open = function(event) {
+        document.getElementById('logoutModal').open();
+      };
 
     //route to notifications
     self.gotoNotifications = function() {
