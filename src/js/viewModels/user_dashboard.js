@@ -19,7 +19,8 @@ define([
   "ojs/ojbutton",
   "ojs/ojcollapsible",
   "ojs/ojtrain",
-  "ojs/ojmessages"
+  "ojs/ojmessages",
+  'ojs/ojdialog'
 ], function(oj, ko, $, api, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
@@ -208,6 +209,10 @@ define([
       self.fileNames.push(files[i].name);
     };
 
+     //logout button
+     self.open = function (event) {
+      document.getElementById('logoutModal').open();
+    };
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");

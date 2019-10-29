@@ -20,7 +20,8 @@ define([
   "ojs/ojfilepicker",
   "ojs/ojformlayout",
   "ojs/ojbutton",
-  "ojs/ojchart"
+  "ojs/ojchart",
+  'ojs/ojdialog'
 ], function(
   oj,
   ko,
