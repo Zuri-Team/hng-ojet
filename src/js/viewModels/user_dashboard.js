@@ -19,7 +19,9 @@ define([
   "ojs/ojbutton",
   "ojs/ojcollapsible",
   "ojs/ojtrain",
-  "ojs/ojmessages"
+  "ojs/ojmessages",
+  "ojs/ojvalidation-datetime",
+  "ojs/ojtimezonedata"
 ], function(oj, ko, $, api, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
@@ -45,144 +47,136 @@ define([
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
     self.notifsCount = ko.observable();
-
     self.taskSubmit = ko.observableArray([]);
+    self.applicationMessages = ko.observableArray([]);
 
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
 
     self.stepArray = ko.observableArray([
-      { label: "Stage One", id: "1" },
-      { label: "Stage Two", id: "2" },
-      { label: "Stage Three", id: "3" },
-      { label: "Stage Four", id: "4" },
-      { label: "Stage Five", id: "5" },
-      { label: "Stage Six", id: "6" },
-      { label: "Stage Seven", id: "7" },
-      { label: "Stage Eight", id: "8" },
-      { label: "Stage Nine", id: "9" },
-      { label: "Stage Ten", id: "10" }
+      { id: "1" },
+      { id: "2" },
+      { id: "3" },
+      { id: "4" },
+      { id: "5" },
+      { id: "6" },
+      { id: "7" },
+      { id: "8" },
+      { id: "9" },
+      { id: "10" }
     ]);
     self.updateLabelText = event => {
       var train = document.getElementById("train");
       self.selectedStepLabel(train.getStep(event.detail.value).label);
     };
 
-    self.stepArray().map((stage, i) => {
-      stage.disabled = true;
-      if (i + 1 == 7) {
-        stage.disabled = false;
-        self.selectedStepValue(stage.id);
-        self.selectedStepLabel = ko.observable(stage.id);
-      }
-    });
-    // console.log(self.stepArray());
-
-    self.tasks = ko.observableArray([
-      {
-        taskTitle: "Chatbot App",
-        details:
-          "Create a chatbot app for slack. The app should be able to save conversations to external hard drive."
-      },
-      {
-        taskTitle: "Deploy a Serverless App",
-        details: "Here are the details for the Serverless App"
-      }
-    ]);
-
-    self.applicationMessages = ko.observableArray([]);
-
-    //Get All Notifications
-    /*self.fetchNotifications = async() => {
-      try {
-        const response = await fetch(`${notificationsURL}`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`
-            }
-        });
-        var notifications = [];
-        const {data} = await response.json();
-
-        data.array.forEach((notif) => {
-          let messages = notif.data.message;
-          notifications.push(messages);
-        });
-
-        //console.log(data)
-
-       //self.notifsCount(notification_count);
-
-    } catch (err) {
-        console.log(err);
-    }
-    };
-
-    self.fetchNotifications();*/
-
     //Get the count of all notifications
-    self.notificationsCount = async() => {
+    self.notificationsCount = async () => {
       try {
         const response = await fetch(`${notificationsURL}/notification_count`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`
-            }
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
         });
         const {
-            data: { notification_count }
+          data: { notification_count }
         } = await response.json();
-        console.log(notification_count)
+        //        console.log(notification_count);
 
-       self.notifsCount(notification_count);
+        self.notifsCount(notification_count);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    } catch (err) {
-      console.log(err);
-  }
-}
+    self.notificationsCount();
 
-self.notificationsCount();
+    // datetime converter
+    self.formatDateTime = date => {
+      var formatDateTime = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "datetime",
+        dateFormat: "medium",
+        timeFormat: "short",
+        timeZone: "Africa/Lagos"
+      });
 
-    self.submitTask = async() => {
-      let task_title = self.taskSubmit.task_title;
+      return formatDateTime.format(new Date(date).toISOString());
+    };
+
+    self.tasks = ko.observable({});
+
+    function getTasks(id) {
+      $.ajax({
+        type: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        },
+
+        url: `${api}/api/track/${id}/tasks`,
+        success: function(res) {
+          // console.log(res);
+          let [latest] = res.data;
+          latest.deadline = self.formatDateTime(latest.deadline);
+          self.tasks(latest);
+        }
+      });
+    }
+
+    function fetchTrack(id) {
+      $.ajax({
+        type: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        },
+
+        url: `${api}/api/user-profile/${id}`,
+        success: function(response) {
+          let [{ id, track_name }] = response.data.tracks;
+          self.tracks(track_name);
+          getTasks(id);
+        }
+      });
+    }
+
+    self.submitTask = async () => {
       let task_url = self.taskSubmit.task_url;
       let task_comment = self.taskSubmit.task_comment;
-
+      console.log(task_url, task_comment);
       try {
-          const response = await fetch(`${submissionURL}`, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${userToken}`
-              },
-              body: JSON.stringify({
-                  task_title,
-                  task_url,
-                  task_comment
-              })
-          });
+        const response = await fetch(`${submissionURL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            task_id: "1",
+            user_id: "2",
+            submission_link: "testt"
+          })
+        });
 
-
-          self.applicationMessages.push({
-              severity: "confirmation",
-              summary: "Task submitted",
-              detail: "You have successfully submitted " + track_name,
-              autoTimeout: parseInt("0")
-          });
-          document.getElementById("taskURL").value = "";
-          document.getElementById("taskComment").value = "";
-          console.log("task submitted");
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Task submitted",
+          detail: "You have successfully submitted " + track_name,
+          autoTimeout: parseInt("0")
+        });
+        document.getElementById("taskURL").value = "";
+        document.getElementById("taskComment").value = "";
+        console.log("task submitted");
       } catch (err) {
-          console.log(err);
-          self.applicationMessages.push({
-              severity: "error",
-              summary: "Error submitting task",
-              detail: "Error submitting task. Please try again.",
-              autoTimeout: parseInt("0")
-
-          });
-
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "Error submitting task",
+          detail: "Error submitting task. Please try again.",
+          autoTimeout: parseInt("0")
+        });
       }
-
-  };
+    };
 
     this.tags = ko.observableArray([
       { value: ".net", label: ".net" },
@@ -239,8 +233,8 @@ self.notificationsCount();
 
     self.selectListener = function(event) {
       var files = event.detail.files;
-        self.fileNames.push(files[i].name);
-      };
+      self.fileNames.push(files[i].name);
+    };
 
     self.logout = function() {
       sessionStorage.clear();
@@ -253,6 +247,7 @@ self.notificationsCount();
       }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
+      fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.tracks(`${user.stack}`);
       self.stepArray().map((stage, i) => {
