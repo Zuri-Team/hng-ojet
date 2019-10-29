@@ -44,8 +44,8 @@ function UserProfileModel(params) {
     self.team = ko.observableArray([]);
     self.teams = ko.observableArray([]);
 
-
     self.stage =ko.observable();
+   
 
     // For the update stage select options list
     self.stages = ko.observable(
@@ -560,6 +560,84 @@ self.fetchTeam();
         }
 
     }
+    break;
+    }
+    case ("Add to Underworld"): {
+
+        document.getElementById("addToUnderworld").open();
+
+    // self.removeFromTeam = async() => {
+    //     const team_id = self.team_id();
+    //     try {
+    //         const response = await fetch(`${api}/api/teams/remove-member`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${userToken}`
+    //             },
+    //             body: JSON.stringify({
+    //                 user_id,
+    //                 team_id
+    //             })
+    //         });
+    //         const { message } = await response.json();
+     
+    //         self.fetchTeam();
+    //         self.fetchTeams();
+    //         self.fetchUserProfile();
+    //         document.getElementById("removeFromTeam").close();
+    //         self.applicationMessages.push({
+
+    //             severity: "warning",
+    //             summary: `Remove From Team`,
+    //             detail: `${message}`,
+    //             autoTimeout: parseInt("0")
+
+    //         });
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+
+    // }
+    break;
+    }
+    case ("Remove from Underworld"): {
+
+        document.getElementById("removeFromUnderworld").open();
+
+    // self.removeFromTeam = async() => {
+    //     const team_id = self.team_id();
+    //     try {
+    //         const response = await fetch(`${api}/api/teams/remove-member`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${userToken}`
+    //             },
+    //             body: JSON.stringify({
+    //                 user_id,
+    //                 team_id
+    //             })
+    //         });
+    //         const { message } = await response.json();
+     
+    //         self.fetchTeam();
+    //         self.fetchTeams();
+    //         self.fetchUserProfile();
+    //         document.getElementById("removeFromTeam").close();
+    //         self.applicationMessages.push({
+
+    //             severity: "warning",
+    //             summary: `Remove From Team`,
+    //             detail: `${message}`,
+    //             autoTimeout: parseInt("0")
+
+    //         });
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+
+    // }
     break;
     }
     }
