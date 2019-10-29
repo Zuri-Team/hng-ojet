@@ -236,6 +236,10 @@ define([
       self.fileNames.push(files[i].name);
     };
 
+     //logout button
+     self.open = function (event) {
+      document.getElementById('logoutModal').open();
+    };
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
