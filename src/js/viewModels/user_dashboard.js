@@ -48,7 +48,7 @@ define([
     self.selectedStepLabel = ko.observable();
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observableArray([]);
-    self.applicationMessages = ko.observableArray([]);
+    self.notificationCount = ko.observable("");
 
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
@@ -70,26 +70,25 @@ define([
       self.selectedStepLabel(train.getStep(event.detail.value).label);
     };
 
-    //Get the count of all notifications
-    self.notificationsCount = async () => {
+    self.applicationMessages = ko.observableArray([]);
+
+    //fetch unread notifications count
+    self.fetchCount = async () => {
       try {
         const response = await fetch(`${notificationsURL}/notification_count`, {
           headers: {
             Authorization: `Bearer ${userToken}`
           }
         });
-        const {
-          data: { notification_count }
-        } = await response.json();
-        //        console.log(notification_count);
+        var data = await response.json();
+        console.log(data);
 
-        self.notifsCount(notification_count);
+        if (data.data.notification_count > 0)
+          self.notificationCount(data.data.notification_count);
       } catch (err) {
         console.log(err);
       }
     };
-
-    self.notificationsCount();
 
     // datetime converter
     self.formatDateTime = date => {
@@ -141,6 +140,7 @@ define([
     }
 
     self.submitTask = async () => {
+      let task_title = self.taskSubmit.task_title;
       let task_url = self.taskSubmit.task_url;
       let task_comment = self.taskSubmit.task_comment;
       console.log(task_url, task_comment);
@@ -152,9 +152,9 @@ define([
             Authorization: `Bearer ${userToken}`
           },
           body: JSON.stringify({
-            task_id: "1",
-            user_id: "2",
-            submission_link: "testt"
+            task_title,
+            task_url,
+            task_comment
           })
         });
 
@@ -241,6 +241,11 @@ define([
       router.go("login");
     };
 
+    //route to notifications
+    self.gotoNotifications = function() {
+      router.go("notifications");
+    };
+
     self.connected = function() {
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
@@ -249,7 +254,6 @@ define([
       user = JSON.parse(user);
       fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
-      self.tracks(`${user.stack}`);
       self.stepArray().map((stage, i) => {
         stage.disabled = true;
         if (i + 1 == user.stage) {
@@ -258,6 +262,17 @@ define([
           self.selectedStepLabel = ko.observable(stage.id);
         }
       });
+
+      //notifications unread count
+      self.fetchCount();
+
+      //notifications click
+      $("#notifi").on("click", function() {
+        let attr = $(this).attr("for");
+        $("#maincontent_intern_body > div").hide();
+        $(`#maincontent_intern_body > div[id='${attr}']`).show();
+      });
+
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();

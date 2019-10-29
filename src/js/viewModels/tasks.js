@@ -5,6 +5,7 @@ define([
   "./api",
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
+  'ojs/ojknockout',
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
@@ -16,10 +17,9 @@ define([
   "ojs/ojvalidation-base",
   "ojs/ojselectcombobox",
   "ojs/ojdatetimepicker",
-  "ojs/ojpagingdataproviderview",
   "ojs/ojmessages",
-  "ojs/ojpagingcontrol",
-  "ojs/ojtimezonedata"
+  "ojs/ojpagingcontrol"
+  // "ojs/ojtimezonedata"
 ], function(oj, ko, $, api, ArrayDataProvider, Paging) {
   function taskModel() {
     var self = this;
@@ -28,10 +28,9 @@ define([
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 
-    self.taskData = ko.observable(""); //holds data for the Task details
-
     self.newTask = ko.observable({}); //holds data for the create task dialog
 
+    self.viewSubmission = ko.observable(false);
     self.task_btn_toggler = ko.observable(false);
     self.task_view_title = ko.observable("New Task");
 
@@ -44,18 +43,11 @@ define([
 
     self.applicationMessages = ko.observableArray();
     self.track_id = ko.observable();
-    // //Observables for submission table
-    //   self.task_id = ko.observable();
-    //   self.taskTitle = ko.observable();
-    //   self.fullname = ko.observable();
-    //   self.submission_link = ko.observable();
-    //   self.grade = ko.observable();
+
 
     var tracksURL = `${api}/api/track`;
 
     var tasksURL = `${api}/api/tasks`;
-
-    // var submissionURL = `${api}/api/submissions`;
 
     self.dataProvider = ko.observable();
 
@@ -63,49 +55,19 @@ define([
     self.taskSelected = ko.observable();
 
     self.tracks = ko.observableArray([]);
+    self.search = ko.observable(false);
 
     const RESTurl = `${api}/api/track/list`;
 
-    //   function fetchSubmission() {
-    //     $.ajax({
-    //       url: submissionURL,
-    //       headers: {
-    //         'Authorization': "Bearer " + userToken,
-    //         'Access-Control-Allow-Origin': '*',
-    // 					'Content-Type': 'application/json',
+    self.taskSelectedChanged = function(event) {
+      if (event.detail.value.length != 0) {
+        let { data } = self.taskSelected();
+      if (data == null) {
+        return;
+      } else {
+        self.viewSubmission(true);
+      }
 
-    // 					'Access-Control-Allow-Headers': '*'
-    //       },
-    //       method: "GET",
-
-    //       success: ({status, data}) => {
-
-    //         if (status == true) {
-    //           self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'task_id'})));
-    //           console.log(data);
-    //       }
-    //     }
-    //   });
-    // }
-    // fetchSubmission();
-
-    self.deleteTaskModal = function(event) {
-      document.getElementById("deleteModal").open();
-    };
-
-    self.editTaskModal = function(event) {
-      document.getElementById("editModal").open();
-    };
-
-    self.viewTaskModal = function(event) {
-      document.getElementById("viewModal").open();
-    };
-
-    self.taskSelectedChanged = () => {
-      let { data } = self.taskSelected();
-      if (data != null) {
-        console.log(data);
-        self.taskData(data);
       }
     };
 
@@ -117,7 +79,7 @@ define([
         formatType: "datetime",
         dateFormat: "medium",
         timeFormat: "short",
-        timeZone: "Africa/Lagos"
+        // timeZone: "Africa/Lagos"
       });
 
       return formatDateTime.format(new Date(date).toISOString());
@@ -212,88 +174,42 @@ define([
       });
     };
 
-    //Updates Task
 
-    self.updateTask = function(event) {
-      let title = self.taskData().title;
-      let body = self.taskData().body;
-      let deadline = self.taskData().deadline;
-      let is_active = self.taskData().is_active;
 
-      $.ajax({
-        method: "PUT",
-        url: tasksURL + "/" + self.taskData().id,
-        headers: {
-          Authorization: "Bearer " + userToken,
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Methods": "*",
-          "Access-Control-Allow-Headers": "*"
-        },
-        data: JSON.stringify({
-          title: title,
-          body: body,
-          deadline: deadline,
-          is_active: is_active
-        }),
-        contentType: "application/json",
-        dataType: "json",
-        success: res => {
-          if (res.status == true) {
-            // send a success message notification to the category view
-            self.applicationMessages.push({
-              severity: "confirmation",
-              summary: "Task updated",
-              detail: "Task successfully updated",
-              autoTimeout: parseInt("0")
-            });
-            self.fetchTasks();
-          }
-        },
-        error: err => {
-          console.log(err);
-
-          // send an error message notification to the category view
-          self.applicationMessages.push({
-            severity: "error",
-            summary: "Error updating task",
-            detail: "Error trying to update task",
-            autoTimeout: parseInt("0")
-          });
-        }
-      });
-
-      document.getElementById("editTaskModal").close();
-      document.getElementById("viewTaskModal").close();
+    self.filtertask = function() {
+      self.search(false);
+      let trackId = self.track_id();
+      if (trackId == undefined) {
+        self.fetchTasks();
+      } else {
+        self.search(true);
+        self.tasks_under_track(trackId);
+      }
     };
 
-    self.deleteTask = () => {
-      let task_id = self.taskData().id;
+    self.tasks_under_track = function(track_id) {
       $.ajax({
-        url: `${tasksURL}/${task_id}`,
+        url: `${api}/api/track/${track_id}/tasks`,
         headers: {
           Authorization: "Bearer " + userToken
         },
-        method: "DELETE",
-        success: () => {
-          self.fetchTasks();
-          self.applicationMessages.push({
-            severity: "confirmation",
-            summary: "Task deleted",
-            autoTimeout: parseInt("0")
-          });
-        },
-        error: err => {
-          console.log(err);
-          self.applicationMessages.push({
-            severity: "error",
-            summary: "An error was encountered, could not delete task",
-            autoTimeout: parseInt("0")
-          });
+        method: "GET",
+        success: res => {
+          let { data } = res.data;
+
+          self.taskDataProvider(
+            new Paging(
+              new ArrayDataProvider(data, {
+                keys: data.map(function(value) {
+                  return value.id;
+                })
+              })
+            )
+          );
         }
       });
-      document.getElementById("deleteModal").close();
     };
+
     fetchTracks();
     self.fetchTasks();
   }

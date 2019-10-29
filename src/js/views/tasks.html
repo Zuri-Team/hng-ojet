@@ -1,145 +1,91 @@
-<oj-dialog id="viewModal" title="View Task" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
-  position.at.vertical="top">
-  <div slot="body">
+<oj-bind-if test="[[task_btn_toggler()]]">
+  <div class="col-sm-12">
     <div>
-      <h5>
-        <oj-bind-text class="oj-text-secondary-color" value="[[taskData().title]]"></oj-bind-text> <small>
-        </small>
-      </h5>
+      <h4 class="float-left">Create a new task</h4>
+      <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
+        <span data-bind="text: task_view_title"></span>
+      </p>
     </div>
-    <div style="word-wrap: break-word">
-      <oj-bind-text value="[[taskData().body]]"></oj-bind-text>
-    </div>
-  </div>
-</oj-dialog>
-
-<oj-dialog id="editModal" dialog-title="Edit task" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal"
-  position.at.vertical="top">
-  <div slot="body">
-    <div class="form-group">
-      <oj-label class="oj-label oj-label-inline">Track</oj-label>
+    <div class="clearfix"></div>
+    <div class="my-3">
       <select
-        data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id,"
+        data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id"
         class="form-control">
       </select>
     </div>
-    <div class="form-group">
-      <oj-label class="oj-label oj-label-inline">Task Title</oj-label>
-      <input data-bind="textInput: taskData().title" type="text" class="form-control">
+    <div class="my-3">
+      <input data-bind="textInput: newTask().title" type="text" placeholder="Title" class="form-control" />
     </div>
+    <textarea data-bind="textInput: newTask().body" class="form-control my-3" placeholder="Task description..."
+      style="height: 200px;"></textarea>
     <div class="form-group">
-      <oj-label class="oj-label oj-label-inline">Task Details</oj-label>
-      <textarea data-bind="textInput: taskData().body" class="form-control" rows="10"></textarea>
-    </div>
-    <div class="form-group">
-      <oj-input-date id="date" value={{taskData().deadline}}> </oj-input-date>
+      <oj-label for="datetime">Deadline</oj-label>
+      <oj-input-date-time id="datetime" value="{{newTask().deadline}}"> </oj-input-date-time>
     </div>
     <div class="form-group">
       <oj-label for="basicSelect">Status</oj-label>
-      <oj-select-one id="basicSelect" value="{{taskData().is_active}}" style="max-width:20em">
+      <oj-select-one id="basicSelect" value="{{newTask().is_active}}">
         <oj-option value="">Select...</oj-option>
         <oj-option value="1">Publish</oj-option>
         <oj-option value="0">Draft</oj-option>
       </oj-select-one>
     </div>
-    <button data-bind="click: updateTask" class="btn btn-success">
-      Update
-    </button>
-  </div>
-</oj-dialog>
-
-<oj-dialog id="deleteModal" title="Delete task" position.at.vertical="top" class="mt-5">
-  <div slot="body">
-    <p>
-      Confirm you want to delete this task?
-    </p>
-    <button data-bind="click: deleteTask" class="btn btn-danger">Delete task</button>
-  </div>
-</oj-dialog>
-
-
-<div class="row">
-  <oj-bind-if test="[[task_btn_toggler()]]">
-    <div class="col-sm-12">
-      <div>
-        <h4 class="float-left">Create a new task</h4>
-        <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
-          <span data-bind="text: task_view_title"></span>
-        </p>
-      </div>
-      <div class="clearfix"></div>
-      <div class="my-3">
-        <select
-          data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id"
-          class="form-control">
-        </select>
-      </div>
-      <div class="my-3">
-        <input data-bind="textInput: newTask().title" type="text" placeholder="Title" class="form-control" />
-      </div>
-      <textarea data-bind="textInput: newTask().body" class="form-control my-3" placeholder="Task description..."
-        style="height: 200px;">
-      </textarea>
-      <div class="my-3">
-        <oj-input-date value="{{newTask().deadline}}" class="oj-form-control"> </oj-input-date>
-
-      </div>
-      <div class="my-3">
-        <oj-label for="basicSelect">Status</oj-label>
-        <oj-select-one id="basicSelect" value="{{newTask().is_active}}" class="oj-form-control">
-          <oj-option value="">Select...</oj-option>
-          <oj-option value="1">Publish</oj-option>
-          <oj-option value="0">Draft</oj-option>
-        </oj-select-one>
-      </div>
-      <div class="my-3">
-        <input data-bind="click: createTask" type="submit" class="btn btn-success" value="Create task" />
-
-      </div>
+    <div class="my-3">
+      <input data-bind="click: createTask" type="submit" class="btn btn-success" value="Create task" />
     </div>
-  </oj-bind-if>
+  </div>
+</oj-bind-if>
+<oj-bind-if test="[[!viewSubmission()]]">
   <oj-bind-if test="[[!task_btn_toggler()]]">
     <div class="col-sm-12">
       <div>
-        <h4 class="float-left">Tasks</h4>
         <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
           <span data-bind="text: task_view_title"></span>
         </p>
       </div>
       <div class="clearfix"></div>
+      <div class="form-group">
+        <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter tasks by track</small>
+        <div class="d-flex">
+          <select
+            data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'All tracks', value: track_id"
+            class="form-control col-md-5">
+          </select>
+          <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
       <oj-list-view id="Taskmodel-task-list" class="col-12 col-md-11 mx-auto overflow-hidden bg-light p-0"
         data="[[taskDataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]"
         first-selected-item="{{taskSelected}}">
         <template slot="itemTemplate" data-oj-as="item" class="border-0">
-          <div>
-            <strong class="text-capitalize d-block mb-1">
-              <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
-            </strong>
-            <div class="d-block d-sm-flex justify-content-between align-items-center">
-              <div class="py-3 m-0 oj-text-sm oj-text-secondary-color">
-                <p>
-                  <oj-bind-text value="[[item.data.body]]"></oj-bind-text>
-                </p>
-                <p class=" font-weight-bold mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></p>
-              </div>
-              <!-- <div>
-                <button data-bind="click: viewTaskModal" class="btn btn-sm btn-info mr-2"><i
-                    class="fa fa-eye"></i></button>
-                <button data-bind="click: editTaskModal" class="btn btn-sm btn-dark mr-2"><i
-                    class="fa fa-edit"></i></button>
-                <button data-bind="click: deleteTaskModal" class="btn btn-sm btn-danger"><i
-                    class="fa fa-trash-o"></i></button>
-              </div> -->
+          <div class="p-2 border rounded bg-light" style="width: 100%">
+            <div>
+              <oj-bind-if test="[[!search()]]">
+                <p data-bind="text: [[item.data.track_id]]" class="badge badge-info p-2"></p>
+              </oj-bind-if>
+              <strong class="text-capitalize">
+                <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+              </strong>
             </div>
+            <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+            <span class="mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
           </div>
-
         </template>
       </oj-list-view>
+    </div>
+    <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
+    </oj-paging-control>
   </oj-bind-if>
-  <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
-  </oj-paging-control>
-</div>
-</div>
+</oj-bind-if>
+
+
+<oj-bind-if test="[[viewSubmission()]]" class="oj-flex justify-content-between my-3">
+  <div data-bind="ojModule: { name: 'task_submissions',
+  params: {taskModel:
+  taskSelected, hideSubmissions: viewSubmission }
+  }"></div>
+</oj-bind-if>
+
 
 <!-- Start Messages Component -->
 
