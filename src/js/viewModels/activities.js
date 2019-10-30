@@ -25,11 +25,11 @@ define([
             var radiosetInstances = document.getElementById('formId').querySelectorAll('oj-radioset');
             for (var i = 0; i < radiosetInstances.length; i++) {
               if (newValue === "all") {
-                self.fetchActivities("admins")
+                self.fetchActivities("all")
               } else if (newValue === "admin") {
-                console.log("hello admin")
+                self.fetchActivities("admins")
               } else if (newValue === "intern") {
-                console.log("good job intern")
+                self.fetchActivities("interns")
               }
             }
           });
@@ -41,9 +41,7 @@ define([
                         Authorization: `Bearer ${userToken}`
                     }
                 });
-                const 
-                    data 
-                 = await response.json();
+                const data = await response.json();
                 console.log(data)
 
                 // self.dataProvider(
