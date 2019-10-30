@@ -4,6 +4,7 @@ define([
     "./api",
     "ojs/ojarraydataprovider",
     "ojs/ojpagingdataproviderview",
+    "ojs/ojknockout-keyset",
     "ojs/ojmodel",
     "ojs/ojlistview",
     "ojs/ojdialog",
@@ -11,14 +12,34 @@ define([
     "ojs/ojtimezonedata",
     "ojs/ojpagingcontrol",
     'ojs/ojbutton', 'ojs/ojradioset', 'ojs/ojlabel'
-  ], function(ko, $, api, ArrayDataProvider, Paging) {
+  ], function(ko, $, api, ArrayDataProvider, PagingDataProviderView, keySet) {
     function activityModel() {
       let self = this;
       let RESTurl = `${api}/api/activity`;
       let userToken = sessionStorage.getItem("user_token");
 
       self.activityToView = ko.observable('all');
-      self.searchQuery - ko.observable('');
+      self.searchQuery = ko.observable('');
+      self.dataProvider = ko.observable()
+
+      console.log(self.searchQuery());
+
+    
+
+
+      // datetime converter
+    self.formatDateTime = date => {
+        var formatDateTime = oj.Validation.converterFactory(
+          oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+        ).createConverter({
+          formatType: "datetime",
+          dateFormat: "medium",
+          timeFormat: "short",
+          timeZone: "Africa/Lagos"
+        });
+  
+        return formatDateTime.format(new Date(date).toISOString());
+      };
   
 
         self.activityToView.subscribe(function (newValue) {
@@ -41,11 +62,33 @@ define([
                         Authorization: `Bearer ${userToken}`
                     }
                 });
-                const data = await response.json();
+                const { data } = await response.json();
                 console.log(data)
+                self.dataProvider(
+                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));   
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        self.fetchActivities("all");
 
-                // self.dataProvider(
-                //     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
+        self.searchActivity = async() => {
+            let query = self.searchQuery();
+
+            if(query.length == 0) {
+                self.fetchActivities("all");
+                return;
+            }
+            try {
+                const response = await fetch(`${RESTurl}/search/${query}`, {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                });
+                const { data: { data } }  = await response.json();
+                console.log(data)
+                self.dataProvider(
+                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));   
             } catch (err) {
                 console.log(err);
             }
