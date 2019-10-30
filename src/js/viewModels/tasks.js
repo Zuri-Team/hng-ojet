@@ -52,7 +52,7 @@ define([
     self.dataProvider = ko.observable();
 
     // Task selection observables
-    self.taskSelected = ko.observable();
+    self.taskSelected = ko.observable({});
 
     self.tracks = ko.observableArray([]);
     self.search = ko.observable(false);
@@ -62,6 +62,7 @@ define([
     self.taskSelectedChanged = function(event) {
       if (event.detail.value.length != 0) {
         let { data } = self.taskSelected();
+        console.log(data);
       if (data == null) {
         return;
       } else {

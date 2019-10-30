@@ -6,20 +6,20 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojvalidation-base",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
-'ojs/ojtable'],
+'ojs/ojtable', 'ojs/ojoption'],
 function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
 
   // Task submission observables
-  self.title = ko.observable();
-  self.deadline = ko.observable();
-  self.submission_link = ko.observable();
-  self.submitted_on = ko.observable();
-  self.body = ko.observable();
-  self.grade = ko.observable();
-  self.is_active = ko.observable();
+  self.title = ko.observable("");
+  self.deadline = ko.observable("");
+  self.submission_link = ko.observable("");
+  self.submitted_on = ko.observable("");
+  self.body = ko.observable("");
+  self.grade = ko.observable("");
+  self.is_active = ko.observable("");
 
 
 // extract the task ID we have to work with
@@ -114,24 +114,7 @@ self.dataProvider = ko.observable()
 // };
 // self.fetchTasks();
 
-  self.fetchTask = async () => {
-    try {
-      const response = await fetch(`${tasksURL}/${task_id}`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`
-        }
-      });
-      const { data } = await response.json();
 
-      self.title(`${data.title}`);
-      self.body(`${data.body}`);
-      self.deadline(`${data.deadline}`);
-      self.is_active(`${data.is_active}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  self.fetchTask();
 
   //Updates Task
 
@@ -161,7 +144,7 @@ self.dataProvider = ko.observable()
             detail: "Task successfully updated",
             autoTimeout: parseInt("0")
           });
-          self.fetchTasks();
+          self.fetchTask();
         }
       },
       error: err => {
@@ -188,7 +171,9 @@ self.dataProvider = ko.observable()
       },
       method: "DELETE",
       success: () => {
-        self.fetchTasks();
+        self.fetchTask();
+        setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000)
+        document.getElementById("deleteTaskModal").close();
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task deleted",
@@ -204,8 +189,51 @@ self.dataProvider = ko.observable()
         });
       }
     });
-    document.getElementById("deleteTaskModal").close();
   };
+
+  self.fetchTask = async () => {
+    try {
+      const response = await fetch(`${tasksURL}/${task_id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+      const { data } = await response.json();
+
+      self.dataProvider(
+          new ArrayDataProvider(data, {
+            keys: data.map(function(value) {
+              console.log(value)
+              value.deadline = self.formatDateTime(value.deadline);
+              return value.title;
+            })
+          })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  self.fetchTask = async() => {
+    try {
+      const response = await fetch(`${tasksURL}/${task_id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+      const { data } = await response.json();
+
+      self.title(`${data.title}`);
+      self.body(`${data.body}`);
+      self.deadline(`${data.deadline}`);
+      self.is_active(`${data.is_active}`);
+      console.log(data.title);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  self.fetchTask();
+
   console.log(params.taskModel().key, params.hideSubmissions());
 }
 
