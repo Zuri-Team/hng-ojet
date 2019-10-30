@@ -1,79 +1,86 @@
 <oj-bind-if test="[[task_btn_toggler()]]">
-    <div class="col-sm-12">
-        <div>
-            <h4 class="float-left">Create a new task</h4>
-            <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
-                <span data-bind="text: task_view_title"></span>
-            </p>
-        </div>
-        <div class="clearfix"></div>
-        <div class="my-3">
-            <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id" class="form-control">
-        </select>
-        </div>
-        <div class="my-3">
-            <input data-bind="textInput: newTask().title" type="text" placeholder="Title" class="form-control" />
-        </div>
-        <textarea data-bind="textInput: newTask().body" class="form-control my-3" placeholder="Task description..." style="height: 200px;"></textarea>
-        <div class="form-group">
-            <oj-label for="datetime">Deadline</oj-label>
-            <oj-input-date-time id="datetime" value="{{newTask().deadline}}"> </oj-input-date-time>
-        </div>
-        <div class="form-group">
-            <oj-label for="basicSelect">Status</oj-label>
-            <oj-select-one id="basicSelect" value="{{newTask().is_active}}">
-                <oj-option value="">Select...</oj-option>
-                <oj-option value="1">Publish</oj-option>
-                <oj-option value="0">Draft</oj-option>
-            </oj-select-one>
-        </div>
-        <div class="my-3">
-            <input data-bind="click: createTask" type="submit" class="btn btn-success" value="Create task" />
-        </div>
+  <div class="col-sm-12">
+    <div>
+      <h4 class="float-left">Create a new task</h4>
+      <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
+        <span data-bind="text: task_view_title"></span>
+      </p>
     </div>
+    <div class="clearfix"></div>
+    <div class="my-3">
+      <select
+        data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id"
+        class="form-control">
+      </select>
+    </div>
+    <div class="my-3">
+      <input data-bind="textInput: newTask().title" type="text" placeholder="Title" class="form-control" />
+    </div>
+    <textarea data-bind="textInput: newTask().body" class="form-control my-3" placeholder="Task description..."
+      style="height: 200px;"></textarea>
+    <div class="form-group">
+      <oj-label for="datetime">Deadline</oj-label>
+      <oj-input-date-time id="datetime" value="{{newTask().deadline}}"> </oj-input-date-time>
+    </div>
+    <div class="form-group">
+      <oj-label for="basicSelect">Status</oj-label>
+      <oj-select-one id="basicSelect" value="{{newTask().is_active}}">
+        <oj-option value="">Select...</oj-option>
+        <oj-option value="1">Publish</oj-option>
+        <oj-option value="0">Draft</oj-option>
+      </oj-select-one>
+    </div>
+    <div class="my-3">
+      <input data-bind="click: createTask" type="submit" class="btn btn-success" value="Create task" />
+    </div>
+  </div>
 </oj-bind-if>
 <oj-bind-if test="[[!viewSubmission()]]">
-    <oj-bind-if test="[[!task_btn_toggler()]]">
-        <div class="col-sm-12">
-            <div>
-                <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
-                    <span data-bind="text: task_view_title"></span>
-                </p>
-            </div>
-            <div class="clearfix"></div>
-            <div class="form-group">
-                <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter tasks by track</small>
-                <div class="d-flex">
-                    <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'All tracks', value: track_id" class="form-control col-md-5">
-                    </select>
-                    <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
-                </div>
-            </div>
-            <oj-list-view id="Taskmodel-task-list" class="col-12 col-md-11 mx-auto overflow-hidden bg-light p-0" data="[[taskDataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
-                <template slot="itemTemplate" data-oj-as="item" class="border-0">
-                    <div class="p-2 border rounded bg-light" style="width: 100%">
-                        <div>
-                                <oj-bind-if test="[[!search()]]">
-                                <p data-bind="text: [[item.data.track_id]]" class="badge badge-info p-2"></p>
-                                </oj-bind-if>
-                            <strong class="text-capitalize">
-                                <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
-                            </strong>
-                        </div>
-                            <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
-                            <span class="mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
-                    </div>
-                </template>
-            </oj-list-view>
+  <oj-bind-if test="[[!task_btn_toggler()]]">
+    <div class="col-sm-12">
+      <div>
+        <p class="btn btn-info float-right" data-bind="click: task_view_toggle">
+          <span data-bind="text: task_view_title"></span>
+        </p>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter tasks by track</small>
+        <div class="d-flex">
+          <select
+            data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'All tracks', value: track_id"
+            class="form-control col-md-5">
+          </select>
+          <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
         </div>
-        <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
-        </oj-paging-control>
-    </oj-bind-if>
+      </div>
+      <oj-list-view id="Taskmodel-task-list" class="col-12 col-md-11 mx-auto overflow-hidden bg-light p-0"
+        data="[[taskDataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]"
+        first-selected-item="{{taskSelected}}">
+        <template slot="itemTemplate" data-oj-as="item" class="border-0">
+          <div class="p-2 border rounded bg-light" style="width: 100%">
+            <div>
+              <oj-bind-if test="[[!search()]]">
+                <p data-bind="text: [[item.data.track_id]]" class="badge badge-info p-2"></p>
+              </oj-bind-if>
+              <strong class="text-capitalize">
+                <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+              </strong>
+            </div>
+            <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+            <span class="mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
+          </div>
+        </template>
+      </oj-list-view>
+    </div>
+    <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
+    </oj-paging-control>
+  </oj-bind-if>
 </oj-bind-if>
 
 
 <oj-bind-if test="[[viewSubmission()]]" class="oj-flex justify-content-between my-3">
-    <div data-bind="ojModule: { name: 'task_submissions',
+  <div data-bind="ojModule: { name: 'task_submissions',
   params: {taskModel:
   taskSelected, hideSubmissions: viewSubmission }
   }"></div>

@@ -74,7 +74,6 @@ define([
 
     // datetime converter
     self.formatDateTime = date => {
-      console.log(date);
       var formatDateTime = oj.Validation.converterFactory(
         oj.ConverterFactory.CONVERTER_TYPE_DATETIME
       ).createConverter({
@@ -115,7 +114,6 @@ define([
           new Paging(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
-                console.log(value)
                 value.deadline = self.formatDateTime(value.deadline);
                 return value.title;
               })
