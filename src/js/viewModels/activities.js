@@ -22,8 +22,6 @@ define([
       self.searchQuery = ko.observable('');
       self.dataProvider = ko.observable()
 
-      console.log(self.searchQuery());
-
     
 
 
@@ -63,7 +61,6 @@ define([
                     }
                 });
                 const { data } = await response.json();
-                console.log(data)
                 self.dataProvider(
                     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));   
             } catch (err) {
@@ -86,14 +83,19 @@ define([
                     }
                 });
                 const { data: { data } }  = await response.json();
-                console.log(data)
                 self.dataProvider(
                     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));   
             } catch (err) {
                 console.log(err);
             }
         };
- 
+            // listen for changes
+    let pm = ko.dataFor(document.querySelector("#admin"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Activities") {
+        self.fetchActivities("all");
+      }
+    });
     }
   
     return new activityModel();
