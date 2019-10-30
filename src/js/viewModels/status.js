@@ -33,11 +33,12 @@ define([
         let RESTurl = `${api}/api`;
 
         self.username = ko.observable('');
-        self.status = ko.observable('');
+        self.status = ko.observable(false);
         self.profile_img = ko.observable('');
         self.dataProvider = ko.observable();
         self.avatarSize = ko.observable("md");
-        // self.initials = ojvalbase.IntlConverterUtils.getInitials(self.username);
+
+
 
 
         self.fetchUsers = function() {
@@ -46,7 +47,7 @@ define([
                 method: "GET",
                 success: ({ status, data }) => {
                     if (status == true) {
-                        console.log(data);
+
                         self.dataProvider(
                             new PagingDataProviderView(
                                 new ArrayDataProvider(data, { keyAttributes: 'id' })));

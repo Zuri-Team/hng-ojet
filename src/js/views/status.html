@@ -24,33 +24,38 @@
             <template slot="itemTemplate" data-oj-as="item">
 
                 <div class="oj-flex">
-                        
-                        <div class="oj-flex-item">
-                            <oj-avatar role="img" size="[[avatarSize]]"  data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
-                                                          'title':'Avatar of ' + item.data.username }"
-                                src="[[item.data.profile_img]]">
-                            </oj-avatar>
-                        </div>
-                        <div class="oj-flex-item">
-                            <div class="oj-lg-10 oj-sm-12 oj-md-10">
-                                <div class="oj-flex row">
-                                    <div class="oj-lg-4 oj-md-4 oj-sm-12">
 
-                                           
-                                        <span class="data"><span><oj-bind-text value="[[item.data.username]]"></oj-bind-text></span></span>
-                                    </div>
-                                    <div class="oj-lg-4 oj-md-4 oj-sm-12">
-                                        <div>
-                                            <div class="led-green"></div><span>Online</span>
-                                            <div class="led-gray"></div><span>Offine</span>
-                                        </div>
-                                            
-                                        <span class="data"><span><oj-bind-text value="[[item.data.status]]"></oj-bind-text></span></span>
-                                    </div>
-                                    
+                    <div class="oj-flex-item">
+                        <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
+                                                          'title':'Avatar of ' + item.data.username }"
+                            src="[[item.data.profile_img]]">
+                        </oj-avatar>
+                    </div>
+                    <div class="oj-flex-item">
+                        <div class="oj-lg-10 oj-sm-12 oj-md-10">
+                            <div class="oj-flex row">
+                                <div class="oj-lg-4 oj-md-4 oj-sm-12">
+
+
+                                    <span class="data"><span>
+                                            <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
+                                        </span></span>
                                 </div>
+                                <div class="oj-lg-4 oj-md-4 oj-sm-12">
+                                    <div>
+                                        <oj-bind-if test="[[!status() === item.data.status]]">
+                                            <div class="led-green"></div><span>Online</span>
+                                        </oj-bind-if>
+                                        <oj-bind-if test="[[status() === item.data.status]]">
+                                            <div class="led-gray"></div><span>Offine</span>
+                                        </oj-bind-if>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+                    </div>
                 </div>
             </template>
         </oj-list-view>
