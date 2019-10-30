@@ -172,7 +172,7 @@ self.fetchTeam();
                     Authorization: `Bearer ${userToken}`
                 }
             });
-            const { data } = await response.json();
+            const  data  = await response.json();
             
             self.fetchUserProfile();
             self.applicationMessages.push({

@@ -1,6 +1,6 @@
 <section class="page__container h-100" id="admin">
   <div>
-    <div id="sidebar" class=" h-100" style="z-index: 100">
+    <div id="sidebar" class=" h-100" style="z-index: 100; overflow-y : auto;">
       <h5 class="my-4 text-light logo text-center">
         <i class="oj-navigationlist-item-icon px-2" style="width: 20px;"><img src="../../css/images/hngi.png" alt="" style="width: 20px;"></i> <span>HNG
           BOARD</span>
@@ -43,6 +43,11 @@
           <li id="Interns">
             <a for="interns-admin">
               <i class="oj-navigationlist-item-icon fa fa-user-o"></i> INTERNS
+            </a>
+          </li>
+          <li id="Activities">
+            <a for="activities-admin">
+              <i class="oj-navigationlist-item-icon fa fa-line-chart"></i> ACTIVITIES
             </a>
           </li>
           <li id="Summary">
@@ -150,6 +155,10 @@
         </div>
         <div class="oj-flex-item" id="underworld-admin">
           <div data-bind="ojModule: 'underworld'"></div>
+        </div>
+        <div class="oj-flex-item" id="activities-admin">
+          <h3>Activities</h3>
+          <div data-bind="ojModule: 'activities'"></div>
         </div>
         <div class="oj-flex-item" id="notifications-admin">
           <h3>Notifications</h3>
