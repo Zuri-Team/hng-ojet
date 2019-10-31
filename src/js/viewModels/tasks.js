@@ -162,8 +162,8 @@ define([
         success: res => {
           if (res.status == true) {
             self.newTask({});
+            self.task_btn_toggler(false);
             self.fetchTasks();
-            self.task_btn_toggler(!self.task_btn_toggler());
             self.applicationMessages.push({
               severity: "confirmation",
               summary: "Task created successfully",
