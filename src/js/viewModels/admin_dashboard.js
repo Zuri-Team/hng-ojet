@@ -20,7 +20,8 @@ define([
   "ojs/ojfilepicker",
   "ojs/ojformlayout",
   "ojs/ojbutton",
-  "ojs/ojchart"
+  "ojs/ojchart",
+  'ojs/ojdialog'
 ], function(
   oj,
   ko,
@@ -166,7 +167,6 @@ define([
           }
         });
         var data = await response.json();
-        console.log(data);
 
         if (data.data.notification_count > 0)
           self.notificationCount(data.data.notification_count);

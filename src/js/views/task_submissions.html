@@ -1,4 +1,4 @@
-<div class="container">
+<div class="col-sm-12 col-md-8">
     <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
         <div slot="body">
             <div class="form-group">
@@ -37,34 +37,39 @@
             Confirm you want to delete this task?
         </p>
         <button data-bind="click: deleteTask" class="btn btn-danger float-right">Delete task</button>
-</div>
-</oj-dialog>
+
+    </oj-dialog>
 
 
-<div class="oj-hybrid-padding">
-    <div>
-        <button class="btn btn-outline-dark mr-1" data-bind="click: editTaskModal">
+    <div class="oj-hybrid-padding">
+        <div>
+            <button class="btn btn-outline-dark mr-1" data-bind="click: editTaskModal">
                       Edit
                     </button>
-        <button class="btn btn-outline-danger" data-bind="click: deleteTaskModal">
+            <button class="btn btn-outline-danger" data-bind="click: deleteTaskModal">
                       Delete
                     </button>
-        <button class="btn btn-info float-right" data-bind="click: toTasks">
+            <button class="btn btn-info float-right" data-bind="click: toTasks">
                             <span>Go back</span>
                           </button>
-    </div>
-    <div class="oj-panel mt-4 oj-panel-shadow-sm">
-        <h3 class="oj-header-border">
-            <oj-bind-text value="[[title]]"></oj-bind-text>
-        </h3>
-        <p>
+        </div>
+        <div class="oj-panel mt-4 oj-panel-shadow-sm" style="color: #4e5769 !important">
+            <h3 class="oj-header-border">
+                <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
+            </h3>
+            <h5 class="badge badge-pill badge-info p-2">
+                <oj-bind-text value="[[track]]"></oj-bind-text>
+            </h5>
+            <h6 class="pb-2">Deadline:
+                <oj-bind-text value="[[deadline]]"></oj-bind-text>
+            </h6>
+            <p class="font-weight-bold mb-0 pb-2">Description</p>
             <oj-bind-text value="[[body]]"></oj-bind-text>
-        </p>
+        </div>
     </div>
-</div>
-<h4 class="my-4">Submissions</h4>
-<div style="width: 1px; min-width: 100%; min-height: 100%;">
-    <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Intern Id",
+    <h4 class="my-4">Submissions</h4>
+    <div style="width: 1px; min-width: 100%; min-height: 100%;">
+        <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Intern Id",
                 "field": "id",
                 "resizable": "enabled"},
               {"headerText": "Username",
@@ -82,10 +87,10 @@
                 {"headerText": "Grade",
                 "field": "grade",
                 "resizable": "enabled"}]' style="width: 100%; height: 100%;">
-        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
-        </oj-paging-control>
-    </oj-table>
-</div>
+            <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+            </oj-paging-control>
+        </oj-table>
+    </div>
 </div>
 
 <!-- Start Messages Component -->

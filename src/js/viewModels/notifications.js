@@ -93,7 +93,6 @@ define([
         //   data: { data }
         // } = await response.json();
         var data = await response.json();
-        console.log(data);
 
         self.dataProvider(
           new PagingDataProviderView(
