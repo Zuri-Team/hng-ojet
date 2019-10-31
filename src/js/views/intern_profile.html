@@ -67,23 +67,23 @@
               </button>
             </div>
           </oj-dialog>
-          <!-- Underworld dialogs -->
+          <!-- Probation dialogs -->
 
-          <oj-dialog id="addToUnderworld" dialog-title="Add to Underworld" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+          <oj-dialog id="addToProbation" dialog-title="Add to Probation" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to add?</h6>
-              <button data-bind="click: addToUnderworld" class="btn btn-success float-right">
+              <button data-bind="click: addToProbation" class="btn btn-danger float-right">
                 Confirm
               </button>
             </div>
           </oj-dialog>
 
-          <oj-dialog id="removeFromUnderworld" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+          <oj-dialog id="removeFromProbation" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to remove?</h6>
-              <button data-bind="click: removeFromUnderworld" class="btn btn-success float-right">
+              <button data-bind="click: removeFromProbation" class="btn btn-success float-right">
                 Confirm
               </button>
             </div>
@@ -225,25 +225,25 @@
                                 >Make User
                               </oj-option>
                             </oj-bind-if>
-                            <oj-bind-if test="[[isUser()]]">
-                              <oj-option id="underworld" value="Add to Underworld">
+                            <oj-bind-if test="[[!onProbation()]]">
+                              <oj-option id="probation" value="Add to Probation">
                                 <span
                                   class="fa fa-lock"
                                   slot="startIcon"
                                 ></span
-                                >Add to Underworld
+                                >Add to Probation
                               </oj-option>
                             </oj-bind-if>
-                            <oj-bind-if test="[[!isUser()]]">
+                            <oj-bind-if test="[[onProbation()]]">
                               <oj-option
-                                id="underworld"
-                                value="Remove from Underworld"
+                                id="probation"
+                                value="Remove from Probation"
                               >
                                 <span
                                   class="fa fa-unlock"
                                   slot="startIcon"
                                 ></span
-                                >Remove from Underworld
+                                >Remove from Probation
                               </oj-option>
                             </oj-bind-if>
                             <oj-option id="divider"></oj-option>
