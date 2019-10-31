@@ -10,6 +10,7 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojoffcanvas",
   "ojs/ojbutton",
+  "ojs/ojdialog",
   "ojs/ojmodule",
   "ojs/ojcomposite",
   "ojs/ojavatar",
@@ -28,6 +29,14 @@ define([
     var router = oj.Router.rootInstance;
     var userToken = sessionStorage.getItem("user_token");
 
+    //logout button
+    self.open = function (event) {
+      document.getElementById('logoutModal').open();
+    };
+    self.logout = function() {
+      sessionStorage.clear();
+      router.go("login");
+    };
     self.selectedItem = ko.observable("Dashboard");
 
     self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
@@ -236,14 +245,32 @@ define([
       self.fileNames.push(files[i].name);
     };
 
-     //logout button
-     self.open = function (event) {
-      document.getElementById('logoutModal').open();
-    };
-    self.logout = function() {
-      sessionStorage.clear();
-      router.go("login");
-    };
+     
+    function fetchProbatedInterns() {
+      $.ajax({
+        url: `${api}/api/probation/all`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: ({status, data}) => {
+          if (status == "success") {
+            for (index in data){
+              self.probated_by(data[index].probated_by);
+            self.probation_reason(data[index].probation_reason);
+            self.user_id(data[index].user_id);
+            self.probatedInternsId().push(self.user_id());
+            }
+            
+            console.log(self.probated_by());
+            console.log(self.probation_reason());
+            // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+        }
+  
+      }
+    });  
+  }
+  fetchProbatedInterns();
 
     //route to notifications
     self.gotoNotifications = function() {
