@@ -39,10 +39,13 @@
                     <div class="p-4 border rounded bg-light" style="width: 100%">
                         <div class="oj-sm-12">
                             <div class="oj-sm-12">
-                                <h5><blockquote>
-                                        <oj-bind-text value="[[item.data.message]]"></oj-bind-text>
+                                <div class="mb-2">
+                                    <strong><span data-bind="text: item.data.user.firstname"></span> <span data-bind="text: item.data.user.lastname"></span></strong>
+                                </div>
+                                <em><p><blockquote>
+                                    <oj-bind-text value="[[item.data.message]]"></oj-bind-text>
                                 </blockquote>
-                                </h5>
+                                </p></em>
                             </div>
                         </div>
                         <span>
