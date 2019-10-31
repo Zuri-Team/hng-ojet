@@ -74,6 +74,7 @@ define([
 
     //refresh list
     self.refreshList = () => {
+      self.search(false);
       self.fetchTasks();
     };
 
@@ -217,6 +218,7 @@ define([
         console.log(err);
       }
     };
+
 
     fetchTracks();
     self.fetchTasks();
