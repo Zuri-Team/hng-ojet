@@ -9,7 +9,7 @@
         <div class="clearfix"></div>
         <div class="my-3">
             <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id" class="form-control">
-        </select>
+      </select>
         </div>
         <div class="my-3">
             <input data-bind="textInput: newTask().title" type="text" placeholder="Title" class="form-control" />
@@ -45,25 +45,29 @@
                 <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter tasks by track</small>
                 <div class="d-flex">
                     <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'All tracks', value: track_id" class="form-control col-md-5">
-                    </select>
+          </select>
                     <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
+                    <button class="btn ml-3" data-bind="click: refreshList">Refresh</button>
                 </div>
             </div>
             <oj-list-view id="Taskmodel-task-list" class="col-12 col-md-11 mx-auto overflow-hidden bg-light p-0" data="[[taskDataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
                 <template slot="itemTemplate" data-oj-as="item" class="border-0">
-                    <div class="p-2 border rounded bg-light" style="width: 100%">
-                        <div>
-                                <oj-bind-if test="[[!search()]]">
-                                <p data-bind="text: [[item.data.track_id]]" class="badge badge-info p-2"></p>
-                                </oj-bind-if>
-                            <strong class="text-capitalize">
-                                <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
-                            </strong>
-                        </div>
-                            <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
-                            <span class="mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
-                    </div>
-                </template>
+          <div class="p-2 border rounded bg-light" style="width: 100%">
+            <div>
+              <oj-bind-if test="[[!search()]]">
+                <p data-bind="text: [[item.data.track_id]]" class="badge badge-info p-2"></p>
+              </oj-bind-if>
+              <oj-bind-if test="[[item.data.is_active == '0']]">
+                <p class="badge badge-warning p-2">Draft</p>
+              </oj-bind-if>
+              <p><strong class="text-capitalize">
+                <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+              </strong></p>
+            </div>
+            <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+            <span class="mb-0" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
+          </div>
+        </template>
             </oj-list-view>
         </div>
         <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
@@ -75,7 +79,7 @@
 <oj-bind-if test="[[viewSubmission()]]" class="oj-flex justify-content-between my-3">
     <div data-bind="ojModule: { name: 'task_submissions',
   params: {taskModel:
-  taskSelected, hideSubmissions: viewSubmission }
+  taskSelected, hideSubmissions: viewSubmission, listRefresh: fetchTasks }
   }"></div>
 </oj-bind-if>
 

@@ -55,8 +55,15 @@
     </div>
     <div class="oj-panel mt-4 oj-panel-shadow-sm">
         <h3 class="oj-header-border">
-            <oj-bind-text value="[[title]]"></oj-bind-text>
+            <oj-bind-text class="text-capitalize" value="[[title]]"></oj-bind-text>
         </h3>
+        <p class="badge badge-info p-2">
+            <oj-bind-text value="[[track]]"></oj-bind-text>
+        </p>
+        <p><strong>DEADLINE: </strong>
+            <oj-bind-text value="[[deadline]]"></oj-bind-text>
+        </p>
+        <strong><p>DETAILS</p></strong>
         <p>
             <oj-bind-text value="[[body]]"></oj-bind-text>
         </p>
