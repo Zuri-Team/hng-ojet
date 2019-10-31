@@ -11,6 +11,7 @@ function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
+  self.listRefresh = ko.observable();
 
   // Task submission observables
   self.title = ko.observable("");
@@ -48,6 +49,7 @@ self.dataProvider = ko.observable()
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));
+    self.listRefresh(params.listRefresh());
   }
 
   self.deleteTaskModal = () => {
@@ -129,6 +131,7 @@ self.fetchTrack();
   //Updates Task
 
   self.updateTask = function(event) {
+    let track_id = self.track_id();
     let title = self.title();
     let body = self.body();
     let deadline = self.deadline();
@@ -144,7 +147,7 @@ self.fetchTrack();
         // "Access-Control-Allow-Methods": "*",
         // "Access-Control-Allow-Headers": "*"
       },
-      data: { title, body, deadline, is_active },
+      data: { track_id, title, body, deadline, is_active },
       success: res => {
         if (res.status == true) {
           // send a success message notification to the category view
@@ -181,15 +184,15 @@ self.fetchTrack();
         Authorization: "Bearer " + userToken
       },
       method: "DELETE",
-      success: res => {
+      success: () => {
         document.getElementById("deleteTaskModal").close();
-        setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000);
-
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task deleted",
           autoTimeout: parseInt("0")
         });
+        self.listRefresh(params.listRefresh());
+        setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000);
       },
       error: err => {
         console.log(err);
