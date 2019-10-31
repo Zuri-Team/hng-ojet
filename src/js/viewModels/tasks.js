@@ -18,13 +18,14 @@ define([
   "ojs/ojselectcombobox",
   "ojs/ojdatetimepicker",
   "ojs/ojmessages",
-  "ojs/ojpagingcontrol"
-  // "ojs/ojtimezonedata"
+  "ojs/ojpagingcontrol",
+  "ojs/ojtimezonedata"
 ], function(oj, ko, $, api, ArrayDataProvider, Paging) {
   function taskModel() {
     var self = this;
 
     var userToken = sessionStorage.getItem("user_token");
+
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 
@@ -42,7 +43,7 @@ define([
     };
 
     self.applicationMessages = ko.observableArray();
-    self.track_id = ko.observable();
+    self.track_id = ko.observable("");
 
 
     var tracksURL = `${api}/api/track`;
@@ -52,7 +53,7 @@ define([
     self.dataProvider = ko.observable();
 
     // Task selection observables
-    self.taskSelected = ko.observable();
+    self.taskSelected = ko.observable({});
 
     self.tracks = ko.observableArray([]);
     self.search = ko.observable(false);
@@ -71,6 +72,11 @@ define([
       }
     };
 
+    //refresh list
+    self.refreshList = () => {
+      self.fetchTasks();
+    };
+
     // datetime converter
     self.formatDateTime = date => {
       var formatDateTime = oj.Validation.converterFactory(
@@ -79,7 +85,7 @@ define([
         formatType: "datetime",
         dateFormat: "medium",
         timeFormat: "short",
-        // timeZone: "Africa/Lagos"
+        timeZone: "Africa/Lagos"
       });
 
       return formatDateTime.format(new Date(date).toISOString());
@@ -99,6 +105,7 @@ define([
         }
       });
     }
+
 
     self.fetchTasks = async () => {
       try {
@@ -187,27 +194,28 @@ define([
       }
     };
 
-    self.tasks_under_track = function(track_id) {
-      $.ajax({
-        url: `${api}/api/track/${track_id}/tasks`,
-        headers: {
-          Authorization: "Bearer " + userToken
-        },
-        method: "GET",
-        success: res => {
-          let { data } = res.data;
+    self.tasks_under_track = async (track_id) => {
+      try {
+        const response = await fetch(`${api}/api/track/${track_id}/tasks`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        const { data } = await response.json();
 
-          self.taskDataProvider(
-            new Paging(
-              new ArrayDataProvider(data, {
-                keys: data.map(function(value) {
-                  return value.id;
-                })
+        self.taskDataProvider(
+          new Paging(
+            new ArrayDataProvider(data, {
+              keys: data.map(function(value) {
+                value.deadline = self.formatDateTime(value.deadline);
+                return value.title;
               })
-            )
-          );
-        }
-      });
+            })
+          )
+        );
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchTracks();

@@ -6,26 +6,26 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojvalidation-base",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
-'ojs/ojtable'],
+'ojs/ojtable', 'ojs/ojoption', "ojs/ojtimezonedata"],
 function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
 
   // Task submission observables
-  self.title = ko.observable();
-  self.deadline = ko.observable();
-  self.submission_link = ko.observable();
-  self.submitted_on = ko.observable();
-  self.body = ko.observable();
-  self.grade = ko.observable();
-  self.is_active = ko.observable();
+  self.title = ko.observable("");
+  self.deadline = ko.observable("");
+  self.submission_link = ko.observable("");
+  self.submitted_on = ko.observable("");
+  self.body = ko.observable("");
+  self.grade = ko.observable("");
+  self.is_active = ko.observable("");
+  self.track = ko.observable("");
 
 
 // extract the task ID we have to work with
 const task_id = params.taskModel().data.id;
-
-console.log('task id', task_id);
+const track_id = params.taskModel().data.track_id;
 
   // notification messages observable
 self.applicationMessages = ko.observableArray([]);
@@ -38,9 +38,9 @@ self.tasks = ko.observableArray([]);
 
 
 var tracksURL = `${api}/api/track`;
-var tasksURL = `${api}/api/tasks`;
+var tasksURL = `${api}/api/task`;
 
-var submissionURL = `${api}/api/task/${task_id}/submissions`;
+var submissionURL = `${api}/api/submissions/${task_id}`;
 
 self.dataProvider = ko.observable()
 
@@ -58,6 +58,21 @@ self.dataProvider = ko.observable()
     document.getElementById("editTaskModal").open();
   };
 
+  // datetime converter
+  self.formatDateTime = date => {
+    var formatDateTime = oj.Validation.converterFactory(
+      oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+    ).createConverter({
+      formatType: "datetime",
+      dateFormat: "medium",
+      timeFormat: "short",
+      isoStrFormat: "local",
+      timeZone: "Africa/Lagos"
+    });
+
+    return formatDateTime.format(new Date(date).toISOString());
+  };
+
   function fetchSubmission() {
         $.ajax({
           url: submissionURL,
@@ -70,7 +85,6 @@ self.dataProvider = ko.observable()
 
             if (status == true) {
               self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
-              console.log(data);
           }
         }
       });
@@ -94,44 +108,23 @@ self.dataProvider = ko.observable()
 
   fetchTracks();
 
-//   self.fetchTasks = async() => {
-//     try {
-//         const response = await fetch(`${tasksURL}`, {
-//             headers: {
-//                 Authorization: `Bearer ${userToken}`
-//             }
-//         });
-//         const {
-//             data: { data }
-//         } = await response.json();
-//         // console.log(data)
-
-//         self.tasks(data.map(tasks => tasks)
-//             );
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-// self.fetchTasks();
-
-  self.fetchTask = async () => {
+  self.fetchTrack = async() => {
     try {
-      const response = await fetch(`${tasksURL}/${task_id}`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`
-        }
-      });
-      const { data } = await response.json();
+        const response = await fetch(`${api}/api/track/${track_id}`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        });
+        const { data } = await response.json();
 
-      self.title(`${data.title}`);
-      self.body(`${data.body}`);
-      self.deadline(`${data.deadline}`);
-      self.is_active(`${data.is_active}`);
+        self.track(`${data.track_name}`);
     } catch (err) {
-      console.log(err);
+        console.log(err);
     }
-  };
-  self.fetchTask();
+};
+self.fetchTrack();
+
+
 
   //Updates Task
 
@@ -143,7 +136,7 @@ self.dataProvider = ko.observable()
 
     $.ajax({
       method: "PUT",
-      url: `${tasksURL}/${task_id}`,
+      url: `${tasksURL}s/${task_id}`,
       headers: {
         Authorization: "Bearer " + userToken
         // "Access-Control-Allow-Origin": "*",
@@ -155,13 +148,14 @@ self.dataProvider = ko.observable()
       success: res => {
         if (res.status == true) {
           // send a success message notification to the category view
+          self.fetchTask();
+          self.fetchTrack();
           self.applicationMessages.push({
             severity: "confirmation",
             summary: "Task updated",
             detail: "Task successfully updated",
             autoTimeout: parseInt("0")
           });
-          self.fetchTasks();
         }
       },
       error: err => {
@@ -182,13 +176,15 @@ self.dataProvider = ko.observable()
 
   self.deleteTask = () => {
     $.ajax({
-      url: `${tasksURL}/${task_id}`,
+      url: `${tasksURL}s/${task_id}`,
       headers: {
         Authorization: "Bearer " + userToken
       },
       method: "DELETE",
-      success: () => {
-        self.fetchTasks();
+      success: res => {
+        document.getElementById("deleteTaskModal").close();
+        setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000);
+
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task deleted",
@@ -204,9 +200,26 @@ self.dataProvider = ko.observable()
         });
       }
     });
-    document.getElementById("deleteTaskModal").close();
   };
-  console.log(params.taskModel().key, params.hideSubmissions());
+
+  self.fetchTask = async() => {
+    try {
+      const response = await fetch(`${tasksURL}/${task_id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+      const { data } = await response.json();
+
+      self.title(`${data[0].title}`);
+      self.body(`${data[0].body}`);
+      self.deadline(self.formatDateTime(`${data[0].deadline}`));
+      self.is_active(`${data[0].is_active}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  self.fetchTask();
 }
 
 return TaskSubmissionsModel;

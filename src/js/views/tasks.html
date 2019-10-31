@@ -52,6 +52,7 @@
             class="form-control col-md-5">
           </select>
           <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
+          <button class="btn ml-3" data-bind="click: refreshList">Refresh</button>
         </div>
       </div>
       <oj-list-view id="Taskmodel-task-list" class="col-12 col-md-11 mx-auto overflow-hidden bg-light p-0"
@@ -61,7 +62,7 @@
           <div class="p-2 border rounded bg-light" style="width: 100%">
             <div>
               <oj-bind-if test="[[!search()]]">
-                <p data-bind="text: [[item.data.track_id]]" class="badge badge-info p-2"></p>
+                <p data-bind="text: [[item.data.id]]" class="badge badge-info p-2"></p>
               </oj-bind-if>
               <strong class="text-capitalize">
                 <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
