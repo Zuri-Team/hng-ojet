@@ -24,7 +24,6 @@ function PostViewModel(params) {
 
 // extract the post ID we have to work with
 const post_id = params.postModel().data.id;
-console.log(post_id);
 
   // notification messages observable
 self.applicationMessages = ko.observableArray([]);
@@ -159,13 +158,12 @@ var RESTurl = `${api}/api/posts`;
 
   self.fetchPost = async() => {
     try {
-      const response = await fetch(`${RESTurl}/${post_id}`, {
+      const response = await fetch(`${RESTurl}/view/${post_id}`, {
         headers: {
           Authorization: `Bearer ${userToken}`
         }
       });
       const { data } = await response.json();
-      console.log(data);
 
       self.post_title(`${data.post_title}`);
       self.category_name(`${data.category.title}`);
