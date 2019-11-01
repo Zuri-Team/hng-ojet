@@ -1,0 +1,72 @@
+<div class="col-sm-12 col-md-8">
+    <!-- modal display for post functionalities -->
+    <oj-dialog id="editModal" dialog-title="Edit post" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
+        <div slot="body">
+            <div class="form-group">
+                <oj-label class="oj-label oj-label-inline">Category</oj-label>
+                <select data-bind="options: categories, optionsText: 'category_name',  optionsValue:'id', optionsCaption: 'Select category', value: category_id," class="form-control">
+      </select>
+            </div>
+            <div class="form-group">
+                <oj-label class="oj-label oj-label-inline">Post title</oj-label>
+                <input data-bind="textInput: post_title" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <oj-label class="oj-label oj-label-inline">Post body</oj-label>
+                <textarea data-bind="textInput: post_body" class="form-control" rows="10"></textarea>
+            </div>
+            <button data-bind="click: updatePost" class="btn btn-success">
+      Update post
+    </button>
+        </div>
+    </oj-dialog>
+
+    <oj-dialog id="deleteModal" title="Delete post" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
+        <div slot="body">
+            <p>
+                Confirm you want to delete this post?
+            </p>
+            <button data-bind="click: deletePost" class="btn btn-danger">Delete post</button>
+        </div>
+    </oj-dialog>
+
+    <div class="oj-hybrid-padding">
+        <div>
+            <button class="btn btn-outline-dark mr-1" data-bind="click: editModal">
+                      Edit
+                    </button>
+            <button class="btn btn-outline-danger" data-bind="click: deleteModal">
+                      Delete
+                    </button>
+            <button class="btn btn-info float-right" data-bind="click: toPosts">
+                            <span>Go back</span>
+                          </button>
+        </div>
+        <div class="oj-panel mt-4 oj-panel-shadow-sm" style="color: #4e5769 !important">
+            <h3 class="oj-header-border">
+                <oj-bind-text class="pb-2" value="[[post_title]]"></oj-bind-text>
+            </h3>
+            <h5 class="badge badge-pill badge-info p-2">
+                <oj-bind-text value="[[category_name]]"></oj-bind-text>
+            </h5>
+            <h6 class="pb-2">
+                <oj-bind-text value="[[created_at]]"></oj-bind-text>
+            </h6>
+            <p class="font-weight-bold mb-0 pb-2">
+                <oj-bind-text value="[[fullname]]"></oj-bind-text>
+            </p>
+            <oj-bind-text value="[[post_body]]"></oj-bind-text>
+        </div>
+    </div>
+</div>
+
+<!-- Start Messages Component -->
+
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+    "my": {"vertical" : "bottom", "horizontal": "end"},
+    "at": {"vertical": "bottom", "horizontal": "end"},
+    "of": "window"
+    }'>
+</oj-messages>
+
+<!-- End Messages Component -->
