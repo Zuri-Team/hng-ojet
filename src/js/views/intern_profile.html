@@ -69,10 +69,18 @@
           </oj-dialog>
           <!-- Probation dialogs -->
         
-          <oj-dialog id="addToProbation" dialog-title="Add to Probation" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+          <oj-dialog id="addToProbation" dialog-title="Add to Probation" class=" position-absolute col-5 col-md-6 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to add?</h6>
+              <div class="form-group">
+                <oj-label for="reason">Reason for Probation:</oj-label>
+                <oj-input-text id="reason" value='{{reason}}'></oj-input-text>
+              </div>
+              <div class="form-group">
+                <oj-label for="deadline">Deadline:</oj-label>
+                <oj-input-date id="deadline" value='{{exit_on}}'></oj-input-date>
+              </div>
               <button data-bind="click: addToProbation" class="btn btn-danger float-right">
                 Confirm
               </button>
