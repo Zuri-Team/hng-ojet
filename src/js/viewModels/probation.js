@@ -52,68 +52,14 @@
         success: ({status, data}) => {
             if (status == "success") {
                 self.totalInterns(data.length);
-                // console.log(data);
+                console.log(data);
             }
         }
       });  
     }
   
   fetchdashboard();
-  
-//   function fetchinterns() {
-//     $.ajax({
-//       url: `${api}/api/interns`,
-//       headers: {
-//         Authorization: "Bearer " + userToken
-//       },
-//       method: "GET",
-//       success: ({status, data}) => {
-//         if (status == true) {
-//           // console.log(data);
-//           for (intern of data){
-//             for (id of self.probatedInternsId()){
-//               if (intern.id === id){
-//                 // console.log(intern);
-//                 self.probatedInterns().push(intern);
-//                 // var probatedInterns = self.probatedInterns();
-//             self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(self.probatedInterns(), {keyAttributes: 'id'})));
-//               }
-//             }
-//           }
-//       }
-
-//     }
-//   });  
-// }
-// fetchinterns();
-
-    // self.fetchProbatedInterns = async()=>{
-    //   try {
-    //     const response = await fetch(
-    //       `${api}/api/probation/all`,{
-    //         method: "GET",
-    //         headers: {
-    //           Authorization: "Bearer " + userToken
-    //         }
-    //       });
-    //       console.log(response)
-    //       const {status, data} = await response.json();
-    //       if (status == "success") {
-    //         for (index in data){
-    //           self.probated_by(data[index].probated_by);
-    //         self.probation_reason(data[index].probation_reason);
-    //         self.user_id(data[index].user_id);
-    //         self.probatedInternsId().push(self.user_id());
-    //         }
-            
-    //         console.log(self.probated_by());
-    //         console.log(self.probation_reason());
-    //         // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
-    //     }
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
+ 
     function fetchProbatedInterns() {
       $.ajax({
         url: `${api}/api/probation/all`,
@@ -127,15 +73,6 @@
             for (index in data){
               data[index].id = data[index].user_id;
             }
-            // for (index in data){
-            //   self.probated_by(data[index].probated_by);
-            // self.probation_reason(data[index].probation_reason);
-            // self.user_id(data[index].user_id);
-            // self.probatedInternsId().push(self.user_id());
-            // }
-            
-            console.log(self.probated_by());
-            console.log(self.probation_reason());
             self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'user_id'})));
         }
   
