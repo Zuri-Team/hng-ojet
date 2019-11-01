@@ -1,4 +1,5 @@
 define([
+  "ojs/ojcore",
   "knockout",
   "jquery",
   "./api",
@@ -11,7 +12,7 @@ define([
   "ojs/ojtimezonedata",
   "ojs/ojmessages",
   "ojs/ojpagingcontrol"
-], function(ko, $, api, ArrayDataProvider, Paging) {
+], function(oj, ko, $, api, ArrayDataProvider, Paging) {
   function postModel() {
     let self = this;
     var RESTurl = `${api}/api/posts`;
@@ -20,9 +21,10 @@ define([
     // form-data for new post
     self.category_id = ko.observable();
     self.newpost = ko.observable({});
-    self.postSelected = ko.observable();
-    self.post = ko.observable({});
+    self.postSelected = ko.observable({});
     self.dataProvider = ko.observable();
+
+    self.viewPost = ko.observable(false);
 
     self.post_btn_toggler = ko.observable(false);
     self.post_view_title = ko.observable("New Post");
@@ -33,16 +35,19 @@ define([
     self.post_view_toggle = () => {
       self.post_btn_toggler(!self.post_btn_toggler());
       self.post_view_title() == "New Post"
-        ? self.post_view_title("My Posts")
+        ? self.post_view_title("Back")
         : self.post_view_title("New Post");
     };
 
-    self.postSelectedChanged = () => {
+    self.postSelectedChanged = function(event) {
+      if (event.detail.value.length != 0) {
       let { data } = self.postSelected();
-      if (data != null) {
-        console.log(data)
-        self.post(data);
+      if (data == null) {
+        return;
+      } else {
+        self.viewPost(true);
       }
+    }
     };
 
     function fetchCategories() {
@@ -59,17 +64,6 @@ define([
       });
     }
 
-    self.viewPostModal = () => {
-      document.getElementById("viewModal").open();
-    };
-
-    self.editPostModal = () => {
-      document.getElementById("editModal").open();
-    };
-
-    self.deletePostModal = () => {
-      document.getElementById("deleteModal").open();
-    };
 
     // datetime converter
     self.formatDateTime = date => {
@@ -144,72 +138,7 @@ define([
       });
     };
 
-    self.updatePost = () => {
-      let category_id = self.category_id();
-      let post_id = self.post().id;
-      let post_title = self.post().post_title;
-      let post_body = self.post().post_body;
-      $.ajax({
-        url: `${RESTurl}/${post_id}`,
-        headers: {
-          Authorization: "Bearer " + userToken
-        },
-        method: "PUT",
-        data: { category_id, post_title, post_body },
-        success: res => {
-          if (res.status == true) {
-            // send a success message notification to the category view
-            self.applicationMessages.push({
-              severity: "confirmation",
-              summary: "Post updated",
-              detail: "A post has been updated",
-              autoTimeout: parseInt("0")
-            });
-            self.fetchPost();
-          }
-        },
-        error: err => {
-          console.log(err);
 
-          // send an error message notification to the category view
-          self.applicationMessages.push({
-            severity: "error",
-            summary: "Error updating post",
-            detail: "Error trying to update post",
-            autoTimeout: parseInt("0")
-          });
-        }
-      });
-      document.getElementById("editModal").close();
-    };
-
-    self.deletePost = () => {
-      let post_id = self.post().id;
-      $.ajax({
-        url: `${RESTurl}/${post_id}`,
-        headers: {
-          Authorization: "Bearer " + userToken
-        },
-        method: "DELETE",
-        success: () => {
-          self.fetchPost();
-          self.applicationMessages.push({
-            severity: "confirmation",
-            summary: "Post deleted",
-            autoTimeout: parseInt("0")
-          });
-        },
-        error: err => {
-          console.log(err);
-          self.applicationMessages.push({
-            severity: "error",
-            summary: "An error was encountered, could not delete post",
-            autoTimeout: parseInt("0")
-          });
-        }
-      });
-      document.getElementById("deleteModal").close();
-    };
     fetchCategories();
     self.fetchPost();
     // listen for changes
