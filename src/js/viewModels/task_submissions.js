@@ -47,7 +47,7 @@ self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
 
-  console.log(userToken);
+
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));

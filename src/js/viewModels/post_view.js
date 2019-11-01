@@ -85,9 +85,8 @@ var RESTurl = `${api}/api/posts`;
 
   self.updatePost = function(event) {
     let category_id = self.category_id();
-      let post_id = self.post().id;
-      let post_title = self.post().post_title;
-      let post_body = self.post().post_body;
+      let post_title = self.post_title();
+      let post_body = self.post_body();
 
     $.ajax({
       method: "PUT",
@@ -103,6 +102,7 @@ var RESTurl = `${api}/api/posts`;
       success: res => {
         if (res.status == true) {
           // send a success message notification to the category view
+          document.getElementById("editModal").close();
           self.fetchPost();
           self.applicationMessages.push({
             severity: "confirmation",
@@ -125,7 +125,7 @@ var RESTurl = `${api}/api/posts`;
       }
     });
 
-    document.getElementById("editModal").close();
+
   };
 
   self.deletePost = () => {
@@ -143,7 +143,7 @@ var RESTurl = `${api}/api/posts`;
           autoTimeout: parseInt("0")
         });
         self.listRefresh(params.listRefresh());
-        setTimeout(() => self.hideSubmissions(params.hidePost(false)), 1000);
+        setTimeout(() => self.hidePost(params.hidePost(false)), 1000);
       },
       error: err => {
         console.log(err);
@@ -158,7 +158,7 @@ var RESTurl = `${api}/api/posts`;
 
   self.fetchPost = async() => {
     try {
-      const response = await fetch(`${RESTurl}/${post_id}`, {
+      const response = await fetch(`${RESTurl}/view/${post_id}`, {
         headers: {
           Authorization: `Bearer ${userToken}`
         }
