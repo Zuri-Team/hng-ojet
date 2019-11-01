@@ -1,16 +1,15 @@
 <oj-bind-if test="[[!isUserProfile()]]">
 
-    <div class="oj-flex-item ml-lg-3 ml-md-3 bg-light mt-4 mt-sm-0 rounded"
-    style="height: fit-content; box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
-    <h3 class="mb-0 pt-3 oj-padding-horizontal border border-right-0 border-left-0 border-top-0 border-secondary ">
-      <oj-label for="basicSelect" class="h6 m-0"><span class="mx-1">
-        </span><sup>(Click on an intern to carry out actions)</sup>  
-      </oj-label>
-    </h3>
-    <oj-list-view id="interns" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[selectedInternChanged]]" first-selected-item="{{firstSelectedIntern}}"
-      scroll-policy="loadMoreOnScroll">
-      <template slot="itemTemplate" data-oj-as="item" class="py-2">
-        <div class="oj-flex">
+    <div class="oj-flex oj-sm-justify-content-center mt-2">
+        <div class="col-sm-12 col-md-8">
+            <h3 class="mb-0 pt-3 oj-padding-horizontal border border-right-0 border-left-0 border-top-0 border-secondary ">
+                <oj-label for="basicSelect" class="h6 m-0"><span class="mx-1">
+        </span><sup>(Click on an intern to carry out actions)</sup>
+                </oj-label>
+            </h3>
+            <oj-list-view id="interns" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[selectedInternChanged]]" first-selected-item="{{firstSelectedIntern}}" scroll-policy="loadMoreOnScroll">
+                <template slot="itemTemplate" data-oj-as="item" class="border-0">
+        <div class="oj-flex p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
           <div class="oj-flex-item oj-md-2">
             <img src="https://res.cloudinary.com/judejax/image/upload/v1567639756/avatar.png" class="img-thumbnail"
               width="60" height="65">
@@ -30,54 +29,16 @@
           </div>
         </div>
       </template>
-    </oj-list-view>
-  </div>
-<!-- <div id="sampleDemo" class="demo-padding demo-container">
-  <div
-    id="componentDemoContent"
-    style="width: 1px; min-width: 100%; min-height: 100%;"
-  >
-    <oj-table
-      id="table"
-      aria-label="Interns Table"
-      data="[[dataProvider]]"
-      selection-mode='{"row": "single", "column": "single"}'
-      dnd='{"reorder": {"columns": "enabled"}}'
-      scroll-policy="loadMoreOnScroll"
-      on-selected-changed="[[selectedTeamMemberChanged]]" 
-      first-selected-item="{{firstSelectedTeamMember}}"
-      columns='[{"headerText": "Intern Id", 
-                "field": "id",
-                "headerClassName": "oj-sm-only-hide",
-                "className": "oj-sm-only-hide",
-                "resizable": "enabled"},
-              {"headerText": "Username", 
-                "field": "username",
-                "resizable": "enabled"},
-              {"headerText": "First Name", 
-                "field": "firstname",
-                "headerClassName": "oj-sm-only-hide",
-                "className": "oj-sm-only-hide",
-                "resizable": "enabled"},
-              {"headerText": "Last Name", 
-                "field": "lastname",
-                "resizable": "enabled"}]'
-      style="width: 100%; height: 100%;"
-    > 
-   </oj-table> -->
-    <oj-paging-control
-    id="paging"
-    data="[[dataProvider]]"
-    page-size="10"
-    slot="bottom"
-  >
-  </oj-paging-control>
-  </div>
-</div>
+            </oj-list-view>
+            <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+            </oj-paging-control>
+        </div>
+    </div>
+
 </oj-bind-if>
-      <oj-bind-if test="[[isUserProfile()]]" class="oj-flex justify-content-between my-3">
-        <div data-bind="ojModule: { name: 'intern_profile',
+<oj-bind-if test="[[isUserProfile()]]">
+    <div class="oj-flex oj-sm-justify-content-center my-3" data-bind="ojModule: { name: 'intern_profile',
         params: {userModel:
         firstSelectedIntern, hideProfile: isUserProfile }
         }"></div>
-        </oj-bind-if>
+</oj-bind-if>

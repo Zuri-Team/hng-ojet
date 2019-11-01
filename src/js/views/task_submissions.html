@@ -32,12 +32,13 @@
         </div>
     </oj-dialog>
 
-    <oj-dialog id="deleteTaskModal" dialog-title="Delete task" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal" <div slot="body">
+    <oj-dialog id="deleteTaskModal" dialog-title="Delete task" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
+        <div slot="body">
         <p>
             Confirm you want to delete this task?
         </p>
         <button data-bind="click: deleteTask" class="btn btn-danger float-right">Delete task</button>
-
+    </div>
     </oj-dialog>
 
 
