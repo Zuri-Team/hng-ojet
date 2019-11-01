@@ -119,8 +119,6 @@ define([
       });
     };
 
-    self.search = ko.observable(false);
-
     fetchCategories();
     self.fetchPost();
     // listen for changes

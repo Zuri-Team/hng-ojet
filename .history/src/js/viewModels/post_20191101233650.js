@@ -77,8 +77,6 @@ define([
         //Append emoji to my element
         const emojiContainer  = document.getElementById('emoji');
 
-        picker.listenOn(emojiContainer);
-
 
         // datetime converter
         self.formatDateTime = date => {

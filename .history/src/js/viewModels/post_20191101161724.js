@@ -5,7 +5,6 @@ define([
     "./api",
     "ojs/ojarraydataprovider",
     "ojs/ojpagingdataproviderview",
-    "rm-emoji-picker",
     'ojs/ojknockout',
     "ojs/ojmodel",
     "ojs/ojlistview",
@@ -14,7 +13,7 @@ define([
     "ojs/ojtimezonedata",
     "ojs/ojmessages",
     "ojs/ojpagingcontrol"
-], function(oj, ko, $, api, ArrayDataProvider, Paging, EmojiPicker) {
+], function(oj, ko, $, api, ArrayDataProvider, Paging) {
     function postViewModel() {
         var self = this;
         var RESTurl = `${api}/api/posts`;
@@ -70,14 +69,6 @@ define([
                 }
             });
         }
-
-        //An instance of EmojiPicker
-        const picker = new EmojiPicker();
-
-        //Append emoji to my element
-        const emojiContainer  = document.getElementById('emoji');
-
-        picker.listenOn(emojiContainer);
 
 
         // datetime converter
