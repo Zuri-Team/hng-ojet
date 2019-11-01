@@ -15,10 +15,10 @@ define([
     "ojs/ojknockout-keyset",
     "ojs/ojmodel",
     "ojs/ojlistview",
-    'ojs/ojvalidation-base',
-    'ojs/ojvalidation',
-    'ojs/ojavatar', 'ojs/ojcomposite',
-
+    "ojs/ojvalidation-base",
+    "ojs/ojvalidation",
+    "ojs/ojavatar",
+    "ojs/ojcomposite",
     "ojs/ojdialog",
     "ojs/ojvalidation-datetime",
     "ojs/ojtimezonedata",
@@ -26,39 +26,49 @@ define([
     "ojs/ojbutton",
     "ojs/ojradioset",
     "ojs/ojlabel"
-], function(ko, $, api, ArrayDataProvider, PagingDataProviderView, ojvalbase) {
+], function(ko, $, api, ArrayDataProvider, PagingDataProviderView) {
     function StatusViewModel() {
         var self = this;
 
         let RESTurl = `${api}/api`;
 
-        self.username = ko.observable('');
+        self.username = ko.observable("");
         self.status = ko.observable(false);
-        self.profile_img = ko.observable('');
-        self.dataProvider = ko.observable();
+        self.profile_img = ko.observable("");
+        self.dataInternProvider = ko.observable();
+        self.dataAdminProvider = ko.observable();
         self.avatarSize = ko.observable("md");
 
 
-
-
-        self.fetchUsers = function() {
+        (function fetchUsers() {
             $.ajax({
                 url: `${RESTurl}/status`,
                 method: "GET",
                 success: ({ status, data }) => {
                     if (status == true) {
+                        const intern = data.filter(data => data.role <= "intern");
 
-                        self.dataProvider(
+                        const admin = data.filter(
+                            data => data.role >= "superadmin" && data.role >= "admin"
+                        );
+
+                        self.dataInternProvider(
                             new PagingDataProviderView(
-                                new ArrayDataProvider(data, { keyAttributes: 'id' })));
+                                new ArrayDataProvider(intern, { keyAttributes: "id" })
+                            )
+                        );
+                        self.dataAdminProvider(
+                            new PagingDataProviderView(
+                                new ArrayDataProvider(admin, { keyAttributes: "id" })
+                            )
+                        );
                     }
 
+
                 }
-
             });
-        }
-
-        self.fetchUsers();
+            setTimeout(fetchUsers, 15000);
+        })();
 
         self.connected = function() {
             // Implement if needed
