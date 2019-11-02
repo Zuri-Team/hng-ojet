@@ -1,4 +1,4 @@
-node_modules
+node_modules/rm-emoji-picker
 bower_components/*
 /themes
 /web

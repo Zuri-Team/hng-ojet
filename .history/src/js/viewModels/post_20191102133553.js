@@ -69,7 +69,8 @@ define([
                 }
             });
         }
-        
+
+
         // datetime converter
         self.formatDateTime = date => {
             var formatDateTime = oj.Validation.converterFactory(

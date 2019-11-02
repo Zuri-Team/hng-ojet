@@ -222,21 +222,6 @@
         "path": "libs/require-css/css.min.js",
         "cdnPath": "require-css/css.min"
       }
-    },
-
-    "rm-emoji-picker": {
-      "cdn": "3rdparty",
-      "cwd": "node_modules/rm-emoji-picker/dist",
-      "debug": {
-      "src": "rm-emoji-picker.debug.js",
-      "path": "libs/rm-emoji-picker/rm-emoji-picker.debug.js",
-      "cdnPath": ""
-      },
-      "release": {
-      "src": ["EmojiPicker.js", "emojipicker.css", "emojipicker.css.map"],
-      "path": "libs/rm-emoji-picker/rm-emoji-picker.js",
-      "cdnPath": ""
-      }
     }
   }
 } 
