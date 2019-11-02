@@ -371,7 +371,8 @@ span.btn.btn-primary {
 }
 
 div.box1 div.p-img span,
-div.box2 div.p-img span {
+div.box2 div.p-img span,
+div.box3 div.p-img span {
     width: 80px;
     margin: 10px;
     margin-top: 30px;
@@ -389,7 +390,8 @@ p.taskheading {
 }
 
 div.box1 div.taskinfo p.p-stat,
-div.box2 div.taskinfo p.p-stat {
+div.box2 div.taskinfo p.p-stat,
+div.box3 div.taskinfo p.p-stat {
     font-size: 20px;
     font-weight: bold;
     margin: 3px 0;
@@ -404,7 +406,8 @@ span.p-text {
 }
 
 div.box1,
-div.box2 {
+div.box2,
+div.box3 {
     color: #fff;
 }
 
@@ -418,21 +421,21 @@ div.box2 {
 }
 
 .box3 {
-    grid-area: box3;
-    border-radius: 5px;
-    position: absolute;
-    max-width: 100%;
-    background: #FFFFFF;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    justify-content: center;
+    background: linear-gradient(270deg, rgb(173, 253, 177) -3.75%, rgb(46, 252, 27) 78.75%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px 10px 10px 0px;
 }
 
-.box3 div.section-item {
+
+/* .box3 div.section-item {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-content: space-between;
     justify-content: space-evenly;
-}
+} */
 
 div.section-item div.sec-img img {
     width: 50px;
@@ -550,7 +553,6 @@ oj-navigation-list li {
 /** status **/
 
 .led-green {
-    margin: 20px auto;
     width: 12px;
     height: 12px;
     background-color: green;
@@ -560,7 +562,6 @@ oj-navigation-list li {
 }
 
 .led-gray {
-    margin: 20px auto;
     width: 12px;
     height: 12px;
     background-color: rgb(117, 117, 117);
