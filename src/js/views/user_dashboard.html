@@ -70,66 +70,69 @@
                             value: keyword,
                             options: tags,
                             rootAttributes: {style:'max-width: 20em'}}" />
-                </form>
-            </oj-bind-if>
-        </div>
-        <div class="clearfix"></div>
-        <div id="maincontent_intern_body" class="px-3 w-100">
+        </form>
+      </oj-bind-if>
+    </div>
+    <div class="clearfix"></div>
+    <div id="maincontent_intern_body" class="px-3 w-100">
 
-            <div id="overview-intern" class="mt-2">
-                <header class="d-flex" style=" color: #768093">
-                    <div class="w-100">
-                        <h4 class="py-1 text-capitalize"><span data-bind="text: fullname"></span></h4>
-                        <p class="badge badge-dark p-2" data-bind="text: tracks"></p><br/><br/>
-                        <oj-bind-if test="[[onProbation()]]">
-                            <p class="badge badge-danger p-2">
-                                You are on Probation! You were probated by <span data-bind="text: probated_by"></span> for the following reason: <span data-bind="text: probation_reason"></span>.<br/><br/> If you are not unprobated on/before <span data-bind="text: deadline"></span>,
-                                you will be deactivated from the internship.
-                            </p>
-                        </oj-bind-if>
+      <div id="overview-intern" class="mt-2">
+        <header class="d-flex" style=" color: #768093">
+          <div class="w-100">
+            <h4 class="py-1 text-capitalize"><span data-bind="text: fullname"></span></h4>
+            <p class="badge badge-dark p-2" data-bind="text: tracks"></p><br/>
 
-                    </div>
-                    <div class="w-100 text-right">
-                        <div id="currentStepText">
-                            <small class="h5">Stage</small> <span class="h2" data-bind="text:  selectedStepLabel()"></span>
-                        </div>
-                    </div>
-                </header>
+          </div>
+          <div class="w-100 text-right">
+            <div id="currentStepText">
+              <small class="h5">Stage</small> <span class="h2" data-bind="text:  selectedStepLabel()"></span>
+            </div>
+          </div>
+          
+        </header>
+        <oj-bind-if test="[[onProbation()]]">
+          <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded bg-danger text-white p-2">
+            You are on Probation! You were probated by <span data-bind="text: probated_by"></span> for the following reason: <span data-bind="text: probation_reason"></span>.<br/><br/>
+            If you are not unprobated on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
+          </div>
+        </oj-bind-if>
 
-                <oj-train id="train" class="oj-train-stretch col-sm-10 col-12 p-sm-0 p-0 mx-sm-auto my-3" on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}" steps="[[stepArray]]">
-                </oj-train>
+        <oj-train id="train" class="oj-train-stretch col-sm-10 col-12 p-sm-0 p-0 mx-sm-auto my-3"
+          on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}" steps="[[stepArray]]">
+        </oj-train>
 
-                <h5 data-bind="text:  ' Task For the Week '"></h5>
+        <h5 data-bind="text:  ' Task For the Week '"></h5>
 
-                <div class="d-block d-sm-flex  justify-content-between" style="color: #768093 !important">
-                    <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded align-self-baseline">
+        <div class="d-block d-sm-flex  justify-content-between" style="color: #768093 !important">
+          <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded align-self-baseline">
 
-                        <h5 class="pb-2" slot="header">
-                            <oj-bind-text value="[[tasks().title]]"></oj-bind-text>
-                        </h5>
-                        <h6 class="pb-2">Deadline:
-                            <oj-bind-text value="[[tasks().deadline]]"></oj-bind-text>
-                        </h6>
-                        <div>
-                            <p class="font-weight-bold mb-0 pb-2 ">Description</p>
-                            <oj-bind-text value="[[tasks().body]]"></oj-bind-text>
-                        </div>
-                    </div>
+            <h5 class="pb-2" slot="header">
+              <oj-bind-text value="[[tasks().title]]"></oj-bind-text>
+            </h5>
+            <h6 class="pb-2">Deadline: <oj-bind-text value="[[tasks().deadline]]"></oj-bind-text>
+            </h6>
+            <div>
+              <p class="font-weight-bold mb-0 pb-2 ">Description</p>
+              <oj-bind-text value="[[tasks().body]]"></oj-bind-text>
+            </div>
+          </div>
 
-                    <div class="oj-panel oj-panel-shadow-sm col-sm-5 col-12 rounded mt-sm-0 mt-4 align-self-baseline">
-                        <h5>Task submission</h5>
-                        <p data-bind="text: tasks().title" class="font-weight-bold mb-0 pb-1"></p>
-                        <div>
-                            <div>
-                                <label class="col-form-label">Link</label>
-                                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.task_url" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Comment</label>
-                                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.task_comment" rows="5"></textarea>
-                            </div>
-                            <div class="clearfix"></div>
-                            <button class="btn btn-sm text-light float-right" data-bind="click: submitTask" style=" background-color: #5882BE !important">
+          <div class="oj-panel oj-panel-shadow-sm col-sm-5 col-12 rounded mt-sm-0 mt-4 align-self-baseline">
+            <h5>Task submission</h5>
+            <p data-bind="text: tasks().title" class="font-weight-bold mb-0 pb-1"></p>
+            <div>
+              <div>
+                <label class="col-form-label">Link</label>
+                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.task_url" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Comment</label>
+                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.task_comment"
+                  rows="5"></textarea>
+              </div>
+              <div class="clearfix"></div>
+              <button class="btn btn-sm text-light float-right" data-bind="click: submitTask"
+                style=" background-color: #5882BE !important">
                 Submit
               </button>
                         </div>
@@ -144,9 +147,16 @@
 
             <div class="oj-flex-item" id="intern-settings">
 
+<<<<<<< HEAD
+      <div class="oj-flex-item" id="intern-settings">
+        <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
+        <div data-bind="ojModule: 'profile'"></div>
+      </div>
+=======
                 <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
                 <div data-bind="ojModule: 'profile'"></div>
             </div>
+>>>>>>> 697406ad0212529980224b569b82caecb1d146a3
 
             <div class="oj-flex-item" id="notifications-admin">
                 <h3>Notifications</h3>

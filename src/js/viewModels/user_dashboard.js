@@ -95,7 +95,7 @@ define([
           }
         });
         var data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (data.data.notification_count > 0)
           self.notificationCount(data.data.notification_count);
@@ -317,7 +317,7 @@ define([
       }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-      console.log(user);
+      // console.log(user);
       
       function fetchIfProbated() {
         $.ajax({
@@ -328,37 +328,21 @@ define([
           method: "GET",
           success: ({status, data}) => {
             if (status == "success") {
-              console.log(data);
-              self.onProbation(data);
-          }
-    
-        }
-      });  
-    }
-    fetchIfProbated();
-      function fetchProbatedInterns() {
-        $.ajax({
-          url: `${api}/api/probation/all`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "GET",
-          success: ({status, data}) => {
-            if (status == "success") {
-              console.log(data);
-              for (index in data){
-                if (data[index].user_id === user.id){
-                  self.probated_by(data[index].probated_by);
-                  self.probation_reason(data[index].probation_reason);
-                  self.deadline(data[index].exit_on);
-                }
+              // console.log(data);
+              // console.log(data.status);
+              if (data.status === true){
+                self.onProbation(data.status);
+                self.probated_by(data.probator.firstname+' '+data.probator.lastname);
+                    self.probation_reason(data.probation_reason);
+                    self.deadline(data.exit_on);
               }
           }
     
         }
       });  
     }
-    fetchProbatedInterns();
+    fetchIfProbated();
+    
       fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.stepArray().map((stage, i) => {
