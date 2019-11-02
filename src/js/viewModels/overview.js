@@ -130,7 +130,7 @@ function fetchProbated () {
     success: ({status, data}) => {
         if (status == "success") {
             self.totalProbatedInterns(data.length);
-            console.log(data);
+            // console.log(data);
         }
     }
   });  
