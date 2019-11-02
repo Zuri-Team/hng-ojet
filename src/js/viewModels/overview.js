@@ -132,104 +132,64 @@ function fetchProbated () {
             self.totalProbatedInterns(data.length);
             // console.log(data);
         }
-
-        fetchdashboard();
-
-        function fetchProbated() {
-            $.ajax({
-                url: `${api}/api/probation/all`,
-                headers: {
-                    Authorization: "Bearer " + userToken
-                },
-                method: "GET",
-                success: ({ status, data }) => {
-                    if (status == "success") {
-                        self.totalProbatedInterns(data.length);
-                        console.log(data);
-                    }
-                }
-            });
-        }
-
-        fetchProbated();
-        // self.fetchdashboard = async() => {
-        //       try {
-        //         const response = await fetch(
-        //           `${api}/api/probation/all`,{
-        //             method: "GET",
-        //             headers:{
-        //               Authorization: "Bearer " + userToken
-        //             }
-        //           });
-        //           const {status, data} = await response.json();
-        //             if (status == "success") {
-        //                 self.totalInterns(data.length);
-        //                 console.log(data);
-        //             }
-        //       } catch (err) {
-        //         console.log(err);
-        //       }
-        //     }
-
-        //   function fetchoverview() {
-        //     $.ajax({
-        //       url: `${api}/api/interns`,
-        //       headers: {
-        //         Authorization: "Bearer " + userToken
-        //       },
-        //       method: "GET",
-        //       success: ({status, data}) => {
-        //         if (status == true) {
-        //           self.overviewProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
-        //       }
-        //     }
-        //   });
-        // }
-        // fetchoverview();
-
-        function fetchinterns() {
-            $.ajax({
-                url: `${api}/api/interns`,
-                headers: {
-                    Authorization: "Bearer " + userToken
-                },
-                method: "GET",
-                success: ({ status, data }) => {
-                    if (status == true) {
-                        // console.log(data)
-                        self.dataProvider(
-                            new PagingDataProviderView(
-                                new ArrayDataProvider(data, { keyAttributes: "id" })
-                            )
-                        );
-                    }
-                }
-            });
-        }
-
-        (function fetchUsers() {
-            $.ajax({
-                url: `${api}/api/status`,
-                method: "GET",
-                success: ({ status, data }) => {
-                    if (status == true) {
-                        const intern = data.filter(data => data.role <= "intern");
-                        const admin = data.filter(data => (data.role >= "superadmin" && data.role >= "admin"));
-
-                        const oUser = intern.filter(data => data.status === true);
-                        const oAdmin = admin.filter(data => data.status === true);
-
-                        self.onlineIntern(oUser.length);
-                        self.onlineAdmin(oAdmin.length);
-
-                    }
-
-                }
-            });
-            setTimeout(fetchUsers, 15000);
-        })();
-
-
-        return new overviewModel();
     }
+  });  
+}
+
+fetchProbated();
+// self.fetchdashboard = async() => {
+//       try {
+//         const response = await fetch(
+//           `${api}/api/probation/all`,{
+//             method: "GET",
+//             headers:{
+//               Authorization: "Bearer " + userToken
+//             }
+//           });
+//           const {status, data} = await response.json();
+//             if (status == "success") {
+//                 self.totalInterns(data.length);
+//                 console.log(data);
+//             }
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     }
+
+//   function fetchoverview() {
+//     $.ajax({
+//       url: `${api}/api/interns`,
+//       headers: {
+//         Authorization: "Bearer " + userToken
+//       },
+//       method: "GET",
+//       success: ({status, data}) => {
+//         if (status == true) {
+//           self.overviewProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+//       }
+//     }
+//   });  
+// }
+// fetchoverview();
+
+
+function fetchinterns() {
+  $.ajax({
+    url: `${api}/api/interns`,
+    headers: {
+      Authorization: "Bearer " + userToken
+    },
+    method: "GET",
+    success: ({status, data}) => {
+      if (status == true) {
+        // console.log(data)
+        self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+    }
+
+  }
+});  
+}
+fetchinterns();
+}
+return new overviewModel();
 });
