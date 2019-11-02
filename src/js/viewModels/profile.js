@@ -37,6 +37,8 @@ define(['ojs/ojcore',
 
             self.profile = ko.observable('');
 
+            self.status = ko.observable(false);
+
             self.devstack = ko.observableArray([
                 { value: 'UI/UX', label: 'UI/UX' },
                 { value: 'FrontEnd', label: 'FrontEnd' },
@@ -134,7 +136,6 @@ define(['ojs/ojcore',
                     lastname: user.lastname,
                     username: user.username,
                     email: user.email,
-
                     bio: user.bio,
                     url: user.url,
 
@@ -212,6 +213,23 @@ define(['ojs/ojcore',
                 });
 
             };
+
+            (function fetchUser() {
+                $.ajax({
+                    url: `${api}/api/status`,
+                    method: "GET",
+                    success: ({ status, data }) => {
+                        if (status == true) {
+                            const [res] = data.filter(data => data.id === id);
+
+                            self.status(res.status);
+                        }
+
+
+                    }
+                });
+                setTimeout(fetchUser, 15000);
+            })();
 
             self.fetchProfile();
 
