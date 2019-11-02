@@ -26,9 +26,6 @@
 
     self.selectedInternChanged = function(event) {
       // Check whether click is a category selection or deselection
-  fetchdashboard();
-  // fetchinterns();
-  fetchProbatedInterns();
       if (event.detail.value.length != 0) {
         // If selection, populate and display interns
         // Populate iterns list observable using firstSelectedXxx API
@@ -56,6 +53,7 @@
             }
         }
       });  
+      setTimeout(fetchdashboard, 15000);
     }
   
   fetchdashboard();
@@ -77,7 +75,8 @@
         }
   
       }
-    });  
+    }); 
+    setTimeout(fetchProbatedInterns, 15000); 
   }
   fetchProbatedInterns();
 
