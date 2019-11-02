@@ -1,4 +1,4 @@
-define(["ojs/ojcore", "knockout", "jquery"], function(oj, ko, $) {
+define(["knockout", "jquery", "../ckeditor"], function(ko, $, ClassicEditor) {
   function viewPost(params) {
     let { data } = params.postSelected._latestValue;
     let self = this;
@@ -7,12 +7,18 @@ define(["ojs/ojcore", "knockout", "jquery"], function(oj, ko, $) {
     self.post = ko.observable(data.post_body);
     self.time = ko.observable(data.created_at);
     self.author = ko.observable(`${data.user.firstname} ${data.user.lastname}`);
-    self.fullpost = ko.observable(true);
     self.close = () => {
-      self.fullpost(params.fullpost(false));
+      params.fullpost(false);
+      params.postpg("d-block");
     };
     self.toggle_comment_box = () => {
       $("#commentBox").slideToggle();
+    };
+    self.handleAttached = () => {
+      $("#fp").html(self.post());
+      ClassicEditor.create(document.querySelector("#replypost"), {
+        toolbar: ["bold", "link", "underline"]
+      });
     };
   }
   return viewPost;

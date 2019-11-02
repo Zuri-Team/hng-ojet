@@ -1,12 +1,13 @@
 define(['ojs/ojcore',
-'knockout',
+'knockout', 'ojs/ojbootstrap',
 'jquery',
 './api',
 'ojs/ojarraydataprovider',
 'ojs/ojavatar',
-'ojs/ojbutton', 'ojs/ojmenu', 'ojs/ojoption',  "ojs/ojmessages"
+'ojs/ojbutton', 'ojs/ojmenu', 'ojs/ojoption',  "ojs/ojmessages",'ojs/ojdatetimepicker',
+'ojs/ojselectcombobox', 'ojs/ojtimezonedata', 'ojs/ojlabel'
 ],
-function (oj, ko, $, api) {
+function (oj, ko,Bootstrap, $, api) {
 function UserProfileModel(params) {
     var self = this;
     self.hideProfile = ko.observable();
@@ -31,6 +32,8 @@ function UserProfileModel(params) {
     self.probatedInterns = ko.observableArray([]);
     self.probatedInternsId = ko.observableArray([]);
     self.onProbation = ko.observable();
+    self.reason = ko.observable();
+    self.exit_on = ko.observable();
 
 
     // notification messages observable
@@ -175,17 +178,8 @@ function fetchProbatedInternsStatus() {
       method: "GET",
       success: ({status, data}) => {
         if (status == "success") {
-              console.log(data);
-              self.onProbation(data);
-        //     self.probated_by(data[index].probated_by);
-        //   self.probation_reason(data[index].probation_reason);
-        //   self.user_id(data[index].user_id);
-        //   self.probatedInternsId().push(self.user_id());
-          
-          
-        //   console.log(self.probated_by());
-        //   console.log(self.probation_reason());
-          // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+            //   console.log(data);
+              self.onProbation(data.status);
         }
 
     }
@@ -602,7 +596,8 @@ fetchProbatedInternsStatus();
         document.getElementById("addToProbation").open();
 
         self.addToProbation = async() => {
-            // const team_id = self.teams_id();
+            const reason = self.reason();
+            const exit_on = self.exit_on();
             try {
                 const response = await fetch(`${api}/api/user/probate`, {
                     method: "POST",
@@ -611,7 +606,9 @@ fetchProbatedInternsStatus();
                         Authorization: `Bearer ${userToken}`
                     },
                     body: JSON.stringify({
-                        user_id
+                        user_id,
+                        reason,
+                        exit_on
                     })
                 });
                 const { message } = await response.json();
@@ -737,7 +734,8 @@ fetchProbatedInternsStatus();
 
 
    self.Home = () => {
-        self.hideProfile(params.hideProfile(false))
+        self.hideProfile(params.hideProfile(false));
+
     }
 console.log(params.userModel().key, params.hideProfile())
 }
