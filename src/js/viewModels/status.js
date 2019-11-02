@@ -39,6 +39,16 @@ define([
         self.dataAdminProvider = ko.observable();
         self.avatarSize = ko.observable("md");
 
+        self.handleSort = function(event, ui) {
+            var criteria = event.detail.value;
+            if (criteria) {
+                //   this.executeSort(criteria.key, criteria.direction);
+                console.log(criteria)
+            } else {
+                //   this.handleFilterChanged(event,ui); 
+            }
+        }.bind(self);
+
 
         (function fetchUsers() {
             $.ajax({

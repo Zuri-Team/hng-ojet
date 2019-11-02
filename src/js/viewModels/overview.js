@@ -149,6 +149,8 @@ define([
         // }
         // fetchoverview();
 
+
+
         function fetchinterns() {
             $.ajax({
                 url: `${api}/api/interns`,
@@ -167,38 +169,34 @@ define([
                     }
                 }
             });
+
         }
 
-        self.fetchUsers = function() {
+        fetchinterns();
+
+
+        (function fetchUsers() {
             $.ajax({
-                url: `${api}api/status`,
+                url: `${api}/api/status`,
                 method: "GET",
                 success: ({ status, data }) => {
-
                     if (status == true) {
                         const intern = data.filter(data => data.role <= "intern");
-
                         const admin = data.filter(data => (data.role >= "superadmin" && data.role >= "admin"));
 
-                        self.dataInternProvider(
-                            new PagingDataProviderView(
-                                new ArrayDataProvider(intern, { keyAttributes: "id" })
-                            )
-                        );
-                        self.dataAdminProvider(
-                            new PagingDataProviderView(
-                                new ArrayDataProvider(admin, { keyAttributes: "id" })
-                            )
-                        );
+                        const oUser = intern.filter(data => data.status === true)
+                        const oAdmin = admin.filter(data => data.status === true)
+                        self.onlineIntern(oUser.length);
+                        self.onlineAdmin(oAdmin.length);
+
                     }
 
-                    console.log('from fetch')
+
                 }
             });
-        };
+            setTimeout(fetchUsers, 15000);
+        })();
 
-        setInterval(self.fetchUsers(), 15000);
-        fetchinterns();
     }
     return new overviewModel();
 });
