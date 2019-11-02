@@ -7,18 +7,22 @@
                         <span class="fa fa-list-ul fa-4x"></span>
                     </div>
                     <div class="taskinfo">
-                        <p class="taskheading"> Tasks</p>
+                        <p class="taskheading">Tasks</p>
                         <div class="line"></div>
-                        <p class="p-stat"><span>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[totalPosts]]"></oj-bind-text>
               </span> Assigned
                         </p>
-                        <p class="p-stat"> <span>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[totalPosts]]"></oj-bind-text>
-              </span> Graded</p>
+              </span> Graded
+                        </p>
                         <p class="p-stat">
                             <!-- <span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>  -->
-                            0 Pending</p>
+                            0 Pending
+                        </p>
                     </div>
                 </div>
             </div>
@@ -31,15 +35,21 @@
                     <div class="taskinfo">
                         <p class="taskheading">Interns</p>
                         <div class="line"></div>
-                        <p class="p-stat"><span>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[totalInterns]]"></oj-bind-text>
-              </span> Registered</p>
-                        <p class="p-stat"><span>
+              </span> Registered
+                        </p>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[totalInterns]]"></oj-bind-text>
-              </span> Active</p>
-                        <p class="p-stat"><span>
+              </span> Active
+                        </p>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[totalProbatedInterns]]"></oj-bind-text>
-              </span> on Probation</p>
+              </span> on Probation
+                        </p>
                     </div>
                 </div>
             </div>
@@ -52,17 +62,19 @@
                     <div class="taskinfo">
                         <p class="taskheading">Online Status</p>
                         <div class="line"></div>
-                        <p class="p-stat"><span>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[onlineIntern]]"></oj-bind-text>
-              </span> Interns</p>
-                        <p class="p-stat"><span>
+              </span> Interns
+                        </p>
+                        <p class="p-stat">
+                            <span>
                 <oj-bind-text value="[[onlineAdmin]]"></oj-bind-text>
-              </span> Admin</p>
-
+              </span> Admin
+                        </p>
                     </div>
                 </div>
             </div>
-
 
             <!-- Teams table -->
             <h4 class="my-4">Teams List:</h4>
@@ -119,7 +131,7 @@
                             <div data-bind="ojModule: 'summary'"></div>
                         </div>
                         <div slot="footer">
-                            <oj-button id="okButton" on-oj-action="[[close]]">OK
+                            <oj-button id="okButton" on-oj-action="([[close]])">OK
                             </oj-button>
                         </div>
                     </oj-dialog>
@@ -127,5 +139,7 @@
             Show Interns Summary
           </button>
                 </div>
-
             </div>
+        </div>
+    </div>
+</div>

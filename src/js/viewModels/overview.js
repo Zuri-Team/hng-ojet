@@ -47,6 +47,10 @@ define([
         self.team_lead = ko.observable();
         self.totalProbatedInterns = ko.observable();
 
+        self.onlineIntern = ko.observable();
+        self.onlineAdmin = ko.observable();
+
+
         var data = [{
                 id: 0,
                 team_name: "Team OJET",
@@ -211,13 +215,13 @@ define([
                         const intern = data.filter(data => data.role <= "intern");
                         const admin = data.filter(data => (data.role >= "superadmin" && data.role >= "admin"));
 
-                        const oUser = intern.filter(data => data.status === true)
-                        const oAdmin = admin.filter(data => data.status === true)
+                        const oUser = intern.filter(data => data.status === true);
+                        const oAdmin = admin.filter(data => data.status === true);
+
                         self.onlineIntern(oUser.length);
                         self.onlineAdmin(oAdmin.length);
 
                     }
-
 
                 }
             });
