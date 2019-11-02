@@ -124,11 +124,11 @@
             <div>
               <div>
                 <label class="col-form-label">Link</label>
-                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.task_url" class="form-control">
+                <input id="taskURL" type="url" data-bind="textInput: taskSubmit().submission_link" class="form-control">
               </div>
               <div class="form-group">
                 <label class="col-form-label">Comment</label>
-                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.task_comment"
+                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit().task_comment"
                   rows="5"></textarea>
               </div>
               <div class="clearfix"></div>
