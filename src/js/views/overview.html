@@ -1,57 +1,74 @@
 <div class="container-fluid">
-  <div class="container oj-hybrid-padding">
+    <div class="container oj-hybrid-padding">
         <div class="row ">
-          <div class="col-md-6">
-            <div class="box1 m-1">
-              <div class="p-img">
-                <span class="fa fa-list-ul fa-4x"></span>
-              </div>
-              <div class="taskinfo">
-                <p class="taskheading"> Tasks</p>
-                <div class="line"></div>
-                <p class="p-stat"><span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>
-                   Assigned</p>
-                <p class="p-stat"> <span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>  Graded</p>
-                <p class="p-stat"> 
-                  <!-- <span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>  -->
-                  0 Pending</p>
-              </div>
+            <div class="col-md-4">
+                <div class="box1 m-1">
+                    <div class="p-img">
+                        <span class="fa fa-list-ul fa-4x"></span>
+                    </div>
+                    <div class="taskinfo">
+                        <p class="taskheading"> Tasks</p>
+                        <div class="line"></div>
+                        <p class="p-stat"><span>
+                <oj-bind-text value="[[totalPosts]]"></oj-bind-text>
+              </span> Assigned
+                        </p>
+                        <p class="p-stat"> <span>
+                <oj-bind-text value="[[totalPosts]]"></oj-bind-text>
+              </span> Graded</p>
+                        <p class="p-stat">
+                            <!-- <span><oj-bind-text value="[[totalPosts]]"></oj-bind-text></span>  -->
+                            0 Pending</p>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <div class="col-md-6">
-            <div class="box2 m-1">
-              <div class="p-img">
-                <span class="fa fa-user-o fa-4x"></span>
-              </div>
-              <div class="taskinfo">
-                <p class="taskheading">Interns</p>
-                <div class="line"></div>
-                <p class="p-stat"><span><oj-bind-text value="[[totalInterns]]"></oj-bind-text></span> Registered</p>
-                <p class="p-stat"><span><oj-bind-text value="[[totalInterns]]"></oj-bind-text></span> Active</p>
-                <p class="p-stat"><span><oj-bind-text value="[[totalProbatedInterns]]"></oj-bind-text></span> on Probation</p>
-              </div>
+            <div class="col-md-4">
+                <div class="box2 m-1">
+                    <div class="p-img">
+                        <span class="fa fa-user-o fa-4x"></span>
+                    </div>
+                    <div class="taskinfo">
+                        <p class="taskheading">Interns</p>
+                        <div class="line"></div>
+                        <p class="p-stat"><span>
+                <oj-bind-text value="[[totalInterns]]"></oj-bind-text>
+              </span> Registered</p>
+                        <p class="p-stat"><span>
+                <oj-bind-text value="[[totalInterns]]"></oj-bind-text>
+              </span> Active</p>
+                        <p class="p-stat"><span>
+                <oj-bind-text value="[[totalProbatedInterns]]"></oj-bind-text>
+              </span> on Probation</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-  </div></div>
+
+            <div class="col-md-4">
+                <div class="box3 m-1">
+                    <div class="p-img">
+                        <span class="fa fa-circle-o fa-4x"></span>
+                    </div>
+                    <div class="taskinfo">
+                        <p class="taskheading">Online Status</p>
+                        <div class="line"></div>
+                        <p class="p-stat"><span>
+                <oj-bind-text value="[[onlineIntern]]"></oj-bind-text>
+              </span> Interns</p>
+                        <p class="p-stat"><span>
+                <oj-bind-text value="[[onlineAdmin]]"></oj-bind-text>
+              </span> Admin</p>
+
+                    </div>
+                </div>
+            </div>
 
 
-<!-- Teams table -->
-<h4 class="my-4">Teams List:</h4>
-<div id="sampleDemo" class="demo-padding demo-container">
-  <div
-    id="componentDemoContent"
-    style="width: 1px; min-width: 100%; min-height: 100%;"
-  >
-    <oj-table
-      id="table"
-      aria-label="Interns Table"
-      data="[[overviewProvider]]"
-      selection-mode='{"row": "multiple", "column": "multiple"}'
-      dnd='{"reorder": {"columns": "enabled"}}'
-      scroll-policy="loadMoreOnScroll"
-      columns='[{"headerText": "Id", 
+            <!-- Teams table -->
+            <h4 class="my-4">Teams List:</h4>
+            <div id="sampleDemo" class="demo-padding demo-container">
+                <div id="componentDemoContent" style="width: 1px; min-width: 100%; min-height: 100%;">
+                    <oj-table id="table" aria-label="Interns Table" data="[[overviewProvider]]" selection-mode='{"row": "multiple", "column": "multiple"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Id", 
                 "field": "id",
                 "resizable": "enabled"},
               {"headerText": "Team Name", 
@@ -68,32 +85,16 @@
                 "resizable": "enabled"},
               {"headerText": "Status", 
                 "field": "status",
-                "resizable": "enabled"}]'
-      style="width: 100%; height: 100%;"
-    >
-    <oj-paging-control
-    id="paging"
-    data="[[overviewProvider]]"
-    page-size="10"
-    slot="bottom"
-  >
-  </oj-paging-control>
-    </oj-table>
-  </div>
+                "resizable": "enabled"}]' style="width: 100%; height: 100%;">
+                        <oj-paging-control id="paging" data="[[overviewProvider]]" page-size="10" slot="bottom">
+                        </oj-paging-control>
+                    </oj-table>
+                </div>
 
-<!-- Interns table -->
-<h4 class="my-4">Interns List:</h4>
-<div
-    style="width: 1px; min-width: 100%; min-height: 100%;"
-  >
-<oj-table
-      id="interns-table"
-      aria-label="Interns Table"
-      data="[[dataProvider]]"
-      selection-mode='{"row": "single", "column": "single"}'
-      dnd='{"reorder": {"columns": "enabled"}}'
-      scroll-policy="loadMoreOnScroll"
-      columns='[{"headerText": "Intern Id", 
+                <!-- Interns table -->
+                <h4 class="my-4">Interns List:</h4>
+                <div style="width: 1px; min-width: 100%; min-height: 100%;">
+                    <oj-table id="interns-table" aria-label="Interns Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Intern Id", 
                 "field": "id",
                 "resizable": "enabled"},
               {"headerText": "Username", 
@@ -106,32 +107,25 @@
                 "field": "lastname",
                 "headerClassName": "oj-sm-only-hide",
                 "className": "oj-sm-only-hide",
-                "resizable": "enabled"}]'
-      style="width: 100%; height: 100%;"
-    > 
-    <oj-paging-control
-    id="paging"
-    data="[[dataProvider]]"
-    page-size="10"
-    slot="bottom"
-  >
-  </oj-paging-control>
-   </oj-table>
-</div>
-<!-- Summary button -->
-<div id="dialogWrapper">
-  <oj-dialog style="display:none; height: 90vh; position: fixed;" id="summary-modal" dialog-title="Interns Summary" dragAffordance="none">
-    <div slot="body">
-      <div data-bind="ojModule: 'summary'"></div>
-    </div>
-    <div slot="footer">
-      <oj-button id="okButton" on-oj-action="[[close]]">OK
-      </oj-button>
-    </div>
-  </oj-dialog>
-  <button class="fbtn my-5" id="buttonOpener" data-bind="click: open">
-    Show Interns Summary
-  </button>
-</div>
+                "resizable": "enabled"}]' style="width: 100%; height: 100%;">
+                        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+                        </oj-paging-control>
+                    </oj-table>
+                </div>
+                <!-- Summary button -->
+                <div id="dialogWrapper">
+                    <oj-dialog style="display:none; height: 90vh; position: fixed;" id="summary-modal" dialog-title="Interns Summary" dragAffordance="none">
+                        <div slot="body">
+                            <div data-bind="ojModule: 'summary'"></div>
+                        </div>
+                        <div slot="footer">
+                            <oj-button id="okButton" on-oj-action="[[close]]">OK
+                            </oj-button>
+                        </div>
+                    </oj-dialog>
+                    <button class="fbtn my-5" id="buttonOpener" data-bind="click: open">
+            Show Interns Summary
+          </button>
+                </div>
 
-</div>
+            </div>
