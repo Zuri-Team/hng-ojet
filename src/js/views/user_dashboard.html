@@ -82,7 +82,13 @@
         <header class="d-flex" style=" color: #768093">
           <div class="w-100">
             <h4 class="py-1 text-capitalize"><span data-bind="text: fullname"></span></h4>
-            <p class="badge badge-dark p-2" data-bind="text: tracks"></p>
+            <p class="badge badge-dark p-2" data-bind="text: tracks"></p><br/><br/>
+            <oj-bind-if test="[[onProbation()]]">
+              <p class="badge badge-danger p-2">
+                You are on Probation! You were probated by <span data-bind="text: probated_by"></span> for the following reason: <span data-bind="text: probation_reason"></span>.<br/><br/>
+                If you are not unprobated on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
+              </p>
+            </oj-bind-if>
 
           </div>
           <div class="w-100 text-right">
