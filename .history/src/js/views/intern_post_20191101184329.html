@@ -30,7 +30,7 @@
         selection-mode="single" on-selected-changed="[[postSelectedChanged]]" first-selected-item="{{postSelected}}">
         <template slot="itemTemplate" data-oj-as="item" class="border-0">
             <div>
-                <oj-bind-if test="[[search()]]">
+                <oj-bind-if test="[[!search()]]">
                     <p data-bind="text: [[item.data.category.title]]" class="badge badge-info p-2"></p>
                 </oj-bind-if>
                 <strong class="text-capitalize d-block mb-1">

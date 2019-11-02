@@ -233,8 +233,8 @@
         "cdnPath": ""
       },
       "release": {
-        "src": ["EmojiPicker.js", "emojipicker.css", "emojipicker.css.map"],
-        "path": "libs/rm-emoji-picker/rm-emoji-picker.js",
+        "src": "EmojiPicker.js",
+        "path": "libs/rm-emoji-picker/EmojiPicker.js",
         "cdnPath": ""
       }
     }

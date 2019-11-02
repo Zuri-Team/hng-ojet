@@ -3,7 +3,6 @@ define([
   "knockout",
   "jquery",
   "./api",
-  "ojs/ojarraydataprovider",
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext",
@@ -24,7 +23,7 @@ define([
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata"
-], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
+], function(oj, ko, $, api, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -233,36 +232,6 @@ define([
       { value: "xhtml", label: "xhtml" },
       { value: "XML", label: "XML" }
     ]);
-
-    self.tagsDataProvider = new ArrayDataProvider(this.tags, {
-      keyAttributes: "value"
-    });
-    // self.searchTriggered = ko.observable();
-    self.searchTerm = ko.observable();
-    self.searchTimeStamp = ko.observable();
-
-    self.search = function(event) {
-      var eventTime = getCurrentTime();
-      var trigger = event.type;
-      var term;
-
-      if (trigger === "ojValueUpdated") {
-        // search triggered from input field
-        // getting the search term from the ojValueUpdated event
-        term = event["detail"]["value"];
-        trigger += " event";
-      } else {
-        // search triggered from end slot
-        // getting the value from the element to use as the search term.
-        term = document.getElementById("search").value;
-        trigger = "click on search button";
-      }
-
-      // self.searchTriggered("Search triggered by: " + trigger);
-      self.searchTerm("Search term: " + term);
-      self.searchTimeStamp("Last search fired at: " + eventTime);
-    };
-
 
     this.keyword = ko.observableArray();
 
