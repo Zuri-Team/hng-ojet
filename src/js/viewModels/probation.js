@@ -52,7 +52,7 @@
         success: ({status, data}) => {
             if (status == "success") {
                 self.totalInterns(data.length);
-                console.log(data);
+                // console.log(data);
             }
         }
       });  
@@ -69,7 +69,7 @@
         method: "GET",
         success: ({status, data}) => {
           if (status == "success") {
-            console.log(data);
+            // console.log(data);
             for (index in data){
               data[index].id = data[index].user_id;
             }
