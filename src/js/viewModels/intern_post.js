@@ -109,7 +109,7 @@ define([
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
                   value.category = { title: null };
-                  console.log(value);
+                  value.created_at = self.formatDateTime(value.created_at);
                   return value.id;
                 })
               })
