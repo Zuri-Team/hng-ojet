@@ -45,10 +45,7 @@ define([
         self.status = ko.observable();
         self.deadline = ko.observable();
         self.team_lead = ko.observable();
-
-        self.onlineIntern = ko.observable('');
-        self.onlineAdmin = ko.observable('');
-        self.onlineTotal = ko.observable('');
+        self.totalProbatedInterns = ko.observable();
 
         var data = [{
                 id: 0,
@@ -133,6 +130,42 @@ define([
 
         fetchdashboard();
 
+        function fetchProbated() {
+            $.ajax({
+                url: `${api}/api/probation/all`,
+                headers: {
+                    Authorization: "Bearer " + userToken
+                },
+                method: "GET",
+                success: ({ status, data }) => {
+                    if (status == "success") {
+                        self.totalProbatedInterns(data.length);
+                        console.log(data);
+                    }
+                }
+            });
+        }
+
+        fetchProbated();
+        // self.fetchdashboard = async() => {
+        //       try {
+        //         const response = await fetch(
+        //           `${api}/api/probation/all`,{
+        //             method: "GET",
+        //             headers:{
+        //               Authorization: "Bearer " + userToken
+        //             }
+        //           });
+        //           const {status, data} = await response.json();
+        //             if (status == "success") {
+        //                 self.totalInterns(data.length);
+        //                 console.log(data);
+        //             }
+        //       } catch (err) {
+        //         console.log(err);
+        //       }
+        //     }
+
         //   function fetchoverview() {
         //     $.ajax({
         //       url: `${api}/api/interns`,
@@ -148,8 +181,6 @@ define([
         //   });
         // }
         // fetchoverview();
-
-
 
         function fetchinterns() {
             $.ajax({
@@ -169,11 +200,7 @@ define([
                     }
                 }
             });
-
         }
-
-        fetchinterns();
-
 
         (function fetchUsers() {
             $.ajax({
@@ -197,6 +224,7 @@ define([
             setTimeout(fetchUsers, 15000);
         })();
 
+
+        return new overviewModel();
     }
-    return new overviewModel();
 });

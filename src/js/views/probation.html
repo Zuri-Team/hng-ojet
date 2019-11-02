@@ -19,14 +19,15 @@
           <div class="oj-flex-item oj-md-9">
             <strong class="text-capitalize d-block">
                 <oj-bind-text value="[[item.data.id]]"></oj-bind-text><br>
-                <oj-bind-text value="[[item.data.firstname]]"></oj-bind-text><br>
-                <oj-bind-text value="[[item.data.lastname]]"></oj-bind-text><br>
+                <oj-bind-text value="[[item.data.name]]"></oj-bind-text><br>
+                Probated By <oj-bind-text value="[[item.data.probated_by]]"></oj-bind-text><br>
+                Reason: <oj-bind-text value="[[item.data.probation_reason]]"></oj-bind-text><br>
             </strong>
             <button data-bind="click: ''" class="btn btn-sm mt-1 mb-1 text-light"
               style="background-color: #3F0F3F; color: #FFF"><i class="fa fa-slack text-light"></i>
               &nbsp;
               <strong>
-                 <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
+                 Deadline: <oj-bind-text value="[[item.data.exit_on]]"></oj-bind-text>
               </strong></button>
           </div>
         </div>

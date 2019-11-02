@@ -59,10 +59,6 @@ define([
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observableArray([]);
     self.notificationCount = ko.observable("");
-    self.probated_by = ko.observable();
-    self.probation_reason = ko.observable();
-    self.deadline = ko.observable();
-    self.onProbation = ko.observable(false);
 
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
@@ -317,48 +313,6 @@ define([
       }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-      console.log(user);
-      
-      function fetchIfProbated() {
-        $.ajax({
-          url: `${api}/api/probation/status/${user.id}`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "GET",
-          success: ({status, data}) => {
-            if (status == "success") {
-              console.log(data);
-              self.onProbation(data);
-          }
-    
-        }
-      });  
-    }
-    fetchIfProbated();
-      function fetchProbatedInterns() {
-        $.ajax({
-          url: `${api}/api/probation/all`,
-          headers: {
-            Authorization: "Bearer " + userToken
-          },
-          method: "GET",
-          success: ({status, data}) => {
-            if (status == "success") {
-              console.log(data);
-              for (index in data){
-                if (data[index].user_id === user.id){
-                  self.probated_by(data[index].probated_by);
-                  self.probation_reason(data[index].probation_reason);
-                  self.deadline(data[index].exit_on);
-                }
-              }
-          }
-    
-        }
-      });  
-    }
-    fetchProbatedInterns();
       fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.stepArray().map((stage, i) => {
