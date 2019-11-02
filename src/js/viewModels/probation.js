@@ -1,7 +1,7 @@
   define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
   function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
   { 
-  function underworldModel() {
+  function probationViewModel() {
     var self = this;
     self.interns = ko.observableArray([]);
     self.firstSelectedIntern = ko.observable();
@@ -12,6 +12,11 @@
     self.username = ko.observable();
     self.isUserProfile = ko.observable(false);
     self.totalInterns = ko.observable('');
+    self.user_id = ko.observable();
+    self.probated_by = ko.observable();
+    self.probation_reason = ko.observable();
+    self.probatedInterns = ko.observableArray([]);
+    self.probatedInternsId = ko.observableArray([]);
 
     self.dataProvider = ko.observable();
 
@@ -21,54 +26,63 @@
 
     self.selectedInternChanged = function(event) {
       // Check whether click is a category selection or deselection
+  fetchdashboard();
+  // fetchinterns();
+  fetchProbatedInterns();
       if (event.detail.value.length != 0) {
-        // If selection, populate and display Category details
-        // Populate items list observable using firstSelectedXxx API
+        // If selection, populate and display interns
+        // Populate iterns list observable using firstSelectedXxx API
         let { data } = self.firstSelectedIntern();
-        // console.log(data)
+        console.log(data)
         if (data == null) {
           return;
         } else {
-        //  console.log("clicked")
+         console.log("clicked");
          self.isUserProfile(true);
         }
       }
     };
     function fetchdashboard () {
       $.ajax({
-        url: `${api}/api/stats/dashboard`,
+        url: `${api}/api/probation/all`,
         headers:{
           Authorization: "Bearer " + userToken
         },
         method: "GET",
         success: ({status, data}) => {
-            if (status == true) {
-                self.totalInterns(data.total_interns);
+            if (status == "success") {
+                self.totalInterns(data.length);
+                // console.log(data);
             }
         }
       });  
     }
   
   fetchdashboard();
-
-    function fetchinterns() {
+ 
+    function fetchProbatedInterns() {
       $.ajax({
-        url: `${api}/api/interns`,
+        url: `${api}/api/probation/all`,
         headers: {
           Authorization: "Bearer " + userToken
         },
         method: "GET",
         success: ({status, data}) => {
-          if (status == true) {
-            // console.log(data)
-            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+          if (status == "success") {
+            // console.log(data);
+            for (index in data){
+              data[index].id = data[index].user_id;
+            }
+            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'user_id'})));
         }
   
       }
     });  
   }
-  fetchinterns();
+  fetchProbatedInterns();
+
+
 }
 
-  return new underworldModel();
+  return new probationViewModel();
   });

@@ -56,6 +56,7 @@ define([
 
     self.firstname = ko.observable("");
     self.lastname = ko.observable("");
+    self.gender = ko.observable("");
     self.stack = ko.observableArray([]);
     self.location = ko.observable("");
 
@@ -92,6 +93,7 @@ define([
 
                 let firstname = self.firstname();
                 let lastname = self.lastname();
+                let gender = self.gender();
                 let email = self.email();
                 let username = self.username();
                 let password = self.pass();
@@ -105,6 +107,7 @@ define([
                 if (
                     (firstname &&
                         lastname &&
+                        gender &&
                         email &&
                         username &&
                         // tracks &&
@@ -129,6 +132,7 @@ define([
                     const data = JSON.stringify({
                         firstname: firstname,
                         lastname: lastname,
+                        gender: gender,
                         email: email,
                         username: username,
                         password: password,
@@ -138,10 +142,30 @@ define([
                     });
 
                     //console.log(data);
+                   
+                   /* self.message = ko.observable("")
+                     $.ajax({
+                       url: `${api}/api/slacks/verify`,
+                       headers: {
+                         Authorization: "Bearer " + userToken
+                       },
+                       method: "POST",
+                       success: ({status, data}) => {
+                           self.message(data.message);
+                         if (status == true) {
+                           // console.log(data)
+                           self.message(data.message);
+                       }
+                 
+                     }
+                   }); */ 
+        
+
                     sect.html(progressbar());
                     $.post(`${api}/api/register`, {
                             firstname,
                             lastname,
+                            gender,
                             email,
                             username,
                             password,
@@ -195,10 +219,11 @@ define([
                         } else if (password.length < 4 ) {
                             sect.html(
                                 feedback(
-                                    'Complete your password'
+                                    'The confirm password field is required'
                                 )
                             )
-                        }
+                   
+                    }
                         
                     
                             
@@ -210,6 +235,7 @@ define([
             }
 
    
+
 
             $("#next").click(function() {
                 $("#profileinfo").hide();

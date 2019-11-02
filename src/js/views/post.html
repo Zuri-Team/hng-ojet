@@ -68,9 +68,10 @@
       </div>
       <textarea id="postbody" class="form-control my-3 h-50" placeholder="Your post here">
       </textarea>
-      <div class="my-3">
-        <input data-bind="click: createPost" type="submit" class="btn btn-success" value="Create post" />
-      </div>
+            <div class="my-3">
+                <input data-bind="click: createPost" type="submit" class="btn btn-success" value="Create post" />
+            </div>
+        </div>
     </div>
     <div class="col-sm-12 pd">
       <div>
@@ -92,7 +93,7 @@
               <p class="py-3 m-0 oj-text-sm oj-text-secondary-color">
                 <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
                 <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
-                <span class="ml-1 font-weight-bold"
+                <span class="ml-1 mb-0 mt-2 pb-2 font-weight-bold"
                   data-bind="text: `By ` + item.data.user.firstname +  ' ' + item.data.user.lastname"></span>
               </p>
               </p>

@@ -1,12 +1,13 @@
 define(['ojs/ojcore',
-'knockout',
+'knockout', 'ojs/ojbootstrap',
 'jquery',
 './api',
 'ojs/ojarraydataprovider',
 'ojs/ojavatar',
-'ojs/ojbutton', 'ojs/ojmenu', 'ojs/ojoption',  "ojs/ojmessages"
+'ojs/ojbutton', 'ojs/ojmenu', 'ojs/ojoption',  "ojs/ojmessages",'ojs/ojdatetimepicker',
+'ojs/ojselectcombobox', 'ojs/ojtimezonedata', 'ojs/ojlabel'
 ],
-function (oj, ko, $, api) {
+function (oj, ko,Bootstrap, $, api) {
 function UserProfileModel(params) {
     var self = this;
     self.hideProfile = ko.observable();
@@ -23,6 +24,16 @@ function UserProfileModel(params) {
     self.tracksArray = ko.observableArray([])
     self.firstStage = ko.observable(false)
     self.lastStage = ko.observable(false)
+    
+    //probation observables
+    self.user_id = ko.observable();
+    self.probated_by = ko.observable();
+    self.probation_reason = ko.observable();
+    self.probatedInterns = ko.observableArray([]);
+    self.probatedInternsId = ko.observableArray([]);
+    self.onProbation = ko.observable();
+    self.reason = ko.observable();
+    self.exit_on = ko.observable();
 
 
     // notification messages observable
@@ -157,6 +168,24 @@ self.fetchTeam = async() => {
 };
 self.fetchTeam();
 
+//probation interns
+function fetchProbatedInternsStatus() {
+    $.ajax({
+      url: `${api}/api/probation/status/${user_id}`,
+      headers: {
+        Authorization: "Bearer " + userToken
+      },
+      method: "GET",
+      success: ({status, data}) => {
+        if (status == "success") {
+            //   console.log(data);
+              self.onProbation(data.status);
+        }
+
+    }
+  });  
+}
+fetchProbatedInternsStatus();
 
 
 
@@ -562,82 +591,83 @@ self.fetchTeam();
     }
     break;
     }
-    case ("Add to Underworld"): {
+    case ("Add to Probation"): {
 
-        document.getElementById("addToUnderworld").open();
+        document.getElementById("addToProbation").open();
 
-    // self.removeFromTeam = async() => {
-    //     const team_id = self.team_id();
-    //     try {
-    //         const response = await fetch(`${api}/api/teams/remove-member`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 Authorization: `Bearer ${userToken}`
-    //             },
-    //             body: JSON.stringify({
-    //                 user_id,
-    //                 team_id
-    //             })
-    //         });
-    //         const { message } = await response.json();
-     
-    //         self.fetchTeam();
-    //         self.fetchTeams();
-    //         self.fetchUserProfile();
-    //         document.getElementById("removeFromTeam").close();
-    //         self.applicationMessages.push({
+        self.addToProbation = async() => {
+            const reason = self.reason();
+            const exit_on = self.exit_on();
+            try {
+                const response = await fetch(`${api}/api/user/probate`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${userToken}`
+                    },
+                    body: JSON.stringify({
+                        user_id,
+                        reason,
+                        exit_on
+                    })
+                });
+                const { message } = await response.json();
+          
+                // self.fetchTeam();
+                // self.fetchTeams();
+                self.fetchUserProfile();
+                document.getElementById("addToProbation").close();
+                self.applicationMessages.push({
 
-    //             severity: "warning",
-    //             summary: `Remove From Team`,
-    //             detail: `${message}`,
-    //             autoTimeout: parseInt("0")
+                    severity: "confirmation",
+                    summary: `Add to Probation`,
+                    detail: `${message}`,
+                    autoTimeout: parseInt("0")
 
-    //         });
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
+                });
+            } catch (err) {
+                console.log(err);
+            }
 
-    // }
+        }
     break;
     }
-    case ("Remove from Underworld"): {
+    case ("Remove from Probation"): {
 
-        document.getElementById("removeFromUnderworld").open();
+        document.getElementById("removeFromProbation").open();
 
-    // self.removeFromTeam = async() => {
-    //     const team_id = self.team_id();
-    //     try {
-    //         const response = await fetch(`${api}/api/teams/remove-member`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 Authorization: `Bearer ${userToken}`
-    //             },
-    //             body: JSON.stringify({
-    //                 user_id,
-    //                 team_id
-    //             })
-    //         });
-    //         const { message } = await response.json();
+    self.removeFromProbation = async() => {
+        // const team_id = self.team_id();
+        try {
+            const response = await fetch(`${api}/api/user/unprobate`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`
+                },
+                body: JSON.stringify({
+                    user_id
+                })
+            });
+            const { message } = await response.json();
      
-    //         self.fetchTeam();
-    //         self.fetchTeams();
-    //         self.fetchUserProfile();
-    //         document.getElementById("removeFromTeam").close();
-    //         self.applicationMessages.push({
+            // self.fetchTeam();
+            // self.fetchTeams();
+            self.fetchUserProfile();
+            document.getElementById("removeFromProbation").close();
+            self.applicationMessages.push({
 
-    //             severity: "warning",
-    //             summary: `Remove From Team`,
-    //             detail: `${message}`,
-    //             autoTimeout: parseInt("0")
+                severity: "warning",
+                summary: `Remove From Probation`,
+                detail: `${message}`,
+                autoTimeout: parseInt("0")
 
-    //         });
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
+            });
+        } catch (err) {
+            console.log(err);
+        }
 
-    // }
+    }
     break;
     }
     }
@@ -704,7 +734,8 @@ self.fetchTeam();
 
 
    self.Home = () => {
-        self.hideProfile(params.hideProfile(false))
+        self.hideProfile(params.hideProfile(false));
+
     }
 console.log(params.userModel().key, params.hideProfile())
 }

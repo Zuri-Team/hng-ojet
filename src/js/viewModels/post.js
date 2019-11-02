@@ -19,24 +19,23 @@ define([
     var userToken = sessionStorage.getItem("user_token");
 
     //  integrated wysiwyg editor is stored as an observable
-    self.editor = ko.observable(); 
-    self.edit = ko.observable(); 
+    self.editor = ko.observable();
+    self.edit = ko.observable();
 
-// form data instantiated as an observable.
-    self.category_id = ko.observable(); 
+    // form data instantiated as an observable.
+    self.category_id = ko.observable();
     self.post_title = ko.observable();
     self.postSelected = ko.observable();
-    self.post = ko.observable({}); // when a post is selected from a list, it's data is saved into the post variable below. 
+    self.post = ko.observable({}); // when a post is selected from a list, it's data is saved into the post variable below.
     self.dataProvider = ko.observable(); // dataprovider which holds an array of posts.
 
     self.categories = ko.observableArray([]); // categories array
 
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
-    
+
     self.fullpost = ko.observable(false);
     self.postpg = ko.observable("d-block");
-
 
     self.post_view_toggle = () => {
       $(".pd").toggleClass("d-none");
@@ -123,14 +122,6 @@ define([
               autoTimeout: parseInt("0")
             });
           }
-        },
-        error: err => {
-          console.log(err);
-          self.applicationMessages.push({
-            severity: "error",
-            summary: "An error was encountered, unable to create post",
-            autoTimeout: parseInt("0")
-          });
         }
       });
     };
@@ -257,5 +248,5 @@ define([
     };
   }
 
-  return new postModel();
+  return new postViewModel();
 });
