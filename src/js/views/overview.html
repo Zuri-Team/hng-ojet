@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid p-0 p-md-3">
     <div class="container oj-hybrid-padding">
         <div class="row ">
             <div class="col-md-4">
@@ -78,70 +78,66 @@
                 </div>
             </div>
         </div>
-            <!-- Teams table -->
-            <h4 class="my-4">Teams List:</h4>
-            <div id="sampleDemo" class="demo-padding demo-container">
-                <div id="componentDemoContent" style="width: 1px; min-width: 100%; min-height: 100%;">
-                    <oj-table id="table" aria-label="Interns Table" data="[[overviewProvider]]" selection-mode='{"row": "multiple", "column": "multiple"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Id", 
-                "field": "id",
-                "resizable": "enabled"},
-              {"headerText": "Team Name", 
-                "field": "team_name",
-                "resizable": "enabled"},
-              {"headerText": "Task", 
-                "field": "task",
-                "resizable": "enabled"},
-              {"headerText": "Team Lead", 
-                "field": "team_lead",
-                "resizable": "enabled"},
-              {"headerText": "Deadline", 
-                "field": "deadline",
-                "resizable": "enabled"},
-              {"headerText": "Status", 
-                "field": "status",
-                "resizable": "enabled"}]' style="width: 100%; height: 100%;">
-                        <oj-paging-control id="paging" data="[[overviewProvider]]" page-size="10" slot="bottom">
-                        </oj-paging-control>
-                    </oj-table>
-                </div>
-
-                <!-- Interns table -->
-                <h4 class="my-4">Interns List:</h4>
-                <div style="width: 1px; min-width: 100%; min-height: 100%;">
-                    <oj-table id="interns-table" aria-label="Interns Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Intern Id", 
-                "field": "id",
-                "resizable": "enabled"},
-              {"headerText": "Username", 
-                "field": "username",
-                "resizable": "enabled"},
-              {"headerText": "First Name", 
-                "field": "firstname",
-                "resizable": "enabled"},
-              {"headerText": "Last Name", 
-                "field": "lastname",
-                "headerClassName": "oj-sm-only-hide",
-                "className": "oj-sm-only-hide",
-                "resizable": "enabled"}]' style="width: 100%; height: 100%;">
-                        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
-                        </oj-paging-control>
-                    </oj-table>
-                </div>
-                <!-- Summary button -->
-                <div id="dialogWrapper">
-                    <oj-dialog style="display:none; height: 90vh; position: fixed;" id="summary-modal" dialog-title="Interns Summary" dragAffordance="none">
-                        <div slot="body">
-                            <div data-bind="ojModule: 'summary'"></div>
-                        </div>
-                        <div slot="footer">
-                            <oj-button id="okButton" on-oj-action="([[close]])">OK
-                            </oj-button>
-                        </div>
-                    </oj-dialog>
-                    <button class="fbtn my-5" id="buttonOpener" data-bind="click: open">
-            Show Interns Summary
-          </button>
-                </div>
-            </div>
-        </div>
     </div>
+            <!-- Teams table -->
+    <h4 class="my-4">Teams List:</h4>
+        <div style="width: 1px; min-width: 100%; min-height: 100%;">
+            <oj-table id="table" aria-label="Interns Table" data="[[overviewProvider]]" selection-mode='{"row": "multiple", "column": "multiple"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Id", 
+        "field": "id",
+        "resizable": "enabled"},
+        {"headerText": "Team Name", 
+        "field": "team_name",
+        "resizable": "enabled"},
+        {"headerText": "Task", 
+        "field": "task",
+        "resizable": "enabled"},
+        {"headerText": "Team Lead", 
+        "field": "team_lead",
+        "resizable": "enabled"},
+        {"headerText": "Deadline", 
+        "field": "deadline",
+        "resizable": "enabled"},
+        {"headerText": "Status", 
+        "field": "status",
+        "resizable": "enabled"}]' style="width: 100%; height: 100%;">
+                <oj-paging-control id="paging" data="[[overviewProvider]]" page-size="10" slot="bottom">
+                </oj-paging-control>
+            </oj-table>
+        </div>
+
+        <!-- Interns table -->
+        <h4 class="my-4">Interns List:</h4>
+        <div style="width: 1px; min-width: 100%; min-height: 100%;">
+            <oj-table id="interns-table" aria-label="Interns Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Intern Id", 
+        "field": "id",
+        "resizable": "enabled"},
+        {"headerText": "Username", 
+        "field": "username",
+        "resizable": "enabled"},
+        {"headerText": "First Name", 
+        "field": "firstname",
+        "resizable": "enabled"},
+        {"headerText": "Last Name", 
+        "field": "lastname",
+        "headerClassName": "oj-sm-only-hide",
+        "className": "oj-sm-only-hide",
+        "resizable": "enabled"}]' style="width: 100%; height: 100%;">
+                <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+                </oj-paging-control>
+            </oj-table>
+        </div>
+        <!-- Summary button -->
+        <div id="dialogWrapper">
+            <oj-dialog style="display:none; height: 90vh; position: fixed;" id="summary-modal" dialog-title="Interns Summary" dragAffordance="none">
+                <div slot="body">
+                    <div data-bind="ojModule: 'summary'"></div>
+                </div>
+                <div slot="footer">
+                    <oj-button id="okButton" on-oj-action="([[close]])">OK
+                    </oj-button>
+                </div>
+            </oj-dialog>
+            <button class="fbtn my-5" id="buttonOpener" data-bind="click: open">
+    Show Interns Summary
+    </button>
 </div>
