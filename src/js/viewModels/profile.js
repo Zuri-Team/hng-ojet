@@ -237,13 +237,6 @@ define(['ojs/ojcore',
 
             self.fetchProfile();
 
-              // listen for changes
-        let pm = ko.dataFor(document.querySelector("#user"));
-        pm.selectedItem.subscribe(function() {
-            if (pm.selectedItem() == "Settings") {
-                self.fetchProfile();
-            }
-        });
 
 
             /**
