@@ -55,7 +55,7 @@
         <template slot="itemTemplate" data-oj-as="item" class="border-0">
             <div>
                 <p class="pb-3 m-0 oj-text-sm oj-text-secondary-color">
-                    <span class="font-weight-bold mr-2" data-bind="text: `By ` + item.data.user_id"></span>
+                    <span class="font-weight-bold mr-1" style="font-size: 13px;" data-bind="text: item.data.user.firstname + ' ' + item.data.user.lastname"></span>
                     <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
                 </p>
                 <oj-bind-dom class="m-0 p-0" config="{{ item.data.comment }}"></oj-bind-dom>
