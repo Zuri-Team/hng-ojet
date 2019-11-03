@@ -1,67 +1,105 @@
-<section>
-    <div class="container">
-        <div class="oj-flex">
-            <div class="oj-flex-item">
+<section class="row bg-light rounded w-90">
+    
+    <div class="col-md-6">
+    <div class="ml-1 my-3">
+        <h5>Intern Summary</h5>
+    </div>
+        <!-- <div class="oj-lg-6 oj-sm-12 oj-md-6 text-center oj-sm-12 oj-flex-item">
 
-            </div>
-            <div class="oj-flex-item">
-                <div class="oj-lg-10 oj-sm-12 oj-md-10">
-                    <div class="oj-flex row">
-                        <div class="oj-lg-4 oj-md-4 oj-sm-12">
-                            <span class="header">Username</span>
-                        </div>
-                        <div class="oj-lg-4 oj-md-4 oj-sm-12">
-                            <span class="header">Status </span>
-                        </div>
+            <oj-label for="sortBy" class="oj-label-inline">Sort by:</oj-label>
+            <oj-select-one id="sortBy" value="" style="max-width:11em" on-value-changed="[[handleSort]]">
+                <oj-option value="online">Online</oj-option>
+                <oj-option value="offline">Offline</oj-option>
+            </oj-select-one>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        </div> -->
         <div class="clearfix"></div>
-        <oj-list-view id="listview" aria-label="listview with paging control" style="width:100%;height:400px;overflow-x:hidden" data="[[dataProvider]]" selection-mode="single">
+        <oj-list-view id="listview" aria-label="listview with paging control" style="width:100%;height:400px;overflow-x:hidden" data="[[dataInternProvider]]" selection-mode="single">
             <template slot="itemTemplate" data-oj-as="item">
-
-                <div class="oj-flex">
-
-                    <div class="oj-flex-item">
+                <div class="oj-flex bg-light rounded"  style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
+                    <div class="oj-sm-12 oj-md-6 text-center">
                         <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
-                                                          'title':'Avatar of ' + item.data.username }"
+                                                                      'title':'Avatar of ' + item.data.username }"
                             src="[[item.data.profile_img]]">
                         </oj-avatar>
                     </div>
-                    <div class="oj-flex-item">
-                        <div class="oj-lg-10 oj-sm-12 oj-md-10">
-                            <div class="oj-flex row">
-                                <div class="oj-lg-4 oj-md-4 oj-sm-12">
 
-
-                                    <span class="data"><span>
-                                            <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
-                                        </span></span>
+                    
+                    <div class="oj-sm-12 oj-md-6 text-center">
+                        <div class="oj-sm-12  p-1">
+                            <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
+                        </div>
+                        <div class="oj-sm-12">
+                            <oj-bind-if test="[[!status() === item.data.status]]">
+                                <div class="p-2">
+                                    <div class="led-green d-inline-block mr-2"></div>
+                                    <span class=" d-inline-block">Online</span>
                                 </div>
-                                <div class="oj-lg-4 oj-md-4 oj-sm-12">
-                                    <div>
-                                        <oj-bind-if test="[[!status() === item.data.status]]">
-                                            <div class="led-green"></div><span>Online</span>
-                                        </oj-bind-if>
-                                        <oj-bind-if test="[[status() === item.data.status]]">
-                                            <div class="led-gray"></div><span>Offine</span>
-                                        </oj-bind-if>
-
-                                    </div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[status() === item.data.status]]">
+                                <div class="p-2">
+                                    <div class="led-gray d-inline-block mr-2"></div>
+                                    <span class=" d-inline-block">Offline</span>
                                 </div>
-
-                            </div>
+                            </oj-bind-if>
                         </div>
                     </div>
                 </div>
             </template>
         </oj-list-view>
 
-        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10">
+        <oj-paging-control id="paging" data="[[dataInternProvider]]" page-size="10">
         </oj-paging-control>
     </div>
 
+    <div class="col-md-6">
+    <div class="ml-1 my-3">
+        <h5>Admin Summary</h5>
+    </div>
+        <!-- <div class="oj-lg-6 oj-sm-12 oj-md-6 text-center oj-sm-12 oj-flex-item">
+
+            <oj-label for="sortBy" class="oj-label-inline">Sort by:</oj-label>
+            <oj-select-one id="sortBy" value="" style="max-width:11em" on-value-changed="[[handleSort]]">
+                <oj-option value="online">Online</oj-option>
+                <oj-option value="offline">Offline</oj-option>
+            </oj-select-one>
+
+        </div> -->
+        <div class="clearfix"></div>
+        <oj-list-view id="listview" aria-label="listview with paging control" style="width:100%;height:400px;overflow-x:hidden" data="[[dataAdminProvider]]" selection-mode="single">
+            <template slot="itemTemplate" data-oj-as="item">
+                <div class="oj-flex bg-light rounded" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
+                    <div class="oj-sm-12 oj-md-6 text-center">
+                        <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
+                                                                      'title':'Avatar of ' + item.data.username }"
+                            src="[[item.data.profile_img]]">
+                        </oj-avatar>
+                    </div>
+
+                    <div class="oj-sm-12 oj-md-6 text-center">
+                        <div class="oj-sm-12 p-1">
+                            <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
+                        </div>
+                        <div class="oj-sm-12">
+                            <oj-bind-if test="[[!status() === item.data.status]]">
+                                <div class="p-2">
+                                    <div class="led-green d-inline-block mr-2"></div>
+                                    <span class=" d-inline-block">Online</span>
+                                </div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[status() === item.data.status]]">
+                                <div class="p-2">
+                                    <div class="led-gray d-inline-block mr-2"></div>
+                                    <span class=" d-inline-block">Offine</span>
+                                </div>
+                            </oj-bind-if>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </oj-list-view>
+
+        <oj-paging-control id="paging" data="[[dataAdminProvider]]" page-size="10">
+        </oj-paging-control>
+    </div>
 </section>

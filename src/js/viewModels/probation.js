@@ -27,14 +27,14 @@
     self.selectedInternChanged = function(event) {
       // Check whether click is a category selection or deselection
       if (event.detail.value.length != 0) {
-        // If selection, populate and display Category details
-        // Populate items list observable using firstSelectedXxx API
+        // If selection, populate and display interns
+        // Populate iterns list observable using firstSelectedXxx API
         let { data } = self.firstSelectedIntern();
-        // console.log(data)
+        console.log(data)
         if (data == null) {
           return;
         } else {
-        //  console.log("clicked")
+         console.log("clicked");
          self.isUserProfile(true);
         }
       }
@@ -49,14 +49,15 @@
         success: ({status, data}) => {
             if (status == "success") {
                 self.totalInterns(data.length);
-                console.log(data);
+                // console.log(data);
             }
         }
       });  
+      setTimeout(fetchdashboard, 15000);
     }
   
   fetchdashboard();
-
+ 
     function fetchProbatedInterns() {
       $.ajax({
         url: `${api}/api/probation/all`,
@@ -66,49 +67,20 @@
         method: "GET",
         success: ({status, data}) => {
           if (status == "success") {
+            // console.log(data);
             for (index in data){
-              self.probated_by(data[index].probated_by);
-            self.probation_reason(data[index].probation_reason);
-            self.user_id(data[index].user_id);
-            self.probatedInternsId().push(self.user_id());
+              data[index].id = data[index].user_id;
             }
-            
-            console.log(self.probated_by());
-            console.log(self.probation_reason());
-            // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'user_id'})));
         }
   
       }
-    });  
+    }); 
+    setTimeout(fetchProbatedInterns, 15000); 
   }
   fetchProbatedInterns();
 
-  function fetchinterns() {
-    $.ajax({
-      url: `${api}/api/interns`,
-      headers: {
-        Authorization: "Bearer " + userToken
-      },
-      method: "GET",
-      success: ({status, data}) => {
-        if (status == true) {
-          // console.log(data);
-          for (intern of data){
-            for (id of self.probatedInternsId()){
-              if (intern.id === id){
-                // console.log(intern);
-                self.probatedInterns().push(intern);
-                // var probatedInterns = self.probatedInterns();
-            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(self.probatedInterns(), {keyAttributes: 'id'})));
-              }
-            }
-          }
-      }
 
-    }
-  });  
-}
-fetchinterns();
 }
 
   return new probationViewModel();

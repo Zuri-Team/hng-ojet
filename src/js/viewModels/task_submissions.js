@@ -41,7 +41,7 @@ self.tasks = ko.observableArray([]);
 var tracksURL = `${api}/api/track`;
 var tasksURL = `${api}/api/task`;
 
-var submissionURL = `${api}/api/submissions/${task_id}`;
+var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
 self.dataProvider = ko.observable()
 
@@ -93,6 +93,8 @@ self.dataProvider = ko.observable()
         }
       });
     }
+
+
     fetchSubmission();
 
   function fetchTracks() {
@@ -151,7 +153,6 @@ self.fetchTrack();
       },
       data: { track_id, title, body, deadline, is_active },
       success: res => {
-        if (res.status == true) {
           // send a success message notification to the category view
           self.fetchTask();
           self.fetchTrack();
@@ -161,7 +162,6 @@ self.fetchTrack();
             detail: "Task successfully updated",
             autoTimeout: parseInt("0")
           });
-        }
       },
       error: err => {
         console.log(err);

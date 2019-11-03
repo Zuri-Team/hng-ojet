@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-md-8">
+<div class="col-sm-12 col-md-10" >
 
         <!-- Tracks dialogs -->
 
@@ -68,18 +68,26 @@
             </div>
           </oj-dialog>
           <!-- Probation dialogs -->
-
-          <oj-dialog id="addToProbation" dialog-title="Add to Probation" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+        
+          <oj-dialog id="addToProbation" dialog-title="Add to Probation" class=" position-absolute col-5 col-md-6 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to add?</h6>
+              <div class="form-group">
+                <oj-label for="reason">Reason for Probation:</oj-label>
+                <oj-input-text id="reason" value='{{reason}}'></oj-input-text>
+              </div>
+              <div class="form-group">
+                <oj-label for="deadline">Deadline:</oj-label>
+                <oj-input-date id="deadline" value='{{exit_on}}'></oj-input-date>
+              </div>
               <button data-bind="click: addToProbation" class="btn btn-danger float-right">
                 Confirm
               </button>
             </div>
           </oj-dialog>
 
-          <oj-dialog id="removeFromProbation" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+          <oj-dialog id="removeFromProbation" dialog-title="Remove from Probation" class=" position-absolute col-5 col-md-6 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to remove?</h6>
@@ -120,15 +128,15 @@
 
 
 
-          <div class="row">
+          <div class="row" >
             <div class="card oj-md-11 oj-sm-12 mx-auto mt-3">
-              <div class="card-body">
+              <div class="card-body" style="box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
                 <button class="btn btn-info float-right" data-bind="click: Home">
                   <span>Go back</span>
                 </button>
                 <div class="oj-flex" style="color: #4e5769 !important">
-                  <div class="oj-flex-item oj-md-2 oj-sm-6">
-                    <oj-avatar> </oj-avatar>
+                  <div class="oj-flex-item oj-md-6 oj-sm-6">
+                    <oj-avatar class="image-fluid"> </oj-avatar>
                   </div>
                   <div class="oj-flex-item oj-md-10 oj-sm-12 mx-auto">
                     <div>
@@ -171,7 +179,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: promote, disable: lastStage()"
+                          data-bind="click: promote, disable: lastStage(), disable: onProbation()"
                         >
                           Promote
                         </button>
@@ -180,7 +188,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: demote, disable: firstStage()"
+                          data-bind="click: demote, disable: firstStage(), disable: onProbation()"
                         >
                           Demote
                         </button>
@@ -189,7 +197,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-warning mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: updateStage"
+                          data-bind="click: updateStage, disable: onProbation()"
                         >
                           Update Stage
                         </button>

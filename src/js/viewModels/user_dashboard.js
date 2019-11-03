@@ -3,6 +3,7 @@ define([
   "knockout",
   "jquery",
   "./api",
+  "ojs/ojarraydataprovider",
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext",
@@ -23,11 +24,16 @@ define([
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata"
-], function(oj, ko, $, api, ResponsiveUtils, ResponsiveKnockoutUtils) {
+], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
     var userToken = sessionStorage.getItem("user_token");
+    var user = sessionStorage.getItem("user");
+    user = JSON.parse(user);
+    self.user_id = ko.observable(user.id);
+
+
 
     //logout button
     self.open = function (event) {
@@ -55,9 +61,18 @@ define([
 
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
+
+    //self.notifsCount = ko.observable();
+   // self.taskSubmit = ko.observableArray([]);
+
     self.notifsCount = ko.observable();
-    self.taskSubmit = ko.observableArray([]);
+    self.taskSubmit = ko.observable({});
+
     self.notificationCount = ko.observable("");
+    self.probated_by = ko.observable();
+    self.probation_reason = ko.observable();
+    self.deadline = ko.observable();
+    self.onProbation = ko.observable(false);
 
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
@@ -90,7 +105,7 @@ define([
           }
         });
         var data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (data.data.notification_count > 0)
           self.notificationCount(data.data.notification_count);
@@ -149,10 +164,9 @@ define([
     }
 
     self.submitTask = async () => {
-      let task_title = self.taskSubmit.task_title;
-      let task_url = self.taskSubmit.task_url;
-      let task_comment = self.taskSubmit.task_comment;
-      console.log(task_url, task_comment);
+      let user_id = self.user_id();
+      let task_id = self.tasks().id;
+      let submission_link = self.taskSubmit().submission_link;
       try {
         const response = await fetch(`${submissionURL}`, {
           method: "POST",
@@ -161,16 +175,16 @@ define([
             Authorization: `Bearer ${userToken}`
           },
           body: JSON.stringify({
-            task_title,
-            task_url,
-            task_comment
+            user_id,
+            task_id,
+            submission_link
           })
         });
 
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task submitted",
-          detail: "You have successfully submitted " + track_name,
+          detail: "You have successfully submitted",
           autoTimeout: parseInt("0")
         });
         document.getElementById("taskURL").value = "";
@@ -233,6 +247,36 @@ define([
       { value: "XML", label: "XML" }
     ]);
 
+    self.tagsDataProvider = new ArrayDataProvider(this.tags, {
+      keyAttributes: "value"
+    });
+    // self.searchTriggered = ko.observable();
+    self.searchTerm = ko.observable();
+    self.searchTimeStamp = ko.observable();
+
+    self.search = function(event) {
+      var eventTime = getCurrentTime();
+      var trigger = event.type;
+      var term;
+
+      if (trigger === "ojValueUpdated") {
+        // search triggered from input field
+        // getting the search term from the ojValueUpdated event
+        term = event["detail"]["value"];
+        trigger += " event";
+      } else {
+        // search triggered from end slot
+        // getting the value from the element to use as the search term.
+        term = document.getElementById("search").value;
+        trigger = "click on search button";
+      }
+
+      // self.searchTriggered("Search triggered by: " + trigger);
+      self.searchTerm("Search term: " + term);
+      self.searchTimeStamp("Last search fired at: " + eventTime);
+    };
+
+
     this.keyword = ko.observableArray();
 
     self.fullname = ko.observable("");
@@ -245,7 +289,6 @@ define([
       self.fileNames.push(files[i].name);
     };
 
-     
   //   function fetchProbatedInterns() {
   //     $.ajax({
   //       url: `${api}/api/probation/all`,
@@ -261,14 +304,14 @@ define([
   //           self.user_id(data[index].user_id);
   //           self.probatedInternsId().push(self.user_id());
   //           }
-            
+
   //           console.log(self.probated_by());
   //           console.log(self.probation_reason());
   //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
   //       }
-  
+
   //     }
-  //   });  
+  //   });
   // }
   // fetchProbatedInterns();
 
@@ -283,6 +326,32 @@ define([
       }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
+      // console.log(user);
+
+      function fetchIfProbated() {
+        $.ajax({
+          url: `${api}/api/probation/status/${user.id}`,
+          headers: {
+            Authorization: "Bearer " + userToken
+          },
+          method: "GET",
+          success: ({status, data}) => {
+            if (status == "success") {
+              // console.log(data);
+              // console.log(data.status);
+              if (data.status === true){
+                self.onProbation(data.status);
+                self.probated_by(data.probator.firstname+' '+data.probator.lastname);
+                    self.probation_reason(data.probation_reason);
+                    self.deadline(data.exit_on);
+              }
+          }
+
+        }
+      });
+    }
+    fetchIfProbated();
+
       fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.stepArray().map((stage, i) => {
