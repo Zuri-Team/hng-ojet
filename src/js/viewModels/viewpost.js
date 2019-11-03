@@ -17,9 +17,14 @@ define([
 ], function(ko, $, ClassicEditor, api, ArrayDataProvider, Paging, HtmlUtils) {
   function viewPost(params) {
     let self = this;
+
+    self.category = ko.observable('');
+    self.title = ko.observable('');
     let data = params.post._latestValue;
-    self.category = ko.observable(data.category.title);
-    self.title = ko.observable(data.post_title);
+    console.log(params)
+    self.category(data.category.title);
+    self.title(data.post_title);
+
     self.post_body = ko.observable({
       view: HtmlUtils.stringToNodeArray(data.post_body)
     });
@@ -157,6 +162,7 @@ define([
     };
     self.isAdmin = ko.observable();
     self.handleAttached = () => {
+      params.post();
       self.fetch_comments();
       user.role == "intern" ? self.isAdmin(false) : self.isAdmin(true);
       ClassicEditor.create(document.querySelector("#replypost"), {
