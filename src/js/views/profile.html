@@ -20,7 +20,7 @@
         <div class="bg-white">
             <img src="../../css/images/2845940.jpg" alt="" style="height: 250px; width: 100%">
 
-            <oj-bind-if test="[[editMode()]]">
+            <oj-bind-if test="[[!editMode()]]">
 
                 <div class="container" style="position:relative">
                     <div class="row">
@@ -96,7 +96,7 @@
                 </div>
             </oj-bind-if>
 
-            <oj-bind-if test="[[!editMode()]]">
+            <oj-bind-if test="[[editMode()]]">
                 <div class="container ">
                     <oj-form-layout id="ofl1" class="oj-form-control-full-width m-5">
 

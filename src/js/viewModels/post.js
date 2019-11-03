@@ -82,7 +82,7 @@ define([
       document.getElementById("deleteModal").open();
     };
 
-    self.close = () => {
+    self.close_edit = () => {
       $(" #edit_post").hide();
       self.postpg("d-block");
     };
@@ -125,6 +125,13 @@ define([
               autoTimeout: parseInt("0")
             });
           }
+        },
+        error: () => {
+          self.applicationMessages.push({
+            severity: "error",
+            summary: "Post Title Must Be At Least Eight Characters Long",
+            autoTimeout: parseInt("0")
+          });
         }
       });
     };
