@@ -1,0 +1,42 @@
+<oj-bind-if test="[[fullpost()]]" class="oj-flex">
+    <div data-bind="ojModule: { name: 'viewpost',
+        params: {
+        postSelected, fullpost }
+        }"></div>
+</oj-bind-if>
+
+<oj-bind-if test="[[!fullpost()]]" class="my-3">
+    <div class="form-group">
+        <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter posts by category</small>
+        <div class="d-flex">
+            <select
+                data-bind="options: categories, optionsText: 'category_name',  optionsValue:'id', optionsCaption: 'All categories', value: category_id"
+                class="form-control col-md-5">
+            </select>
+            <button class="btn ml-3" data-bind="click: filterpost"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <oj-list-view id="Postmodel-post-list" class="col-12 mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]"
+        selection-mode="single" on-selected-changed="[[postSelectedChanged]]" first-selected-item="{{postSelected}}">
+        <template slot="itemTemplate" data-oj-as="item" class="border-0">
+            <div>
+                <p data-bind="text: [[item.data.category.title]]" class="badge badge-info p-2"></p>
+                <strong class="text-capitalize d-block mb-1">
+                    <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
+                </strong>
+                <div class="d-block d-sm-flex justify-content-between align-items-center">
+                    <p class="py-3 m-0 oj-text-sm oj-text-secondary-color">
+                        <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+                        <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
+                        <span class="ml-1 font-weight-bold"
+                            data-bind="text: `By ` + item.data.user.firstname +  ' ' + item.data.user.lastname"></span>
+                    </p>
+                </div>
+            </div>
+        </template>
+    </oj-list-view>
+
+    <oj-paging-control id="paging" data="[[dataProvider]]" page-size="5" slot="bottom">
+    </oj-paging-control>
+
+</oj-bind-if>

@@ -14,10 +14,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-* {
-    box-sizing: border-box;
-}
-
 @media (min-width: 768px) {
     .oj-flex-bar {
         flex-basis: 100% !important;
@@ -374,7 +370,6 @@ span.btn.btn-primary {
     border-radius: 10px 10px 10px 0px;
 }
 
-
 div.box1 div.p-img span,
 div.box2 div.p-img span,
 div.box3 div.p-img span {
@@ -414,7 +409,6 @@ div.box1,
 div.box2,
 div.box3 {
     color: #fff;
-    min-height: 160px;
 }
 
 .box2 {
@@ -483,7 +477,7 @@ tr:nth-child(even) {
 }
 
 .line {
-    width: 100%;
+    max-width: 100px;
     border: .5px solid #fff;
 }
 
@@ -542,8 +536,8 @@ tr:nth-child(even) {
 }
 
 @media only screen and (min-width:768px) {
-    .box1, .box2, .box3 {
-        grid-template-columns: 1fr;
+    #summary-modal {
+        width: 60%;
     }
 }
 
@@ -894,11 +888,6 @@ bottom: 70px;
   left:20px;
 }
 
-.emojis{
-    font-size: 1.5rem;
-    width: 100%;
-  }
-
 .chat-input-tool{
 background-color: #32A8E6;
 padding: 10px;
@@ -906,8 +895,6 @@ border:none;
 border-radius: 5px;
 left: 50%;
 outline:none;
-display: inline;
-font-size: 12px;
 }
 
 /*=====End of Emoji styles======*/

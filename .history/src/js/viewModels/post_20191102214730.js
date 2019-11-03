@@ -13,7 +13,7 @@ define([
   "ojs/ojmessages",
   "ojs/ojpagingcontrol"
 ], function(ko, $, api, ArrayDataProvider, Paging, ClassicEditor) {
-  function postViewModel() {
+  function postModel() {
     let self = this;
     var RESTurl = `${api}/api/posts`;
     var userToken = sessionStorage.getItem("user_token");
@@ -248,5 +248,5 @@ define([
     };
   }
 
-  return new postModel();
+  return new postViewModel();
 });
