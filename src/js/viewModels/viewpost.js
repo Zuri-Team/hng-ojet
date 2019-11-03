@@ -20,8 +20,8 @@ define([
 
     self.category = ko.observable('');
     self.title = ko.observable('');
-    let data = params.post._latestValue;
-    console.log(params)
+    let data = params.post()
+    console.log(data)
     self.category(data.category.title);
     self.title(data.post_title);
 
