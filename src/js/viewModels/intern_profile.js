@@ -15,6 +15,7 @@ function UserProfileModel(params) {
     self.isUser = ko.observable(true)
     self.selectedMenuItem = ko.observable("");
 
+        console.log(params)
 
     // User Profile Observables
     self.fullName = ko.observable("");
