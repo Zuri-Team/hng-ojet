@@ -8,6 +8,8 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
             var userToken = sessionStorage.getItem("user_token");
             var user = sessionStorage.getItem("user");
+            user = JSON.parse(user);
+            console.log(user.id)
 
             self.taskSelected = ko.observable({});
 
@@ -40,11 +42,11 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                             Authorization: `Bearer ${userToken}`
                         }
                     });
-                    const { data } = await response.data;
-                    console.log(data);
+                    const { data }  = await response.json();
+              
 
                     self.dataProvider(
-                        new Paging(
+                        new PagingDataProviderView(
                             new ArrayDataProvider(data, {
                                 keys: data.map(function(value) {
                                     value.deadline = self.formatDateTime(value.deadline);
@@ -57,6 +59,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     console.log(err);
                 }
             };
+            
 
             function fetchTrack(id) {
                 $.ajax({
@@ -67,13 +70,23 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
                     url: `${api}/api/user-profile/${id}`,
                     success: function(response) {
+                    console.log(response)
                         let id = response.data.tracks[0].id;
+                       
                         self.fetchTasks(id);
                     }
                 });
             }
 
             fetchTrack(user.id);
+
+              // listen for changes
+        let pm = ko.dataFor(document.querySelector("#user"));
+        pm.selectedItem.subscribe(function() {
+            if (pm.selectedItem() == "Tasks") {
+                fetchTrack(user.id);
+            }
+        });
         }
 
         return new InternTaskModel();
