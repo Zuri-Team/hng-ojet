@@ -569,13 +569,21 @@ oj-navigation-list li {
     box-shadow: #000 0 -1px 7px 1px, inset rgb(116, 116, 116) 0 -1px 9px, rgb(202, 202, 202) 0 2px 12px;
 }
 
-/*==============Start of Emoji Styles ===============*/
+/*==============Emojis Styles ===============*/
 
 body{
     font-family: "intercom-font", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-image: url(https://js.intercomcdn.com/images/background-1.1829ebd9.png);
   background-size: 417px 417px;
   background-repeat: repeat;
+}
+.test-emoji{
+position: absolute;
+text-align:center;
+font-size: 2rem;
+left: 0%;
+width: 100%;
+top: 20%;
 }
 
 .intercom-composer-popover-input{
@@ -888,20 +896,15 @@ bottom: 70px;
   left:20px;
 }
 
-.emojis{
-    font-size: 1.5rem;
-    width: 100%;
-  }
-
 .chat-input-tool{
 background-color: #32A8E6;
 padding: 10px;
 border:none;  
 border-radius: 5px;
+position: absolute;
+bottom:20px;
 left: 50%;
 outline:none;
-display: inline;
-font-size: 12px;
 }
 
 /*=====End of Emoji styles======*/

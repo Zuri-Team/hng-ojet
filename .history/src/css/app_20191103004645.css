@@ -577,6 +577,14 @@ body{
   background-size: 417px 417px;
   background-repeat: repeat;
 }
+.test-emoji{
+position: absolute;
+text-align:center;
+font-size: 2rem;
+left: 0%;
+width: 100%;
+top: 20%;
+}
 
 .intercom-composer-popover-input{
   font-size-adjust: none;
@@ -888,11 +896,6 @@ bottom: 70px;
   left:20px;
 }
 
-.emojis{
-    font-size: 1.5rem;
-    width: 100%;
-  }
-
 .chat-input-tool{
 background-color: #32A8E6;
 padding: 10px;
@@ -900,8 +903,6 @@ border:none;
 border-radius: 5px;
 left: 50%;
 outline:none;
-display: inline;
-font-size: 12px;
 }
 
 /*=====End of Emoji styles======*/

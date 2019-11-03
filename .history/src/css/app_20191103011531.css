@@ -889,7 +889,7 @@ bottom: 70px;
 }
 
 .emojis{
-    font-size: 1.5rem;
+    font-size: 1rem;
     width: 100%;
   }
 
@@ -901,7 +901,6 @@ border-radius: 5px;
 left: 50%;
 outline:none;
 display: inline;
-font-size: 12px;
 }
 
 /*=====End of Emoji styles======*/

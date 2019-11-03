@@ -32,7 +32,7 @@ define(["knockout", "jquery", "../ckeditor"], function(ko, $, ClassicEditor) {
    });
    
    $(document).on("click",".intercom-emoji-picker-emoji",function(e){
-       $(".emojis").append($(this).html());
+       $("emojis").append($(this).html());
    });
    
    $('.intercom-composer-popover-input').on('input', function() {
