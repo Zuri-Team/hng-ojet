@@ -2,7 +2,7 @@ define([
   "knockout",
   "./api",
   "jquery",
-  "ojs/ojresponsiveutils", 
+  "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
   "ojs/ojcore",
   "ojs/ojrouter",
@@ -13,46 +13,46 @@ define([
   "ojs/ojbutton"
 ], function(ko, api, $, responsiveUtils, responsiveKnockoutUtils) {
   function RegisterViewModel() {
-      var self = this;
-      var router = oj.Router.rootInstance;
+    var self = this;
+    var router = oj.Router.rootInstance;
 
-      self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
-        responsiveUtils.getFrameworkQuery(responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
+    self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
+      responsiveUtils.getFrameworkQuery(
+        responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
+      )
+    );
 
-      // For small screens: labels on top
-      // For medium screens and up: labels inline
-      self.labelEdge = ko.computed(function () {
-        return self.isSmall() ? "top" : "start";
-      }, self);
+    self.labelEdge = ko.computed(function() {
+      return self.isSmall() ? "top" : "start";
+    }, self);
 
-      self.devstack = ko.observableArray([])
+    self.devstack = ko.observableArray([]);
 
-      var tracksURL = `${api}/api/track`;
+    var tracksURL = `${api}/api/track`;
 
-      //  Fetch all tracks
-      self.fetchTracks = async() => {
-        try {
-            const response = await fetch(`${tracksURL}/all`, {});
-            const {
-                data: { data }
-            } = await response.json();
+    //  Fetch all tracks
+    self.fetchTracks = async () => {
+      try {
+        const response = await fetch(`${tracksURL}/all`, {});
+        const {
+          data: { data }
+        } = await response.json();
 
-            // var result = data.data.map(track => [track.id]);
-            var result = data.map(track => ({
-                value: `${track.id}`,
-                label: track.track_name
-            }));
-            //console.log(result);
+        // var result = data.data.map(track => [track.id]);
+        var result = data.map(track => ({
+          value: `${track.id}`,
+          label: track.track_name
+        }));
+        //console.log(result);
 
-            self.devstack(result);
+        self.devstack(result);
 
-            //console.log(self.devstack());
-        } catch (err) {
-            console.log(err);
-        }
+        //console.log(self.devstack());
+      } catch (err) {
+        console.log(err);
+      }
     };
     self.fetchTracks();
-      
 
     self.firstname = ko.observable("");
     self.lastname = ko.observable("");
@@ -68,205 +68,151 @@ define([
 
     self.clickedButton = ko.observable("(None clicked yet)");
 
-      self.login = function() {
-          router.go("login");
-      };
+    self.login = function() {
+      router.go("login");
+    };
 
-      self.connected = function() {
-          // Implement if needed
-          function validate() {
-              var sect = $("#fbk");
-              var feedback = function(text, color = "danger") {
-                  return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
+    self.connected = function() {
+      // Implement if needed
+      function validate() {
+        var sect = $("#fbk");
+        var feedback = function(text, color = "danger") {
+          return `<div class=" mt-3 alert alert-${color} h6 show fb_alert" role="alert">
           <small>${text}</small>
         </div>`;
-                };
+        };
 
-                var progressbar = function() {
-                  return `<div class="progress position-relative mt-3">
+        var progressbar = function() {
+          return `<div class="progress position-relative mt-3">
         <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-info"
           role="progressbar">
           <span class="oj-text-sm font-weight-bold">Processing registration</span>
         </div>
       </div>`;
-              };
+        };
 
-                let firstname = self.firstname();
-                let lastname = self.lastname();
-                let gender = self.gender();
-                let email = self.email();
-                let username = self.username();
-                let password = self.pass();
-                let confirm_password = self.rpass();
-                let tracks = self.stack().map((stack) => {
-                  return stack
-                });
+        let firstname = self.firstname();
+        let lastname = self.lastname();
+        let gender = self.gender();
+        let email = self.email();
+        let username = self.username();
+        let password = self.pass();
+        let confirm_password = self.rpass();
+        let tracks = self.stack().map(stack => {
+          return stack;
+        });
 
-                let location = self.location();
+        let location = self.location();
 
-                if (
-                    (firstname &&
-                        lastname &&
-                        gender &&
-                        email &&
-                        username &&
-                        // tracks &&
-                        location &&
-                        password &&
-                        confirm_password) !== undefined
-                ) {
-                    if (!(email.match(/([@])/) && email.match(/([.])/))) {
-                        validated = false;
-                        sect.html(feedback("Please enter a valid email"));
-                    }
-                    if (password.length < 4 || confirm_password.length < 4) {
-                        validated = false;
-                        sect.html(feedback("Password should be minimum 4 characters"));
-                    } else {
-                        if (password !== confirm_password) {
-                            sect.html(feedback("Passwords does not match"));
-                            validated = false;
-                        }
-                    }
-
-                    const data = JSON.stringify({
-                        firstname: firstname,
-                        lastname: lastname,
-                        gender: gender,
-                        email: email,
-                        username: username,
-                        password: password,
-                        confirm_password: confirm_password,
-                        tracks: tracks,
-                        location: location
-                    });
-
-                    //console.log(data);
-                   
-                   /* self.message = ko.observable("")
-                     $.ajax({
-                       url: `${api}/api/slacks/verify`,
-                       headers: {
-                         Authorization: "Bearer " + userToken
-                       },
-                       method: "POST",
-                       success: ({status, data}) => {
-                           self.message(data.message);
-                         if (status == true) {
-                           // console.log(data)
-                           self.message(data.message);
-                       }
-                 
-                     }
-                   }); */ 
-        
-
-                    sect.html(progressbar());
-                    $.post(`${api}/api/register`, {
-                            firstname,
-                            lastname,
-                            gender,
-                            email,
-                            username,
-                            password,
-                            confirm_password,
-                            tracks,
-                            location
-                        })
-                        .done(({ status }) => {
-                            if (status == true) {
-                                sect.html(
-                                    feedback(
-                                        "Account created, redirecting to login page...",
-                                        "success"
-                                    )
-                                );
-                                setTimeout(function() {
-                                    router.go("login");
-                                }, 2000);
-                            }
-                        })
-                        .fail(() => {
-                         if (firstname == ''){
-                             console.log('Firstname field is required')
-                            sect.html(
-                                feedback(
-                                    'The firstname field is required'
-                                
-                                )
-                            );
-                        } else if ( lastname == '') {
-                            console.log('Lastname field is required')
-                            sect.html(
-                                feedback(
-                                    'The lastname field is required'
-                                )
-                            )
-                        } else if ( username == '') {
-                            console.log('Username field is required')
-                            sect.html(
-                                feedback(
-                                    'The username field is required'
-                                )
-                            )
-                        } else if (email == '') {
-                          console.log('email is required')
-                            sect.html(
-                                feedback (
-                                    'The email field is required'
-                                )
-                            )       
-                        } else if (password.length < 4 ) {
-                            sect.html(
-                                feedback(
-                                    'The confirm password field is required'
-                                )
-                            )
-                   
-                    }
-                        
-                    
-                            
-                        });
-                } else {
-                    console.log("wrong");
-                    sect.html(feedback("All fields are required"));
-                }
+        if (
+          (firstname &&
+            lastname &&
+            gender &&
+            email &&
+            username &&
+            location &&
+            password &&
+            confirm_password) != ""
+        ) {
+          console.log(
+            firstname,
+            lastname,
+            gender,
+            email,
+            username,
+            location,
+            password,
+            confirm_password
+          );
+          if (!(email.match(/([@])/) && email.match(/([.])/))) {
+            validated = false;
+            sect.html(feedback("Please enter a valid email"));
+          }
+          if (password.length < 4 || confirm_password.length < 4) {
+            validated = false;
+            sect.html(feedback("Password should be minimum 4 characters"));
+          } else {
+            if (password !== confirm_password) {
+              sect.html(feedback("Passwords does not match"));
+              validated = false;
             }
+          }
 
-   
+          const data = JSON.stringify({
+            firstname: firstname,
+            lastname: lastname,
+            gender: gender,
+            email: email,
+            username: username,
+            password: password,
+            confirm_password: confirm_password,
+            tracks: tracks,
+            location: location
+          });
 
-
-            $("#next").click(function() {
-                $("#profileinfo").hide();
-                $("#accinfo").show();
+          sect.html(progressbar());
+          $.post(`${api}/api/register`, {
+            firstname,
+            lastname,
+            gender,
+            email,
+            username,
+            password,
+            confirm_password,
+            tracks,
+            location
+          })
+            .done(({ status }) => {
+              if (status == true) {
+                sect.html(
+                  feedback(
+                    "Account created, redirecting to login page...",
+                    "success"
+                  )
+                );
+                setTimeout(function() {
+                  router.go("login");
+                }, 2000);
+              }
+            })
+            .fail(err => {
+              let { errors } = err.responseJSON;
+              if (errors) {
+                if (errors.username) {
+                  sect.html(feedback(`${errors.username}`));
+                } else if (errors.email) {
+                  sect.html(feedback(`${errors.email}`));
+                } else if (errors.confirm_password) {
+                  sect.html(feedback(`${errors.confirm_password}`));
+                }
+              } else {
+                sect.html(
+                  feedback(
+                    `"Please confirm that your email is registered on slack and try again"`
+                  )
+                );
+              }
             });
-            $("#prev").click(function() {
-                $("#profileinfo").show();
-                $("#accinfo").hide();
-            });
-            
-            self.buttonClick = function(){
-              validate();
-            }.bind(self);
+        } else {
+          console.log("wrong");
+          sect.html(feedback("All fields are required"));
+        }
+      }
 
-            /*self.signup = function() {
-                validate();
-            };*/
-        };
+      $("#next").click(function() {
+        $("#profileinfo").hide();
+        $("#accinfo").show();
+      });
+      $("#prev").click(function() {
+        $("#profileinfo").show();
+        $("#accinfo").hide();
+      });
 
-        // self.connected = function() {
-        //   self.fetchTracks();
-        // };
+      self.buttonClick = function() {
+        validate();
+      }.bind(self);
+    };
+  }
 
-        self.disconnected = function() {
-            // Implement if needed
-        };
-
-        self.transitionCompleted = function() {
-            // Implement if needed
-        };
-    }
-
-    return new RegisterViewModel();
+  return new RegisterViewModel();
 });
