@@ -56,10 +56,10 @@ define([
                 method: "GET",
                 success: ({ status, data }) => {
                     if (status == true) {
-                        const intern = data.filter(data => data.role <= "intern");
+                        const intern = data.filter(data => data.role === "intern");
 
                         const admin = data.filter(
-                            data => data.role >= "superadmin" && data.role >= "admin"
+                            data => data.role === "superadmin" || data.role === "admin"
                         );
 
                         self.dataInternProvider(
