@@ -6,6 +6,7 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojvalidation-base",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
+"ojs/ojbutton",
 'ojs/ojtable', 'ojs/ojoption', "ojs/ojtimezonedata"],
 function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
 function TaskSubmissionsModel(params) {
@@ -23,6 +24,7 @@ function TaskSubmissionsModel(params) {
   self.is_active = ko.observable("");
   self.track = ko.observable("");
 
+  self.editRow = ko.observable();
 
 // extract the task ID we have to work with
 const task_id = params.taskModel().data.id;
@@ -41,7 +43,7 @@ self.tasks = ko.observableArray([]);
 var tracksURL = `${api}/api/track`;
 var tasksURL = `${api}/api/task`;
 
-var submissionURL = `${api}/api/submissions/${task_id}`;
+var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
 self.dataProvider = ko.observable()
 
@@ -61,6 +63,16 @@ self.dataProvider = ko.observable()
   self.editTaskModal = () => {
     document.getElementById("editTaskModal").open();
   };
+
+  this.handleUpdate = function(event, context)
+      {
+        this.editRow({rowKey: context.key});
+      }.bind(this);
+
+      this.handleDone = function(event, context)
+      {
+        this.editRow({rowKey: null});
+      }.bind(this);
 
   // datetime converter
   self.formatDateTime = date => {
@@ -93,6 +105,8 @@ self.dataProvider = ko.observable()
         }
       });
     }
+
+
     fetchSubmission();
 
   function fetchTracks() {
@@ -151,7 +165,6 @@ self.fetchTrack();
       },
       data: { track_id, title, body, deadline, is_active },
       success: res => {
-        if (res.status == true) {
           // send a success message notification to the category view
           self.fetchTask();
           self.fetchTrack();
@@ -161,7 +174,6 @@ self.fetchTrack();
             detail: "Task successfully updated",
             autoTimeout: parseInt("0")
           });
-        }
       },
       error: err => {
         console.log(err);

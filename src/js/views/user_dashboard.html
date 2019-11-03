@@ -88,7 +88,7 @@
               <small class="h5">Stage</small> <span class="h2" data-bind="text:  selectedStepLabel()"></span>
             </div>
           </div>
-          
+
         </header>
         <oj-bind-if test="[[onProbation()]]">
           <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded bg-danger text-white p-2">
@@ -123,11 +123,11 @@
             <div>
               <div>
                 <label class="col-form-label">Link</label>
-                <input id="taskURL" type="url" data-bind="textInput: taskSubmit.task_url" class="form-control">
+                <input id="taskURL" type="url" data-bind="textInput: taskSubmit().submission_link" class="form-control">
               </div>
               <div class="form-group">
                 <label class="col-form-label">Comment</label>
-                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit.task_comment"
+                <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit().task_comment"
                   rows="5"></textarea>
               </div>
               <div class="clearfix"></div>
@@ -148,9 +148,12 @@
                 <div data-bind="ojModule: 'tasks'" class="my-4"></div>
             </div>
 
-            <div class="oj-flex-item" id="intern-settings">
+            <div id="tasks-intern">
+              <div data-bind="ojModule: 'intern_tasks'" class="my-4"></div>
+          </div>
 
-                <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
+            <div class="oj-flex-item" id="intern-settings">
+       <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
                 <div data-bind="ojModule: 'profile'"></div>
             </div>
 

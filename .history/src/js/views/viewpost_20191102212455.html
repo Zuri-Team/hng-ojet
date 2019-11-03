@@ -1,0 +1,33 @@
+<div class="mb-3">
+    <div class="d-flex justify-content-between">
+        <h6 class="badge badge-info p-2 mb-3">
+            <oj-bind-text value="[[category]]"></oj-bind-text>
+        </h6>
+        <span class="fa-stack" data-bind="click: close">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-close fa-stack-1x bg-warning text-light rounded-circle"></i>
+        </span>
+    </div>
+    <h5 style="font-size: 1.2em;" class="mb-3">
+        <oj-bind-text value="[[title]]"></oj-bind-text>
+    </h5>
+    <p class="oj-text-secondary-color oj-text-sm font-weight-bold"> <i
+            class="oj-fwk-icon oj-fwk-icon-calendar mr-1"></i>
+        <oj-bind-text value="[[time]]"></oj-bind-text> by <oj-bind-text value="[[author]]"></oj-bind-text>
+    </p>
+    <div style="word-wrap: break-word" id="fp">
+    </div>
+    <div class="mt-3">
+        <button class="btn btn-sm btn-dark py-2 mr-2">Comments <span class="badge badge-light">2</span></button>
+        <button class="btn btn-sm btn-outline-info py-2" data-bind="click: toggle_comment_box">
+            <i class="fa fa-hand-o-down mr-2"></i>Drop your comment</button>
+    </div>
+
+</div>
+<div id="commentBox" style="display: none">
+    <div class="form-group mt-4">
+        <textarea class="form-control" id="replypost" rows="7" placeholder="Your comment here"
+            style="position: relative"></textarea>
+        <button class="btn btn-sm btn-success mt-3 py-2"><i class="fa fa-send mr-2"></i>Post comment</button>
+    </div>
+</div>

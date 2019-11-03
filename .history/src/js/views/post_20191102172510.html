@@ -1,0 +1,77 @@
+<oj-bind-if test="[[post_btn_toggler()]]">
+    <div class="oj-flex oj-sm-justify-content-center mt-2">
+        <div class="col-sm-12 col-md-8">
+            <div>
+                <h4 class="float-left">Create a new post</h4>
+                <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
+                    <span data-bind="text: post_view_title"></span>
+                </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="my-3">
+                <select data-bind="options: categories, optionsText: 'category_name',  optionsValue:'id', optionsCaption: 'Select category', value: category_id" class="form-control">
+        </select>
+            </div>
+            <div class="my-3">
+                <input data-bind="textInput: newpost().title" type="text" placeholder="Title of the post" class="form-control" />
+            </div>
+            <textarea data-bind="textInput: newpost().body" class="form-control my-3" placeholder="Your post here" style="height: 200px;">
+      </textarea>
+            <div class="my-3">
+                <input data-bind="click: createPost" type="submit" class="btn btn-success" value="Create post" />
+            </div>
+        </div>
+    </div>
+</oj-bind-if>
+<oj-bind-if test="[[!viewPost()]]">
+    <oj-bind-if test="[[!post_btn_toggler()]]">
+        <div class="oj-flex oj-sm-justify-content-center">
+            <div class="col-sm-12 col-md-8">
+                <div>
+                    <h4 class="float-left">My posts</h4>
+                    <p class="btn btn-info float-right" data-bind="click: post_view_toggle">
+                        <span data-bind="text: post_view_title"></span>
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <oj-list-view id="Postmodel-post-list" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[postSelectedChanged]]" first-selected-item="{{postSelected}}">
+                    <template slot="itemTemplate" data-oj-as="item" class="border-0">
+                    <div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
+                      <div>
+                          <p data-bind="text: [[item.data.category.title]]" class="badge badge-pill badge-info ml-2 mt-2 p-2"></p>
+                        <p class="font-weight-bold ml-2 mb-2 text-capitalize">
+                            <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text></p>
+                <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2 mt-2 pl-2 pb-2"></i>
+                <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
+                <span class="ml-1 mb-0 mt-2 pb-2 font-weight-bold"
+                  data-bind="text: `By ` + item.data.user.firstname +  ' ' + item.data.user.lastname"></span>
+                  </div>
+                    </template>
+                    <!--<div id="emoji">
+                    </div>-->
+
+                </oj-list-view>
+                <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+                </oj-paging-control>
+            </div>
+        </div>
+    </oj-bind-if>
+</oj-bind-if>
+
+<oj-bind-if test="[[viewPost()]]">
+    <div class="oj-flex oj-sm-justify-content-center my-3" data-bind="ojModule: { name: 'post_view',
+  params: {postModel:
+  postSelected, hidePost: viewPost, listRefresh: fetchPost }
+  }"></div>
+</oj-bind-if>
+
+<!-- Start Messages Component -->
+
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+  "my": {"vertical" : "bottom", "horizontal": "end"},
+  "at": {"vertical": "bottom", "horizontal": "end"},
+  "of": "window"
+  }'>
+</oj-messages>
+
+<!-- End Messages Component -->
