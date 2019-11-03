@@ -1,4 +1,4 @@
-<div class="oj-flex-item col-sm-12 col-md-3">
+<div class="oj-flex-item col-sm-12">
     <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
         <div slot="body">
             <div class="form-group">
@@ -71,7 +71,7 @@
         </div>
     </div>
 </div>
-<div class="oj-flex-item col-sm-12 col-md-9" style="color: #4e5769 !important">
+<div class="oj-flex-item col-sm-12" style="color: #4e5769 !important">
     <h3 class="mt-2 mb-4">Submissions</h3>
     <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
         <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
