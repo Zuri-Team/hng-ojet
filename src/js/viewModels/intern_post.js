@@ -22,6 +22,7 @@ define([
     self.dataProvider = ko.observable();
     self.categories = ko.observableArray([]);
     self.category_id = ko.observable();
+    self.postpg = ko.observable("d-block");
 
     self.postSelectedChanged = () => {
       let { data } = self.postSelected();
