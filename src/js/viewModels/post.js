@@ -21,6 +21,7 @@ define([
     //  integrated wysiwyg editor is stored as an observable
     self.editor = ko.observable();
     self.edit = ko.observable();
+    self.comment = ko.observable();
 
     // form data instantiated as an observable.
     self.category_id = ko.observable();
@@ -63,25 +64,27 @@ define([
     }
 
     self.viewPost = () => {
-      self.fullpost(true);
-      self.postpg("d-none");
+      setTimeout(function() {
+        self.postpg("d-none");
+        self.fullpost(true);
+      }, 0);
     };
 
     self.editPostModal = () => {
       self.postpg("d-none");
-      document.getElementById("edit_post").style.display = "block";
+      $("#edit_post").show();
       setTimeout(function() {
         self.edit().setData(self.post().post_body);
       }, 0);
     };
 
-    self.close_edit = () => {
-      document.getElementById("edit_post").style.display = "none";
-      self.postpg("d-block");
-    };
-
     self.deletePostModal = () => {
       document.getElementById("deleteModal").open();
+    };
+
+    self.close = () => {
+      $(" #edit_post").hide();
+      self.postpg("d-block");
     };
 
     // datetime converter
@@ -172,23 +175,21 @@ define([
               detail: "A post has been updated",
               autoTimeout: parseInt("0")
             });
-            self.edit().setData("");
+            self.close();
             self.fetchPost();
           }
         },
         error: err => {
-          console.log(err);
           // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
             summary: "Error updating post",
-            detail: "Error trying to update post",
+            detail:
+              "Please select a category for the post and also, no field should be empty",
             autoTimeout: parseInt("0")
           });
         }
       });
-
-      self.close_edit();
     };
 
     self.deletePost = () => {
