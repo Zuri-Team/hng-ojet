@@ -135,10 +135,13 @@
                   <span>Go back</span>
                 </button>
                 <div class="oj-flex" style="color: #4e5769 !important">
-                  <div class="oj-flex-item oj-md-6 oj-sm-6">
-                    <oj-avatar class="image-fluid"> </oj-avatar>
+                  <div class="oj-flex-item oj-md-3 oj-sm-12">
+                    <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + fullName(),
+                                                                      'title':'Avatar of ' + fullName() }"
+                            src="[[profile_img]]">
+                        </oj-avatar>
                   </div>
-                  <div class="oj-flex-item oj-md-10 oj-sm-12 mx-auto">
+                  <div class="oj-flex-item oj-md-9 oj-sm-12 mx-auto">
                     <div>
                       <h2 class="pb-2">
                         <oj-bind-text value="[[fullName]]"></oj-bind-text>
@@ -179,7 +182,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: promote, disable: lastStage(), disable: onProbation()"
+                          data-bind="click: promote, disable: lastStage(),onProbation()"
                         >
                           Promote
                         </button>
@@ -188,7 +191,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: demote, disable: firstStage(), disable: onProbation()"
+                          data-bind="click: demote, disable: firstStage(),onProbation()"
                         >
                           Demote
                         </button>

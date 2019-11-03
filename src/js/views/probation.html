@@ -13,8 +13,10 @@
       <template slot="itemTemplate" data-oj-as="item" class="py-2">
         <div class="oj-flex" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
           <div class="oj-flex-item oj-sm-3">
-            <img src="https://res.cloudinary.com/judejax/image/upload/v1567639756/avatar.png" class="img-thumbnail"
-              width="60" height="65">
+            <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
+                                                                      'title':'Avatar of ' + item.data.username }"
+                            src="[[item.data.profile_img]]">
+                        </oj-avatar>
           </div>
           <div class="oj-flex-item oj-sm-8">
             <strong class="text-capitalize d-block">

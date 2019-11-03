@@ -20,10 +20,13 @@ function UserProfileModel(params) {
     self.fullName = ko.observable("");
     self.teamName = ko.observable("");
     self.stage = ko.observable("");
-    self.role = ko.observable("")
-    self.tracksArray = ko.observableArray([])
-    self.firstStage = ko.observable(false)
-    self.lastStage = ko.observable(false)
+    self.role = ko.observable("");
+    self.tracksArray = ko.observableArray([]);
+    self.firstStage = ko.observable(false);
+    self.lastStage = ko.observable(false);
+    self.profile_img = ko.observable();
+    
+    self.avatarSize = ko.observable("md");
     
     //probation observables
     self.user_id = ko.observable();
@@ -613,6 +616,8 @@ fetchProbatedInternsStatus();
                 });
                 const { message } = await response.json();
           
+                console.log(message);
+                console.log(response);
                 // self.fetchTeam();
                 // self.fetchTeams();
                 self.onProbation(true);
@@ -687,11 +692,13 @@ fetchProbatedInternsStatus();
                 }
             });
             const { data } = await response.json();
-            self.fullName(`${data.firstname} ${data.lastname}`)
-            self.teamName(data.teams.map(teams => `  ${teams.team_name}`))
-            self.stage(`${data.stage}`)
-            self.role(`${data.role}`)
-            self.tracksArray(data.tracks.map(tracks => `  ${tracks.track_name}`))
+            console.log(data);
+            self.profile_img(`${data.profile_img}`);
+            self.fullName(`${data.firstname} ${data.lastname}`);
+            self.teamName(data.teams.map(teams => `  ${teams.team_name}`));
+            self.stage(`${data.stage}`);
+            self.role(`${data.role}`);
+            self.tracksArray(data.tracks.map(tracks => `  ${tracks.track_name}`));
 
             // console.log(data.tracks, data.role, data.active)
 
