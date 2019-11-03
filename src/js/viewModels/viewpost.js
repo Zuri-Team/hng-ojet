@@ -18,7 +18,7 @@ define([
   function viewPost(params) {
     let self = this;
 
-    // self.category = ko.observable('');
+    self.category = ko.observable('');
     self.title = ko.observable('');
     let data = params.post._latestValue;
     console.log(params)
