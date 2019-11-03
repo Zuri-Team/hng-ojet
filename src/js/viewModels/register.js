@@ -114,16 +114,7 @@ define([
             password &&
             confirm_password) != ""
         ) {
-          console.log(
-            firstname,
-            lastname,
-            gender,
-            email,
-            username,
-            location,
-            password,
-            confirm_password
-          );
+          console.log(firstname, lastname, gender, email, username, location, password, confirm_password)
           if (!(email.match(/([@])/) && email.match(/([.])/))) {
             validated = false;
             sect.html(feedback("Please enter a valid email"));
@@ -176,22 +167,37 @@ define([
               }
             })
             .fail(err => {
-              let { errors } = err.responseJSON;
-              if (errors) {
-                if (errors.username) {
-                  sect.html(feedback(`${errors.username}`));
-                } else if (errors.email) {
-                  sect.html(feedback(`${errors.email}`));
-                } else if (errors.confirm_password) {
-                  sect.html(feedback(`${errors.confirm_password}`));
+              let {errors} = err.responseJSON;
+              if(errors){
+                if(errors.username){
+                  sect.html(
+                    feedback(
+                      `${errors.username}`
+                    )
+                  );
                 }
-              } else {
+                else if(errors.email){
+                  sect.html(
+                    feedback(
+                      `${errors.email}`
+                    )
+                  );
+                }
+               else if(errors.confirm_password){
                 sect.html(
                   feedback(
-                    `"Please confirm that your email is registered on slack and try again"`
+                    `${errors.confirm_password}`
                   )
                 );
+               }
               }
+              else{
+              sect.html(
+                feedback(
+                  `"Please confirm that your email is registered on slack and try again"`
+                )
+              ); 
+             }
             });
         } else {
           console.log("wrong");
@@ -211,7 +217,9 @@ define([
       self.buttonClick = function() {
         validate();
       }.bind(self);
+
     };
+
   }
 
   return new RegisterViewModel();
