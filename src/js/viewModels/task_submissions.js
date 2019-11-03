@@ -153,7 +153,6 @@ self.fetchTrack();
       },
       data: { track_id, title, body, deadline, is_active },
       success: res => {
-        if (res.status == true) {
           // send a success message notification to the category view
           self.fetchTask();
           self.fetchTrack();
@@ -163,7 +162,6 @@ self.fetchTrack();
             detail: "Task successfully updated",
             autoTimeout: parseInt("0")
           });
-        }
       },
       error: err => {
         console.log(err);

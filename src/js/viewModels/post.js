@@ -109,7 +109,7 @@ define([
                     if (res.status == true) {
                         self.newpost({});
                         self.fetchPost();
-                        self.post_btn_toggler(false);
+                        self.post_view_toggle();
                         self.applicationMessages.push({
                             severity: "confirmation",
                             summary: "Post created successfully",
