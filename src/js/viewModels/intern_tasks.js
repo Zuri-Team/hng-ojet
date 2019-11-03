@@ -43,7 +43,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                         }
                     });
                     const { data }  = await response.json();
-                    console.log(data);
+              
 
                     self.dataProvider(
                         new PagingDataProviderView(
@@ -72,7 +72,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     success: function(response) {
                     console.log(response)
                         let id = response.data.tracks[0].id;
-                        console.log(id)
+                       
                         self.fetchTasks(id);
                     }
                 });
