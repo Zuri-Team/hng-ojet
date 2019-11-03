@@ -26,8 +26,7 @@ define([
     self.postSelectedChanged = () => {
       let { data } = self.postSelected();
       if (data != null) {
-        // self.post(data);
-        // self.viewPostModal(data);
+        self.post(data);
         self.fullpost(true);
       }
     };
