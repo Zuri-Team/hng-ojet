@@ -29,6 +29,11 @@ define([
     var self = this;
     var router = oj.Router.rootInstance;
     var userToken = sessionStorage.getItem("user_token");
+    var user = sessionStorage.getItem("user");
+    user = JSON.parse(user);
+    self.user_id = ko.observable(user.id);
+
+
 
     //logout button
     self.open = function (event) {
@@ -57,7 +62,7 @@ define([
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
     self.notifsCount = ko.observable();
-    self.taskSubmit = ko.observableArray([]);
+    self.taskSubmit = ko.observable({});
     self.notificationCount = ko.observable("");
     self.probated_by = ko.observable();
     self.probation_reason = ko.observable();
@@ -154,10 +159,9 @@ define([
     }
 
     self.submitTask = async () => {
-      let task_title = self.taskSubmit.task_title;
-      let task_url = self.taskSubmit.task_url;
-      let task_comment = self.taskSubmit.task_comment;
-      console.log(task_url, task_comment);
+      let user_id = self.user_id();
+      let task_id = self.tasks().id;
+      let submission_link = self.taskSubmit().submission_link;
       try {
         const response = await fetch(`${submissionURL}`, {
           method: "POST",
@@ -166,16 +170,16 @@ define([
             Authorization: `Bearer ${userToken}`
           },
           body: JSON.stringify({
-            task_title,
-            task_url,
-            task_comment
+            user_id,
+            task_id,
+            submission_link
           })
         });
 
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task submitted",
-          detail: "You have successfully submitted " + track_name,
+          detail: "You have successfully submitted",
           autoTimeout: parseInt("0")
         });
         document.getElementById("taskURL").value = "";
@@ -279,7 +283,7 @@ define([
       var files = event.detail.files;
       self.fileNames.push(files[i].name);
     };
-     
+
   //   function fetchProbatedInterns() {
   //     $.ajax({
   //       url: `${api}/api/probation/all`,
@@ -295,14 +299,14 @@ define([
   //           self.user_id(data[index].user_id);
   //           self.probatedInternsId().push(self.user_id());
   //           }
-            
+
   //           console.log(self.probated_by());
   //           console.log(self.probation_reason());
   //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
   //       }
-  
+
   //     }
-  //   });  
+  //   });
   // }
   // fetchProbatedInterns();
 
@@ -318,7 +322,7 @@ define([
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
       // console.log(user);
-      
+
       function fetchIfProbated() {
         $.ajax({
           url: `${api}/api/probation/status/${user.id}`,
@@ -337,12 +341,12 @@ define([
                     self.deadline(data.exit_on);
               }
           }
-    
+
         }
-      });  
+      });
     }
     fetchIfProbated();
-    
+
       fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.stepArray().map((stage, i) => {
