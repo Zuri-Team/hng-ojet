@@ -248,5 +248,5 @@ define([
     };
   }
 
-  return new postViewModel();
+  return new postModel();
 });
