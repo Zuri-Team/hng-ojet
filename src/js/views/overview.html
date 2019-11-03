@@ -2,7 +2,7 @@
     <div class="container oj-hybrid-padding">
         <div class="row ">
             <div class="col-md-4">
-                <div class="box1 m-1">
+                <div class="box1 m-1 pl-2">
                     <div class="p-img">
                         <span class="fa fa-list-ul fa-4x d-md-none"></span>
                     </div>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="box2 m-1">
+                <div class="box2 m-1 pl-2">
                     <div class="p-img">
                         <span class="fa fa-user-o fa-4x d-md-none"></span>
                     </div>
@@ -56,7 +56,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="box3 m-1">
+                <div class="box3 m-1 pl-2">
                     <div class="p-img">
                         <span class="fa fa-circle-o fa-4x d-md-none"></span>
                     </div>
@@ -80,7 +80,7 @@
         </div>
     </div>
             <!-- Teams table -->
-    <h4 class="my-4">Teams List:</h4>
+    <!-- <h4 class="my-4">Teams List:</h4>
         <div style="width: 1px; min-width: 100%; min-height: 100%;">
             <oj-table id="table" aria-label="Interns Table" data="[[overviewProvider]]" selection-mode='{"row": "multiple", "column": "multiple"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Id", 
         "field": "id",
@@ -103,7 +103,7 @@
                 <oj-paging-control id="paging" data="[[overviewProvider]]" page-size="10" slot="bottom">
                 </oj-paging-control>
             </oj-table>
-        </div>
+        </div> -->
 
         <!-- Interns table -->
         <h4 class="my-4">Interns List:</h4>
@@ -125,7 +125,7 @@
                 <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
                 </oj-paging-control>
             </oj-table>
-        </div>
+        </div></div>
         <!-- Summary button -->
         <div id="dialogWrapper">
             <oj-dialog style="display:none; height: 90vh; position: fixed;" id="summary-modal" dialog-title="Interns Summary" dragAffordance="none">

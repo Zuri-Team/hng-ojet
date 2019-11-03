@@ -57,11 +57,13 @@
       scroll-policy="loadMoreOnScroll">
         <template slot="itemTemplate" data-oj-as="item" class="py-2">
           <div class="oj-flex">
-            <div class="oj-flex-item oj-md-2">
-              <img src="https://res.cloudinary.com/judejax/image/upload/v1567639756/avatar.png" class="img-thumbnail"
-                width="60" height="65">
+            <div class="oj-flex-item oj-md-3">
+              <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
+                                                                      'title':'Avatar of ' + item.data.username }"
+                            src="[[item.data.profile_img]]">
+                        </oj-avatar>
             </div>
-            <div class="oj-flex-item oj-md-9">
+            <div class="oj-flex-item oj-md-8">
               <strong class="text-capitalize d-block">
                 <oj-bind-text value="[[item.data.firstname]]"></oj-bind-text>
                 <oj-bind-text value="[[item.data.lastname]]"></oj-bind-text>
