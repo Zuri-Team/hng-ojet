@@ -61,13 +61,8 @@ define([
 
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
-
-    //self.notifsCount = ko.observable();
-   // self.taskSubmit = ko.observableArray([]);
-
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observable({});
-
     self.notificationCount = ko.observable("");
     self.probated_by = ko.observable();
     self.probation_reason = ko.observable();
