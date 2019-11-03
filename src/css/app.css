@@ -14,6 +14,10 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+* {
+    box-sizing: border-box;
+}
+
 @media (min-width: 768px) {
     .oj-flex-bar {
         flex-basis: 100% !important;
