@@ -41,6 +41,7 @@ define([
         },
         method: "GET",
         success: res => {
+          console.log(res);
           self.categories(res.data.map(cats => cats));
         }
       });
