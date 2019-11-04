@@ -185,7 +185,7 @@ define([
       }
     });
 
-    $("button.emojis").hide();
+    $(".emojis").hide();
 
     $(document).on("click", ".intercom-emoji-picker-emoji", function(e) {
       $(".emojis").append($(this).html());

@@ -185,11 +185,8 @@ define([
       }
     });
 
-    $("button.emojis").hide();
-
     $(document).on("click", ".intercom-emoji-picker-emoji", function(e) {
       $(".emojis").append($(this).html());
-      $(".emojis").show();
     });
 
     $(".intercom-composer-popover-input").on("input", function() {
