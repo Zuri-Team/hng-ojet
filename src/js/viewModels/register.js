@@ -114,7 +114,7 @@ define([
             password &&
             confirm_password) != ""
         ) {
-          console.log(firstname, lastname, gender, email, username, location, password, confirm_password)
+
           if (!(email.match(/([@])/) && email.match(/([.])/))) {
             validated = false;
             sect.html(feedback("Please enter a valid email"));
