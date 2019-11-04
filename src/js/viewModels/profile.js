@@ -33,7 +33,7 @@ define(['ojs/ojcore',
             self.location = ko.observable('');
 
 
-            self.editMode = ko.observable("false");
+            self.editMode = ko.observable(false);
 
             self.profile = ko.observable('');
 
@@ -76,21 +76,23 @@ define(['ojs/ojcore',
                     method: 'POST',
                     type: 'POST',
                     success: function(data) {
-
+                        self.fetchProfile();
                         self.applicationMessages.push({
-
+                            
                             severity: "confirmation",
-                            summary: "Update Successful",
-                            detail: "Your profile has been successfully updated"
+                            summary: "Avatar Updated",
+                            detail: "Click on The Update Button To Proceed",
+                            autoTimeout: parseInt("0")
 
                         });
                     },
                     error: function(error) {
-
+                       
                         self.applicationMessages.push({
                             severity: "error",
                             summary: "Failed to Update",
-                            detail: "An error occurred while updating your profile. Try Again"
+                            detail: "An error occurred while updating your avatar. Try Again",
+                            autoTimeout: parseInt("0")
 
                         });
 
@@ -152,7 +154,8 @@ define(['ojs/ojcore',
                     method: 'POST',
                     type: 'POST',
                     success: function(data) {
-
+                        self.fetchProfile();
+                        self.editMode(false)
                         self.applicationMessages.push({
 
                             severity: "confirmation",
@@ -163,7 +166,8 @@ define(['ojs/ojcore',
                         });
                     },
                     error: function(error) {
-
+                        self.fetchProfile();
+                        self.editMode(true)
                         self.applicationMessages.push({
                             severity: "error",
                             summary: "Failed to Update",
@@ -232,6 +236,7 @@ define(['ojs/ojcore',
             })();
 
             self.fetchProfile();
+
 
 
             /**

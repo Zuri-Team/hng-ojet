@@ -27,6 +27,8 @@ define([
       return self.isSmall() ? "top" : "start";
     }, self);
 
+    
+  var userToken = sessionStorage.getItem("user_token");
     // initialize the router
     const router = oj.Router.rootInstance;
 
@@ -93,9 +95,9 @@ define([
         const response = await fetch(RESTurl, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
+            "Content-Type": "application/json"
+            ,
+            Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0"
           },
           body: JSON.stringify(data)
         });

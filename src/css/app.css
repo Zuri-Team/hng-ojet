@@ -18,6 +18,7 @@ body {
     box-sizing: border-box;
 }
 
+
 @media (min-width: 768px) {
     .oj-flex-bar {
         flex-basis: 100% !important;
@@ -929,3 +930,4 @@ font-size: 12px;
         -webkit-transform: scale(1);
     }
 }
+
