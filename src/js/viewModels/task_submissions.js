@@ -149,8 +149,8 @@ self.gradeTask = function(userId, grade) {
   let user_id = userId;
 
   $.ajax({
-    method: "PUT",
-    url: `${api}/api/${userId}/task/${task_id}`,
+    method: "POST",
+    url: `${api}/api/user/task/${task_id}`,
     headers: {
       Authorization: "Bearer " + userToken
       // "Access-Control-Allow-Origin": "*",
@@ -161,7 +161,7 @@ self.gradeTask = function(userId, grade) {
     data: { grade_score, user_id },
     success: res => {
         // send a success message notification to the category view
-        self.fetchSubmission();
+        fetchSubmission();
     },
     error: err => {
       console.log(err);
