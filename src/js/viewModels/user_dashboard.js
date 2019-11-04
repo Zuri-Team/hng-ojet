@@ -43,7 +43,7 @@ define([
       sessionStorage.clear();
       router.go("login");
     };
-    self.selectedItem = ko.observable("Dashboard");
+    self.selectedItem = ko.observable();
 
     self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
       ResponsiveUtils.getFrameworkQuery(
@@ -337,13 +337,13 @@ define([
           method: "GET",
           success: ({status, data}) => {
             if (status == "success") {
-              // console.log(data);
-              // console.log(data.status);
-              if (data.status === true){
+              if (data.probator !== undefined){
                 self.onProbation(data.status);
                 self.probated_by(data.probator.firstname+' '+data.probator.lastname);
                     self.probation_reason(data.probation_reason);
                     self.deadline(data.exit_on);
+              } else {
+                self.onProbation(false)
               }
           }
 
