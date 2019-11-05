@@ -1,4 +1,4 @@
-<div class="oj-flex-item col-sm-12">
+<div class="oj-flex-item col-sm-12 col-md-3">
     <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
         <div slot="body">
             <div class="form-group">
@@ -57,9 +57,9 @@
                     Delete
                   </button>
             </div>
-            <h3 class="oj-header-border">
+            <h4 class="oj-header-border">
                 <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
-            </h3>
+            </h4>
             <h5 class="badge badge-pill badge-info p-2">
                 <oj-bind-text value="[[track]]"></oj-bind-text>
             </h5>
@@ -71,14 +71,15 @@
         </div>
     </div>
 </div>
-<div class="oj-flex-item col-sm-12" style="color: #4e5769 !important">
+<div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important">
     <h3 class="mt-2 mb-4">Submissions</h3>
     <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
         <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
             columns='[{"headerText": "Date Submitted",
         "field": "created_at",
         "resizable": "enabled",
-        "template": "dateTemplate"},
+        "template": "dateTemplate",
+        "className": "oj-read-only"},
               {"headerText": "Username",
                 "field": "user.username",
                 "resizable": "enabled",
@@ -89,7 +90,8 @@
                 "className": "oj-read-only"},
               {"headerText": "Grade",
                 "field": "grade_score",
-                "resizable": "enabled"},
+                "resizable": "enabled",
+                "template": "editTemplate"},
                 {"headerText": "Action",
                                "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
                                "style":"padding:0px;text-align: center;",
@@ -104,6 +106,15 @@
 
                     <oj-bind-if test='[[cell.mode=="edit"]]'>
                       <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span></oj-button>
+                    </oj-bind-if>
+                  </template>
+            <template slot="editTemplate" data-oj-as="cell">
+                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                        <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+                    </oj-bind-if>
+
+                    <oj-bind-if test='[[cell.mode=="edit"]]'>
+                        <oj-input-text value="{{cell.row.grade_score}}"></oj-input-text>
                     </oj-bind-if>
                   </template>
             <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
