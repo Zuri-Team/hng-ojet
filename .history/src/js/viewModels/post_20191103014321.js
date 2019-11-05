@@ -21,7 +21,6 @@ define([
     //  integrated wysiwyg editor is stored as an observable
     self.editor = ko.observable();
     self.edit = ko.observable();
-    self.comment = ko.observable();
 
     // form data instantiated as an observable.
     self.category_id = ko.observable();
@@ -64,27 +63,25 @@ define([
     }
 
     self.viewPost = () => {
-      setTimeout(function() {
-        self.postpg("d-none");
-        self.fullpost(true);
-      }, 0);
+      self.fullpost(true);
+      self.postpg("d-none");
     };
 
     self.editPostModal = () => {
       self.postpg("d-none");
-      $("#edit_post").show();
+      document.getElementById("edit_post").style.display = "block";
       setTimeout(function() {
         self.edit().setData(self.post().post_body);
       }, 0);
     };
 
-    self.deletePostModal = () => {
-      document.getElementById("deleteModal").open();
+    self.close_edit = () => {
+      document.getElementById("edit_post").style.display = "none";
+      self.postpg("d-block");
     };
 
-    self.close_edit = () => {
-      $(" #edit_post").hide();
-      self.postpg("d-block");
+    self.deletePostModal = () => {
+      document.getElementById("deleteModal").open();
     };
 
     // datetime converter
@@ -125,13 +122,6 @@ define([
               autoTimeout: parseInt("0")
             });
           }
-        },
-        error: () => {
-          self.applicationMessages.push({
-            severity: "error",
-            summary: "Post Title Must Be At Least Eight Characters Long",
-            autoTimeout: parseInt("0")
-          });
         }
       });
     };
@@ -182,21 +172,23 @@ define([
               detail: "A post has been updated",
               autoTimeout: parseInt("0")
             });
-            self.close();
+            self.edit().setData("");
             self.fetchPost();
           }
         },
         error: err => {
+          console.log(err);
           // send an error message notification to the category view
           self.applicationMessages.push({
             severity: "error",
             summary: "Error updating post",
-            detail:
-              "Please select a category for the post and also, no field should be empty",
+            detail: "Error trying to update post",
             autoTimeout: parseInt("0")
           });
         }
       });
+
+      self.close_edit();
     };
 
     self.deletePost = () => {

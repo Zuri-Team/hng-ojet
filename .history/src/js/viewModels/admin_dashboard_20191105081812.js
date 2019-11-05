@@ -3,6 +3,8 @@ define([
   "knockout",
   "jquery",
   "ojs/ojarraydataprovider",
+  "ojs/ojresponsiveutils",
+  "ojs/ojresponsiveknockoututils",
   "ojs/ojcomponentcore",
   "./api",
   'hammerjs', 
@@ -26,6 +28,8 @@ define([
   ko,
   $,
   ArrayDataProvider,
+  ResponsiveUtils,
+  ResponsiveKnockoutUtils,
   Components,
   api,
   Hammer
@@ -37,6 +41,12 @@ define([
 
     self.selectedItem = ko.observable();
 
+    self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
+      ResponsiveUtils.getFrameworkQuery(
+        ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
+      )
+    );
+
     self.drawer =
         {
           "displayMode": "push",
@@ -46,7 +56,7 @@ define([
   
         self.toggleDrawer = function()
         {
-          //$("#main, #drawer").toggleClass("smactive");
+          $("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
   
@@ -213,15 +223,19 @@ define([
       }
     };
 
+    // toggle hambuger on navbar
+    self.toggleDrawer = function() {
+      $("#main, #drawer").toggleClass("smactive");
+    };
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
     };
 
-    /*self.buttonClick = function(event) {
+    self.buttonClick = function(event) {
       self.clickedButton(event.currentTarget.id);
       return true;
-    };*/
+    };
     
     self.open = function(event) {
       document.getElementById('logoutModal').open();
@@ -257,14 +271,14 @@ define([
       //notifications click
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body>div").hide();
-        $(`#main_body>div[id='${attr}']`).show();
+        $("#main_body > div").hide();
+        $(`#main_body > div[id='${attr}']`).show();
       });
-  
-     $("#drawer li a").on("click", function() {
+
+      $("#drawer li a").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body>div").hide();
-        $(`#main_body>div[id='${attr}']`).show();
+        $("#main_body > div").hide();
+        $(`#main_body > div[id='${attr}']`).show();
       });
     };
   }

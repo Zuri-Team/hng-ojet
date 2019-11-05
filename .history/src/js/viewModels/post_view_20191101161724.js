@@ -177,5 +177,5 @@ var RESTurl = `${api}/api/posts`;
   self.fetchPost();
 }
 
-return new PostViewModel();
+return PostViewModel;
 });
