@@ -37,18 +37,49 @@ define([
     self.user_id = ko.observable(user.id);
 
     self.drawer =
-    {
-      "displayMode": "overlay",
-      "selector": "#drawer",
-      "content": "#main",
-      "modality": "modal"
-    };
+        {
+          "displayMode": "push",
+          "selector": "#drawer",
+          "content": "#main"
+        };
   
-    self.toggleDrawer = function()
+        self.toggleDrawer = function()
         {
           //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
+  
+        self.openDrawer = function()
+        {
+          return oj.OffcanvasUtils.open(self.drawer);
+        };
+  
+        self.isRTL = function()
+        {
+          var dir = document.documentElement.getAttribute("dir");
+          if (dir)
+            dir = dir.toLowerCase();
+          return (dir === "rtl");
+        };
+  
+        //use hammer for swipe
+        var mOptions = {
+          "recognizers": [
+            [Hammer.Swipe, { "direction": Hammer["DIRECTION_HORIZONTAL"] }]
+        ]};
+   
+        $("#main")
+          .ojHammer(mOptions)
+          .on("swipeleft", function(event) {
+            event.preventDefault();
+            if (self.isRTL())
+              self.openDrawer();
+          })
+          .on("swiperight", function(event) {
+            event.preventDefault();
+            if (! self.isRTL())
+              self.openDrawer();
+          });
 
     //logout button
     self.open = function (event) {

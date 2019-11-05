@@ -5,6 +5,8 @@ define([
   "ojs/ojarraydataprovider",
   "ojs/ojcomponentcore",
   "./api",
+  'hammerjs', 
+  'ojs/ojjquery-hammer',
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -26,6 +28,7 @@ define([
   ArrayDataProvider,
   Components,
   api,
+  Hammer
 ) {
   function AdminDashboardViewModel() {
     var self = this;
@@ -35,18 +38,50 @@ define([
     self.selectedItem = ko.observable();
 
     self.drawer =
-    {
-      "displayMode": "overlay",
-      "selector": "#drawer",
-      "content": "#main",
-      "modality": "modal"
-    };
+        {
+          "displayMode": "push",
+          "selector": "#drawer",
+          "content": "#main"
+        };
   
-    self.toggleDrawer = function()
+        self.toggleDrawer = function()
         {
           //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
+  
+        self.openDrawer = function()
+        {
+          return oj.OffcanvasUtils.open(self.drawer);
+        };
+  
+        self.isRTL = function()
+        {
+          var dir = document.documentElement.getAttribute("dir");
+          if (dir)
+            dir = dir.toLowerCase();
+          return (dir === "rtl");
+        };
+  
+        //use hammer for swipe
+        var mOptions = {
+          "recognizers": [
+            [Hammer.Swipe, { "direction": Hammer["DIRECTION_HORIZONTAL"] }]
+        ]};
+   
+        $("#main")
+          .ojHammer(mOptions)
+          .on("swipeleft", function(event) {
+            event.preventDefault();
+            if (self.isRTL())
+              self.openDrawer();
+          })
+          .on("swiperight", function(event) {
+            event.preventDefault();
+            if (! self.isRTL())
+              self.openDrawer();
+          });
+  
 
     self.tags = [
       { value: ".net", label: ".net" },
