@@ -56,7 +56,6 @@ define([
   
         self.toggleDrawer = function()
         {
-          $("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
   
@@ -225,7 +224,7 @@ define([
 
     // toggle hambuger on navbar
     /*self.toggleDrawer = function() {
-      $("#main, #drawer").toggleClass("smactive");
+      $("#maincontent, #sidebar").toggleClass("smactive");
     };*/
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
@@ -275,7 +274,7 @@ define([
         $(`#main_body > div[id='${attr}']`).show();
       });
 
-      $("#drawer li a").on("click", function() {
+      $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#main_body > div").hide();
         $(`#main_body > div[id='${attr}']`).show();

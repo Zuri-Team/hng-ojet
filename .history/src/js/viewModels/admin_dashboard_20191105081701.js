@@ -225,7 +225,7 @@ define([
 
     // toggle hambuger on navbar
     /*self.toggleDrawer = function() {
-      $("#main, #drawer").toggleClass("smactive");
+      $("#maincontent, #sidebar").toggleClass("smactive");
     };*/
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {

@@ -47,25 +47,24 @@ define([
       )
     );
 
-    self.drawer =
+    this.drawer =
         {
           "displayMode": "push",
           "selector": "#drawer",
           "content": "#main"
         };
   
-        self.toggleDrawer = function()
+        this.toggleDrawer = function()
         {
-          $("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
   
-        self.openDrawer = function()
+        this.openDrawer = function()
         {
           return oj.OffcanvasUtils.open(self.drawer);
         };
   
-        self.isRTL = function()
+        this.isRTL = function()
         {
           var dir = document.documentElement.getAttribute("dir");
           if (dir)
@@ -224,9 +223,9 @@ define([
     };
 
     // toggle hambuger on navbar
-    /*self.toggleDrawer = function() {
-      $("#main, #drawer").toggleClass("smactive");
-    };*/
+    self.toggleDrawer = function() {
+      $("#maincontent, #sidebar").toggleClass("smactive");
+    };
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
@@ -271,14 +270,14 @@ define([
       //notifications click
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body > div").hide();
-        $(`#main_body > div[id='${attr}']`).show();
+        $("#maincontent_body > div").hide();
+        $(`#maincontent_body > div[id='${attr}']`).show();
       });
 
-      $("#drawer li a").on("click", function() {
+      $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body > div").hide();
-        $(`#main_body > div[id='${attr}']`).show();
+        $("#maincontent_body > div").hide();
+        $(`#maincontent_body > div[id='${attr}']`).show();
       });
     };
   }

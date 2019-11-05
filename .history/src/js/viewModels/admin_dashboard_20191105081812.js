@@ -224,9 +224,9 @@ define([
     };
 
     // toggle hambuger on navbar
-    /*self.toggleDrawer = function() {
+    self.toggleDrawer = function() {
       $("#main, #drawer").toggleClass("smactive");
-    };*/
+    };
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
