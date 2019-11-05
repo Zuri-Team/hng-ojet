@@ -65,6 +65,12 @@ function TaskSubmissionsModel(params) {
     document.getElementById("editTaskModal").open();
   };
 
+  self.deleteAllSubmissionModal = () => {
+    document.getElementById("deleteAllSubmissionModal").open();
+  };
+
+
+
   self.handleUpdate = function(event, context) {
     self.editRow({rowKey: context.key});
   };
@@ -232,6 +238,33 @@ self.gradeTask = function(userId, grade) {
         self.applicationMessages.push({
           severity: "error",
           summary: "An error was encountered, could not delete task",
+          autoTimeout: parseInt("0")
+        });
+      }
+    });
+  };
+
+  self.deleteAllSubmission = () => {
+    $.ajax({
+      url: `${api}/api/submissions/${task_id}`,
+      headers: {
+        Authorization: "Bearer " + userToken
+      },
+      method: "DELETE",
+      success: () => {
+        document.getElementById("deleteAllSubmissionModal").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Submissions deleted",
+          autoTimeout: parseInt("0")
+        });
+        fetchSubmission();
+      },
+      error: err => {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "An error was encountered, could not delete submissions",
           autoTimeout: parseInt("0")
         });
       }
