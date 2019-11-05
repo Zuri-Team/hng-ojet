@@ -1,14 +1,13 @@
-define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', 'ojs/ojdatacollection-utils', 'ojs/ojmessages', "ojs/ojdialog",
+define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', "ojs/ojvalidation-base", 'ojs/ojmessages', "ojs/ojdialog",
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
 "ojs/ojformlayout",
-"ojs/ojvalidation-base",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
 "ojs/ojbutton",
 'ojs/ojtable', 'ojs/ojoption', "ojs/ojtimezonedata"],
-function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, DataCollectionEditUtils) {
+function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
@@ -20,34 +19,36 @@ function TaskSubmissionsModel(params) {
   self.submission_link = ko.observable("");
   self.submitted_on = ko.observable("");
   self.body = ko.observable("");
-  self.grade_score = ko.observable("");
   self.is_active = ko.observable("");
   self.track = ko.observable("");
 
   self.editRow = ko.observable();
 
 // extract the task ID we have to work with
-const task_id = params.taskModel().data.id;
-const track_id = params.taskModel().data.track_id;
+  const task_id = params.taskModel().data.id;
+  const track_id = params.taskModel().data.track_id;
 
   // notification messages observable
-self.applicationMessages = ko.observableArray([]);
+  self.applicationMessages = ko.observableArray([]);
 
-self.tracks = ko.observableArray([]);
-self.track_id = ko.observable();
-self.task = ko.observableArray([]);
-self.tasks = ko.observableArray([]);
+  self.tracks = ko.observableArray([]);
+  self.track_id = ko.observable();
+  self.task = ko.observableArray([]);
+  self.tasks = ko.observableArray([]);
 
 
 
-var tracksURL = `${api}/api/track`;
-var tasksURL = `${api}/api/task`;
+  var tracksURL = `${api}/api/track`;
+  var tasksURL = `${api}/api/task`;
 
-var submissionURL = `${tasksURL}/${task_id}/submissions`;
+  var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
-self.dataProvider = ko.observable()
+  self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
+
+  var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
+      self.numberConverter = numberConverterFactory.createConverter();
 
 
 
@@ -73,8 +74,7 @@ self.dataProvider = ko.observable()
     var userId = context.row.user_id
     var grade = context.row.grade_score;
     self.gradeTask(userId, grade);
-
-  };
+    };
 
   // datetime converter
   self.formatDateTime = date => {
@@ -147,25 +147,18 @@ self.fetchTrack();
 self.gradeTask = function(userId, grade) {
   let grade_score = grade;
   let user_id = userId;
-
   $.ajax({
     method: "POST",
     url: `${api}/api/user/task/${task_id}`,
     headers: {
       Authorization: "Bearer " + userToken
-      // "Access-Control-Allow-Origin": "*",
-      // "Content-Type": "application/json",
-      // "Access-Control-Allow-Methods": "*",
-      // "Access-Control-Allow-Headers": "*"
-    },
+        },
     data: { grade_score, user_id },
     success: res => {
-        // send a success message notification to the category view
         fetchSubmission();
     },
     error: err => {
       console.log(err);
-
     }
   });
 }
