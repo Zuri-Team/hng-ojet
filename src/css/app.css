@@ -274,6 +274,8 @@ body {
     #drawer {
         width: auto;
         padding: 0px 10px 50px;
+        overflow-y: auto;
+        display: none;
     }
     #drawer.smactive {
         display: block;
