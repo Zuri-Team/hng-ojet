@@ -4,11 +4,8 @@ define([
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
-  "ojs/ojcomponentcore",
   "ojs/ojresponsiveutils",
   "ojs/ojresponsiveknockoututils",
-  'hammerjs', 
-  'ojs/ojjquery-hammer',
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -27,7 +24,7 @@ define([
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata"
-], function(oj, ko, $, api, ArrayDataProvider, Components, ResponsiveUtils, ResponsiveKnockoutUtils, Hammer) {
+], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -36,50 +33,7 @@ define([
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
 
-    self.drawer =
-        {
-          "displayMode": "push",
-          "selector": "#drawer",
-          "content": "#main"
-        };
-  
-        self.toggleDrawer = function()
-        {
-          //$("#main, #drawer").toggleClass("smactive");
-          return oj.OffcanvasUtils.toggle(self.drawer);
-        };
-  
-        self.openDrawer = function()
-        {
-          return oj.OffcanvasUtils.open(self.drawer);
-        };
-  
-        self.isRTL = function()
-        {
-          var dir = document.documentElement.getAttribute("dir");
-          if (dir)
-            dir = dir.toLowerCase();
-          return (dir === "rtl");
-        };
-  
-        //use hammer for swipe
-        var mOptions = {
-          "recognizers": [
-            [Hammer.Swipe, { "direction": Hammer["DIRECTION_HORIZONTAL"] }]
-        ]};
-   
-        $("#main")
-          .ojHammer(mOptions)
-          .on("swipeleft", function(event) {
-            event.preventDefault();
-            if (self.isRTL())
-              self.openDrawer();
-          })
-          .on("swiperight", function(event) {
-            event.preventDefault();
-            if (! self.isRTL())
-              self.openDrawer();
-          });
+
 
     //logout button
     self.open = function (event) {
@@ -91,11 +45,11 @@ define([
     };
     self.selectedItem = ko.observable();
 
-    /*self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
+    self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
       ResponsiveUtils.getFrameworkQuery(
         ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
       )
-    );*/
+    );
     // toggle hambuger on navbar
     /*self.toggleDrawer = function() {
       $("#maincontent, #sidebar").toggleClass("smactive");
@@ -415,14 +369,14 @@ define([
       //notifications click
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_intern_body > div").hide();
-        $(`#main_intern_body > div[id='${attr}']`).show();
+        $("#maincontent_intern_body > div").hide();
+        $(`#maincontent_intern_body > div[id='${attr}']`).show();
       });
 
-      $("#drawer li a").on("click", function() {
+      $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_intern_body > div").hide();
-        $(`#main_intern_body > div[id='${attr}']`).show();
+        $("#maincontent_intern_body > div").hide();
+        $(`#maincontent_intern_body > div[id='${attr}']`).show();
       });
     };
   }

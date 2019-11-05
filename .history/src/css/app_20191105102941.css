@@ -251,7 +251,7 @@ body {
 }
 
 #main_body>div:not(#overview-admin),
-#main_intern_body>div:not(#overview-intern) {
+#maincontent_intern_body>div:not(#overview-intern) {
     display: none;
 }
 

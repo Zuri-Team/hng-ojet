@@ -415,8 +415,8 @@ define([
       //notifications click
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_intern_body > div").hide();
-        $(`#main_intern_body > div[id='${attr}']`).show();
+        $("#maincontent_intern_body > div").hide();
+        $(`#maincontent_intern_body > div[id='${attr}']`).show();
       });
 
       $("#drawer li a").on("click", function() {
