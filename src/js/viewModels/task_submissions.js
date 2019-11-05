@@ -1,4 +1,4 @@
-define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', 'ojs/ojmessages', "ojs/ojdialog",
+define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', 'ojs/ojdatacollection-utils', 'ojs/ojmessages', "ojs/ojdialog",
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
@@ -8,7 +8,7 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojdatetimepicker",
 "ojs/ojbutton",
 'ojs/ojtable', 'ojs/ojoption', "ojs/ojtimezonedata"],
-function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
+function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, DataCollectionEditUtils) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
@@ -20,7 +20,7 @@ function TaskSubmissionsModel(params) {
   self.submission_link = ko.observable("");
   self.submitted_on = ko.observable("");
   self.body = ko.observable("");
-  self.grade = ko.observable("");
+  self.grade_score = ko.observable("");
   self.is_active = ko.observable("");
   self.track = ko.observable("");
 
@@ -64,15 +64,17 @@ self.dataProvider = ko.observable()
     document.getElementById("editTaskModal").open();
   };
 
-  this.handleUpdate = function(event, context)
-      {
-        this.editRow({rowKey: context.key});
-      }.bind(this);
+  self.handleUpdate = function(event, context) {
+    self.editRow({rowKey: context.key});
+  };
 
-      this.handleDone = function(event, context)
-      {
-        this.editRow({rowKey: null});
-      }.bind(this);
+  self.handleDone = function(event, context) {
+    self.editRow({rowKey: null});
+    var userId = context.row.user_id
+    var grade = context.row.grade_score;
+    self.gradeTask(userId, grade);
+
+  };
 
   // datetime converter
   self.formatDateTime = date => {
@@ -142,7 +144,31 @@ self.dataProvider = ko.observable()
 };
 self.fetchTrack();
 
+self.gradeTask = function(userId, grade) {
+  let grade_score = grade;
+  let user_id = userId;
 
+  $.ajax({
+    method: "POST",
+    url: `${api}/api/user/task/${task_id}`,
+    headers: {
+      Authorization: "Bearer " + userToken
+      // "Access-Control-Allow-Origin": "*",
+      // "Content-Type": "application/json",
+      // "Access-Control-Allow-Methods": "*",
+      // "Access-Control-Allow-Headers": "*"
+    },
+    data: { grade_score, user_id },
+    success: res => {
+        // send a success message notification to the category view
+        fetchSubmission();
+    },
+    error: err => {
+      console.log(err);
+
+    }
+  });
+}
 
   //Updates Task
 
