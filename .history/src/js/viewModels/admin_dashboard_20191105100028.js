@@ -46,7 +46,7 @@ define([
   
         self.toggleDrawer = function()
         {
-          //$("#main, #drawer").toggleClass("smactive");
+          $("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
   
@@ -257,14 +257,14 @@ define([
       //notifications click
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body>div").hide();
-        $(`#main_body>div[id='${attr}']`).show();
+        $("#main_body > div").hide();
+        $(`#main_body > div[id='${attr}']`).show();
       });
-  
-     $("#drawer li a").on("click", function() {
+
+      $("#drawer li a").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body>div").hide();
-        $(`#main_body>div[id='${attr}']`).show();
+        $("#main_body > div").hide();
+        $(`#main_body > div[id='${attr}']`).show();
       });
     };
   }
