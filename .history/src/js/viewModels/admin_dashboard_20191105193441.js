@@ -5,6 +5,8 @@ define([
   "ojs/ojarraydataprovider",
   "ojs/ojcomponentcore",
   "./api",
+  'hammerjs', 
+  'ojs/ojjquery-hammer',
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -26,6 +28,7 @@ define([
   ArrayDataProvider,
   Components,
   api,
+  Hammer
 ) {
   function AdminDashboardViewModel() {
     var self = this;
@@ -35,19 +38,22 @@ define([
     self.selectedItem = ko.observable();
 
     self.drawer =
-    {
-      "displayMode": "overlay",
-      "selector": "#drawer",
-      "content": "#main",
-      "modality": "modal"
-    };
+        {
+          "selector": "#drawer",
+          "content": "#main"
+        };
   
-    self.toggleDrawer = function()
+        self.toggleDrawer = function()
         {
           //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
-
+  
+        self.openDrawer = function()
+        {
+          return oj.OffcanvasUtils.open(self.drawer);
+        };
+        
     self.tags = [
       { value: ".net", label: ".net" },
       { value: "Accounting", label: "Accounting" },

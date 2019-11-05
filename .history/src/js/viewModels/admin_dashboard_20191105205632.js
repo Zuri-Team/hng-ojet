@@ -35,17 +35,22 @@ define([
     self.selectedItem = ko.observable();
 
     self.drawer =
-    {
-      "displayMode": "overlay",
-      "selector": "#drawer",
-      "content": "#main",
-      "modality": "modal"
-    };
+        {
+          "displayMode": "overlay",
+          "selector": "#drawer",
+          "content": "#main",
+          "modality": "modal"
+        };
   
     self.toggleDrawer = function()
         {
           //$("#main, #drawer").toggleClass("smactive");
-          return oj.OffcanvasUtils.toggle(self.drawer);
+          return oj.OffcanvasUtils.open(self.drawer);
+        };
+  
+    self.openDrawer = function()
+        {
+          return oj.OffcanvasUtils.open(self.drawer);
         };
 
     self.tags = [

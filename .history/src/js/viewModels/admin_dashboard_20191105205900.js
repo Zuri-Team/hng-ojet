@@ -47,6 +47,11 @@ define([
           //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
+  
+    self.openDrawer = function()
+        {
+          return oj.OffcanvasUtils.open(self.drawer);
+        };
 
     self.tags = [
       { value: ".net", label: ".net" },
