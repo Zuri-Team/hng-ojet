@@ -3,10 +3,10 @@ define([
   "knockout",
   "jquery",
   "ojs/ojarraydataprovider",
+  "ojs/ojresponsiveutils",
+  "ojs/ojresponsiveknockoututils",
   "ojs/ojcomponentcore",
   "./api",
-  'hammerjs', 
-  'ojs/ojjquery-hammer',
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -21,14 +21,16 @@ define([
   "ojs/ojformlayout",
   "ojs/ojbutton",
   "ojs/ojchart",
+  'ojs/ojdialog'
 ], function(
   oj,
   ko,
   $,
   ArrayDataProvider,
+  ResponsiveUtils,
+  ResponsiveKnockoutUtils,
   Components,
-  api,
-  Hammer
+  api
 ) {
   function AdminDashboardViewModel() {
     var self = this;
@@ -37,51 +39,11 @@ define([
 
     self.selectedItem = ko.observable();
 
-    self.drawer =
-        {
-          "displayMode": "push",
-          "selector": "#drawer",
-          "content": "#main"
-        };
-  
-        self.toggleDrawer = function()
-        {
-          //$("#main, #drawer").toggleClass("smactive");
-          return oj.OffcanvasUtils.toggle(self.drawer);
-        };
-  
-        self.openDrawer = function()
-        {
-          return oj.OffcanvasUtils.open(self.drawer);
-        };
-  
-        self.isRTL = function()
-        {
-          var dir = document.documentElement.getAttribute("dir");
-          if (dir)
-            dir = dir.toLowerCase();
-          return (dir === "rtl");
-        };
-  
-        //use hammer for swipe
-        var mOptions = {
-          "recognizers": [
-            [Hammer.Swipe, { "direction": Hammer["DIRECTION_HORIZONTAL"] }]
-        ]};
-   
-        $("#main")
-          .ojHammer(mOptions)
-          .on("swipeleft", function(event) {
-            event.preventDefault();
-            if (self.isRTL())
-              self.openDrawer();
-          })
-          .on("swiperight", function(event) {
-            event.preventDefault();
-            if (! self.isRTL())
-              self.openDrawer();
-          });
-  
+    self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
+      ResponsiveUtils.getFrameworkQuery(
+        ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
+      )
+    );
 
     self.tags = [
       { value: ".net", label: ".net" },
@@ -213,15 +175,19 @@ define([
       }
     };
 
+    // toggle hambuger on navbar
+    self.toggleDrawer = function() {
+      $("#maincontent, #sidebar").toggleClass("smactive");
+    };
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
     };
 
-    /*self.buttonClick = function(event) {
+    self.buttonClick = function(event) {
       self.clickedButton(event.currentTarget.id);
       return true;
-    };*/
+    };
     
     self.open = function(event) {
       document.getElementById('logoutModal').open();
@@ -257,14 +223,14 @@ define([
       //notifications click
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body>div").hide();
-        $(`#main_body>div[id='${attr}']`).show();
+        $("#maincontent_body > div").hide();
+        $(`#maincontent_body > div[id='${attr}']`).show();
       });
-  
-     $("#drawer li a").on("click", function() {
+
+      $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
-        $("#main_body>div").hide();
-        $(`#main_body>div[id='${attr}']`).show();
+        $("#maincontent_body > div").hide();
+        $(`#maincontent_body > div[id='${attr}']`).show();
       });
     };
   }
