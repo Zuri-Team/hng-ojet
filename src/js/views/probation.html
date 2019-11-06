@@ -2,7 +2,7 @@
 <oj-bind-if test="[[!isUserProfile()]]">
 
     <div class="oj-flex-item ml-lg-3 ml-md-3 bg-light mt-4 mt-sm-0 rounded"
-    style="height: fit-content; box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+    style="height: fit-content; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
     <h3 class="mb-0 pt-3 oj-padding-horizontal border border-right-0 border-left-0 border-top-0 border-secondary ">
       <oj-label for="basicSelect" class="h6 m-0"><span class="mx-1">
         </span><sup>(Click on an intern to carry out actions)</sup>  
@@ -11,10 +11,12 @@
     <oj-list-view id="interns" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[selectedInternChanged]]" first-selected-item="{{firstSelectedIntern}}"
       scroll-policy="loadMoreOnScroll">
       <template slot="itemTemplate" data-oj-as="item" class="py-2">
-        <div class="oj-flex">
+        <div class="oj-flex" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
           <div class="oj-flex-item oj-sm-3">
-            <img src="https://res.cloudinary.com/judejax/image/upload/v1567639756/avatar.png" class="img-thumbnail"
-              width="60" height="65">
+            <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
+                                                                      'title':'Avatar of ' + item.data.username }"
+                            src="[[item.data.profile_img]]">
+                        </oj-avatar>
           </div>
           <div class="oj-flex-item oj-sm-8">
             <strong class="text-capitalize d-block">

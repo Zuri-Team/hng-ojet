@@ -1,21 +1,11 @@
-<!-- modal display for post functionalities -->
-<div class="d-flex position-absolute flex-column">
+<oj-bind-if test="[[fullpost()]]" class="oj-flex">
+    <div data-bind="ojModule: { name: 'viewpost',
+        params: {
+        post, fullpost, postpg }
+        }"></div>
+</oj-bind-if>
 
-    <oj-dialog id="viewModal" title="" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
-        position.at.vertical="top" style="top: 0px">
-        <div slot="body">
-            <div style="word-wrap: break-word">
-                <oj-bind-text value="[[post().post_body]]"></oj-bind-text>
-            </div>
-            <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
-                <oj-bind-text value="[[post().created_at]]"></oj-bind-text>
-            </p>
-        </div>
-    </oj-dialog>
-
-</div>
-
-<div class="my-3">
+<oj-bind-if test="[[!fullpost()]]" class="my-3">
     <div class="form-group">
         <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter posts by category</small>
         <div class="d-flex">
@@ -30,9 +20,7 @@
         selection-mode="single" on-selected-changed="[[postSelectedChanged]]" first-selected-item="{{postSelected}}">
         <template slot="itemTemplate" data-oj-as="item" class="border-0">
             <div>
-                <oj-bind-if test="[[search()]]">
-                    <p data-bind="text: [[item.data.category.title]]" class="badge badge-info p-2"></p>
-                </oj-bind-if>
+                <p data-bind="text: [[item.data.category.title]]" class="badge badge-info p-2"></p>
                 <strong class="text-capitalize d-block mb-1">
                     <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
                 </strong>
@@ -51,4 +39,4 @@
     <oj-paging-control id="paging" data="[[dataProvider]]" page-size="5" slot="bottom">
     </oj-paging-control>
 
-</div>
+</oj-bind-if>

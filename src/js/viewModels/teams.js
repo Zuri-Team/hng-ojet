@@ -7,12 +7,14 @@ define([
   "ojs/ojlabel",
   "ojs/ojlistview",
   "ojs/ojmodel",
+  "ojs/ojavatar",
   "ojs/ojdialog",
   "ojs/ojinputtext"
 ], function(oj, ko, $, api, ArrayDataProvider) {
   function TeamViewModel() {
     var self = this;
 
+    self.avatarSize = ko.observable("sm");
     self.teamDataProvider = ko.observable(); //gets data for Categories list
     self.teamMembers = ko.observable(); // gets data for posts under selected category
     self.teamData = ko.observable(""); //holds data for the Category details
@@ -245,6 +247,7 @@ define([
         method: "GET",
         success: res => {
           let data = res.data.members;
+          // console.log(data);
           self.teamMembers(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {

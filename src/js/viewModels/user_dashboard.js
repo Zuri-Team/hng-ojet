@@ -23,12 +23,18 @@ define([
   "ojs/ojtrain",
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
-  "ojs/ojtimezonedata"
+  "ojs/ojtimezonedata",
+  'ojs/ojradioset'
 ], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
     var userToken = sessionStorage.getItem("user_token");
+    var user = sessionStorage.getItem("user");
+    user = JSON.parse(user);
+    self.user_id = ko.observable(user.id);
+
+
 
     //logout button
     self.open = function (event) {
@@ -38,7 +44,7 @@ define([
       sessionStorage.clear();
       router.go("login");
     };
-    self.selectedItem = ko.observable("Dashboard");
+    self.selectedItem = ko.observable();
 
     self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
       ResponsiveUtils.getFrameworkQuery(
@@ -56,8 +62,16 @@ define([
 
     self.selectedStepValue = ko.observable();
     self.selectedStepLabel = ko.observable();
+
+    //self.notifsCount = ko.observable();
+    self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
+    self.track = ko.observableArray([]);
+    self.tracks_id = ko.observable();
+    self.chosenAction = ko.observable('');
+
     self.notifsCount = ko.observable();
-    self.taskSubmit = ko.observableArray([]);
+    self.taskSubmit = ko.observable({});
+
     self.notificationCount = ko.observable("");
     self.probated_by = ko.observable();
     self.probation_reason = ko.observable();
@@ -66,6 +80,74 @@ define([
 
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
+
+    self.popModal = () => {     
+      document.getElementById("requestDialog").open();
+    }
+
+    self.submitRequest =  async() => {
+        const track_id = self.tracks_id();
+        const user_id = self.user_id();
+        const reason = self.newTrack.reason;
+        const action = self.chosenAction();
+        try {
+            const response = await fetch(`${api}/api/track-requests/send-request`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`
+                },
+                body: JSON.stringify({
+                    track_id,
+                    user_id,
+                    action,
+                    reason
+                })
+            });
+            const { message } = await response.json();
+            document.getElementById("requestDialog").close();
+            self.applicationMessages.push({
+
+                severity: "confirmation",
+                summary: `Track Request`,
+                detail: `${message}`,
+                autoTimeout: parseInt("0")
+
+            });
+        } catch (err) {
+            console.log(err);
+            self.applicationMessages.push({
+
+              severity: "error",
+              summary: `Error sending request`,
+              detail: `${message}`,
+              autoTimeout: parseInt("0")
+
+          });
+        }
+    
+    }
+
+
+    //  Fetch all tracks
+   self.fetchTracks = async() => {
+    try {
+        const response = await fetch(`${api}/api/track/all`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        });
+        const {
+            data: { data }
+        } = await response.json();
+
+        self.track(data.map(track => track)
+            );
+    } catch (err) {
+        console.log(err);
+    }
+};
+self.fetchTracks();
 
     self.stepArray = ko.observableArray([
       { id: "1" },
@@ -154,10 +236,13 @@ define([
     }
 
     self.submitTask = async () => {
-      let task_title = self.taskSubmit.task_title;
-      let task_url = self.taskSubmit.task_url;
-      let task_comment = self.taskSubmit.task_comment;
-      console.log(task_url, task_comment);
+      let user_id = self.user_id();
+      let task_id = self.tasks().id;
+      let submission_link = self.taskSubmit().submission_link;
+      
+//task submission validation
+      // if (submission_link)
+
       try {
         const response = await fetch(`${submissionURL}`, {
           method: "POST",
@@ -166,16 +251,16 @@ define([
             Authorization: `Bearer ${userToken}`
           },
           body: JSON.stringify({
-            task_title,
-            task_url,
-            task_comment
+            user_id,
+            task_id,
+            submission_link
           })
         });
 
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task submitted",
-          detail: "You have successfully submitted " + track_name,
+          detail: "You have successfully submitted",
           autoTimeout: parseInt("0")
         });
         document.getElementById("taskURL").value = "";
@@ -279,7 +364,7 @@ define([
       var files = event.detail.files;
       self.fileNames.push(files[i].name);
     };
-     
+
   //   function fetchProbatedInterns() {
   //     $.ajax({
   //       url: `${api}/api/probation/all`,
@@ -295,14 +380,14 @@ define([
   //           self.user_id(data[index].user_id);
   //           self.probatedInternsId().push(self.user_id());
   //           }
-            
+
   //           console.log(self.probated_by());
   //           console.log(self.probation_reason());
   //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
   //       }
-  
+
   //     }
-  //   });  
+  //   });
   // }
   // fetchProbatedInterns();
 
@@ -318,7 +403,7 @@ define([
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
       // console.log(user);
-      
+
       function fetchIfProbated() {
         $.ajax({
           url: `${api}/api/probation/status/${user.id}`,
@@ -328,21 +413,21 @@ define([
           method: "GET",
           success: ({status, data}) => {
             if (status == "success") {
-              // console.log(data);
-              // console.log(data.status);
-              if (data.status === true){
+              if (data.probator !== undefined){
                 self.onProbation(data.status);
                 self.probated_by(data.probator.firstname+' '+data.probator.lastname);
                     self.probation_reason(data.probation_reason);
                     self.deadline(data.exit_on);
+              } else {
+                self.onProbation(false)
               }
           }
-    
+
         }
-      });  
+      });
     }
     fetchIfProbated();
-    
+
       fetchTrack(user.id);
       self.fullname(`${user.firstname} ${user.lastname}`);
       self.stepArray().map((stage, i) => {

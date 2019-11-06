@@ -22,12 +22,12 @@ define([
     self.dataProvider = ko.observable();
     self.categories = ko.observableArray([]);
     self.category_id = ko.observable();
+    self.postpg = ko.observable("d-block");
 
     self.postSelectedChanged = () => {
       let { data } = self.postSelected();
       if (data != null) {
-        // self.post(data);
-        // self.viewPostModal(data);
+        self.post(data);
         self.fullpost(true);
       }
     };
@@ -109,7 +109,7 @@ define([
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
                   value.category = { title: null };
-                  console.log(value);
+                  value.created_at = self.formatDateTime(value.created_at);
                   return value.id;
                 })
               })

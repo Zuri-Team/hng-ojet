@@ -60,16 +60,9 @@ define([
                         .done(({ status, user, token }) => {
                             // start user session with token
                             if (status == true) {
-                                console.log(user);
                                 sessionStorage.setItem("user", JSON.stringify(user));
                                 sessionStorage.setItem("user_token", token);
-                                setTimeout(function() {
-                                    if (user.role == "superadmin") {
-                                        router.go("admin_dashboard");
-                                    } else {
-                                        router.go("user_dashboard");
-                                    }
-                                }, 0);
+                                redirect_user(user.role);
                             }
                         })
                         .fail(() => {
@@ -81,9 +74,20 @@ define([
             }
         };
 
+        function redirect_user(role) {
+            setTimeout(function() {
+                if (role == "superadmin") {
+                    router.go("admin_dashboard");
+                } else {
+                    router.go("user_dashboard");
+                }
+            }, 0);
+        }
         self.connected = function() {
             if (sessionStorage.getItem("user_token") !== null) {
-                router.go("user_dashboard");
+                let user = sessionStorage.getItem("user");
+                user = JSON.parse(user);
+                redirect_user(user.role);
             }
         };
 

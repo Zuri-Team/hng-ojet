@@ -1,4 +1,5 @@
-  define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
+  define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout',
+  'ojs/ojavatar', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
   function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
   { 
   function probationViewModel() {
@@ -17,6 +18,7 @@
     self.probation_reason = ko.observable();
     self.probatedInterns = ko.observableArray([]);
     self.probatedInternsId = ko.observableArray([]);
+    self.avatarSize = ko.observable("md");
 
     self.dataProvider = ko.observable();
 
@@ -26,9 +28,6 @@
 
     self.selectedInternChanged = function(event) {
       // Check whether click is a category selection or deselection
-  fetchdashboard();
-  // fetchinterns();
-  fetchProbatedInterns();
       if (event.detail.value.length != 0) {
         // If selection, populate and display interns
         // Populate iterns list observable using firstSelectedXxx API
@@ -56,6 +55,7 @@
             }
         }
       });  
+      setTimeout(fetchdashboard, 15000);
     }
   
   fetchdashboard();
@@ -77,7 +77,8 @@
         }
   
       }
-    });  
+    }); 
+    setTimeout(fetchProbatedInterns, 15000); 
   }
   fetchProbatedInterns();
 

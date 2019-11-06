@@ -1,4 +1,15 @@
-<div class="col-sm-12 col-md-10">
+<div class="col-sm-12 col-md-10" >
+
+  <!-- Profile image dialog -->
+
+  <oj-dialog id="showImage" class=" position-absolute col-10 col-md-7 mt-5 p-0" modality="modal" drag-affordance="none" position.at.vertical="top" style="height: auto;width:auto">
+  <div slot="body">
+    <oj-avatar role="img" size="xxl" data-bind="attr:{'aria-label':'Avatar of ' + fullName(),
+      'title':'Avatar of ' + fullName() }"
+src="[[profile_img]]">
+    </oj-avatar>
+  </div>
+</oj-dialog>
 
         <!-- Tracks dialogs -->
 
@@ -128,17 +139,18 @@
 
 
 
-          <div class="row">
+          <div class="row" >
             <div class="card oj-md-11 oj-sm-12 mx-auto mt-3">
-              <div class="card-body">
+              <div class="card-body" style="box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
                 <button class="btn btn-info float-right" data-bind="click: Home">
                   <span>Go back</span>
                 </button>
                 <div class="oj-flex" style="color: #4e5769 !important">
-                  <div class="oj-flex-item oj-md-6 oj-sm-6">
-                    <oj-avatar class="image-fluid"> </oj-avatar>
+                  <div class="oj-flex-item oj-md-3 oj-sm-12">
+                  <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + fullName(), 'title':'Avatar of ' + fullName() },click:showProfileImage" src="[[profile_img]]">
+                    </oj-avatar>
                   </div>
-                  <div class="oj-flex-item oj-md-10 oj-sm-12 mx-auto">
+                  <div class="oj-flex-item oj-md-9 oj-sm-12 mx-auto">
                     <div>
                       <h2 class="pb-2">
                         <oj-bind-text value="[[fullName]]"></oj-bind-text>
@@ -179,7 +191,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: promote, disable: lastStage()"
+                          data-bind="click: promote, disable:  lastStage(), disable:onProbation()"
                         >
                           Promote
                         </button>
@@ -188,7 +200,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: demote, disable: firstStage()"
+                          data-bind="click: demote, disable: firstStage(), disable:onProbation()"
                         >
                           Demote
                         </button>
@@ -197,7 +209,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-warning mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: updateStage"
+                          data-bind="click: updateStage, disable: onProbation()"
                         >
                           Update Stage
                         </button>

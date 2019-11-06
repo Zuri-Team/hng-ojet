@@ -28,12 +28,6 @@ define([
             tracks: { label: "Tracks" },
             password_request: { label: "Forgot password" },
             password_reset: { label: "Reset password" },
-            user_profile: { label: "User_profile" },
-            task_submissions: { label: "Task Submission" },
-            post_view: { label: "View Post" },
-            summary: { label: "Summary" },
-            notifications: { label: "Notifications" },
-            submission: { label: "Submission" }
         });
         Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
 

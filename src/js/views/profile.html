@@ -5,65 +5,65 @@
 <div class="m-5   mx-auto" style="width: 80%">
 
     <div class="oj-lg-4 oj-md-4 oj-sm-12">
-        <oj-bind-if test="[[status() == true ]]">
+        <oj-bind-if test="[[status()]]">
             <div class="p-4">
                 <div class="led-green d-inline-block mr-2"></div>
                 <span class=" d-inline-block">Online</span>
             </div>
         </oj-bind-if>
-        <oj-bind-if test="[[status() == false]]">
+        <oj-bind-if test="[[!status()]]">
             <div class="led-gray d-inline-block mr-2"></div>
-            <span class=" d-inline-block">Offine</span>
+            <span class=" d-inline-block">Offline</span>
         </oj-bind-if>
     </div>
     <div>
         <div class="bg-white">
-            <img src="../../css/images/2845940.jpg" alt="" style="height: 250px; width: 100%">
+            <img src="../../css/images/2845940.jpg" alt="" style=" width: 100%;">
 
-            <oj-bind-if test="[[editMode()]]">
+            <oj-bind-if test="[[!editMode()]]">
 
                 <div class="container" style="position:relative">
                     <div class="row">
-                        <div class="col" style="height: 350px; width: 100%">
+                        <div class="col-md-8 justify-content-center" style="height: 350px; width: 100%; word-wrap: break-word;">
                             <div class="m-5">
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900; text-transform: capitalize;">
                                         <oj-bind-text value="[[firstname]]"></oj-bind-text>
                                         <oj-bind-text value="[[lastname]]"></oj-bind-text>
                                     </span>
                                 </div>
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900;">
                                         <oj-bind-text value="[[username]]"></oj-bind-text>
                                     </span>
 
                                 </div>
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900;">
                                         <oj-bind-text value="[[email]]"></oj-bind-text>
                                     </span>
 
                                 </div>
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900;">
                                         <oj-bind-text value="[[bio]]"></oj-bind-text>
                                     </span>
 
                                 </div>
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900;">
                                         <oj-bind-text value="[[url]]"></oj-bind-text>
                                     </span>
 
                                 </div>
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900;">
                                         <oj-bind-text value="[[stack]]"></oj-bind-text>
                                     </span>
 
                                 </div>
                                 <div class="m-3">
-                                    <span>
+                                    <span style="font-weight: 900;">
                                         <oj-bind-text value="[[location]]"></oj-bind-text>
                                     </span>
 
@@ -73,20 +73,20 @@
 
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-4">
                             <div class="m-2 d-flex justify-content-center">
 
 
-                                <img class=" h-50 w-50 rounded-circle profile_img" role="img " src="../../css/images/avatar-f.jpg ">
+                                <img class="profile_img" width="150px" height="150px" style="border-radius: 50%;" role="img " src="../../css/images/avatar-f.jpg ">
                                 </img>
 
                             </div>
-                            <div class="d-flex justify-content-center mt-2">
+                            <div class="d-flex justify-content-center  mt-3 mt-md-4">
                                 <span>Following</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Followers</span>
 
                             </div>
-                            <div class="d-flex justify-content-center mt-2">
-                                <oj-button class='oj-button-primary' chroming='full' on-oj-action="[[editButton]]">
+                            <div class="d-flex justify-content-center my-3 mt-md-4">
+                                <oj-button class='oj-button-primary' chroming='full' style="width: 5rem" on-oj-action="[[editButton]]">
                                     <span slot="startIcon"></span> Edit
                                 </oj-button>
                             </div>
@@ -96,52 +96,52 @@
                 </div>
             </oj-bind-if>
 
-            <oj-bind-if test="[[!editMode()]]">
-                <div class="container ">
+            <oj-bind-if test="[[editMode()]]">
+                <div>
                     <oj-form-layout id="ofl1" class="oj-form-control-full-width m-5">
 
-                        <div class="oj-flex-items-pad demo-flex-display ">
+                        <div class="oj-flex-items demo-flex-display ">
                             <div class="oj-flex d-flex ">
-                                <div class=" order-sm-2 order-md-1 order-lg-1 oj-sm-12 oj-md-8 oj-flex-item ">
+                                <div class=" order-sm-2 order-md-1 order-lg-1 oj-sm-12 oj-md-12 oj-flex-item ">
 
-                                    <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
-                                        <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                            <oj-input-text class='input-profile' value='{{profile.firstname}}' placeholder='[[firstname]]'>
+                                   
+                                        <div class="oj-sm-12 oj-md-12">
+                                            <oj-input-text class='inputs' value='{{profile.firstname}}' placeholder='[[firstname]]'>
                                             </oj-input-text>
                                         </div>
-                                        <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                            <oj-input-text class='input-profile' value='{{profile.lastname}}' placeholder='[[lastname]]'>
+                                        <div class="oj-sm-12 oj-md-12">
+                                            <oj-input-text class='inputs' value='{{profile.lastname}}' placeholder='[[lastname]]'>
                                             </oj-input-text>
                                         </div>
 
-                                    </div>
+                                    
 
-                                    <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.email}}' placeholder='[[email]]'>
+                                    <oj-input-text class='inputs mt-1 mb-1' value='{{profile.email}}' placeholder='[[email]]'>
                                     </oj-input-text>
 
-                                    <div class="oj-flex oj-flex-items-pad mt-1 mb-1">
-                                        <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                            <oj-input-text class='input-profile' value='{{profile.username}}' placeholder='[[username]]'>
+                                    
+                                        <div class="oj-sm-12 oj-md-12">
+                                            <oj-input-text class='inputs' value='{{profile.username}}' placeholder='[[username]]'>
                                             </oj-input-text>
                                         </div>
-                                        <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                            <oj-input-text class='input-profile' value='{{profile.phone}}' placeholder='[[phone]]'>
+                                        <!-- <div class="oj-sm-12 oj-md-6 oj-flex-item">
+                                            <oj-input-text class='inputs' value='{{profile.phone}}' placeholder='[[phone]]'>
                                             </oj-input-text>
-                                        </div>
+                                        </div> -->
 
-                                    </div>
+                                    
 
-                                    <oj-text-area class='input-profile mt-1 mb-1' rows="6 " value='{{profile.bio}}' placeholder='[[bio]]'></oj-text-area>
+                                    <oj-text-area class='inputs mt-1 mb-1' rows="6 " value='{{profile.bio}}' placeholder='[[bio]]'></oj-text-area>
 
-                                    <oj-input-text class='input-profile mt-1 mb-1' value='{{profile.url}}' placeholder="url">
+                                    <oj-input-text class='inputs mt-1 mb-1' value='{{profile.url}}' placeholder="url">
                                     </oj-input-text>
 
-                                    <div class="input-profile mt-1 mb-1">
+                                    <div class="inputs mt-1 mb-1">
                                         <oj-select-many placeholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
                                         </oj-select-many>
                                     </div>
-                                    <div class="input-profile mt-1 mb-1">
-                                        <oj-input-text class='mt-1 mb-1' label-hint='Location' value='{{profile.location}}' placeholder="[[location]]">
+                                    <div class="inputs mt-1 mb-1">
+                                        <oj-input-text class='mt-1 mb-1' label-hint='Location' value='{{profile.location}}' placeholder="Location">
                                         </oj-input-text>
                                     </div>
 
@@ -166,8 +166,8 @@
                                        
                                     </div> -->
                                         <div class="m-2 d-flex justify-content-center">
-                                            <img class=" h-50 w-50 rounded-circle profile_img " role="img " src="../../css/images/avatar-f.jpg ">
-                                            </img>
+                                            <img class="profile_img" width="150px" height="150px" style="border-radius: 50%" role="img " src="../../css/images/avatar-f.jpg ">
+                                        </img>
 
                                         </div>
                                         <div class="d-flex justify-content-center">
@@ -187,8 +187,8 @@
 
                         </div>
 
-                        <div class="d-flex justify-content-center">
-                            <button type='submit' class="fbtn" data-bind="click:  update">Update</button>
+                        <div class="d-flex justify-content-center mb-4">
+                            <button type='submit' class="btn btn-primary fbtn" data-bind="click:  update">Update</button>
                         </div>
 
                     </oj-form-layout>

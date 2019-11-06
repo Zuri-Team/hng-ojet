@@ -116,7 +116,7 @@ define([
           }
         });
         const { data } = await response.json();
-
+        // console.log(data);
         self.taskDataProvider(
           new Paging(
             new ArrayDataProvider(data, {
@@ -160,16 +160,14 @@ define([
         dataType: "json",
         //processData: true,
         success: res => {
-          if (res.status == true) {
             self.newTask({});
-            self.task_btn_toggler(false);
             self.fetchTasks();
+            self.task_view_toggle();
             self.applicationMessages.push({
               severity: "confirmation",
               summary: "Task created successfully",
               autoTimeout: parseInt("0")
             });
-          }
         },
         error: err => {
           console.log(err);
