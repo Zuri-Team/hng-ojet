@@ -96,6 +96,9 @@
             If you are not unprobated on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
           </div>
         </oj-bind-if>
+<div class="mb-5">
+  <button class="btn btn-success float-right" data-bind="click: popModal">Change Track</button>
+</div>
 
         <oj-train id="train" class="oj-train-stretch col-sm-10 col-12 p-sm-0 p-0 mx-sm-auto my-3"
           on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}" steps="[[stepArray]]">
@@ -177,3 +180,28 @@
 
     <!-- End Messages Component -->
 </section>
+
+<oj-dialog id="requestDialog" style="display:none" title="Make a track change request">
+    <div slot="body">
+        <div class="form-group">
+            <oj-label class="oj-label oj-label-inline">Track</oj-label>
+            <select
+              data-bind="options: track, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select a track', value: tracks_id,"
+              class="form-control">
+            </select>
+          </div>
+          <div class='oj-flex-item mt-3'>
+            <!-- You need to set the labelled-by attribute
+      to make this accessible. -->
+            <oj-radioset id="inlineSet" labelled-by="inlineLabelId" value="{{chosenAction}}" class="oj-choice-direction-row">
+                <oj-option id="rock" value="add">Add</oj-option>
+                <oj-option id="sb" value="remove">Remove</oj-option>
+            </oj-radioset>
+        </div>
+        <oj-label class="oj-label oj-label-inline" for="createNewDesc">Reason for Change</oj-label>
+        <input id="createNewDesc" class="form-control" data-bind="textInput: newTrack.reason">
+    </div>
+    <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[submitRequest]]">Submit</oj-button>
+    </div>
+</oj-dialog>
