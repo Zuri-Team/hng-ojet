@@ -191,7 +191,7 @@ src="[[profile_img]]">
                         <button
                           id="createButton"
                           class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: promote, disable: lastStage(),onProbation()"
+                          data-bind="click: promote, disable:  lastStage(), disable:onProbation()"
                         >
                           Promote
                         </button>
@@ -200,7 +200,7 @@ src="[[profile_img]]">
                         <button
                           id="createButton"
                           class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: demote, disable: firstStage(),onProbation()"
+                          data-bind="click: demote, disable: firstStage(), disable:onProbation()"
                         >
                           Demote
                         </button>
