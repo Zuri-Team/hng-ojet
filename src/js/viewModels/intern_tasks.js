@@ -9,7 +9,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             var userToken = sessionStorage.getItem("user_token");
             var user = sessionStorage.getItem("user");
             user = JSON.parse(user);
-            console.log(user.id)
+           
 
             self.taskSelected = ko.observable({});
 
@@ -70,7 +70,6 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
                     url: `${api}/api/user-profile/${id}`,
                     success: function(response) {
-                    console.log(response)
                         let id = response.data.tracks[0].id;
                        
                         self.fetchTasks(id);

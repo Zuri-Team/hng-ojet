@@ -23,7 +23,8 @@ define([
   "ojs/ojtrain",
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
-  "ojs/ojtimezonedata"
+  "ojs/ojtimezonedata",
+  'ojs/ojradioset'
 ], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
@@ -66,6 +67,7 @@ define([
     self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
     self.track = ko.observableArray([]);
     self.tracks_id = ko.observable();
+    self.chosenAction = ko.observable('');
 
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observable({});
@@ -83,10 +85,49 @@ define([
       document.getElementById("requestDialog").open();
     }
 
-    self.submitRequest = () => {
-      console.log("aww yeah")
-      document.getElementById("requestDialog").close();
+    self.submitRequest =  async() => {
+        const track_id = self.tracks_id();
+        const user_id = self.user_id();
+        const reason = self.newTrack.reason;
+        const action = self.chosenAction();
+        try {
+            const response = await fetch(`${api}/api/track-requests/send-request`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`
+                },
+                body: JSON.stringify({
+                    track_id,
+                    user_id,
+                    action,
+                    reason
+                })
+            });
+            const { message } = await response.json();
+            document.getElementById("requestDialog").close();
+            self.applicationMessages.push({
+
+                severity: "confirmation",
+                summary: `Track Request`,
+                detail: `${message}`,
+                autoTimeout: parseInt("0")
+
+            });
+        } catch (err) {
+            console.log(err);
+            self.applicationMessages.push({
+
+              severity: "error",
+              summary: `Error sending request`,
+              detail: `${message}`,
+              autoTimeout: parseInt("0")
+
+          });
+        }
+    
     }
+
 
     //  Fetch all tracks
    self.fetchTracks = async() => {
@@ -99,7 +140,6 @@ define([
         const {
             data: { data }
         } = await response.json();
-        console.log(data)
 
         self.track(data.map(track => track)
             );

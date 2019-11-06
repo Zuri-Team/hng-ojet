@@ -10,6 +10,7 @@ define([
     "ojs/ojdialog",
     "ojs/ojvalidation-datetime",
     "ojs/ojtimezonedata",
+    "ojs/ojmessages",
     "ojs/ojpagingcontrol",
     'ojs/ojbutton', 'ojs/ojradioset', 'ojs/ojlabel'
 ], function(ko, $, api, ArrayDataProvider, PagingDataProviderView, keySet) {
@@ -18,14 +19,18 @@ define([
         let RESTurl = `${api}/api/track-requests`;
         let userToken = sessionStorage.getItem("user_token");
 
-        self.activityToView = ko.observable('all');
+      
         self.searchQuery = ko.observable('');
         self.dataProvider = ko.observable();
+        self.selectedTrackRequest = ko.observable();
+        self.selectedSelectionRequired = ko.observable(false);
+        self.currentItemId = ko.observable();
+
+         // notification messages observable
+         self.applicationMessages = ko.observableArray([]);
 
 
-
-
-
+       
         // datetime converter
         self.formatDateTime = date => {
             var formatDateTime = oj.Validation.converterFactory(
@@ -40,6 +45,12 @@ define([
             return formatDateTime.format(new Date(date).toISOString());
         };
 
+
+        self.handleCurrentItemChanged = function(event) {
+            // Access current item via ui.item
+          let itemId = event.detail.value;
+          self.currentItemId(itemId);
+        };
 
 
         self.fetchTrackRequests = async() => {
@@ -78,32 +89,94 @@ define([
         };
         self.fetchPendingTrackRequests();
 
-        self.searchActivity = async() => {
-            let query = self.searchQuery();
+        self.Accept = () => {
 
-            if (query.length == 0) {
-                self.fetchActivities("all");
-                return;
-            }
+            self.action("accept", "PUT");
+        }
+
+        self.Reject = () => {
+            self.action("reject", "DELETE");
+        }
+
+
+        self.action = async(actionn, request) => {
+
+            let key = self.currentItemId();
+
+            let { data : { track: { track_name }, user : { firstname, lastname } } }
+             = self.selectedTrackRequest();
+
             try {
-                const response = await fetch(`${RESTurl}/search/${query}`, {
+
+                const response = await fetch(`${RESTurl}/${actionn}/${key}`, {
+                    method: `${request}`,
                     headers: {
+                        "Content-Type": "application/json",
                         Authorization: `Bearer ${userToken}`
                     }
+
                 });
-                const  data  = await response.json();
+
+                const data = await response.json()
                 console.log(data)
-                // self.dataProvider(
-                //     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
+
+                if (data.status === false) {
+                    self.applicationMessages.push({
+
+                        severity: "Warning",
+                        summary: "Duplicate Action",
+                        detail: `${data.message}`,
+                        autoTimeout: parseInt("0")
+    
+                    });
+                    return;
+                }
+
+                if (actionn === "accept") {
+                // send a success message notification to the tracks view
+                self.applicationMessages.push({
+
+                    severity: "confirmation",
+                    summary: "Action successful",
+                    detail: `${firstname} ${lastname} successfully added to ${track_name}`,
+                    autoTimeout: parseInt("0")
+
+                });
+            } else {
+                 // send a success message notification to the tracks view
+                 self.applicationMessages.push({
+
+                    severity: "confirmation",
+                    summary: "Action successful",
+                    detail: `${firstname} ${lastname}'s request has been rejected`,
+                    autoTimeout: parseInt("0")
+
+                });
+            }
+                self.fetchTrackRequests();
+                self.fetchPendingTrackRequests();
+
             } catch (err) {
+
                 console.log(err);
+
+                // send an error message notification to the tracks view
+                self.applicationMessages.push({
+                    severity: "error",
+                    summary: "Error",
+                    detail: "There was an error completing this action",
+                    autoTimeout: parseInt("0")
+                });
             }
         };
+
+
+
         // listen for changes
         let pm = ko.dataFor(document.querySelector("#admin"));
         pm.selectedItem.subscribe(function() {
             if (pm.selectedItem() == "Tracks") {
-                self.fetchActivities("all");
+              self.fetchTrackRequests();
             }
         });
     }

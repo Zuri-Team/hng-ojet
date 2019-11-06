@@ -190,8 +190,16 @@
               class="form-control">
             </select>
           </div>
+          <div class='oj-flex-item mt-3'>
+            <!-- You need to set the labelled-by attribute
+      to make this accessible. -->
+            <oj-radioset id="inlineSet" labelled-by="inlineLabelId" value="{{chosenAction}}" class="oj-choice-direction-row">
+                <oj-option id="rock" value="add">Add</oj-option>
+                <oj-option id="sb" value="remove">Remove</oj-option>
+            </oj-radioset>
+        </div>
         <oj-label class="oj-label oj-label-inline" for="createNewDesc">Reason for Change</oj-label>
-        <oj-input-text id="createNewDesc" class="form-control" value="{{newTrack.track_description}}"></oj-input-text>
+        <input id="createNewDesc" class="form-control" data-bind="textInput: newTrack.reason">
     </div>
     <div slot="footer">
         <oj-button id="submitBtn" on-oj-action="[[submitRequest]]">Submit</oj-button>
