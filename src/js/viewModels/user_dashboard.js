@@ -63,7 +63,9 @@ define([
     self.selectedStepLabel = ko.observable();
 
     //self.notifsCount = ko.observable();
-   // self.taskSubmit = ko.observableArray([]);
+    self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
+    self.track = ko.observableArray([]);
+    self.tracks_id = ko.observable();
 
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observable({});
@@ -76,6 +78,36 @@ define([
 
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
+
+    self.popModal = () => {     
+      document.getElementById("requestDialog").open();
+    }
+
+    self.submitRequest = () => {
+      console.log("aww yeah")
+      document.getElementById("requestDialog").close();
+    }
+
+    //  Fetch all tracks
+   self.fetchTracks = async() => {
+    try {
+        const response = await fetch(`${api}/api/track/all`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        });
+        const {
+            data: { data }
+        } = await response.json();
+        console.log(data)
+
+        self.track(data.map(track => track)
+            );
+    } catch (err) {
+        console.log(err);
+    }
+};
+self.fetchTracks();
 
     self.stepArray = ko.observableArray([
       { id: "1" },
