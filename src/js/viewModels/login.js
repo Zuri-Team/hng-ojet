@@ -40,7 +40,7 @@ define([
         };
 
         self.reset = function() {
-            router.go("password_reset");
+            router.go("password_request");
         };
 
         self.login = function() {

@@ -26,6 +26,7 @@ define([
             login: { label: "Login", isDefault: true },
             tasks: { label: "Tasks" },
             tracks: { label: "Tracks" },
+            password_request: { label: "Forgot password" },
             password_reset: { label: "Reset password" },
             user_profile: { label: "User_profile" },
             task_submissions: { label: "Task Submission" },
