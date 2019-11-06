@@ -189,15 +189,15 @@ define([
       return true;
     };
     
+    self.open = function(event) {
+      document.getElementById('logoutModal').open();
+    };
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
     };
     self.close = function(event) {
       document.getElementById('logoutModal').close();
-      };
-      self.open = function(event) {
-        document.getElementById('logoutModal').open();
       };
 
     //route to notifications

@@ -88,7 +88,7 @@
               <small class="h5">Stage</small> <span class="h2" data-bind="text:  selectedStepLabel()"></span>
             </div>
           </div>
-          
+
         </header>
         <oj-bind-if test="[[onProbation()]]">
           <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded bg-danger text-white p-2">
@@ -144,10 +144,16 @@
             <div id="posts-intern">
                 <div data-bind="ojModule: 'intern_post'" class="my-4"></div>
             </div>
+            <!-- <div id="tasks-intern">
+                <div data-bind="ojModule: 'tasks'" class="my-4"></div>
+            </div> -->
+
+            <div id="tasks-intern">
+              <div data-bind="ojModule: 'intern_tasks'" class="my-4"></div>
+          </div>
 
             <div class="oj-flex-item" id="intern-settings">
-
-                <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
+       <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
                 <div data-bind="ojModule: 'profile'"></div>
             </div>
 

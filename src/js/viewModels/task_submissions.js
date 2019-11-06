@@ -1,13 +1,13 @@
-define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', 'ojs/ojmessages', "ojs/ojdialog",
+define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', "ojs/ojvalidation-base", 'ojs/ojmessages', "ojs/ojdialog",
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
 "ojs/ojformlayout",
-"ojs/ojvalidation-base",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
+"ojs/ojbutton",
 'ojs/ojtable', 'ojs/ojoption', "ojs/ojtimezonedata"],
-function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
+function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
@@ -19,33 +19,36 @@ function TaskSubmissionsModel(params) {
   self.submission_link = ko.observable("");
   self.submitted_on = ko.observable("");
   self.body = ko.observable("");
-  self.grade = ko.observable("");
   self.is_active = ko.observable("");
   self.track = ko.observable("");
 
+  self.editRow = ko.observable();
 
 // extract the task ID we have to work with
-const task_id = params.taskModel().data.id;
-const track_id = params.taskModel().data.track_id;
+  const task_id = params.taskModel().data.id;
+  const track_id = params.taskModel().data.track_id;
 
   // notification messages observable
-self.applicationMessages = ko.observableArray([]);
+  self.applicationMessages = ko.observableArray([]);
 
-self.tracks = ko.observableArray([]);
-self.track_id = ko.observable();
-self.task = ko.observableArray([]);
-self.tasks = ko.observableArray([]);
+  self.tracks = ko.observableArray([]);
+  self.track_id = ko.observable();
+  self.task = ko.observableArray([]);
+  self.tasks = ko.observableArray([]);
 
 
 
-var tracksURL = `${api}/api/track`;
-var tasksURL = `${api}/api/task`;
+  var tracksURL = `${api}/api/track`;
+  var tasksURL = `${api}/api/task`;
 
-var submissionURL = `${tasksURL}/${task_id}/submissions`;
+  var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
-self.dataProvider = ko.observable()
+  self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
+
+  var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
+      self.numberConverter = numberConverterFactory.createConverter();
 
 
 
@@ -61,6 +64,23 @@ self.dataProvider = ko.observable()
   self.editTaskModal = () => {
     document.getElementById("editTaskModal").open();
   };
+
+  self.deleteAllSubmissionModal = () => {
+    document.getElementById("deleteAllSubmissionModal").open();
+  };
+
+
+
+  self.handleUpdate = function(event, context) {
+    self.editRow({rowKey: context.key});
+  };
+
+  self.handleDone = function(event, context) {
+    self.editRow({rowKey: null});
+    var userId = context.row.user_id
+    var grade = context.row.grade_score;
+    self.gradeTask(userId, grade);
+    };
 
   // datetime converter
   self.formatDateTime = date => {
@@ -130,7 +150,24 @@ self.dataProvider = ko.observable()
 };
 self.fetchTrack();
 
-
+self.gradeTask = function(userId, grade) {
+  let grade_score = grade;
+  let user_id = userId;
+  $.ajax({
+    method: "POST",
+    url: `${api}/api/user/task/${task_id}`,
+    headers: {
+      Authorization: "Bearer " + userToken
+        },
+    data: { grade_score, user_id },
+    success: res => {
+        fetchSubmission();
+    },
+    error: err => {
+      console.log(err);
+    }
+  });
+}
 
   //Updates Task
 
@@ -201,6 +238,33 @@ self.fetchTrack();
         self.applicationMessages.push({
           severity: "error",
           summary: "An error was encountered, could not delete task",
+          autoTimeout: parseInt("0")
+        });
+      }
+    });
+  };
+
+  self.deleteAllSubmission = () => {
+    $.ajax({
+      url: `${api}/api/submissions/${task_id}`,
+      headers: {
+        Authorization: "Bearer " + userToken
+      },
+      method: "DELETE",
+      success: () => {
+        document.getElementById("deleteAllSubmissionModal").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Submissions deleted",
+          autoTimeout: parseInt("0")
+        });
+        fetchSubmission();
+      },
+      error: err => {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "An error was encountered, could not delete submissions",
           autoTimeout: parseInt("0")
         });
       }

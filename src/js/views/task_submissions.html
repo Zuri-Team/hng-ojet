@@ -1,5 +1,5 @@
-<div class="oj-flex-item col-sm-12 col-md-3">
-    <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
+<div class="oj-flex-item col-sm-12 col-md-4">
+    <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-sm-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
         <div slot="body">
             <div class="form-group">
                 <oj-label class="oj-label oj-label-inline">Track</oj-label>
@@ -41,64 +41,105 @@
         </div>
     </oj-dialog>
 
+    <oj-dialog id="deleteAllSubmissionModal" dialog-title="Delete all submissions" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
+        <div slot="body">
+            <p>
+                You are about to delete all submissions for this task, continue?
+            </p>
+            <button data-bind="click: deleteAllSubmission" class="btn btn-danger float-right">Delete All</button>
+        </div>
+    </oj-dialog>
 
-    <div class="oj-hybrid-padding">
-        <div>
-            <button class="btn btn-info" data-bind="click: toTasks">
+
+
+    <div>
+        <button class="btn btn-info" data-bind="click: toTasks">
             <span>Go back</span>
           </button>
-        </div>
-        <div class="oj-panel mt-4 mb-2 oj-panel-shadow-sm" style="color: #4e5769 !important">
-            <div class="mb-2">
-                <button class="btn btn-outline-dark mr-1" data-bind="click: editTaskModal">
+    </div>
+    <div class="oj-panel mt-2 mb-2 oj-panel-shadow-sm" style="color: #4e5769 !important">
+        <div class="mb-2">
+            <button class="btn btn-outline-dark mr-1" data-bind="click: editTaskModal">
                     Edit
                   </button>
-                <button class="btn btn-outline-danger" data-bind="click: deleteTaskModal">
+            <button class="btn btn-outline-danger" data-bind="click: deleteTaskModal">
                     Delete
                   </button>
-            </div>
-            <h3 class="oj-header-border">
-                <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
-            </h3>
-            <h5 class="badge badge-pill badge-info p-2">
-                <oj-bind-text value="[[track]]"></oj-bind-text>
-            </h5>
-            <h6 class="pb-2">Deadline:
-                <oj-bind-text value="[[deadline]]"></oj-bind-text>
-            </h6>
-            <p class="font-weight-bold mb-0 pb-2">Description</p>
-            <oj-bind-text value="[[body]]"></oj-bind-text>
         </div>
+        <h4 class="oj-header-border">
+            <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
+        </h4>
+        <h5 class="badge badge-pill badge-info p-2">
+            <oj-bind-text value="[[track]]"></oj-bind-text>
+        </h5>
+        <h6 class="pb-2">Deadline:
+            <oj-bind-text value="[[deadline]]"></oj-bind-text>
+        </h6>
+        <p class="font-weight-bold mb-0 pb-2">Description</p>
+        <oj-bind-text value="[[body]]"></oj-bind-text>
     </div>
 </div>
-<div class="oj-flex-item col-sm-12 col-md-9" style="color: #4e5769 !important">
-    <h3 class="mt-2 mb-4">Submissions</h3>
+<div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important">
+    <div class="mt-2 mb-4">
+        <h3 class="float-left">Submissions</h3>
+        <button class="btn btn-outline-danger float-right" data-bind="click: deleteAllSubmissionModal">
+        Delete All
+      </button>
+    </div>
     <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
-        <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Date Submitted",
+        <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
+            columns='[{"headerText": "Date Submitted",
         "field": "created_at",
+        "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
         "resizable": "enabled",
-        "template": "dateTemplate"},
+        "template": "dateTemplate",
+        "className": "oj-read-only"},
               {"headerText": "Username",
-                "field": "username",
-                "resizable": "enabled",
-                "className": "oj-read-only"},
-              {"headerText": "Full Name",
-                "field": "fullname",
+                "field": "user.username",
+                "headerStyle": "min-width: 30em; max-width: 30em; width: 30em;text-align: center;",
                 "resizable": "enabled",
                 "className": "oj-read-only"},
               {"headerText": "Submission",
                 "field": "submission_link",
                 "resizable": "enabled",
-                "className": "oj-read-only"},
-              {"headerText": "Comment",
-                "field": "intern_comment",
-                "resizable": "enabled",
-            "className": "oj-read-only"},
-                {"headerText": "Grade",
+                "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+                "className": "oj-read-only",
+                "template": "submissionTemplate"},
+              {"headerText": "Grade",
                 "field": "grade_score",
-                "resizable": "enabled"}]' style="width: 100%; height: 100%;">
+                "resizable": "enabled",
+                "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+                "template": "editTemplate"},
+                {"headerText": "Action",
+                               "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+                               "template": "actionTemplate"}]' style="width: 100%; height: 100%;">
             <template slot="dateTemplate" data-oj-as="cell">
                     <oj-bind-text value="[[formatDateTime(cell.data)]]"></oj-bind-text>
+                  </template>
+            <template slot="submissionTemplate" data-oj-as="cell">
+                    <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
+                  </template>
+            <template slot="actionTemplate" data-oj-as="cell">
+                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                      <oj-button on-oj-action="[[handleUpdate]]" style="width:5em;margin-bottom: 0px;"><span>Edit</span></oj-button>
+                    </oj-bind-if>
+
+                    <oj-bind-if test='[[cell.mode=="edit"]]'>
+                      <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span></oj-button>
+                    </oj-bind-if>
+                  </template>
+            <template slot="editTemplate" data-oj-as="cell">
+                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                        <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
+                    </oj-bind-if>
+
+                    <oj-bind-if test='[[cell.mode=="edit"]]'>
+                        <oj-input-text value="{{cell.row.grade_score}}" converter="[[numberConverter]]"></oj-input-text>
+                    </oj-bind-if>
                   </template>
             <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
             </oj-paging-control>

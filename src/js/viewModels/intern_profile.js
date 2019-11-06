@@ -15,15 +15,19 @@ function UserProfileModel(params) {
     self.isUser = ko.observable(true)
     self.selectedMenuItem = ko.observable("");
 
+        console.log(params)
 
     // User Profile Observables
     self.fullName = ko.observable("");
     self.teamName = ko.observable("");
     self.stage = ko.observable("");
-    self.role = ko.observable("")
-    self.tracksArray = ko.observableArray([])
-    self.firstStage = ko.observable(false)
-    self.lastStage = ko.observable(false)
+    self.role = ko.observable("");
+    self.tracksArray = ko.observableArray([]);
+    self.firstStage = ko.observable(false);
+    self.lastStage = ko.observable(false);
+    self.profile_img = ko.observable();
+    
+    self.avatarSize = ko.observable("md");
     
     //probation observables
     self.user_id = ko.observable();
@@ -31,7 +35,7 @@ function UserProfileModel(params) {
     self.probation_reason = ko.observable();
     self.probatedInterns = ko.observableArray([]);
     self.probatedInternsId = ko.observableArray([]);
-    self.onProbation = ko.observable();
+    self.onProbation = ko.observable(true);
     self.reason = ko.observable();
     self.exit_on = ko.observable();
 
@@ -613,8 +617,11 @@ fetchProbatedInternsStatus();
                 });
                 const { message } = await response.json();
           
+                console.log(message);
+                console.log(response);
                 // self.fetchTeam();
                 // self.fetchTeams();
+                self.onProbation(true);
                 self.fetchUserProfile();
                 document.getElementById("addToProbation").close();
                 self.applicationMessages.push({
@@ -653,6 +660,7 @@ fetchProbatedInternsStatus();
      
             // self.fetchTeam();
             // self.fetchTeams();
+            self.onProbation(false);
             self.fetchUserProfile();
             document.getElementById("removeFromProbation").close();
             self.applicationMessages.push({
@@ -685,11 +693,13 @@ fetchProbatedInternsStatus();
                 }
             });
             const { data } = await response.json();
-            self.fullName(`${data.firstname} ${data.lastname}`)
-            self.teamName(data.teams.map(teams => `  ${teams.team_name}`))
-            self.stage(`${data.stage}`)
-            self.role(`${data.role}`)
-            self.tracksArray(data.tracks.map(tracks => `  ${tracks.track_name}`))
+            console.log(data);
+            self.profile_img(`${data.profile_img}`);
+            self.fullName(`${data.firstname} ${data.lastname}`);
+            self.teamName(data.teams.map(teams => `  ${teams.team_name}`));
+            self.stage(`${data.stage}`);
+            self.role(`${data.role}`);
+            self.tracksArray(data.tracks.map(tracks => `  ${tracks.track_name}`));
 
             // console.log(data.tracks, data.role, data.active)
 
