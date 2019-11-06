@@ -1,6 +1,6 @@
 <oj-bind-if test="[[!isUserProfile()]]">
 
-    <div class="oj-flex oj-sm-justify-content-center mt-2" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
+    <div class="oj-flex oj-sm-justify-content-center mt-2 oj-md-8 oj-lg-6 mx-auto" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
         <div class="col-sm-12 col-md-11">
             <h3 class="mb-0 pt-3 oj-padding-horizontal border border-right-0 border-left-0 border-top-0 border-secondary ">
                 <oj-label for="basicSelect" class="h6 m-0"><span class="mx-1">
@@ -9,14 +9,14 @@
             </h3>
             <oj-list-view id="interns" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[selectedInternChanged]]" first-selected-item="{{firstSelectedIntern}}" scroll-policy="loadMoreOnScroll">
                 <template slot="itemTemplate" data-oj-as="item" class="border-0">
-        <div class="oj-flex p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
-          <div class="oj-flex-item oj-sm-3">
+        <div class="oj-flex p-1 border rounded bg-light" style="width: 100%; color: #4e5769 !important; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
+          <div class="oj-flex-item oj-sm-12 oj-md-4 p-1">
             <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
                                                                       'title':'Avatar of ' + item.data.username }"
                             src="[[item.data.profile_img]]">
                         </oj-avatar>
           </div>
-          <div class="oj-flex-item oj-sm-8">
+          <div class="oj-flex-item oj-sm-12 oj-md-4">
             <strong class="text-capitalize d-block">
                 <oj-bind-text value="[[item.data.id]]"></oj-bind-text><br>
                 <oj-bind-text value="[[item.data.firstname]]"></oj-bind-text><br>

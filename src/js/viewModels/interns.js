@@ -47,7 +47,7 @@ function internModel() {
       success: ({status, data}) => {
           // console.log(data);
         if (status == true) {
-          console.log(data);
+          // console.log(data);
           self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
       }
 

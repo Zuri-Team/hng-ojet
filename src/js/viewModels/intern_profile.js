@@ -35,7 +35,7 @@ function UserProfileModel(params) {
     self.probation_reason = ko.observable();
     self.probatedInterns = ko.observableArray([]);
     self.probatedInternsId = ko.observableArray([]);
-    self.onProbation = ko.observable(true);
+    self.onProbation = ko.observable(false);
     self.reason = ko.observable();
     self.exit_on = ko.observable();
 
@@ -86,7 +86,9 @@ function UserProfileModel(params) {
     const userProfileURL = `${api}/api/user-profile`
 
 
-
+self.showProfileImage = () => {
+    document.getElementById("showImage").open();
+}
 
    //  Fetch all tracks
    self.fetchTracks = async() => {
@@ -180,14 +182,15 @@ function fetchProbatedInternsStatus() {
         Authorization: "Bearer " + userToken
       },
       method: "GET",
-      success: ({status, data}) => {
-        if (status == "success") {
-            //   console.log(data);
-              self.onProbation(data.status);
-        }
+      success: (res) => {console.log(res);
+        // if (status == "success") {
+        //       console.log(data);
+        //       self.onProbation(data.status);
+        // }
 
     }
   });  
+  setTimeout(fetchProbatedInternsStatus, 15000);
 }
 fetchProbatedInternsStatus();
 
@@ -621,7 +624,7 @@ fetchProbatedInternsStatus();
                 console.log(response);
                 // self.fetchTeam();
                 // self.fetchTeams();
-                self.onProbation(true);
+                // self.onProbation(true);
                 self.fetchUserProfile();
                 document.getElementById("addToProbation").close();
                 self.applicationMessages.push({
@@ -660,7 +663,7 @@ fetchProbatedInternsStatus();
      
             // self.fetchTeam();
             // self.fetchTeams();
-            self.onProbation(false);
+            // self.onProbation(false);
             self.fetchUserProfile();
             document.getElementById("removeFromProbation").close();
             self.applicationMessages.push({
