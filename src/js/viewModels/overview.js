@@ -36,6 +36,11 @@ define([
             document.getElementById("summary-modal").open();
         };
 
+        // if (document.getElementById('summary-modal')){
+        //     document.getElementsByClassName('oj-component-overlay').addEventListener('click', close());
+        // }
+
+        // console.log(document.getElementById('summary-modal'))
         var userToken = sessionStorage.getItem("user_token");
 
         self.totalPosts = ko.observable("");

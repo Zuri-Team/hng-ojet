@@ -239,6 +239,10 @@ self.fetchTracks();
       let user_id = self.user_id();
       let task_id = self.tasks().id;
       let submission_link = self.taskSubmit().submission_link;
+      
+//task submission validation
+      // if (submission_link)
+
       try {
         const response = await fetch(`${submissionURL}`, {
           method: "POST",
