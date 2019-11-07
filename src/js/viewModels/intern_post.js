@@ -18,15 +18,17 @@ define([
 
     self.postSelected = ko.observable();
     self.post = ko.observable({});
+    self.fullpost = ko.observable(false);
     self.dataProvider = ko.observable();
     self.categories = ko.observableArray([]);
     self.category_id = ko.observable();
+    self.postpg = ko.observable("d-block");
 
     self.postSelectedChanged = () => {
       let { data } = self.postSelected();
       if (data != null) {
         self.post(data);
-        self.viewPostModal(data);
+        self.fullpost(true);
       }
     };
 
@@ -63,7 +65,6 @@ define([
       return formatDateTime.format(new Date(date).toISOString());
     };
 
-    self.search = ko.observable(false);
     self.fetchPost = () => {
       $.ajax({
         url: `${RESTurl}`,
@@ -89,14 +90,8 @@ define([
       });
     };
     self.filterpost = function() {
-      self.search(false);
       let catId = self.category_id();
-      if (catId == undefined) {
-        self.fetchPost();
-      } else {
-        self.search(true);
-        self.posts_under_category(catId);
-      }
+      catId == undefined ? self.fetchPost() : self.posts_under_category(catId);
     };
 
     self.posts_under_category = function(category_id) {
@@ -113,6 +108,8 @@ define([
             new Paging(
               new ArrayDataProvider(data, {
                 keys: data.map(function(value) {
+                  value.category = { title: null };
+                  value.created_at = self.formatDateTime(value.created_at);
                   return value.id;
                 })
               })
@@ -121,6 +118,8 @@ define([
         }
       });
     };
+
+    self.search = ko.observable(false);
 
     fetchCategories();
     self.fetchPost();

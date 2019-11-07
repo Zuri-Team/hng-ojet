@@ -1,4 +1,4 @@
-node_modules/*
+node_modules
 bower_components/*
 /themes
 /web
@@ -20,3 +20,4 @@ hybrid/plugins/*
 .DS_Store
 Thumbs.db
 ojet_frontend.code-workspace
+src/js/viewModels/api.js

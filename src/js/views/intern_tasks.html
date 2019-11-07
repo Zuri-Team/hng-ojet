@@ -1,0 +1,19 @@
+<div class="oj-flex oj-sm-justify-content-center">
+    <div class="col-sm-12 col-md-11">
+        <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
+            <template slot="itemTemplate" data-oj-as="item" class="border-0">
+<div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
+<div>
+<p class="font-weight-bold ml-2 mb-2 text-capitalize">
+<oj-bind-text value="[[item.data.title]]"></oj-bind-text></p>
+</div>
+<i class="oj-fwk-icon oj-fwk-icon-calendar mr-2 mt-2 pl-2 pb-2"></i>
+<span class="mb-0 mt-2 pb-2" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
+</div>
+</template>
+        </oj-list-view>
+
+        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+        </oj-paging-control>
+    </div>
+</div>

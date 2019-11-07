@@ -1,53 +1,60 @@
-define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', 'ojs/ojmessages', "ojs/ojdialog",
+define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 'ojs/ojpagingdataproviderview', "ojs/ojvalidation-base", 'ojs/ojmessages', "ojs/ojdialog",
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
 "ojs/ojformlayout",
-"ojs/ojvalidation-base",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
-'ojs/ojtable'],
-function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
+"ojs/ojbutton",
+'ojs/ojtable', 'ojs/ojoption', "ojs/ojtimezonedata"],
+function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase) {
 function TaskSubmissionsModel(params) {
   var self = this;
   self.hideSubmissions = ko.observable();
+  self.listRefresh = ko.observable();
 
   // Task submission observables
-  self.title = ko.observable();
-  self.deadline = ko.observable();
-  self.submission_link = ko.observable();
-  self.submitted_on = ko.observable();
-  self.body = ko.observable();
-  self.grade = ko.observable();
-  self.is_active = ko.observable();
+  self.title = ko.observable("");
+  self.deadline = ko.observable("");
+  self.submission_link = ko.observable("");
+  self.submitted_on = ko.observable("");
+  self.body = ko.observable("");
+  self.is_active = ko.observable("");
+  self.track = ko.observable("");
 
+  self.editRow = ko.observable();
 
 // extract the task ID we have to work with
-const task_id = params.taskModel().data.id;
-
-console.log('task id', task_id);
+  const task_id = params.taskModel().data.id;
+  const track_id = params.taskModel().data.track_id;
 
   // notification messages observable
-self.applicationMessages = ko.observableArray([]);
+  self.applicationMessages = ko.observableArray([]);
 
-self.tracks = ko.observableArray([]);
-self.track_id = ko.observable();
-self.task = ko.observableArray([]);
-self.tasks = ko.observableArray([]);
+  self.tracks = ko.observableArray([]);
+  self.track_id = ko.observable();
+  self.task = ko.observableArray([]);
+  self.tasks = ko.observableArray([]);
 
 
 
-var tracksURL = `${api}/api/track`;
-var tasksURL = `${api}/api/tasks`;
+  var tracksURL = `${api}/api/track`;
+  var tasksURL = `${api}/api/task`;
 
-var submissionURL = `${api}/api/task/${task_id}/submissions`;
+  var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
-self.dataProvider = ko.observable()
+  self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
 
+  var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
+      self.numberConverter = numberConverterFactory.createConverter();
+
+
+
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));
+    self.listRefresh(params.listRefresh());
   }
 
   self.deleteTaskModal = () => {
@@ -56,6 +63,38 @@ self.dataProvider = ko.observable()
 
   self.editTaskModal = () => {
     document.getElementById("editTaskModal").open();
+  };
+
+  self.deleteAllSubmissionModal = () => {
+    document.getElementById("deleteAllSubmissionModal").open();
+  };
+
+
+
+  self.handleUpdate = function(event, context) {
+    self.editRow({rowKey: context.key});
+  };
+
+  self.handleDone = function(event, context) {
+    self.editRow({rowKey: null});
+    var userId = context.row.user_id
+    var grade = context.row.grade_score;
+    self.gradeTask(userId, grade);
+    };
+
+  // datetime converter
+  self.formatDateTime = date => {
+    var formatDateTime = oj.Validation.converterFactory(
+      oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+    ).createConverter({
+      formatType: "datetime",
+      dateFormat: "medium",
+      timeFormat: "short",
+      isoStrFormat: "local",
+      timeZone: "Africa/Lagos"
+    });
+
+    return formatDateTime.format(new Date(date).toISOString());
   };
 
   function fetchSubmission() {
@@ -70,11 +109,12 @@ self.dataProvider = ko.observable()
 
             if (status == true) {
               self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
-              console.log(data);
           }
         }
       });
     }
+
+
     fetchSubmission();
 
   function fetchTracks() {
@@ -94,48 +134,45 @@ self.dataProvider = ko.observable()
 
   fetchTracks();
 
-//   self.fetchTasks = async() => {
-//     try {
-//         const response = await fetch(`${tasksURL}`, {
-//             headers: {
-//                 Authorization: `Bearer ${userToken}`
-//             }
-//         });
-//         const {
-//             data: { data }
-//         } = await response.json();
-//         // console.log(data)
-
-//         self.tasks(data.map(tasks => tasks)
-//             );
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-// self.fetchTasks();
-
-  self.fetchTask = async () => {
+  self.fetchTrack = async() => {
     try {
-      const response = await fetch(`${tasksURL}/${task_id}`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`
-        }
-      });
-      const { data } = await response.json();
+        const response = await fetch(`${api}/api/track/${track_id}`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        });
+        const { data } = await response.json();
 
-      self.title(`${data.title}`);
-      self.body(`${data.body}`);
-      self.deadline(`${data.deadline}`);
-      self.is_active(`${data.is_active}`);
+        self.track(`${data.track_name}`);
     } catch (err) {
+        console.log(err);
+    }
+};
+self.fetchTrack();
+
+self.gradeTask = function(userId, grade) {
+  let grade_score = grade;
+  let user_id = userId;
+  $.ajax({
+    method: "POST",
+    url: `${api}/api/user/task/${task_id}`,
+    headers: {
+      Authorization: "Bearer " + userToken
+        },
+    data: { grade_score, user_id },
+    success: res => {
+        fetchSubmission();
+    },
+    error: err => {
       console.log(err);
     }
-  };
-  self.fetchTask();
+  });
+}
 
   //Updates Task
 
   self.updateTask = function(event) {
+    let track_id = self.track_id();
     let title = self.title();
     let body = self.body();
     let deadline = self.deadline();
@@ -143,7 +180,7 @@ self.dataProvider = ko.observable()
 
     $.ajax({
       method: "PUT",
-      url: `${tasksURL}/${task_id}`,
+      url: `${tasksURL}s/${task_id}`,
       headers: {
         Authorization: "Bearer " + userToken
         // "Access-Control-Allow-Origin": "*",
@@ -151,18 +188,17 @@ self.dataProvider = ko.observable()
         // "Access-Control-Allow-Methods": "*",
         // "Access-Control-Allow-Headers": "*"
       },
-      data: { title, body, deadline, is_active },
+      data: { track_id, title, body, deadline, is_active },
       success: res => {
-        if (res.status == true) {
           // send a success message notification to the category view
+          self.fetchTask();
+          self.fetchTrack();
           self.applicationMessages.push({
             severity: "confirmation",
             summary: "Task updated",
             detail: "Task successfully updated",
             autoTimeout: parseInt("0")
           });
-          self.fetchTasks();
-        }
       },
       error: err => {
         console.log(err);
@@ -182,18 +218,20 @@ self.dataProvider = ko.observable()
 
   self.deleteTask = () => {
     $.ajax({
-      url: `${tasksURL}/${task_id}`,
+      url: `${tasksURL}s/${task_id}`,
       headers: {
         Authorization: "Bearer " + userToken
       },
       method: "DELETE",
       success: () => {
-        self.fetchTasks();
+        document.getElementById("deleteTaskModal").close();
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "Task deleted",
           autoTimeout: parseInt("0")
         });
+        self.listRefresh(params.listRefresh());
+        setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000);
       },
       error: err => {
         console.log(err);
@@ -204,9 +242,53 @@ self.dataProvider = ko.observable()
         });
       }
     });
-    document.getElementById("deleteTaskModal").close();
   };
-  console.log(params.taskModel().key, params.hideSubmissions());
+
+  self.deleteAllSubmission = () => {
+    $.ajax({
+      url: `${api}/api/submissions/${task_id}`,
+      headers: {
+        Authorization: "Bearer " + userToken
+      },
+      method: "DELETE",
+      success: () => {
+        document.getElementById("deleteAllSubmissionModal").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Submissions deleted",
+          autoTimeout: parseInt("0")
+        });
+        fetchSubmission();
+      },
+      error: err => {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "An error was encountered, could not delete submissions",
+          autoTimeout: parseInt("0")
+        });
+      }
+    });
+  };
+
+  self.fetchTask = async() => {
+    try {
+      const response = await fetch(`${tasksURL}/${task_id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+      const { data } = await response.json();
+
+      self.title(`${data[0].title}`);
+      self.body(`${data[0].body}`);
+      self.deadline(self.formatDateTime(`${data[0].deadline}`));
+      self.is_active(`${data[0].is_active}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  self.fetchTask();
 }
 
 return TaskSubmissionsModel;

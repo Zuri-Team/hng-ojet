@@ -1,0 +1,54 @@
+<!-- modal display for post functionalities -->
+<div class="d-flex position-absolute flex-column">
+
+    <oj-dialog id="viewModal" title="" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
+        position.at.vertical="top" style="top: 0px">
+        <div slot="body">
+            <div style="word-wrap: break-word">
+                <oj-bind-text value="[[post().post_body]]"></oj-bind-text>
+            </div>
+            <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+                <oj-bind-text value="[[post().created_at]]"></oj-bind-text>
+            </p>
+        </div>
+    </oj-dialog>
+
+</div>
+
+<div class="my-3">
+    <div class="form-group">
+        <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter posts by category</small>
+        <div class="d-flex">
+            <select
+                data-bind="options: categories, optionsText: 'category_name',  optionsValue:'id', optionsCaption: 'All categories', value: category_id"
+                class="form-control col-md-5">
+            </select>
+            <button class="btn ml-3" data-bind="click: filterpost"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <oj-list-view id="Postmodel-post-list" class="col-12 mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]"
+        selection-mode="single" on-selected-changed="[[postSelectedChanged]]" first-selected-item="{{postSelected}}">
+        <template slot="itemTemplate" data-oj-as="item" class="border-0">
+            <div>
+                <oj-bind-if test="[[!search()]]">
+                    <p data-bind="text: [[item.data.category.title]]" class="badge badge-info p-2"></p>
+                </oj-bind-if>
+                <strong class="text-capitalize d-block mb-1">
+                    <oj-bind-text value="[[item.data.post_title]]"></oj-bind-text>
+                </strong>
+                <div class="d-block d-sm-flex justify-content-between align-items-center">
+                    <p class="py-3 m-0 oj-text-sm oj-text-secondary-color">
+                        <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+                        <oj-bind-text value="[[item.data.created_at]]"></oj-bind-text>
+                        <span class="ml-1 font-weight-bold"
+                            data-bind="text: `By ` + item.data.user.firstname +  ' ' + item.data.user.lastname"></span>
+                    </p>
+                </div>
+            </div>
+        </template>
+    </oj-list-view>
+
+    <oj-paging-control id="paging" data="[[dataProvider]]" page-size="5" slot="bottom">
+    </oj-paging-control>
+
+</div>

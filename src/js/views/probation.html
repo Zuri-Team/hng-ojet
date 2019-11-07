@@ -1,8 +1,8 @@
-<h5 class="my-3">Total number of interns in Underworld : <span style="color:red"><oj-bind-text value="[[totalInterns]]"></oj-bind-text></span>.</h5>
+<h5 class="my-3">Total number of interns on Probation : <span style="color:red"><oj-bind-text value="[[totalInterns]]"></oj-bind-text></span>.</h5>
 <oj-bind-if test="[[!isUserProfile()]]">
 
     <div class="oj-flex-item ml-lg-3 ml-md-3 bg-light mt-4 mt-sm-0 rounded"
-    style="height: fit-content; box-shadow: 0px 6px 10px rgba(161, 160, 160, 0.25);">
+    style="height: fit-content; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
     <h3 class="mb-0 pt-3 oj-padding-horizontal border border-right-0 border-left-0 border-top-0 border-secondary ">
       <oj-label for="basicSelect" class="h6 m-0"><span class="mx-1">
         </span><sup>(Click on an intern to carry out actions)</sup>  
@@ -11,22 +11,25 @@
     <oj-list-view id="interns" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[selectedInternChanged]]" first-selected-item="{{firstSelectedIntern}}"
       scroll-policy="loadMoreOnScroll">
       <template slot="itemTemplate" data-oj-as="item" class="py-2">
-        <div class="oj-flex">
-          <div class="oj-flex-item oj-md-2">
-            <img src="https://res.cloudinary.com/judejax/image/upload/v1567639756/avatar.png" class="img-thumbnail"
-              width="60" height="65">
+        <div class="oj-flex" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
+          <div class="oj-flex-item oj-sm-3">
+            <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
+                                                                      'title':'Avatar of ' + item.data.username }"
+                            src="[[item.data.profile_img]]">
+                        </oj-avatar>
           </div>
-          <div class="oj-flex-item oj-md-9">
+          <div class="oj-flex-item oj-sm-8">
             <strong class="text-capitalize d-block">
                 <oj-bind-text value="[[item.data.id]]"></oj-bind-text><br>
-                <oj-bind-text value="[[item.data.firstname]]"></oj-bind-text><br>
-                <oj-bind-text value="[[item.data.lastname]]"></oj-bind-text><br>
-            </strong>
+                <oj-bind-text value="[[item.data.name]]"></oj-bind-text><br>
+                Probated By <oj-bind-text value="[[item.data.probated_by]]"></oj-bind-text>
+            </strong><br>
+               <h6> Reason: <oj-bind-text value="[[item.data.probation_reason]]"></oj-bind-text></h6><br>
             <button data-bind="click: ''" class="btn btn-sm mt-1 mb-1 text-light"
               style="background-color: #3F0F3F; color: #FFF"><i class="fa fa-slack text-light"></i>
               &nbsp;
               <strong>
-                 <oj-bind-text value="[[item.data.username]]"></oj-bind-text>
+                 Deadline: <oj-bind-text value="[[item.data.exit_on]]"></oj-bind-text>
               </strong></button>
           </div>
         </div>

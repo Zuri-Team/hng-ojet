@@ -1,7 +1,18 @@
-<div class="container">
+<div class="col-sm-12 col-md-10" >
+
+  <!-- Profile image dialog -->
+
+  <oj-dialog id="showImage" class=" position-absolute col-10 col-md-7 mt-5 p-0" modality="modal" drag-affordance="none" position.at.vertical="top" style="height: auto;width:auto">
+  <div slot="body">
+    <oj-avatar role="img" size="xxl" data-bind="attr:{'aria-label':'Avatar of ' + fullName(),
+      'title':'Avatar of ' + fullName() }"
+src="[[profile_img]]">
+    </oj-avatar>
+  </div>
+</oj-dialog>
 
         <!-- Tracks dialogs -->
-        
+
           <oj-dialog id="addToTrack" dialog-title="Add to track" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
@@ -17,7 +28,7 @@
               </button>
             </div>
           </oj-dialog>
-        
+
           <oj-dialog id="removeFromTrack" dialog-title="Remove From track" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
@@ -33,9 +44,9 @@
               </button>
             </div>
           </oj-dialog>
-        
+
           <!-- Teams dialogs -->
-        
+
           <oj-dialog id="addToTeam" dialog-title="Add to team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
@@ -51,7 +62,7 @@
               </button>
             </div>
           </oj-dialog>
-        
+
           <oj-dialog id="removeFromTeam" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
@@ -67,30 +78,38 @@
               </button>
             </div>
           </oj-dialog>
-          <!-- Underworld dialogs -->
+          <!-- Probation dialogs -->
         
-          <oj-dialog id="addToUnderworld" dialog-title="Add to Underworld" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+          <oj-dialog id="addToProbation" dialog-title="Add to Probation" class=" position-absolute col-5 col-md-6 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to add?</h6>
-              <button data-bind="click: addToUnderworld" class="btn btn-success float-right">
+              <div class="form-group">
+                <oj-label for="reason">Reason for Probation:</oj-label>
+                <oj-input-text id="reason" value='{{reason}}'></oj-input-text>
+              </div>
+              <div class="form-group">
+                <oj-label for="deadline">Deadline:</oj-label>
+                <oj-input-date id="deadline" value='{{exit_on}}'></oj-input-date>
+              </div>
+              <button data-bind="click: addToProbation" class="btn btn-danger float-right">
                 Confirm
               </button>
             </div>
           </oj-dialog>
-        
-          <oj-dialog id="removeFromUnderworld" dialog-title="Remove From team" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
+
+          <oj-dialog id="removeFromProbation" dialog-title="Remove from Probation" class=" position-absolute col-5 col-md-6 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
               <h6>Sure to remove?</h6>
-              <button data-bind="click: removeFromUnderworld" class="btn btn-success float-right">
+              <button data-bind="click: removeFromProbation" class="btn btn-success float-right">
                 Confirm
               </button>
             </div>
           </oj-dialog>
-        
+
           <!-- Delete Dialog -->
-        
+
           <oj-dialog id="deleteUser" title="Delete User" position.at.vertical="top" class="mt-5">
               <div slot="body">
                 <p>
@@ -99,9 +118,9 @@
                 <button data-bind="click: deleteUser" class="btn btn-danger float-right">Delete User</button>
               </div>
             </oj-dialog>
-        
+
             <!-- update a stage -->
-        
+
             <oj-dialog id="updateStage" dialog-title="Update Stage" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal"
             position.at.vertical="top">
             <div slot="body">
@@ -117,52 +136,53 @@
               </button>
             </div>
           </oj-dialog>
-        
-        
-        
-          <div class="row">
+
+
+
+          <div class="row" >
             <div class="card oj-md-11 oj-sm-12 mx-auto mt-3">
-              <div class="card-body">
+              <div class="card-body" style="box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
                 <button class="btn btn-info float-right" data-bind="click: Home">
                   <span>Go back</span>
                 </button>
-                <div class="oj-flex">
-                  <div class="oj-flex-item oj-md-2 oj-sm-6">
-                    <oj-avatar> </oj-avatar>
+                <div class="oj-flex" style="color: #4e5769 !important">
+                  <div class="oj-flex-item oj-md-3 oj-sm-12">
+                  <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + fullName(), 'title':'Avatar of ' + fullName() },click:showProfileImage" src="[[profile_img]]">
+                    </oj-avatar>
                   </div>
-                  <div class="oj-flex-item oj-md-10 oj-sm-12 mx-auto">
+                  <div class="oj-flex-item oj-md-9 oj-sm-12 mx-auto">
                     <div>
-                      <h2>
+                      <h2 class="pb-2">
                         <oj-bind-text value="[[fullName]]"></oj-bind-text>
                       </h2>
                     </div>
                     <div>
-                      <span><strong>Code:</strong></span>
-                      <span>
+                      <span class="pb-2"><strong>Code:</strong></span>
+                      <span class="pb-2">
                         <oj-bind-text>HNG_1234</oj-bind-text>
                       </span>
                     </div>
                     <div>
-                        <span><strong>Role:</strong></span
-                        ><span>
+                        <span class="pb-2"><strong>Role:</strong></span
+                        ><span class="pb-2">
                           <oj-bind-text value="[[role]]"></oj-bind-text>
                         </span>
                       </div>
                     <div>
-                      <span><strong>Track:</strong></span>
-                      <span>
+                      <span class="pb-2"><strong>Track:</strong></span>
+                      <span class="pb-2">
                         <oj-bind-text value="[[tracksArray]]"></oj-bind-text>
                       </span>
                     </div>
                     <div>
-                      <span>
+                      <span class="pb-2">
                         <span><strong>Team:</strong></span>
                         <oj-bind-text value="[[teamName]]"></oj-bind-text>
                       </span>
                     </div>
                     <div>
-                      <span><strong>Stage:</strong></span
-                      ><span>
+                      <span class="pb-2"><strong>Stage:</strong></span
+                      ><span class="pb-2">
                         <oj-bind-text value="[[stage]]"></oj-bind-text>
                       </span>
                     </div>
@@ -171,7 +191,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: promote, disable: lastStage()"
+                          data-bind="click: promote, disable:  lastStage(), disable:onProbation()"
                         >
                           Promote
                         </button>
@@ -180,7 +200,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: demote, disable: firstStage()"
+                          data-bind="click: demote, disable: firstStage(), disable:onProbation()"
                         >
                           Demote
                         </button>
@@ -189,7 +209,7 @@
                         <button
                           id="createButton"
                           class="btn btn-outline-warning mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: updateStage"
+                          data-bind="click: updateStage, disable: onProbation()"
                         >
                           Update Stage
                         </button>
@@ -225,25 +245,25 @@
                                 >Make User
                               </oj-option>
                             </oj-bind-if>
-                            <oj-bind-if test="[[isUser()]]">
-                              <oj-option id="underworld" value="Add to Underworld">
+                            <oj-bind-if test="[[!onProbation()]]">
+                              <oj-option id="probation" value="Add to Probation">
                                 <span
                                   class="fa fa-lock"
                                   slot="startIcon"
                                 ></span
-                                >Add to Underworld
+                                >Add to Probation
                               </oj-option>
                             </oj-bind-if>
-                            <oj-bind-if test="[[!isUser()]]">
+                            <oj-bind-if test="[[onProbation()]]">
                               <oj-option
-                                id="underworld"
-                                value="Remove from Underworld"
+                                id="probation"
+                                value="Remove from Probation"
                               >
                                 <span
                                   class="fa fa-unlock"
                                   slot="startIcon"
                                 ></span
-                                >Remove from Underworld
+                                >Remove from Probation
                               </oj-option>
                             </oj-bind-if>
                             <oj-option id="divider"></oj-option>
@@ -310,9 +330,9 @@
             </div>
           </div>
         </div>
-        
+
             <!-- Start Messages Component -->
-        
+
             <oj-messages
             id="application-messages"
             messages="{{applicationMessages}}"
@@ -323,5 +343,5 @@
             "of": "window"
             }'>
             </oj-messages>
-        
+
         <!-- End Messages Component -->

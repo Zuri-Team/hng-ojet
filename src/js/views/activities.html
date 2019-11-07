@@ -1,0 +1,62 @@
+<div class="oj-flex oj-sm-justify-content-center mt-2">
+    <div class="col-sm-12 col-md-8">
+        <div class="row">
+            <blockquote class="mb-3">Please view intern and/or admin activities here</blockquote>
+        </div>
+        <div>
+            <div id="formId" class="my-3">
+
+                <div class='oj-flex'>
+                    <div class="form-group oj-flex oj-flex-item col-md-6 col-sm-12">
+                        <div class="col-sm-12">
+                            <input data-bind="textInput: searchQuery, event: { keyup: searchActivity }" placeholder=" &nbsp; Search..." style="width: 80%" class="oj-flex-item ml-0 pl-0">
+                            </input>
+                            <!-- <button class="btn ml-3" data-bind="click: searchActivity"><i class="fa fa-search"></i></button> -->
+                        </div>
+                    </div>
+                    <div class='oj-flex-item'>
+                        <!-- You need to set the labelled-by attribute
+                  to make this accessible. -->
+                        <oj-radioset id="inlineSet" labelled-by="inlineLabelId" value="{{activityToView}}" class="oj-choice-direction-row">
+                            <oj-option id="rock" value="all">All Activities</oj-option>
+                            <oj-option id="sb" value="admin">Admin Activities</oj-option>
+                            <oj-option id="mb" value="intern">Intern Activities</oj-option>
+                        </oj-radioset>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="clearfix"></div>
+        <oj-list-view id="listview" class="mx-auto overflow-hidden bg-light p-0" aria-label="listview with paging control" data="[[dataProvider]]" drill-mode="none">
+            <template slot="itemTemplate" data-oj-as="item" class="border-0">
+                    <!-- template for items -->
+                    <div class="p-4 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
+                        <div class="oj-sm-12">
+                            <div class="oj-sm-12">
+                                <div class="mb-2">
+                                    <strong><span data-bind="text: item.data.user.firstname"></span> <span data-bind="text: item.data.user.lastname"></span></strong>
+                                </div>
+                                <em><p><blockquote>
+                                    <oj-bind-text value="[[item.data.message]]"></oj-bind-text>
+                                </blockquote>
+                                </p></em>
+                            </div>
+                        </div>
+                        <span>
+                            <small>
+                                <oj-bind-text value="[[formatDateTime(item.data.created_at)]]"></oj-bind-text>
+                            </small>
+                        </span>
+                    </div>
+
+                </template>
+        </oj-list-view>
+        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+        </oj-paging-control>
+
+
+    </div>
+</div>
