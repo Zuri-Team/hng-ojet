@@ -12,13 +12,13 @@
       scroll-policy="loadMoreOnScroll">
       <template slot="itemTemplate" data-oj-as="item" class="py-2">
         <div class="oj-flex" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
-          <div class="oj-flex-item oj-sm-3">
+          <div class="oj-flex-item oj-sm-3 mr-4">
             <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
                                                                       'title':'Avatar of ' + item.data.username }"
                             src="[[item.data.profile_img]]">
                         </oj-avatar>
           </div>
-          <div class="oj-flex-item oj-sm-8">
+          <div class="oj-flex-item oj-sm-7 pl-2">
             <strong class="text-capitalize d-block">
                 <oj-bind-text value="[[item.data.id]]"></oj-bind-text><br>
                 <oj-bind-text value="[[item.data.name]]"></oj-bind-text><br>

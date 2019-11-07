@@ -167,9 +167,17 @@ define([
       let user_id = self.user_id();
       let task_id = self.tasks().id;
       let submission_link = self.taskSubmit().submission_link;
+      let comment = self.taskSubmit().task_comment;
       
 //task submission validation
-      // if (submission_link)
+      const feedback = document.getElementById('submission_feedback');
+      if (submission_link.match(new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi))){
+        feedback.style.color = 'green';
+        feedback.innerHTML = 'Valid URL';
+      } else {
+        feedback.style.color = 'red';
+        feedback.innerHTML = 'Invalid URL, please check!';
+      }
 
       try {
         const response = await fetch(`${submissionURL}`, {
@@ -181,7 +189,8 @@ define([
           body: JSON.stringify({
             user_id,
             task_id,
-            submission_link
+            submission_link,
+            comment
           })
         });
 
