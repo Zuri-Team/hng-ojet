@@ -6,7 +6,7 @@
 //   : "https://api.start.ng";
 
 var settings = "https://api.start.ng";
-//settings = "http://localhost:8000";
+// settings = "http://localhost:8000";
 
 // settings.app_url = platform.match(/(127.0.0.1|localhost)/) ? 'http://127.0.0.1:8000/' : 'https://actualurl.com';
 define(function() {
