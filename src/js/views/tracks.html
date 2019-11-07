@@ -1,11 +1,26 @@
+
 <div class="oj-flex oj-sm-justify-content-center">
     <div class="col-sm-12 col-md-11">
         <div>
+            <oj-bind-if test="[[!showTrackRequests() && requestCount() > 0]]">
+             <p class="btn btn-warning mt-2 float-left" data-bind="click: trackRequestsShown">
+                            View Track Requests (<span data-bind="text: requestCount"></span>)</p>
+            </oj-bind-if>
+            <oj-bind-if test="[[!showTrackRequests() && requestCount() == 0]]">
+                    <p class="btn btn-primary mt-2 float-left" data-bind="click: trackRequestsShown">
+                                   No Track Requests (<span data-bind="text: requestCount"></span>)</p>
+                   </oj-bind-if>
+            <oj-bind-if test="[[showTrackRequests()]]">
+                    <p class="btn btn-success mt-2 float-left" data-bind="click: trackRequestsHidden">
+                                   Go Back</p>
+                   </oj-bind-if>
+                   <oj-bind-if test="[[!showTrackRequests()]]">
             <p class="btn btn-info mt-2 float-right" data-bind="click: showCreateTrack">
                 <i class="fa fa-plus mr-2"></i>New Track</p>
+            </oj-bind-if>
         </div>
         <div class="clearfix"></div>
-
+        <oj-bind-if test="[[!showTrackRequests()]]">
         <oj-list-view id="listview" class="mx-auto overflow-hidden bg-light p-0" aria-label="listview with paging control" data="[[dataProvider]]" selected="{{selectedItems}}" selection-required="[[selectedSelectionRequired]]" selection-mode="multiple" on-selected-changed="[[handleSelectionChanged]]"
             on-current-item-changed="[[handleCurrentItemChanged]]" first-selected-item="{{firstSelectedItem}}">
             <template slot="itemTemplate" data-oj-as="item">
@@ -25,7 +40,7 @@
         </oj-list-view>
         <oj-paging-control id="paging" data="[[dataProvider]]" page-size="5" slot="bottom">
         </oj-paging-control>
-
+    </oj-bind-if>
 
 
         <!-- create new  track modal -->
@@ -68,6 +83,15 @@
 
     </div>
 </div>
+
+<oj-bind-if test="[[showTrackRequests()]]">
+        <div data-bind="ojModule: { name: 'tracks_requests'
+        }"></div>
+</oj-bind-if>
+              
+
+
+
 
 <!-- Start Messages Component -->
 

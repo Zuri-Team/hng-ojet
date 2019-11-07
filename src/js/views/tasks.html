@@ -35,27 +35,30 @@
         </div>
     </div>
 </oj-bind-if>
-<oj-bind-if test="[[!viewSubmission()]]">
-    <oj-bind-if test="[[!task_btn_toggler()]]">
-        <div class="oj-flex oj-sm-justify-content-center">
-            <div class="col-sm-12 col-md-11">
-                <div>
-                    <p class="btn btn-info float-right mt-2" data-bind="click: task_view_toggle">
-                        <span data-bind="text: task_view_title"></span>
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-                <div class="form-group">
-                    <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter tasks by track</small>
-                    <div class="d-flex">
-                        <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'All tracks', value: track_id" class="form-control col-md-5">
-          </select>
-                        <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
-                        <button class="btn ml-3" data-bind="click: refreshList">Refresh</button>
+<oj-bind-if test="[[!viewAllSubmissions()]]">
+    <oj-bind-if test="[[!viewSubmission()]]">
+        <oj-bind-if test="[[!task_btn_toggler()]]">
+            <div class="oj-flex oj-sm-justify-content-center">
+                <div class="col-sm-12 col-md-11">
+                    <div>
+                        <p class="btn btn-info float-right mt-2" data-bind="click: task_view_toggle"><i class="fa fa-plus mr-2"></i>
+                            <span data-bind="text: task_view_title"></span>
+                        </p>
+                        <p class="btn btn-primary mt-2 float-left" data-bind="click: toAllSubmissions">
+                            All Submissions</p>
                     </div>
-                </div>
-                <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[taskDataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
-                    <template slot="itemTemplate" data-oj-as="item" class="border-0">
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <small class="h6 d-inline-block pb-1" style="font-size: 14px">Filter tasks by track</small>
+                        <div class="d-flex">
+                            <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'All tracks', value: track_id" class="form-control col-md-5">
+          </select>
+                            <button class="btn ml-3" data-bind="click: filtertask"><i class="fa fa-search"></i></button>
+                            <button class="btn ml-3" data-bind="click: refreshList">Refresh</button>
+                        </div>
+                    </div>
+                    <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[taskDataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
+                        <template slot="itemTemplate" data-oj-as="item" class="border-0">
           <div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
             <div>
               <oj-bind-if test="[[!search()]]">
@@ -71,13 +74,118 @@
             <span class="mb-0 mt-2 pb-2" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
           </div>
         </template>
-                </oj-list-view>
+                    </oj-list-view>
 
-                <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
-                </oj-paging-control>
+                    <oj-paging-control id="paging" data="[[taskDataProvider]]" page-size="10" slot="bottom">
+                    </oj-paging-control>
+                </div>
+            </div>
+        </oj-bind-if>
+    </oj-bind-if>
+</oj-bind-if>
+
+<oj-bind-if test="[[viewAllSubmissions()]]">
+    <div class="oj-flex oj-sm-justify-content-center">
+        <div class="oj-flex-item col-sm-12 col-md-10" style="color: #4e5769 !important">
+            <oj-dialog id="deleteAllSubmissionModal" dialog-title="Delete all submissions" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
+                <div slot="body">
+                    <p>
+                        You are about to delete ALL submissions, continue?
+                    </p>
+                    <button data-bind="click: deleteAllSubmission" class="btn btn-danger float-right">Delete All</button>
+                </div>
+            </oj-dialog>
+            <div class="mt-2">
+                <button class="btn btn-info" data-bind="click: toTasks">
+                        <span>Go back</span>
+                      </button>
+            </div>
+            <div class="mt-2 mb-4">
+                <h3 class="float-left">All Submissions</h3>
+                <button class="btn btn-outline-danger float-right" data-bind="click: deleteAllSubmissionModal">
+        Delete All
+      </button>
+            </div>
+            <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
+                <oj-table id="submission-table" aria-label="Submission Table" data="[[submissionDataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
+                    columns='[{"headerText": "Date Created",
+        "field": "updated_at",
+        "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+        "resizable": "enabled",
+        "template": "dateTemplate",
+        "className": "oj-read-only"},
+        {"headerText": "Date Submitted",
+        "field": "created_at",
+        "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+        "resizable": "enabled",
+        "template": "dateTemplate",
+        "className": "oj-read-only"},
+              {"headerText": "Username",
+                "field": "user.username",
+                "headerStyle": "min-width: 20em; max-width: 30em; width: 30em;text-align: center;",
+                "resizable": "enabled",
+                "className": "oj-read-only"},
+              {"headerText": "Track",
+                "field": "track_name",
+                "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
+                "resizable": "enabled",
+                "style":"padding:0px;text-align: center;",
+                "className": "oj-read-only"},
+              {"headerText": "Task",
+                "field": "task_title",
+                "headerStyle": "min-width: 30em; max-width: 30em; width: 30em;text-align: center;",
+                "resizable": "enabled",
+                "className": "oj-read-only",
+                "style": "white-space:normal;word-wrap:break-word; text-align: left;vertical-align: middle;"},
+              {"headerText": "Submission",
+                "field": "submission_link",
+                "resizable": "enabled",
+                "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+                "className": "oj-read-only",
+                "template": "submissionTemplate"},
+              {"headerText": "Grade",
+                "field": "grade_score",
+                "resizable": "enabled",
+                "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+                "template": "editTemplate"},
+                {"headerText": "Action",
+                               "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
+                               "style":"padding:0px;text-align: center;",
+                               "template": "actionTemplate"}]' style="width: 100%; height: 100%;">
+                    <template slot="dateTemplate" data-oj-as="cell">
+                    <oj-bind-text value="[[formatDateTime(cell.data)]]"></oj-bind-text>
+                  </template>
+                    <template slot="submissionTemplate" data-oj-as="cell">
+                    <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
+                  </template>
+                    <template slot="actionTemplate" data-oj-as="cell">
+                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                      <oj-button on-oj-action="[[handleUpdate]]" style="width:5em;margin-bottom: 0px;"><span>Edit</span></oj-button>
+                    </oj-bind-if>
+
+                    <oj-bind-if test='[[cell.mode=="edit"]]'>
+                      <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span></oj-button>
+                    </oj-bind-if>
+                  </template>
+                    <template slot="editTemplate" data-oj-as="cell">
+                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                        <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
+                    </oj-bind-if>
+
+                    <oj-bind-if test='[[cell.mode=="edit"]]'>
+                        <oj-input-text value="{{cell.row.grade_score}}" converter="[[numberConverter]]"></oj-input-text>
+                    </oj-bind-if>
+                  </template>
+                    <oj-paging-control id="paging" data="[[submissionDataProvider]]" page-size="10" slot="bottom">
+                    </oj-paging-control>
+                </oj-table>
             </div>
         </div>
-    </oj-bind-if>
+    </div>
 </oj-bind-if>
 
 

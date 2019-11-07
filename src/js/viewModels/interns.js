@@ -56,6 +56,29 @@ function internModel() {
   setTimeout(fetchinterns, 15000);
 }
 fetchinterns();
+  
+  self.handleAttached = () => {
+   $('#searchForUser').keyup(() => {
+   let user = $("#searchForUser").val();
+     if(user !== ""){
+        $.ajax({
+      url: `${api}/api/user/search/${user}`,
+      headers: {
+        Authorization: "Bearer " + userToken
+      },
+      method: "GET",
+      success: ({status, data}) => {
+        if (status == true) {
+          self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+      }
+    }
+  });  
+     }
+     else{
+     fetchinterns()
+     }
+   }) 
+  }
 }
 
 return new internModel();

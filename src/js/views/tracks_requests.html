@@ -1,0 +1,59 @@
+<div class="oj-flex oj-sm-justify-content-center mt-2">
+        
+    <div class="col-sm-12 col-md-12">
+        <div class="row my-4">
+            <div class="mx-auto text-center">
+                    <h3 class="mb-3">Please Find All Track Requests Here</h3>
+            </div>
+        </div>
+
+
+        <div class="clearfix"></div>
+        <oj-list-view id="listview" class="mx-auto overflow-hidden bg-light p-0" aria-label="listview with paging control" data="[[dataProvider]]" drill-mode="none" first-selected-item="{{selectedTrackRequest}}" on-current-item-changed="[[handleCurrentItemChanged]]" selection-required="[[selectedSelectionRequired]]" selection-mode="multiple">
+            <template slot="itemTemplate" data-oj-as="item" class="border-0">
+                    <!-- template for items -->
+                    <div class="p-4 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
+                        <div class="oj-sm-12">
+                            <div class="oj-sm-12">
+                                <div class="mb-2">
+                                    <strong><span data-bind="text: item.data.user.firstname"></span> <span data-bind="text: item.data.user.lastname"></span> (<span data-bind="text: item.data.user.username"></span>)</strong> requests to be <span data-bind = "text: item.data.action + 'ed'"></span> <span data-bind="text: item.data.action == 'add' ? 'to' : 'from'"></span> <strong><span data-bind="text: item.data.track.track_name"></span></strong>
+                                </div>
+                                <p class="mt-4"><strong>Reason:</strong> <span>
+                                    <oj-bind-text value="[[item.data.reason]]"></oj-bind-text>
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="py-3">
+                        <span>
+                            <small>
+                                <oj-bind-text value="[[formatDateTime(item.data.created_at)]]"></oj-bind-text>
+                            </small>
+                        </span>
+                        <div class="oj-flex float-right">
+                            <button class="btn btn-success mr-3" data-bind="click: Accept">Accept</button>
+                            <button class="btn btn-danger float-right" data-bind="click: Reject">Reject</button>
+                        </div>
+                    </div>
+                    </div>
+
+                </template>
+        </oj-list-view>
+        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+        </oj-paging-control>
+
+
+    </div>
+</div>
+
+
+<!-- Start Messages Component -->
+
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+    "my": {"vertical" : "bottom", "horizontal": "end"},
+    "at": {"vertical": "bottom", "horizontal": "end"},
+    "of": "window"
+    }'>
+</oj-messages>
+
+<!-- End Messages Component -->
