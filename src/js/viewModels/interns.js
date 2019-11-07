@@ -60,7 +60,6 @@ fetchinterns();
    $('#searchForUser').keyup(() => {
    let user = $("#searchForUser").val();
      if(user !== ""){
-     console.log(user)
         $.ajax({
       url: `${api}/api/user/search/${user}`,
       headers: {
