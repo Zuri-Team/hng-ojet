@@ -35,9 +35,7 @@
         </div>
     </div>
 </oj-bind-if>
-<oj-bind-if test="[[!viewAllSubmissions()]]">
-    <oj-bind-if test="[[!viewSubmission()]]">
-        <oj-bind-if test="[[!task_btn_toggler()]]">
+        <oj-bind-if test="[[!viewAllSubmissions() && !viewSubmission() && !task_btn_toggler()]]">
             <div class="oj-flex oj-sm-justify-content-center">
                 <div class="col-sm-12 col-md-11">
                     <div>
@@ -81,8 +79,6 @@
                 </div>
             </div>
         </oj-bind-if>
-    </oj-bind-if>
-</oj-bind-if>
 
 <oj-bind-if test="[[viewAllSubmissions()]]">
     <div class="oj-flex oj-sm-justify-content-center">
