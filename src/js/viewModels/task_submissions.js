@@ -102,6 +102,10 @@ function TaskSubmissionsModel(params) {
           success: ({status, data}) => {
 
             if (status == true) {
+              console.log(data);
+              if (data.comment === null){
+                data.comment = 'No comment';
+              }
               self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
           }
         }
