@@ -140,11 +140,11 @@
                   </template>
             <template slot="editTemplate" data-oj-as="cell">
                     <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                        <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
+                        <oj-bind-text value="[[cell.data]]"></oj-bind-text>
                     </oj-bind-if>
 
                     <oj-bind-if test='[[cell.mode=="edit"]]'>
-                        <oj-input-text value="{{cell.row.grade_score}}" converter="[[numberConverter]]"></oj-input-text>
+                        <oj-input-number value="{{cell.row.grade_score}}" help.instruction="Enter a grade"></oj-input-number>
                     </oj-bind-if>
                   </template>
             <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
