@@ -1,7 +1,7 @@
 define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout',
 "ojs/ojavatar", 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
 function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
-{ 
+{
 function internModel() {
   var self = this;
   self.interns = ko.observableArray([]);
@@ -12,12 +12,12 @@ function internModel() {
   self.lastname = ko.observable();
   self.username = ko.observable();
   self.isUserProfile = ko.observable(false);
-  
+
   self.avatarSize = ko.observable("md");
 
   self.dataProvider = ko.observable();
 
-  
+
 
   var userToken = sessionStorage.getItem("user_token");
 
@@ -52,10 +52,10 @@ function internModel() {
       }
 
     }
-  });  
+  });
 }
 fetchinterns();
-  
+
   self.handleAttached = () => {
    $('#searchForUser').keyup(() => {
    let user = $("#searchForUser").val();
@@ -71,12 +71,12 @@ fetchinterns();
           self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
       }
     }
-  });  
+  });
      }
      else{
      fetchinterns()
      }
-   }) 
+   })
   }
 }
 

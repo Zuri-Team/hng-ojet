@@ -1,11 +1,16 @@
 <section class="page__container h-100" id="admin">
-  <div>
-    <div id="sidebar" class=" h-100" style="z-index: 100; overflow-y : auto;">
+  <!-- outer offcanvas wrapper -->
+  <div class="oj-offcanvas-outer-wrapper" style="border: 1px solid #d1e6f9; height:100%;">
+    <!-- start offcanvas -->
+    <div id="sidebar" class="oj-offcanvas-start oj-panel oj-panel-alt5 oj-offcanvas-overlay-shadow"
+      style="position: fixed; overflow-y : scroll; width: 200px; height: 100%;">
       <h5 class="my-4 text-light logo text-center">
-        <i class="oj-navigationlist-item-icon px-2" style="width: 20px;"><img src="../../css/images/hngi.png" alt="" style="width: 20px;"></i> <span>HNG
-          BOARD</span>
+        <i class="oj-navigationlist-item-icon px-2" style="width: 20px;" data-bind="click: toggleDrawer"><img
+            src="../../css/images/hngi.png" alt="" style="width: 20px;">
+          <span style="color: black;">HNG BOARD</span>
+        </i>
       </h5>
-      <oj-navigation-list display="[[isSmall() ? 'icons' : 'all']]" selection="{{ selectedItem }}">
+      <oj-navigation-list selection="{{ selectedItem }}">
         <ul>
           <li id="Dashboard">
             <a for="overview-admin">
@@ -73,7 +78,7 @@
         </ul>
       </oj-navigation-list>
     </div>
-    <div id="maincontent">
+    <div id="maincontent" style="padding: 10px; height: 100%">
       <div id="maincontent_nav" class="w-100 position-relative">
         <nav class="d-flex justify-content-between">
           <h4 class="d-flex">
@@ -84,10 +89,11 @@
             <a for="notifications-admin" id="notifi">
               <h4 class="position-relative" style="top:2px; cursor: pointer">
                 <i class=" fa fa-bell-o"></i> <strong> <span data-bind="text: notificationCount"
-                                                             style="font-size: 15px; vertical-align: text-top; color: blue"></span> </strong>
+                    style="font-size: 15px; vertical-align: text-top; color: blue"></span> </strong>
               </h4>
             </a>
-            <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i class="fa fa-search "></i></h4>
+            <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
+                class="fa fa-search "></i></h4>
             <form id="form1" class="mx-3 oj-sm-only-hide">
               <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
                         component: 'ojInputSearch',
@@ -97,7 +103,8 @@
             </form>
 
             <div id="dialogWrapper">
-              <oj-dialog id="logoutModal" dialog-title="Logout" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal" position.at.vertical="top">
+              <oj-dialog id="logoutModal" dialog-title="Logout" class=" position-absolute col-3 col-md-3 mt-5 p-0"
+                modality="modal" position.at.vertical="top">
                 <div slot="body">
                   <h6>Sure to exit?</h6>
                   <button data-bind="click: logout" class="btn btn-danger float-right">
@@ -118,7 +125,7 @@
                             value: keyword,
                             options: tags,
                             rootAttributes: {style:'max-width: 20em'}}" />
-          </form> 
+          </form>
         </oj-bind-if>
       </div>
       <div class="clearfix"></div>

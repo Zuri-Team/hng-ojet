@@ -3,8 +3,8 @@ define(['ojs/ojcore',
         'jquery', './api',
         'ojs/ojbootstrap',
         'ojs/ojresponsiveutils',
-        'ojs/ojresponsiveknockoututils', 'ojs/ojarraydataprovider', 'ojs/ojmessages',
-        'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojavatar', 'ojs/ojselectcombobox',
+        'ojs/ojresponsiveknockoututils', 'ojs/ojarraydataprovider','ojs/ojanimation', 'ojs/ojmessages',
+        'ojs/ojknockout', 'ojs/ojlabel', 'ojs/ojdialog', 'ojs/ojavatar', 'ojs/ojselectcombobox',
         'ojs/ojfilepicker', 'ojs/ojinputtext', 'ojs/ojformlayout', 'ojs/ojbutton'
     ],
     function(oj, ko, $, api, ArrayDataProvider, ) {
@@ -101,9 +101,13 @@ define(['ojs/ojcore',
 
 
             }
+            
 
-
-
+            self.showEditDialog = function (event) {
+                document.getElementById("editModalDialog").open();
+                console.log('clicked')
+            }
+            
             self.editButton = function() {
 
                 self.editMode() ?
@@ -121,6 +125,7 @@ define(['ojs/ojcore',
                     self.editMode(true);
 
                 self.fetchProfile();
+                
 
             }.bind(self);
 
@@ -166,7 +171,6 @@ define(['ojs/ojcore',
                         });
                     },
                     error: function(error) {
-                        self.fetchProfile();
                         self.editMode(true)
                         self.applicationMessages.push({
                             severity: "error",
@@ -238,6 +242,7 @@ define(['ojs/ojcore',
             self.fetchProfile();
 
 
+         
 
             /**
              * Optional ViewModel method invoked after the View is inserted into the
