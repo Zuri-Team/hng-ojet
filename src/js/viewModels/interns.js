@@ -53,6 +53,7 @@ function internModel() {
 
     }
   });  
+  setTimeout(fetchinterns, 15000);
 }
 fetchinterns();
   
