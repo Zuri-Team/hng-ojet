@@ -32,8 +32,6 @@ define([
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
 
-    self.selectedItem = ko.observable();
-
     self.drawer =
     {
       "displayMode": "overlay",
@@ -43,6 +41,7 @@ define([
   
     self.toggleDrawer = function()
         {
+          //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
 
@@ -54,6 +53,7 @@ define([
       sessionStorage.clear();
       router.go("login");
     };
+    self.selectedItem = ko.observable();
 
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
@@ -462,7 +462,6 @@ self.fetchTracks();
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();
         $(`#maincontent_intern_body > div[id='${attr}']`).show();
-        oj.OffcanvasUtils.close(self.drawer);
       });
     };
   }

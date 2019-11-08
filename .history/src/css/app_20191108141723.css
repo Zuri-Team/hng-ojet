@@ -275,6 +275,8 @@ body {
     #sidebar {
         width: auto;
         padding: 0px 10px 50px;
+        overflow-y: auto;
+        display: none;
     }
     #sidebar.smactive {
         display: block;

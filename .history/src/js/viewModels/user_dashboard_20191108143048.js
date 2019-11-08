@@ -4,6 +4,8 @@ define([
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
+  "ojs/ojresponsiveutils",
+  "ojs/ojresponsiveknockoututils",
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -23,7 +25,7 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata",
   'ojs/ojradioset'
-], function(oj, ko, $, api, ArrayDataProvider) {
+], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -31,8 +33,6 @@ define([
     var user = sessionStorage.getItem("user");
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
-
-    self.selectedItem = ko.observable();
 
     self.drawer =
     {
@@ -43,6 +43,7 @@ define([
   
     self.toggleDrawer = function()
         {
+          //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
 
@@ -54,6 +55,7 @@ define([
       sessionStorage.clear();
       router.go("login");
     };
+    self.selectedItem = ko.observable();
 
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
@@ -462,7 +464,6 @@ self.fetchTracks();
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();
         $(`#maincontent_intern_body > div[id='${attr}']`).show();
-        oj.OffcanvasUtils.close(self.drawer);
       });
     };
   }
