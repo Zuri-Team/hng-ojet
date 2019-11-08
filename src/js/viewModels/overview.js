@@ -221,7 +221,7 @@ define([
                         const intern = data.filter(data => data.role === "intern");
 
                         const admin = data.filter(
-                            data => data.role === "superadmin" && data.role === "admin"
+                            data => data.role === "superadmin" || data.role === "admin"
                         );
 
                         const oIntern = intern.filter(data => data.status === true);
