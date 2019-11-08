@@ -212,7 +212,7 @@ define([
         }
         fetchinterns();
 
-        (function fetchUsers() {
+        function fetchUsers() {
             $.ajax({
                 url: `${api}/api/status`,
                 method: "GET",
@@ -237,8 +237,8 @@ define([
 
                 }
             });
-            setTimeout(fetchUsers, 15000);
-        })();
+        };
+        fetchUsers();
     }
     return new overviewModel();
 });

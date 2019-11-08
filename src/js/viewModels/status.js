@@ -45,12 +45,12 @@ define([
                 //   this.executeSort(criteria.key, criteria.direction);
                 console.log(criteria)
             } else {
-                //   this.handleFilterChanged(event,ui); 
+                //   this.handleFilterChanged(event,ui);
             }
         }.bind(self);
 
 
-        (function fetchUsers() {
+        function fetchUsers() {
             $.ajax({
                 url: `${RESTurl}/status`,
                 method: "GET",
@@ -78,8 +78,8 @@ define([
 
                 }
             });
-            setTimeout(fetchUsers, 15000);
-        })();
+        }
+        fetchUsers();
 
         self.connected = function() {
             // Implement if needed

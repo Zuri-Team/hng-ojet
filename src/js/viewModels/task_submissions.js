@@ -2,6 +2,7 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
+"ojs/ojinputnumber",
 "ojs/ojformlayout",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
@@ -44,9 +45,6 @@ function TaskSubmissionsModel(params) {
   self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
-
-  var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
-      self.numberConverter = numberConverterFactory.createConverter();
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));
