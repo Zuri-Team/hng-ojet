@@ -32,8 +32,6 @@ define([
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
 
-    self.selectedItem = ko.observable();
-
     self.drawer =
     {
       "displayMode": "overlay",
@@ -54,6 +52,7 @@ define([
       sessionStorage.clear();
       router.go("login");
     };
+    self.selectedItem = ko.observable();
 
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {

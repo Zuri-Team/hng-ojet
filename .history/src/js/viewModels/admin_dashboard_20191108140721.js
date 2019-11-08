@@ -42,10 +42,11 @@ define([
       "content": "#maincontent",
     };
   
-    self.toggleDrawer = function()
+    /*self.toggleDrawer = function()
         {
+          //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
-        };
+        };*/
 
     self.tags = [
       { value: ".net", label: ".net" },
@@ -177,6 +178,10 @@ define([
       }
     };
 
+    // toggle hambuger on navbar
+    /*self.toggleDrawer = function() {
+      $("#maincontent, #sidebar").toggleClass("smactive");
+    };*/
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
