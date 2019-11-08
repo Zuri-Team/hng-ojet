@@ -2,207 +2,186 @@
  Copyright (c) 2014, 2019, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
-<div class="m-5   mx-auto" style="width: 80%">
 
-    <div class="oj-lg-4 oj-md-4 oj-sm-12">
-        <oj-bind-if test="[[status()]]">
-            <div class="p-4">
-                <div class="led-green d-inline-block mr-2"></div>
-                <span class=" d-inline-block">Online</span>
+<div class="">
+    
+        <!-- STATUS -->
+        <div class="card">
+            <div class="card-header">
+                    <oj-bind-if test="[[status()]]">
+                            <div class="p-4 ">
+                                <div class="led-green d-inline-block mr-2"></div>
+                                <span class=" ">Online</span>
+                            </div>
+                        </oj-bind-if>
+                        <oj-bind-if test="[[!status()]]">
+                            <div class="led-gray d-inline-block mr-2"></div>
+                            <span class=" d-inline-block">Offine</span>
+                        </oj-bind-if>
+    
             </div>
-        </oj-bind-if>
-        <oj-bind-if test="[[!status()]]">
-            <div class="led-gray d-inline-block mr-2"></div>
-            <span class=" d-inline-block">Offine</span>
-        </oj-bind-if>
-    </div>
-    <div>
-        <div class="bg-white">
-            <img src="../../css/images/2845940.jpg" alt="" style="height: 250px; width: 100%">
-
-            <oj-bind-if test="[[!editMode()]]">
-
-                <div class="container" style="position:relative">
-                    <div class="row">
-                        <div class="col-md-6 justify-content-center" style="height: 350px; width: 100%; word-wrap: break-word;">
-                            <div class="m-5">
-                                <div class="m-3">
-                                    <span style="font-weight: 900; text-transform: capitalize;">
-                                        <oj-bind-text value="[[firstname]]"></oj-bind-text>
-                                        <oj-bind-text value="[[lastname]]"></oj-bind-text>
-                                    </span>
-                                </div>
-                                <div class="m-3">
-                                    <span style="font-weight: 900;">
-                                        <oj-bind-text value="[[username]]"></oj-bind-text>
-                                    </span>
-
-                                </div>
-                                <div class="m-3">
-                                    <span style="font-weight: 900;">
-                                        <oj-bind-text value="[[email]]"></oj-bind-text>
-                                    </span>
-
-                                </div>
-                                <div class="m-3">
-                                    <span style="font-weight: 900;">
-                                        <oj-bind-text value="[[bio]]"></oj-bind-text>
-                                    </span>
-
-                                </div>
-                                <div class="m-3">
-                                    <span style="font-weight: 900;">
-                                        <oj-bind-text value="[[url]]"></oj-bind-text>
-                                    </span>
-
-                                </div>
-                                <div class="m-3">
-                                    <span style="font-weight: 900;">
-                                        <oj-bind-text value="[[stack]]"></oj-bind-text>
-                                    </span>
-
-                                </div>
-                                <div class="m-3">
-                                    <span style="font-weight: 900;">
-                                        <oj-bind-text value="[[location]]"></oj-bind-text>
-                                    </span>
-
-
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="m-2 d-flex justify-content-center">
-
-
-                                <img class="profile_img" width="150px" height="150px" style="border-radius: 50%;" role="img " src="../../css/images/avatar-f.jpg ">
-                                </img>
-
-                            </div>
-                            <div class="d-flex justify-content-center  mt-3 mt-md-4">
-                                <span>Following</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Followers</span>
-
-                            </div>
-                            <div class="d-flex justify-content-center my-3 mt-md-4">
-                                <oj-button class='oj-button-primary' chroming='full' style="width: 5rem" on-oj-action="[[editButton]]">
-                                    <span slot="startIcon"></span> Edit
-                                </oj-button>
-                            </div>
-                        </div>
+        </div>
+                <!-- ends here -->
+        
+    
+        <!-- Edit modal   -->
+        
+        <!-- Edit modal ends here -->
+            <div class="">
+    
+                <div class="oj-lg-11 oj-md-11 oj-sm-12">
+                    <div class="col  d-flex justify-content-end ">
+                        <img class="profile_img img-fluid mt-2 border  border-dark shadow  ml-auto" width="150px" height="auto" style="border-radius: 50%; position: relative; left: 3rem; " role="" src="../../css/images/avatar-f.jpg ">
+                        </img>
                     </div>
-
+                    
+              
+                   
                 </div>
-            </oj-bind-if>
-
-            <oj-bind-if test="[[editMode()]]">
-                <div class="container ">
-                    <oj-form-layout id="ofl1" class="oj-form-control-full-width m-5">
-
-                        <div class="oj-flex-items-pad demo-flex-display ">
-                            <div class="oj-flex d-flex ">
-                                <div class=" order-sm-2 order-md-1 order-lg-1 oj-sm-12 oj-md-8 oj-flex-item ">
-
-                                   
-                                        <div class="oj-sm-12 oj-md-12">
-                                            <oj-input-text class='inputs' value='{{profile.firstname}}' placeholder='[[firstname]]'>
-                                            </oj-input-text>
-                                        </div>
-                                        <div class="oj-sm-12 oj-md-12">
-                                            <oj-input-text class='inputs' value='{{profile.lastname}}' placeholder='[[lastname]]'>
-                                            </oj-input-text>
-                                        </div>
-
-                                    
-
-                                    <oj-input-text class='inputs mt-1 mb-1' value='{{profile.email}}' placeholder='[[email]]'>
-                                    </oj-input-text>
-
-                                    
-                                        <div class="oj-sm-12 oj-md-12">
-                                            <oj-input-text class='inputs' value='{{profile.username}}' placeholder='[[username]]'>
-                                            </oj-input-text>
-                                        </div>
-                                        <!-- <div class="oj-sm-12 oj-md-6 oj-flex-item">
-                                            <oj-input-text class='inputs' value='{{profile.phone}}' placeholder='[[phone]]'>
-                                            </oj-input-text>
-                                        </div> -->
-
-                                    
-
-                                    <oj-text-area class='inputs mt-1 mb-1' rows="6 " value='{{profile.bio}}' placeholder='[[bio]]'></oj-text-area>
-
-                                    <oj-input-text class='inputs mt-1 mb-1' value='{{profile.url}}' placeholder="url">
-                                    </oj-input-text>
-
-                                    <div class="inputs mt-1 mb-1">
-                                        <oj-select-many placeholder="select one or more tracks" options="[[devstack]]" value="{{profile.stack}}">
-                                        </oj-select-many>
-                                    </div>
-                                    <div class="inputs mt-1 mb-1">
-                                        <oj-input-text class='mt-1 mb-1' label-hint='Location' value='{{profile.location}}' placeholder="Location">
-                                        </oj-input-text>
-                                    </div>
-
-                                </div>
-                                <div class=" order-sm-1 order-md-2 order-lg-2 oj-sm-12 oj-md-4  oj-flex-item ">
-                                    <div class=" ">
-                                        <div class="d-flex justify-content-end ">
-                                            <div class="m-2 ">
-                                                <oj-button id='button3' display='icons' on-oj-action="[[cancelButton]]">
-                                                    <span class=" oj-fwk-icon-cross03 oj-fwk-icon"></span>
-                                                </oj-button>
+                <!-- <oj-bind-if test="[[editMode()]]"> -->
+                        <div class="mt-5 pt-3 ">
+                            <div id="dialogWrapper" >
+                      <oj-dialog style="display:none; width: 70%" id="editModalDialog" dialog-title="Update User">
+                                    <div slot="body">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-lg-9 col-md-9">
+                                                        <div class="form-group col-md-6">
+                                                            
+                                                            <oj-input-text class="mt-2 " style=" width: 100%" placeholder="First Name" value="{{firstname}}" > </oj-input-text> 
+                                                            </label>
+                                                        </div>
+                                
+                                                        <div class="form-group col-md-6">
+                                                            
+                                                                <oj-input-text class="mt-2 " style=" width: 25rem"  placeholder="Last Name"  value="{{lastname}}" > </oj-input-text> 
+                                                            </label>
+                                                        </div>
+                    
+                                                        <div class="form-group col-md-6">
+                    
+                                                                <oj-input-text class="mt-2 " style=" width: 25rem"  value="{{username}}" placeholder="Display name" > </oj-input-text> 
+                                                            </label>
+                                                        </div>
+                                
+                                                        <div class="form-group col-md-6">
+                                                                
+                                                            <oj-input-text class="mt-2 " style=" width: 25rem"  value="{{email}}" placeholder="Email" > </oj-input-text> 
+                                                                
+                                                        </div>
+                    
+                                                        <div class="form-group col-md-6">
+                                                                
+                                                                <oj-input-text class="mt-2"  value="{{location}}" placeholder="Location" required>
+                                                                    </oj-input-text>       
+                                                        </div>
+                    
+                                                        <div class="form-group col-md-6">
+                                                            
+                                                                <oj-bind-text value="[[stack]]"></oj-bind-text>
+                                                                    
+                                                        </div>
+                                
+                                                        </div>
+                                                        <!-- End of input forms -->
+                    
+                                                        <div class="col-md-3 col-lg-3">
+                                                            <div class="m-2 d-flex justify-content-center">
+                                                                    <img class="profile_img" width="150px" height="150px" style="border-radius: 50%" role="img " src="../../css/images/avatar-f.jpg ">
+                                                                </img>
+                        
+                                                            </div>
+                                                            <div class="d-flex justify-content-center">
+                                                                <oj-file-picker class='oj-filepicker-custom' id="myFile" selection-mode="single" select-on='click' on-oj-select='[[selectListener]]'>
+                                                                    <oj-button slot='trigger'>
+                                                                        <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n '></span> Upload
+                                                                    </oj-button>
+                                                                </oj-file-picker>
+                    
+                                                            </div>
+                                                        </div>
+                    
+                                                        
+                                                </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="m-2 d-flex justify-content-center col-md-2">
-                                        <oj-label for="selected">Selected files: </oj-label>
-                                        <span id="selected" class="col-md-2">
-                                              <oj-bind-text value="[[ko.toJSON(selectedFile)]]"></oj-bind-text>
-                                            </span>
-                                        <img class=" h-50 w-50 rounded-circle " role="img " data-bind="style: { backgroundImage: 'url(fileNames)'}">
-                                        </img>
-                                        <span class="demo-thumbnail oj-flex-item h-50 w-50 rounded-circle " :style.background-image="[[' url('+$current.data.image+')']]"></span>
-                                       
-                                    </div> -->
-                                        <div class="m-2 d-flex justify-content-center">
-                                            <img class="profile_img" width="150px" height="150px" style="border-radius: 50%" role="img " src="../../css/images/avatar-f.jpg ">
-                                        </img>
-
+                                        <div slot="footer">
+                                            <hr>
+                                            <div class="d-flex justify-content-center mb-4">
+                                                    <button type='submit' class="btn btn-danger fbtn mr-2"  style="width: 10rem" data-bind="click: cancelButton">Cancel</button>
+                                                    <button type='submit' class="btn btn-primary fbtn" style="width: 10rem" data-bind="click:  update">Update</button>
+                                            </div>
                                         </div>
-                                        <div class="d-flex justify-content-center">
-                                            <oj-file-picker class='oj-filepicker-custom' id="myFile" selection-mode="single" select-on='click' on-oj-select='[[selectListener]]'>
-                                                <oj-button slot='trigger'>
-                                                    <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n '></span> Upload
-                                                </oj-button>
-                                            </oj-file-picker>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
+                                    
+                                </oj-dialog>
+                               
+                                
                             </div>
-
+                          
                         </div>
+                    <!-- </oj-bind-if> -->
+                    
+                     <div class="d-flex justify-content-end mb-5" style="position: relative; top: -3rem; left:-6rem">
+                        <button class="btn-md btn btn-dark  mr-4" data-bind="click:showEditDialog"> Edit User </button>
+                     </div>                   
+    
+            </div>
 
-                        <div class="d-flex justify-content-center mb-4">
-                            <button type='submit' class="btn btn-primary fbtn" data-bind="click:  update">Update</button>
-                        </div>
-
-                    </oj-form-layout>
-
-                </div>
-            </oj-bind-if>
+    
+        <!-- User Profile starts here -->
+    
+        <div class="m-1 p-1">
+            <h2>User Profile </h2>
         </div>
-    </div>
-
-
+        <div class="card">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                       
+                                <div class="form-group col-md-6">
+                                    
+                                    <oj-input-text class="mt-2 " value="{{firstname}}" disabled > </oj-input-text> 
+                                    </label>
+                                </div>
+    
+                                <div class="form-group col-md-6">
+                                   
+                                        <oj-input-text class="mt-2 "  value="{{lastname}}" disabled > </oj-input-text> 
+                                    </label>
+                                </div>
+    
+                                <div class="form-group col-md-6">
+                                    
+                                        <oj-input-text class="mt-2 "  value="{{username}}" disabled > </oj-input-text> 
+                                    </label>
+                                </div>
+    
+                                <div class="form-group col-md-6">
+                                       
+                                    <oj-input-text class="mt-2 "  value="{{email}}" disabled > </oj-input-text> 
+                                        
+                                </div>
+    
+                                <div class="form-group col-lg-6" >
+                                    <oj-input-text value="{{bio}}" class="ml-auto" style="width: 100%; font-weight: 900;" disabled></oj-input-text>
+                                </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <!-- User profile ends here -->
+    
     <oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
-      "my": {"vertical" : "bottom", "horizontal": "end"},
-      "at": {"vertical": "bottom", "horizontal": "end"},
-      "of": "window"
-      }'>
-    </oj-messages>
-</div>
+        "my": {"vertical" : "bottom", "horizontal": "end"},
+        "at": {"vertical": "bottom", "horizontal": "end"},
+        "of": "window"
+        }'>
+      </oj-messages>
+    
+    
+    </div>
+    
+    
