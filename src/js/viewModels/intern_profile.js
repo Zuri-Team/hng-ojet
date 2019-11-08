@@ -86,7 +86,9 @@ function UserProfileModel(params) {
     const userProfileURL = `${api}/api/user-profile`
 
 
-
+self.showProfileImage = () => {
+    document.getElementById("showImage").open();
+}
 
    //  Fetch all tracks
    self.fetchTracks = async() => {
@@ -101,7 +103,7 @@ function UserProfileModel(params) {
         } = await response.json();
         // console.log(data)
 
-        self.tracks(data.map(track => track)
+        self.track(data.map(track => track)
             );
     } catch (err) {
         console.log(err);
@@ -183,11 +185,12 @@ function fetchProbatedInternsStatus() {
       success: ({status, data}) => {
         if (status == "success") {
             //   console.log(data);
-              self.onProbation(data.status);
+            self.onProbation(data.status);
         }
 
     }
   });  
+  setTimeout(fetchProbatedInternsStatus, 15000);
 }
 fetchProbatedInternsStatus();
 
