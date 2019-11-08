@@ -36,7 +36,7 @@ define([
         var progressbar = function() {
             return `<div class="progress position-relative mb-3 ">
               <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-success">
-                <span class="oj-text-sm font-weight-bold">Logging In</span>
+                <span class="oj-text-sm font-weight-bold">Sending request</span>
               </div>
             </div>`;
         };
