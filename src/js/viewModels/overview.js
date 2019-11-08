@@ -36,6 +36,11 @@ define([
             document.getElementById("summary-modal").open();
         };
 
+        // if (document.getElementById('summary-modal')){
+        //     document.getElementsByClassName('oj-component-overlay').addEventListener('click', close());
+        // }
+
+        // console.log(document.getElementById('summary-modal'))
         var userToken = sessionStorage.getItem("user_token");
 
         self.totalPosts = ko.observable("");
@@ -213,14 +218,14 @@ define([
                 method: "GET",
                 success: ({ status, data }) => {
                     if (status == true) {
-                        const intern = data.filter(data => data.role <= "intern");
+                        const intern = data.filter(data => data.role === "intern");
 
                         const admin = data.filter(
-                            data => data.role >= "superadmin" && data.role >= "admin"
+                            data => data.role === "superadmin" || data.role === "admin"
                         );
 
-                        const oIntern = intern.filter(data => data.status == true);
-                        const oAdmin = admin.filter(data => data.status == true);
+                        const oIntern = intern.filter(data => data.status === true);
+                        const oAdmin = admin.filter(data => data.status === true);
 
 
                         self.onlineIntern(oIntern.length);

@@ -24,6 +24,9 @@ define([
             user_dashboard: { label: "User_dashboard" },
             register: { label: "Register" },
             login: { label: "Login", isDefault: true },
+            tasks: { label: "Tasks" },
+            tracks: { label: "Tracks" },
+            password_request: { label: "Forgot password" },
             password_reset: { label: "Reset password" },
         });
         Router.defaults["urlAdapter"] = new Router.urlParamAdapter();

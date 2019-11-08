@@ -56,6 +56,7 @@ define([
                 method: "GET",
                 success: ({ status, data }) => {
                     if (status == true) {
+                        // console.log(data)
                         const intern = data.filter(data => data.role === "intern");
 
                         const admin = data.filter(

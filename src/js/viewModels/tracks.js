@@ -41,6 +41,7 @@ define(["ojs/ojcore",
         self.selectedItems = new keySet.ObservableKeySet(); // observable bound to selection option to monitor current selections
         self.selectedSelectionRequired = ko.observable(false);
         self.firstSelectedItem = ko.observable();
+        self.showTrackRequests = ko.observable(false);
 
         // notification messages observable
         self.applicationMessages = ko.observableArray([]);
@@ -49,6 +50,16 @@ define(["ojs/ojcore",
         self.selectedIds = ko.observableArray([]);
         self.currentItemId = ko.observable();
         self.dataProvider = ko.observable();
+
+        self.trackRequestsShown = () => {
+            self.showTrackRequests(true);
+            
+        }
+
+        self.trackRequestsHidden = () => {
+            self.showTrackRequests(false);
+            
+        }
 
         self.handleSelectionChanged = function(event) {
             self.selectedIds(event.detail.value); // show selected list item elements' ids
@@ -269,6 +280,23 @@ define(["ojs/ojcore",
                 });
             }
         };
+
+        self.requestCount = ko.observable("");
+        self.fetchPendingTrackRequests = async() => {
+            try {
+                const response = await fetch(`${api}/api/track-requests/request-count`, {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                });
+
+                const { data: { requests_count } }  = await response.json();
+                self.requestCount(requests_count);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        self.fetchPendingTrackRequests();
     }
     return new tracksViewModel();
 });
