@@ -58,6 +58,7 @@ define(["ojs/ojcore",
 
         self.trackRequestsHidden = () => {
             self.showTrackRequests(false);
+            self.fetchPendingTrackRequests();
             
         }
 
