@@ -297,6 +297,14 @@ define(["ojs/ojcore",
             }
         };
         self.fetchPendingTrackRequests();
+
+        // listen for changes
+        let pm = ko.dataFor(document.querySelector("#admin"));
+        pm.selectedItem.subscribe(function() {
+            if (pm.selectedItem() == "Tracks") {
+              self.fetchPendingTrackRequests();
+            }
+        });
     }
     return new tracksViewModel();
 });

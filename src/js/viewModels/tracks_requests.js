@@ -97,7 +97,6 @@ define([
                 });
 
                 const data = await response.json()
-                console.log(data)
 
                 if (data.status === false) {
                     self.applicationMessages.push({
