@@ -279,7 +279,7 @@ self.deleteSubmission = async () => {
         Authorization: `Bearer ${userToken}`
       }
     });
-    self.fetchSubmission();
+    fetchSubmission();
     document.getElementById("deleteSubmissionModal").close();
     self.applicationMessages.push({
       severity: "confirmation",
