@@ -1,3 +1,7 @@
+
+<div class="form-group">
+  <input type='text' id='searchForUser' class='form-control col-md-5' placeholder='Search for an intern' />
+</div>
 <oj-bind-if test="[[!isUserProfile()]]">
 
     <div class="oj-flex oj-sm-justify-content-center mt-2 oj-md-12 oj-lg-12 mx-auto" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
@@ -10,13 +14,13 @@
             <oj-list-view id="interns" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[selectedInternChanged]]" first-selected-item="{{firstSelectedIntern}}" scroll-policy="loadMoreOnScroll">
                 <template slot="itemTemplate" data-oj-as="item" class="border-0">
         <div class="oj-flex p-1 border rounded bg-light" style="width: 100%; color: #4e5769 !important; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
-          <div class="oj-flex-item oj-sm-12 oj-md-4 p-1">
+          <div class="oj-flex-item oj-sm-3 mr-4 oj-md-4 p-1">
             <oj-avatar role="img" size="[[avatarSize]]" data-bind="attr:{'aria-label':'Avatar of ' + item.data.username,
                                                                       'title':'Avatar of ' + item.data.username }"
                             src="[[item.data.profile_img]]">
                         </oj-avatar>
           </div>
-          <div class="oj-flex-item oj-sm-12 oj-md-4">
+          <div class="oj-flex-item oj-sm-7 pl-2 oj-md-4">
             <strong class="text-capitalize d-block">
                 <oj-bind-text value="[[item.data.id]]"></oj-bind-text><br>
                 <oj-bind-text value="[[item.data.firstname]]"></oj-bind-text><br>

@@ -44,6 +44,7 @@ define([
   
     self.toggleDrawer = function()
         {
+          //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
 

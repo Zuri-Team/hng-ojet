@@ -23,7 +23,7 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata",
   'ojs/ojradioset'
-], function (oj, ko, $, api, ArrayDataProvider) {
+], function(oj, ko, $, api, ArrayDataProvider) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -32,31 +32,31 @@ define([
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
 
-    self.selectedItem = ko.observable();
-
     self.drawer =
-            {
-              "displayMode": "overlay",
-              "selector": "#sidebar",
-              "content": "#maincontent",
-            };
-
-    self.toggleDrawer = function ()
     {
-      return oj.OffcanvasUtils.toggle(self.drawer);
+      "displayMode": "overlay",
+      "selector": "#sidebar",
+      "content": "#maincontent",
     };
+  
+    self.toggleDrawer = function()
+        {
+          //$("#main, #drawer").toggleClass("smactive");
+          return oj.OffcanvasUtils.toggle(self.drawer);
+        };
 
     //logout button
     self.open = function (event) {
       document.getElementById('logoutModal').open();
     };
-    self.logout = function () {
+    self.logout = function() {
       sessionStorage.clear();
       router.go("login");
     };
+    self.selectedItem = ko.observable();
 
     self.sb_sm = ko.observable(false);
-    self.searchbar_sm = function () {
+    self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
     };
 
@@ -81,85 +81,85 @@ define([
     var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
 
-    self.popModal = () => {
+    self.popModal = () => {     
       document.getElementById("requestDialog").open();
     }
 
-    self.submitRequest = async() => {
-      const track_id = self.tracks_id();
-      const user_id = self.user_id();
-      const reason = self.newTrack.reason;
-      const action = self.chosenAction();
-      try {
-        const response = await fetch(`${api}/api/track-requests/send-request`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`
-          },
-          body: JSON.stringify({
-            track_id,
-            user_id,
-            action,
-            reason
-          })
-        });
-        const {message} = await response.json();
-        document.getElementById("requestDialog").close();
-        self.applicationMessages.push({
+    self.submitRequest =  async() => {
+        const track_id = self.tracks_id();
+        const user_id = self.user_id();
+        const reason = self.newTrack.reason;
+        const action = self.chosenAction();
+        try {
+            const response = await fetch(`${api}/api/track-requests/send-request`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`
+                },
+                body: JSON.stringify({
+                    track_id,
+                    user_id,
+                    action,
+                    reason
+                })
+            });
+            const { message } = await response.json();
+            document.getElementById("requestDialog").close();
+            self.applicationMessages.push({
 
-          severity: "confirmation",
-          summary: `Track Request`,
-          detail: `${message}`,
-          autoTimeout: parseInt("0")
+                severity: "confirmation",
+                summary: `Track Request`,
+                detail: `${message}`,
+                autoTimeout: parseInt("0")
 
-        });
-      } catch (err) {
-        console.log(err);
-        self.applicationMessages.push({
+            });
+        } catch (err) {
+            console.log(err);
+            self.applicationMessages.push({
 
-          severity: "error",
-          summary: `Error sending request`,
-          detail: `${message}`,
-          autoTimeout: parseInt("0")
+              severity: "error",
+              summary: `Error sending request`,
+              detail: `${message}`,
+              autoTimeout: parseInt("0")
 
-        });
-      }
-
+          });
+        }
+    
     }
 
 
     //  Fetch all tracks
-    self.fetchTracks = async() => {
-      try {
+   self.fetchTracks = async() => {
+    try {
         const response = await fetch(`${api}/api/track/all`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          }
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
         });
         const {
-          data: {data}
+            data: { data }
         } = await response.json();
 
         self.track(data.map(track => track)
-                );
-      } catch (err) {
+            );
+    } catch (err) {
         console.log(err);
-      }
-    };
-    self.fetchTracks();
+    }
+};
+self.fetchTracks();
 
     self.stepArray = ko.observableArray([
-      {id: "1"},
-      {id: "2"},
-      {id: "3"},
-      {id: "4"},
-      {id: "5"},
-      {id: "6"},
-      {id: "7"},
-      {id: "8"},
-      {id: "9"},
-      {id: "10"}
+      { id: "1" },
+      { id: "2" },
+      { id: "3" },
+      { id: "4" },
+      { id: "5" },
+      { id: "6" },
+      { id: "7" },
+      { id: "8" },
+      { id: "9" },
+      { id: "10" }
     ]);
     self.updateLabelText = event => {
       var train = document.getElementById("train");
@@ -189,8 +189,8 @@ define([
     // datetime converter
     self.formatDateTime = date => {
       var formatDateTime = oj.Validation.converterFactory(
-              oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-              ).createConverter({
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
         formatType: "datetime",
         dateFormat: "medium",
         timeFormat: "short",
@@ -210,7 +210,7 @@ define([
         },
 
         url: `${api}/api/track/${id}/tasks`,
-        success: function (res) {
+        success: function(res) {
           // console.log(res);
           let [latest] = res.data;
           latest.deadline = self.formatDateTime(latest.deadline);
@@ -227,8 +227,8 @@ define([
         },
 
         url: `${api}/api/user-profile/${id}`,
-        success: function (response) {
-          let [{id, track_name}] = response.data.tracks;
+        success: function(response) {
+          let [{ id, track_name }] = response.data.tracks;
           self.tracks(track_name);
           getTasks(id);
         }
@@ -240,10 +240,10 @@ define([
       let task_id = self.tasks().id;
       let submission_link = self.taskSubmit().submission_link;
       let comment = self.taskSubmit().task_comment;
-
+      
 //task submission validation
       const feedback = document.getElementById('submission_feedback');
-      if (submission_link.match(new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi))) {
+      if (submission_link.match(new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi))){
         feedback.style.color = 'green';
         feedback.innerHTML = 'Valid URL';
       } else {
@@ -287,49 +287,49 @@ define([
     };
 
     this.tags = ko.observableArray([
-      {value: ".net", label: ".net"},
-      {value: "Accounting", label: "Accounting"},
-      {value: "ADE", label: "ADE"},
-      {value: "Adf", label: "Adf"},
-      {value: "Adfc", label: "Adfc"},
-      {value: "Adfm", label: "Adfm"},
-      {value: "Android", label: "Android"},
-      {value: "Aria", label: "Aria"},
-      {value: "C", label: "C"},
-      {value: "C#", label: "C#"},
-      {value: "C++", label: "C++"},
-      {value: "Chrome", label: "Chrome"},
-      {value: "Cloud", label: "Cloud"},
-      {value: "CSS3", label: "CSS3"},
-      {value: "DBA", label: "DBA"},
-      {value: "Eclipse", label: "Eclipse"},
-      {value: "Firefox", label: "Firefox"},
-      {value: "Git", label: "Git"},
-      {value: "Hibernate", label: "Hibernate"},
-      {value: "HTML", label: "HTML"},
-      {value: "HTML5", label: "HTML5"},
-      {value: "IE", label: "IE"},
-      {value: "IOS", label: "IOS"},
-      {value: "Java", label: "Java"},
-      {value: "Javascript", label: "Javascript"},
-      {value: "JDeveloper", label: "JDeveloper"},
-      {value: "Jet", label: "jet"},
-      {value: "JQuery", label: "JQuery"},
-      {value: "JQueryUI", label: "JQueryUI"},
-      {value: "JS", label: "JS"},
-      {value: "Knockout", label: "Knockout"},
-      {value: "MAF", label: "MAF"},
-      {value: "Maven", label: "Maven"},
-      {value: "MCS", label: "MCS"},
-      {value: "MySql", label: "MySql"},
-      {value: "Netbeans", label: "Netbeans"},
-      {value: "Oracle", label: "Oracle"},
-      {value: "Solaris", label: "solaris"},
-      {value: "Spring", label: "spring"},
-      {value: "Svn", label: "Svn"},
-      {value: "UX", label: "UX"},
-      {value: "xhtml", label: "xhtml"},
-      {value: "XML", label: "XML"}
+      { value: ".net", label: ".net" },
+      { value: "Accounting", label: "Accounting" },
+      { value: "ADE", label: "ADE" },
+      { value: "Adf", label: "Adf" },
+      { value: "Adfc", label: "Adfc" },
+      { value: "Adfm", label: "Adfm" },
+      { value: "Android", label: "Android" },
+      { value: "Aria", label: "Aria" },
+      { value: "C", label: "C" },
+      { value: "C#", label: "C#" },
+      { value: "C++", label: "C++" },
+      { value: "Chrome", label: "Chrome" },
+      { value: "Cloud", label: "Cloud" },
+      { value: "CSS3", label: "CSS3" },
+      { value: "DBA", label: "DBA" },
+      { value: "Eclipse", label: "Eclipse" },
+      { value: "Firefox", label: "Firefox" },
+      { value: "Git", label: "Git" },
+      { value: "Hibernate", label: "Hibernate" },
+      { value: "HTML", label: "HTML" },
+      { value: "HTML5", label: "HTML5" },
+      { value: "IE", label: "IE" },
+      { value: "IOS", label: "IOS" },
+      { value: "Java", label: "Java" },
+      { value: "Javascript", label: "Javascript" },
+      { value: "JDeveloper", label: "JDeveloper" },
+      { value: "Jet", label: "jet" },
+      { value: "JQuery", label: "JQuery" },
+      { value: "JQueryUI", label: "JQueryUI" },
+      { value: "JS", label: "JS" },
+      { value: "Knockout", label: "Knockout" },
+      { value: "MAF", label: "MAF" },
+      { value: "Maven", label: "Maven" },
+      { value: "MCS", label: "MCS" },
+      { value: "MySql", label: "MySql" },
+      { value: "Netbeans", label: "Netbeans" },
+      { value: "Oracle", label: "Oracle" },
+      { value: "Solaris", label: "solaris" },
+      { value: "Spring", label: "spring" },
+      { value: "Svn", label: "Svn" },
+      { value: "UX", label: "UX" },
+      { value: "xhtml", label: "xhtml" },
+      { value: "XML", label: "XML" }
     ]);
 
     self.tagsDataProvider = new ArrayDataProvider(this.tags, {
@@ -339,7 +339,7 @@ define([
     self.searchTerm = ko.observable();
     self.searchTimeStamp = ko.observable();
 
-    self.search = function (event) {
+    self.search = function(event) {
       var eventTime = getCurrentTime();
       var trigger = event.type;
       var term;
@@ -369,63 +369,43 @@ define([
     self.slack = ko.observable("");
     self.fileNames = ko.observableArray([]);
 
-    self.selectListener = function (event) {
+    self.selectListener = function(event) {
       var files = event.detail.files;
       self.fileNames.push(files[i].name);
     };
 
-    //   function fetchProbatedInterns() {
-    //     $.ajax({
-    //       url: `${api}/api/probation/all`,
-    //       headers: {
-    //         Authorization: "Bearer " + userToken
-    //       },
-    //       method: "GET",
-    //       success: ({status, data}) => {
-    //         if (status == "success") {
-    //           for (index in data){
-    //             self.probated_by(data[index].probated_by);
-    //           self.probation_reason(data[index].probation_reason);
-    //           self.user_id(data[index].user_id);
-    //           self.probatedInternsId().push(self.user_id());
-    //           }
+  //   function fetchProbatedInterns() {
+  //     $.ajax({
+  //       url: `${api}/api/probation/all`,
+  //       headers: {
+  //         Authorization: "Bearer " + userToken
+  //       },
+  //       method: "GET",
+  //       success: ({status, data}) => {
+  //         if (status == "success") {
+  //           for (index in data){
+  //             self.probated_by(data[index].probated_by);
+  //           self.probation_reason(data[index].probation_reason);
+  //           self.user_id(data[index].user_id);
+  //           self.probatedInternsId().push(self.user_id());
+  //           }
 
-    //           console.log(self.probated_by());
-    //           console.log(self.probation_reason());
-    //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
-    //       }
+  //           console.log(self.probated_by());
+  //           console.log(self.probation_reason());
+  //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+  //       }
 
-    //     }
-    //   });
-    // }
-    // fetchProbatedInterns();
+  //     }
+  //   });
+  // }
+  // fetchProbatedInterns();
 
     //route to notifications
-    self.gotoNotifications = function () {
+    self.gotoNotifications = function() {
       router.go("notifications");
     };
 
-
-    self.profile_img = ko.observable('/css/images/smiley.png');
-    function display_user_info(id) {
-      $.ajax({
-        url: `${api}/api/profile/${id}`,
-        headers: {
-          Authorization: "Bearer " + userToken
-        },
-        method: "GET",
-        success: res => {
-          const [...data] = res.data
-          const [user, profile] = data
-          const {firstname, lastname, username, } = user;
-          const {profile_img} = profile;
-          self.profile_img(profile_img);
-          self.fullname(`${firstname} ${lastname}`);
-        }
-      });
-    }
-
-    self.connected = function () {
+    self.connected = function() {
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
@@ -442,23 +422,23 @@ define([
           method: "GET",
           success: ({status, data}) => {
             if (status == "success") {
-              if (data.probator !== undefined) {
+              if (data.probator !== undefined){
                 self.onProbation(data.status);
-                self.probated_by(data.probator.firstname + ' ' + data.probator.lastname);
-                self.probation_reason(data.probation_reason);
-                self.deadline(data.exit_on);
+                self.probated_by(data.probator.firstname+' '+data.probator.lastname);
+                    self.probation_reason(data.probation_reason);
+                    self.deadline(data.exit_on);
               } else {
                 self.onProbation(false)
               }
           }
 
-          }
-        });
-      }
+        }
+      });
+    }
+    fetchIfProbated();
 
-      fetchIfProbated();
       fetchTrack(user.id);
-      display_user_info(user.id)
+      self.fullname(`${user.firstname} ${user.lastname}`);
       self.stepArray().map((stage, i) => {
         stage.disabled = true;
         if (i + 1 == user.stage) {
@@ -472,23 +452,19 @@ define([
       self.fetchCount();
 
       //notifications click
-      $("#notifi").on("click", function () {
+      $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();
         $(`#maincontent_intern_body > div[id='${attr}']`).show();
       });
 
-      $("#sidebar li a").on("click", function () {
+      $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();
         $(`#maincontent_intern_body > div[id='${attr}']`).show();
         oj.OffcanvasUtils.close(self.drawer);
-        if (attr == "overview-intern") {
-          display_user_info(user.id);
-        }
       });
     };
-
   }
   return new UserDashboardViewModel();
 });

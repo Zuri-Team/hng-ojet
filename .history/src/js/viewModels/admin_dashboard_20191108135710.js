@@ -44,6 +44,7 @@ define([
   
     self.toggleDrawer = function()
         {
+          //$("#main, #drawer").toggleClass("smactive");
           return oj.OffcanvasUtils.toggle(self.drawer);
         };
 
@@ -177,6 +178,10 @@ define([
       }
     };
 
+    // toggle hambuger on navbar
+    self.toggleDrawer = function() {
+      $("#maincontent, #sidebar").toggleClass("smactive");
+    };
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
@@ -229,7 +234,6 @@ define([
         let attr = $(this).attr("for");
         $("#maincontent_body > div").hide();
         $(`#maincontent_body > div[id='${attr}']`).show();
-        oj.OffcanvasUtils.close(self.drawer);
       });
     };
   }
