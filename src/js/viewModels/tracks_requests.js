@@ -84,8 +84,7 @@ define([
     //    = self.trackData();
         self.action = async(actionn, request) => {
 
-            let key = self.currentItemId();
-            console.log(key)
+            let key = self.trackData().id;
 
             try {
 
