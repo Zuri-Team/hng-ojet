@@ -2,6 +2,7 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
+"ojs/ojinputnumber",
 "ojs/ojformlayout",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
@@ -35,8 +36,7 @@ function TaskSubmissionsModel(params) {
   self.track_id = ko.observable();
   self.task = ko.observableArray([]);
   self.tasks = ko.observableArray([]);
-
-
+  self.submissionId = ko.observable("");
 
   var tracksURL = `${api}/api/track`;
   var tasksURL = `${api}/api/task`;
@@ -46,11 +46,6 @@ function TaskSubmissionsModel(params) {
   self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
-
-  var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
-      self.numberConverter = numberConverterFactory.createConverter();
-
-
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));
@@ -69,7 +64,10 @@ function TaskSubmissionsModel(params) {
     document.getElementById("deleteAllSubmissionModal").open();
   };
 
-
+  self.deleteSubmissionModal = function(event, context) {
+    self.submissionId(context.row.id);
+    document.getElementById("deleteSubmissionModal").open();
+  };
 
   self.handleUpdate = function(event, context) {
     self.editRow({rowKey: context.key});
@@ -108,6 +106,9 @@ function TaskSubmissionsModel(params) {
           success: ({status, data}) => {
 
             if (status == true) {
+              if (data.comment === null){
+                data.comment = 'No comment';
+              }
               self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
           }
         }
@@ -183,14 +184,9 @@ self.gradeTask = function(userId, grade) {
       url: `${tasksURL}s/${task_id}`,
       headers: {
         Authorization: "Bearer " + userToken
-        // "Access-Control-Allow-Origin": "*",
-        // "Content-Type": "application/json",
-        // "Access-Control-Allow-Methods": "*",
-        // "Access-Control-Allow-Headers": "*"
       },
       data: { track_id, title, body, deadline, is_active },
       success: res => {
-          // send a success message notification to the category view
           self.fetchTask();
           self.fetchTrack();
           self.applicationMessages.push({
@@ -202,8 +198,6 @@ self.gradeTask = function(userId, grade) {
       },
       error: err => {
         console.log(err);
-
-        // send an error message notification to the category view
         self.applicationMessages.push({
           severity: "error",
           summary: "Error updating task",
@@ -216,60 +210,95 @@ self.gradeTask = function(userId, grade) {
     document.getElementById("editTaskModal").close();
   };
 
-  self.deleteTask = () => {
-    $.ajax({
-      url: `${tasksURL}s/${task_id}`,
-      headers: {
-        Authorization: "Bearer " + userToken
-      },
-      method: "DELETE",
-      success: () => {
-        document.getElementById("deleteTaskModal").close();
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "Task deleted",
-          autoTimeout: parseInt("0")
-        });
-        self.listRefresh(params.listRefresh());
-        setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000);
-      },
-      error: err => {
-        console.log(err);
-        self.applicationMessages.push({
-          severity: "error",
-          summary: "An error was encountered, could not delete task",
-          autoTimeout: parseInt("0")
-        });
-      }
-    });
-  };
+  self.deleteTask = async() => {
+    try {
+      const response = await fetch(`${tasksURL}s/${task_id}`,{
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`
+        }
+      });
+      self.listRefresh(params.listRefresh());
+      setTimeout(() => self.hideSubmissions(params.hideSubmissions(false)), 1000);
+      document.getElementById("deleteTaskModal").close();
+      self.applicationMessages.push({
+        severity: "confirmation",
+        summary: "Task deleted",
+        detail: `Successfully deleted task`,
+        autoTimeout: parseInt("0")
+      });
+    } catch (err) {
+      console.log(err);
+      self.applicationMessages.push({
+        severity: "error",
+        summary: "Error deleting task",
+        detail: "An error was encountered, could not delete task",
+        autoTimeout: parseInt("0")
+      });
+    }
+  }
 
-  self.deleteAllSubmission = () => {
-    $.ajax({
-      url: `${api}/api/submissions/${task_id}`,
-      headers: {
-        Authorization: "Bearer " + userToken
-      },
+self.deleteAllSubmission = async () => {
+  try {
+    const response = await fetch(`${api}/api/submissions/task/${task_id}`,
+    {
       method: "DELETE",
-      success: () => {
-        document.getElementById("deleteAllSubmissionModal").close();
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "Submissions deleted",
-          autoTimeout: parseInt("0")
-        });
-        fetchSubmission();
-      },
-      error: err => {
-        console.log(err);
-        self.applicationMessages.push({
-          severity: "error",
-          summary: "An error was encountered, could not delete submissions",
-          autoTimeout: parseInt("0")
-        });
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`
       }
     });
-  };
+    fetchSubmission();
+    document.getElementById("deleteAllSubmissionModal").close();
+    self.applicationMessages.push({
+      severity: "confirmation",
+      summary: "Submissions deleted",
+      detail: "Successfully deleted all submissions for this task",
+      autoTimeout: parseInt("0")
+    });
+  } catch (err) {
+    console.log(err);
+    self.applicationMessages.push({
+      severity: "error",
+      summary: "Error deleting all submissions",
+      detail: "An error was encountered, could not delete submissions",
+      autoTimeout: parseInt("0")
+    });
+  }
+}
+
+self.deleteSubmission = async () => {
+  let submission_id = self.submissionId();
+  try {
+    const response = await fetch(`${api}/api/submissions/${submission_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`
+      }
+    });
+    fetchSubmission();
+    document.getElementById("deleteSubmissionModal").close();
+    self.applicationMessages.push({
+      severity: "confirmation",
+      summary: "Submission deleted",
+      detail: "Task submission deleted",
+      autoTimeout: parseInt("0")
+    });
+  } catch (err) {
+    console.log(err);
+    self.applicationMessages.push({
+      severity: "error",
+      summary: "Error deleting submission",
+      detail: "An error was encountered, could not delete submission",
+      autoTimeout: parseInt("0")
+    });
+  }
+}
+
+
 
   self.fetchTask = async() => {
     try {

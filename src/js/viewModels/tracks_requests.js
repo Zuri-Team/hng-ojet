@@ -25,6 +25,7 @@ define([
         self.selectedTrackRequest = ko.observable();
         self.selectedSelectionRequired = ko.observable(false);
         self.currentItemId = ko.observable();
+        self.trackData = ko.observable();
 
          // notification messages observable
          self.applicationMessages = ko.observableArray([]);
@@ -50,7 +51,16 @@ define([
             // Access current item via ui.item
           let itemId = event.detail.value;
           self.currentItemId(itemId);
-        };
+          // Check whether click is a category selection or deselection
+            if (event.detail.value.length !== 0){
+        // If selection, populate and display Category details
+        // Populate items list observable using firstSelectedXxx API
+        let { data } = self.selectedTrackRequest();
+          self.trackData(data);
+            }
+       
+    }
+        
 
 
         self.fetchTrackRequests = async() => {
@@ -62,49 +72,19 @@ define([
                 });
 
                 const { data }  = await response.json();
-                console.log(data)
                 self.dataProvider(
                     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
             } catch (err) {
                 console.log(err);
             }
         };
-        self.fetchTrackRequests();
+       self.fetchTrackRequests()
 
-        self.fetchPendingTrackRequests = async() => {
-            try {
-                const response = await fetch(`${RESTurl}/request-count`, {
-                    headers: {
-                        Authorization: `Bearer ${userToken}`
-                    }
-                });
-
-                const { data: { requests_count } }  = await response.json();
-                console.log(requests_count)
-                // self.dataProvider(
-                //     new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        self.fetchPendingTrackRequests();
-
-        self.Accept = () => {
-
-            self.action("accept", "PUT");
-        }
-
-        self.Reject = () => {
-            self.action("reject", "DELETE");
-        }
-
-
+    //    let { track: { track_name }, user : { firstname, lastname  } }
+    //    = self.trackData();
         self.action = async(actionn, request) => {
 
-            let key = self.currentItemId();
-
-            let { data : { track: { track_name }, user : { firstname, lastname } } }
-             = self.selectedTrackRequest();
+            let key = self.trackData().id
 
             try {
 
@@ -118,7 +98,6 @@ define([
                 });
 
                 const data = await response.json()
-                console.log(data)
 
                 if (data.status === false) {
                     self.applicationMessages.push({
@@ -138,7 +117,8 @@ define([
 
                     severity: "confirmation",
                     summary: "Action successful",
-                    detail: `${firstname} ${lastname} successfully added to ${track_name}`,
+                    detail: `${data.message}`,
+                    // detail: `${firstname} ${lastname} successfully added to ${track_name}`,
                     autoTimeout: parseInt("0")
 
                 });
@@ -148,13 +128,13 @@ define([
 
                     severity: "confirmation",
                     summary: "Action successful",
-                    detail: `${firstname} ${lastname}'s request has been rejected`,
+                    detail: `${data.message}`,
+                    // detail: `${firstname} ${lastname}'s request has been rejected`,
                     autoTimeout: parseInt("0")
 
                 });
             }
                 self.fetchTrackRequests();
-                self.fetchPendingTrackRequests();
 
             } catch (err) {
 
@@ -170,13 +150,21 @@ define([
             }
         };
 
+            
+        self.Accept = () => {
+            setTimeout(() => self.action("accept", "PUT"), 0);
+        }
+
+        self.Reject = () => {
+            setTimeout(() => self.action("reject", "DELETE"), 0);
+        }
 
 
         // listen for changes
         let pm = ko.dataFor(document.querySelector("#admin"));
         pm.selectedItem.subscribe(function() {
             if (pm.selectedItem() == "Tracks") {
-              self.fetchTrackRequests();
+              self.selectedTrackRequest();
             }
         });
     }

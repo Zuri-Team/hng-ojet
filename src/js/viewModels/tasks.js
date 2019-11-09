@@ -5,14 +5,17 @@ define([
   "./api",
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
+  "ojs/ojvalidation-base",
   'ojs/ojknockout',
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
+  'ojs/ojtable',
   "ojs/ojdialog",
   "ojs/ojvalidation-datetime",
   "ojs/ojlabel",
   "ojs/ojinputtext",
+  "ojs/ojinputnumber",
   "ojs/ojformlayout",
   "ojs/ojvalidation-base",
   "ojs/ojselectcombobox",
@@ -20,7 +23,7 @@ define([
   "ojs/ojmessages",
   "ojs/ojpagingcontrol",
   "ojs/ojtimezonedata"
-], function(oj, ko, $, api, ArrayDataProvider, Paging) {
+], function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase) {
   function taskModel() {
     var self = this;
 
@@ -32,25 +35,32 @@ define([
     self.newTask = ko.observable({}); //holds data for the create task dialog
 
     self.viewSubmission = ko.observable(false);
+    self.viewAllSubmissions = ko.observable(false);
     self.task_btn_toggler = ko.observable(false);
     self.task_view_title = ko.observable("New Task");
+    self.editRow = ko.observable();
 
     self.task_view_toggle = () => {
       self.task_btn_toggler(!self.task_btn_toggler());
       self.task_view_title() == "New Task"
-        ? self.task_view_title("Back")
+        ? self.task_view_title("Cancel")
         : self.task_view_title("New Task");
     };
 
     self.applicationMessages = ko.observableArray();
     self.track_id = ko.observable("");
+    self.submissionId = ko.observable("");
 
 
     var tracksURL = `${api}/api/track`;
 
     var tasksURL = `${api}/api/tasks`;
 
+    var submissionURL = `${api}/api/submission`;
+
     self.dataProvider = ko.observable();
+
+    self.submissionDataProvider = ko.observable();
 
     // Task selection observables
     self.taskSelected = ko.observable({});
@@ -59,6 +69,21 @@ define([
     self.search = ko.observable(false);
 
     const RESTurl = `${api}/api/track/list`;
+
+    var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
+      self.numberConverter = numberConverterFactory.createConverter();
+
+      self.handleUpdate = function(event, context) {
+        self.editRow({rowKey: context.key});
+      };
+
+      self.handleDone = function(event, context) {
+        self.editRow({rowKey: null});
+        var userId = context.row.user_id
+        var grade = context.row.grade_score;
+        var taskId = context.row.task_id;
+        self.gradeTask(userId, grade, taskId);
+        };
 
     self.taskSelectedChanged = function(event) {
       if (event.detail.value.length != 0) {
@@ -72,10 +97,29 @@ define([
       }
     };
 
+    self.toAllSubmissions = () => {
+      self.fetchSubmission();
+      self.viewAllSubmissions(true);
+    }
+
+    self.toTasks = () => {
+      self.viewAllSubmissions(false);
+      self.refreshList();
+    }
+
     //refresh list
     self.refreshList = () => {
       self.search(false);
       self.fetchTasks();
+    };
+
+    self.deleteAllSubmissionModal = () => {
+      document.getElementById("deleteAllSubmissionModal").open();
+    };
+
+    self.deleteSubmissionModal = function(event, context) {
+      self.submissionId(context.row.id);
+      document.getElementById("deleteSubmissionModal").open();
     };
 
     // datetime converter
@@ -90,6 +134,18 @@ define([
       });
 
       return formatDateTime.format(new Date(date).toISOString());
+    };
+
+    // table date converter
+    self.formatDate = date => {
+      var formatDate = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "date",
+        pattern: "dd/MM/yy"
+      });
+
+      return formatDate.format(new Date(date).toISOString());
     };
 
     function fetchTracks() {
@@ -118,7 +174,7 @@ define([
         const { data } = await response.json();
         // console.log(data);
         self.taskDataProvider(
-          new Paging(
+          new PagingDataProviderView(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
                 value.deadline = self.formatDateTime(value.deadline);
@@ -131,6 +187,26 @@ define([
         console.log(err);
       }
     };
+
+    self.gradeTask = function(userId, grade, taskId) {
+      let grade_score = grade;
+      let user_id = userId;
+      let task_id = taskId;
+      $.ajax({
+        method: "POST",
+        url: `${api}/api/user/task/${task_id}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+            },
+        data: { grade_score, user_id },
+        success: res => {
+            self.fetchSubmission();
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    }
 
     self.createTask = () => {
       let track_id = self.track_id();
@@ -180,7 +256,64 @@ define([
       });
     };
 
+    self.deleteAllSubmission = async () => {
+      try {
+        const response = await fetch(`${submissionURL}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        self.fetchSubmission();
+        document.getElementById("deleteAllSubmissionModal").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Submissions deleted",
+          detail: "Successfully deleted all submissions for this task",
+          autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "Error deleting all submissions",
+          detail: "An error was encountered, could not delete submissions",
+          autoTimeout: parseInt("0")
+        });
+      }
+    }
 
+    self.deleteSubmission = async () => {
+      let submission_id = self.submissionId();
+      try {
+        const response = await fetch(`${submissionURL}s/${submission_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        self.fetchSubmission();
+        document.getElementById("deleteSubmissionModal").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Submission deleted",
+          detail: "Task submission deleted",
+          autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "Error deleting submission",
+          detail: "An error was encountered, could not delete submission",
+          autoTimeout: parseInt("0")
+        });
+      }
+    }
 
     self.filtertask = function() {
       self.search(false);
@@ -203,7 +336,7 @@ define([
         const { data } = await response.json();
 
         self.taskDataProvider(
-          new Paging(
+          new PagingDataProviderView(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
                 value.deadline = self.formatDateTime(value.deadline);
@@ -217,6 +350,22 @@ define([
       }
     };
 
+    self.fetchSubmission = async () => {
+      try {
+        const response = await fetch(`${submissionURL}s`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        const { data } = await response.json();
+        self.submissionDataProvider(
+          new PagingDataProviderView(
+            new ArrayDataProvider(data, {
+              idAttribute: 'id' })))
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     fetchTracks();
     self.fetchTasks();
