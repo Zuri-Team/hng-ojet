@@ -1,187 +1,71 @@
-<!--
- Copyright (c) 2014, 2019, Oracle and/or its affiliates.
- The Universal Permissive License (UPL), Version 1.0
- -->
-
-<div class="">
-    
-        <!-- STATUS -->
-        <div class="card">
-            <div class="card-header">
-                    <oj-bind-if test="[[status()]]">
-                            <div class="p-4 ">
-                                <div class="led-green d-inline-block mr-2"></div>
-                                <span class=" ">Online</span>
-                            </div>
-                        </oj-bind-if>
-                        <oj-bind-if test="[[!status()]]">
-                            <div class="led-gray d-inline-block mr-2"></div>
-                            <span class=" d-inline-block">Offine</span>
-                        </oj-bind-if>
-    
-            </div>
+<div class="mt-5 pt-5 col-sm-7 col-lg-6 col-md-6 col-12 mx-auto px-0">
+  <div class="card">
+    <div class="text-center mt-n5">
+      <div class="position-relative">
+        <div class="position-absolute h-75 w-100 justify-content-center align-items-center d-flex text-dark"> 
+          <span class="fa fa-stack fa-2x" data-bind="click: select_file"> 
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-camera fa-stack-1x fa-inverse" style="font-size: .7em"></i>
+          </span>
+          <input type="file" class="d-none" id="profilephoto">
         </div>
-                <!-- ends here -->
-        
-    
-        <!-- Edit modal   -->
-        
-        <!-- Edit modal ends here -->
-            <div class="">
-    
-                <div class="oj-lg-11 oj-md-11 oj-sm-12">
-                    <div class="col  d-flex justify-content-end ">
-                        <img class="profile_img img-fluid mt-2 border  border-dark shadow  ml-auto" width="150px" height="auto" style="border-radius: 50%; position: relative; left: 3rem; " role="" src="../../css/images/avatar-f.jpg ">
-                        </img>
-                    </div>
-                    
-              
-                   
-                </div>
-                <!-- <oj-bind-if test="[[editMode()]]"> -->
-                        <div class="mt-5 pt-3 ">
-                            <div id="dialogWrapper" >
-                      <oj-dialog style="display:none; width: 70%" id="editModalDialog" dialog-title="Update User">
-                                    <div slot="body">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <div class="form-group col-md-6">
-                                                            
-                                                            <oj-input-text class="mt-2 " style=" width: 100%" placeholder="First Name" value="{{firstname}}" > </oj-input-text> 
-                                                            </label>
-                                                        </div>
-                                
-                                                        <div class="form-group col-md-6">
-                                                            
-                                                                <oj-input-text class="mt-2 " style=" width: 25rem"  placeholder="Last Name"  value="{{lastname}}" > </oj-input-text> 
-                                                            </label>
-                                                        </div>
-                    
-                                                        <div class="form-group col-md-6">
-                    
-                                                                <oj-input-text class="mt-2 " style=" width: 25rem"  value="{{username}}" placeholder="Display name" > </oj-input-text> 
-                                                            </label>
-                                                        </div>
-                                
-                                                        <div class="form-group col-md-6">
-                                                                
-                                                            <oj-input-text class="mt-2 " style=" width: 25rem"  value="{{email}}" placeholder="Email" > </oj-input-text> 
-                                                                
-                                                        </div>
-                    
-                                                        <div class="form-group col-md-6">
-                                                                
-                                                                <oj-input-text class="mt-2"  value="{{location}}" placeholder="Location" required>
-                                                                    </oj-input-text>       
-                                                        </div>
-                    
-                                                        <div class="form-group col-md-6">
-                                                            
-                                                                <oj-bind-text value="[[stack]]"></oj-bind-text>
-                                                                    
-                                                        </div>
-                                
-                                                        </div>
-                                                        <!-- End of input forms -->
-                    
-                                                        <div class="col-md-3 col-lg-3">
-                                                            <div class="m-2 d-flex justify-content-center">
-                                                                    <img class="profile_img" width="150px" height="150px" style="border-radius: 50%" role="img " src="../../css/images/avatar-f.jpg ">
-                                                                </img>
-                        
-                                                            </div>
-                                                            <div class="d-flex justify-content-center">
-                                                                <oj-file-picker class='oj-filepicker-custom' id="myFile" selection-mode="single" select-on='click' on-oj-select='[[selectListener]]'>
-                                                                    <oj-button slot='trigger'>
-                                                                        <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n '></span> Upload
-                                                                    </oj-button>
-                                                                </oj-file-picker>
-                    
-                                                            </div>
-                                                        </div>
-                    
-                                                        
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div slot="footer">
-                                            <hr>
-                                            <div class="d-flex justify-content-center mb-4">
-                                                    <button type='submit' class="btn btn-danger fbtn mr-2"  style="width: 10rem" data-bind="click: cancelButton">Cancel</button>
-                                                    <button type='submit' class="btn btn-primary fbtn" style="width: 10rem" data-bind="click:  update">Update</button>
-                                            </div>
-                                        </div>
-                                    
-                                </oj-dialog>
-                               
-                                
-                            </div>
-                          
-                        </div>
-                    <!-- </oj-bind-if> -->
-                    
-                     <div class="d-flex justify-content-end mb-5" style="position: relative; top: -3rem; left:-6rem">
-                        <button class="btn-md btn btn-dark  mr-4" data-bind="click:showEditDialog"> Edit User </button>
-                     </div>                   
-    
-            </div>
-
-    
-        <!-- User Profile starts here -->
-    
-        <div class="m-1 p-1">
-            <h2>User Profile </h2>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="container">
-                    <div class="row">
-                       
-                                <div class="form-group col-md-6">
-                                    
-                                    <oj-input-text class="mt-2 " value="{{firstname}}" disabled > </oj-input-text> 
-                                    </label>
-                                </div>
-    
-                                <div class="form-group col-md-6">
-                                   
-                                        <oj-input-text class="mt-2 "  value="{{lastname}}" disabled > </oj-input-text> 
-                                    </label>
-                                </div>
-    
-                                <div class="form-group col-md-6">
-                                    
-                                        <oj-input-text class="mt-2 "  value="{{username}}" disabled > </oj-input-text> 
-                                    </label>
-                                </div>
-    
-                                <div class="form-group col-md-6">
-                                       
-                                    <oj-input-text class="mt-2 "  value="{{email}}" disabled > </oj-input-text> 
-                                        
-                                </div>
-    
-                                <div class="form-group col-lg-6" >
-                                    <oj-input-text value="{{bio}}" class="ml-auto" style="width: 100%; font-weight: 900;" disabled></oj-input-text>
-                                </div>
-    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-    <!-- User profile ends here -->
-    
-    <oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
-        "my": {"vertical" : "bottom", "horizontal": "end"},
-        "at": {"vertical": "bottom", "horizontal": "end"},
-        "of": "window"
-        }'>
-      </oj-messages>
-    
-    
+        <img class="profile_img mt-n5 rounded-circle" width="150" height="150" role="" src="/css/images/smiley.png">
+      </div> 
+      <div class="mt-2">
+        <button class="btn-md btn btn-dark" data-bind="click: editprofile"> Edit profile </button>
+      </div>
     </div>
-    
-    
+
+    <div class="card-body px-0">
+
+      <div class="container">
+        <div class="row">
+
+          <div class="form-group col-md-6">
+            <label class="d-block">Firstname</label>
+            <input type="text" class="form-control" data-bind="textInput: firstname, enable: editing">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="d-block">Last name</label>
+            <input type="text" class="form-control" data-bind="textInput: lastname, enable: editing">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="d-block">Username</label>
+            <input type="text" class="form-control" data-bind="textInput: username, enable: editing">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="d-block">Email address</label>
+            <input type="text" class="form-control" data-bind="textInput: email, enable: editing">
+          </div>
+
+          <div class="form-group col-12" >
+            <label class="d-block">Bio</label>
+            <textarea  rows="5" class="form-control" data-bind="textInput: bio, enable: editing"></textarea>
+          </div>
+
+        </div>
+        <div class="text-center" data-bind="visible: editing">
+          <button type='submit' class="btn btn-danger fbtn mr-2"  style="width: 10rem" data-bind="click: cancelediting">Cancel</button>
+          <button type='submit' class="btn btn-primary fbtn" style="width: 10rem" data-bind="click:  update">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- User profile ends here -->
+
+<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+             "my": {"vertical" : "bottom", "horizontal": "end"},
+             "at": {"vertical": "bottom", "horizontal": "end"},
+             "of": "window"
+             }'>
+</oj-messages>
+
+
+</div>
+
