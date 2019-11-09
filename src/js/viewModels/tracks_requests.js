@@ -52,13 +52,13 @@ define([
           let itemId = event.detail.value;
           self.currentItemId(itemId);
           // Check whether click is a category selection or deselection
-      if (event.detail.value.length != 0) {
+            if (event.detail.value.length !== 0){
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.selectedTrackRequest();
-        console.log(data)
           self.trackData(data);
-        };
+            }
+       
     }
         
 
@@ -84,7 +84,7 @@ define([
     //    = self.trackData();
         self.action = async(actionn, request) => {
 
-            let key = self.trackData().id;
+            let key = self.trackData().id
 
             try {
 
