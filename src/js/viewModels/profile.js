@@ -133,7 +133,7 @@ define(['ojs/ojcore',
                 reader.onload = function (e) {
                   $(".profile_img").attr("src", reader.result);
                 };
-                reader.readAsDataURL(file);
+
                 $.ajax({
                   url: `${RESTurl}/${id}/upload`,
                   headers: {
@@ -144,13 +144,15 @@ define(['ojs/ojcore',
                   contentType: false,
                   processData: false,
                   method: 'POST',
-                  success: function (data) {
-//                    self.fetchProfile();
+                  success: function ({status}) {
+                       if(status == true){
+                reader.readAsDataURL(file);
                     self.applicationMessages.push({
                       severity: "confirmation",
                       summary: "Avatar Updated",
                       autoTimeout: parseInt("0")
                     });
+                       }
                   },
                   error: function (error) {
                     self.applicationMessages.push({
