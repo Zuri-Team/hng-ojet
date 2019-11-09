@@ -56,6 +56,7 @@ define([
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.selectedTrackRequest();
+        console.log(data)
           self.trackData(data);
         };
     }
@@ -84,6 +85,7 @@ define([
         self.action = async(actionn, request) => {
 
             let key = self.currentItemId();
+            console.log(key)
 
             try {
 
