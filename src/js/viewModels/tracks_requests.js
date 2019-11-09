@@ -152,11 +152,11 @@ define([
 
             
         self.Accept = () => {
-            self.action("accept", "PUT");
+            setTimeout(() => self.action("accept", "PUT"), 0);
         }
 
         self.Reject = () => {
-            self.action("reject", "DELETE");
+            setTimeout(() => self.action("reject", "DELETE"), 0);
         }
 
 
