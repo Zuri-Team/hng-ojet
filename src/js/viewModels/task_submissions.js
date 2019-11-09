@@ -36,6 +36,7 @@ function TaskSubmissionsModel(params) {
   self.track_id = ko.observable();
   self.task = ko.observableArray([]);
   self.tasks = ko.observableArray([]);
+  self.submissionId = ko.observable("");
 
   var tracksURL = `${api}/api/track`;
   var tasksURL = `${api}/api/task`;
@@ -61,6 +62,11 @@ function TaskSubmissionsModel(params) {
 
   self.deleteAllSubmissionModal = () => {
     document.getElementById("deleteAllSubmissionModal").open();
+  };
+
+  self.deleteSubmissionModal = function(event, context) {
+    self.submissionId(context.row.id);
+    document.getElementById("deleteSubmissionModal").open();
   };
 
   self.handleUpdate = function(event, context) {
@@ -100,7 +106,6 @@ function TaskSubmissionsModel(params) {
           success: ({status, data}) => {
 
             if (status == true) {
-              console.log(data);
               if (data.comment === null){
                 data.comment = 'No comment';
               }
@@ -258,6 +263,36 @@ self.deleteAllSubmission = async () => {
       severity: "error",
       summary: "Error deleting all submissions",
       detail: "An error was encountered, could not delete submissions",
+      autoTimeout: parseInt("0")
+    });
+  }
+}
+
+self.deleteSubmission = async () => {
+  let submission_id = self.submissionId();
+  try {
+    const response = await fetch(`${api}/api/submissions/${submission_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`
+      }
+    });
+    self.fetchSubmission();
+    document.getElementById("deleteSubmissionModal").close();
+    self.applicationMessages.push({
+      severity: "confirmation",
+      summary: "Submission deleted",
+      detail: "Task submission deleted",
+      autoTimeout: parseInt("0")
+    });
+  } catch (err) {
+    console.log(err);
+    self.applicationMessages.push({
+      severity: "error",
+      summary: "Error deleting submission",
+      detail: "An error was encountered, could not delete submission",
       autoTimeout: parseInt("0")
     });
   }
