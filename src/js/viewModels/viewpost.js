@@ -136,7 +136,7 @@ define([
         data: { comment },
         success: ({ status, data }) => {
           if (status == true) {
-            console.log(data);
+           
           }
         },
         error: err => console.log(err)

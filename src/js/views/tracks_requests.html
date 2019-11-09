@@ -9,7 +9,7 @@
 
 
         <div class="clearfix"></div>
-        <oj-list-view id="listview" class="mx-auto overflow-hidden bg-light p-0" aria-label="listview with paging control" data="[[dataProvider]]" drill-mode="none" first-selected-item="{{selectedTrackRequest}}" on-current-item-changed="[[handleCurrentItemChanged]]" selection-mode="single">
+        <oj-list-view id="listview" class="mx-auto overflow-hidden bg-light p-0" aria-label="listview with paging control" data="[[dataProvider]]" first-selected-item="{{selectedTrackRequest}}" on-selected-changed="[[handleCurrentItemChanged]]" selection-mode="single">
             <template slot="itemTemplate" data-oj-as="item" class="border-0">
                     <!-- template for items -->
                     <div class="p-4 border rounded bg-light" style="width: 100%; color: #4e5769 !important">

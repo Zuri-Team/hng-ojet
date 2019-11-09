@@ -58,6 +58,7 @@ define(["ojs/ojcore",
 
         self.trackRequestsHidden = () => {
             self.showTrackRequests(false);
+            self.fetchPendingTrackRequests();
             
         }
 
@@ -210,8 +211,6 @@ define(["ojs/ojcore",
                 });
                 document.getElementById("editTrack").close();
                 self.fetchTracks();
-
-                console.log("track updated");
 
             } catch (err) {
 
