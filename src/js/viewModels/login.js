@@ -65,8 +65,14 @@ define([
                                 redirect_user(user.role);
                             }
                         })
-                        .fail(() => {
-                            sect.html(feedback("Incorrect login details"));
+                        .fail(err => {
+				if(err.status == 500){
+				  sect.html(feedback("oops, something went wrong. Please try again"));
+				} 
+				if(err.status == 401){
+				   sect.html(feedback("Wrong email or password. Please enter correct details to login"));
+				}
+
                         });
                 }
             } else {
