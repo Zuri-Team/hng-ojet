@@ -171,7 +171,7 @@ define([
     };
 
     //Emoji controllers
-    $(document).on("click", "#emoji-button", function(e) {
+    $(document).on("click", "#emoji-picker", function(e) {
       e.stopPropagation();
       $(".intercom-composer-emoji-popover").toggleClass("active");
     });
@@ -185,7 +185,7 @@ define([
       }
     });
 
-    //$("button.emojis").hide();
+    $("button.emojis").hide();
 
     $(document).on("click", ".intercom-emoji-picker-emoji", function(e) {
       $(".emojis").append($(this).html());
