@@ -6,7 +6,6 @@ define([
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
   "ojs/ojhtmlutils",
-  "emoji-button",
   "ojs/ojbinddom",
   "ojs/ojlistview",
   "ojs/ojdialog",
@@ -15,7 +14,7 @@ define([
   "ojs/ojmessages",
   "ojs/ojpagingcontrol",
   "ojs/ojmodel"
-], function(ko, $, ClassicEditor, api, ArrayDataProvider, Paging, HtmlUtils, EmojiButton) {
+], function(ko, $, ClassicEditor, api, ArrayDataProvider, Paging, HtmlUtils) {
   function viewPost(params) {
     let self = this;
 
