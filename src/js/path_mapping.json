@@ -224,18 +224,18 @@
       }
     },
 
-    "emoji-button": {
-      "cdn": "emoji-button",
-      "cwd": "node_modules/emoji-button/dist",
+    "rm-emoji-picker": {
+      "cdn": "3rdparty",
+      "cwd": "node_modules/rm-emoji-picker/dist",
       "debug": {
-      "src": "index.js",
-      "path": "libs/emoji-button/index.js",
-      "cdnPath": "emoji-button/index.js"
+      "src": "rm-emoji-picker.debug.js",
+      "path": "libs/rm-emoji-picker/rm-emoji-picker.debug.js",
+      "cdnPath": ""
       },
       "release": {
-      "src": "index.js",
-      "path": "libs/emoji-button/index.js",
-      "cdnPath": "emoji-button/index.js"
+      "src": ["EmojiPicker.js", "emojipicker.css", "emojipicker.css.map"],
+      "path": "libs/rm-emoji-picker/rm-emoji-picker.js",
+      "cdnPath": ""
       }
     }
   }

@@ -136,7 +136,7 @@ define([
         data: { comment },
         success: ({ status, data }) => {
           if (status == true) {
-            console.log(data);
+           
           }
         },
         error: err => console.log(err)
@@ -186,7 +186,7 @@ define([
     });
 
     //$("button.emojis").hide();
-
+    
     $(document).on("click", ".intercom-emoji-picker-emoji", function(e) {
       $(".emojis").append($(this).html());
       $(".emojis").show();
