@@ -49,13 +49,21 @@
             <button data-bind="click: deleteAllSubmission" class="btn btn-danger float-right">Delete All</button>
         </div>
     </oj-dialog>
+    <oj-dialog id="deleteSubmissionModal" dialog-title="Delete submission" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
+            <div slot="body">
+                <p>
+                    You are about to delete this submission, continue?
+                </p>
+                <button data-bind="click: deleteSubmission" class="btn btn-danger float-right">Delete</button>
+            </div>
+        </oj-dialog>
 
 
 
     <div>
-        <button class="btn btn-info" data-bind="click: toTasks">
-            <span>Go back</span>
-          </button>
+            <oj-button class="oj-button-primary" on-oj-action="[[toTasks]]" chroming='full'>
+                    <span slot="startIcon" class="fa fa-arrow-left"></span> All Tasks
+                </oj-button>
     </div>
     <div class="oj-panel mt-2 mb-2 oj-panel-shadow-sm" style="color: #4e5769 !important">
         <div class="mb-2">
@@ -82,9 +90,9 @@
 <div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important">
     <div class="mt-2 mb-4">
         <h3 class="float-left">Submissions</h3>
-        <button class="btn btn-outline-danger float-right" data-bind="click: deleteAllSubmissionModal">
-        Delete All
-      </button>
+        <button class="btn btn-danger float-right" data-bind="click: deleteAllSubmissionModal">
+                <i class="fa fa-trash mr-2"></i>Delete All
+            </button>
     </div>
     <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
         <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
@@ -129,22 +137,23 @@
             <template slot="submissionTemplate" data-oj-as="cell">
                     <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
                   </template>
-            <template slot="actionTemplate" data-oj-as="cell">
-                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                      <oj-button on-oj-action="[[handleUpdate]]" style="width:5em;margin-bottom: 0px;"><span>Edit</span></oj-button>
-                    </oj-bind-if>
+                  <template slot="actionTemplate" data-oj-as="cell">
+                        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                          <oj-button class="oj-button-primary" display="icons" on-oj-action="[[handleUpdate]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-pencil"></span>Grade</oj-button>
+                          <oj-button display="icons" on-oj-action="[[deleteSubmissionModal]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-trash"></span>Delete</oj-button>
+                        </oj-bind-if>
 
-                    <oj-bind-if test='[[cell.mode=="edit"]]'>
-                      <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span></oj-button>
-                    </oj-bind-if>
-                  </template>
+                        <oj-bind-if test='[[cell.mode=="edit"]]'>
+                          <oj-button class="oj-button-confirm" display="icons" on-oj-action="[[handleDone]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-tick-circle"></span>Save</oj-button>
+                        </oj-bind-if>
+                      </template>
             <template slot="editTemplate" data-oj-as="cell">
                     <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                        <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
+                        <oj-bind-text value="[[cell.data]]"></oj-bind-text>
                     </oj-bind-if>
 
                     <oj-bind-if test='[[cell.mode=="edit"]]'>
-                        <oj-input-text value="{{cell.row.grade_score}}" converter="[[numberConverter]]"></oj-input-text>
+                        <oj-input-number value="{{cell.row.grade_score}}" help.instruction="Enter a grade"></oj-input-number>
                     </oj-bind-if>
                   </template>
             <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">

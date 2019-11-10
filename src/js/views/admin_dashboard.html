@@ -1,181 +1,185 @@
 <section class="page__container h-100" id="admin">
-    <!-- outer offcanvas wrapper -->
-    <div class="oj-offcanvas-outer-wrapper" style="border: 1px solid #d1e6f9; height:100%;">
-        <!-- start offcanvas -->
-        <div id="sidebar" class="oj-offcanvas-start oj-panel oj-panel-alt5 oj-offcanvas-overlay-shadow" style="position: fixed; overflow-y : scroll; width: 200px; height: 100%;">
-            <h5 class="my-4 text-light logo text-center">
-                <i class="oj-navigationlist-item-icon px-2" style="width: 20px;" data-bind="click: toggleDrawer"><img src="../../css/images/hngi.png" alt="" style="width: 20px;">
-                    <span style="color: black;">HNG BOARD</span>
-                </i>
-            </h5>
-            <oj-navigation-list selection="{{ selectedItem }}">
-                <ul>
-                    <li id="Dashboard">
-                        <a for="overview-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-dashboard"></i> DASHBOARD
-                        </a>
-                    </li>
+  <!-- outer offcanvas wrapper -->
+  <div class="oj-offcanvas-outer-wrapper" style="border: 1px solid #d1e6f9; height:100%;">
+    <!-- start offcanvas -->
+    <div id="sidebar" class="oj-offcanvas-start oj-panel oj-panel-alt5 oj-offcanvas-overlay-shadow"
+      style="position: fixed; overflow-y : scroll; width: 200px; height: 100%;">
+      <h5 class="my-4 text-light logo text-center">
+        <i class="oj-navigationlist-item-icon px-2" style="width: 20px;" data-bind="click: toggleDrawer"><img
+            src="../../css/images/hngi.png" alt="" style="width: 20px;">
+          <span style="color: black;">HNG BOARD</span>
+        </i>
+      </h5>
+      <oj-navigation-list selection="{{ selectedItem }}">
+        <ul>
+          <li id="Dashboard">
+            <a for="overview-admin">
+              <i class="oj-navigationlist-item-icon fa fa-dashboard"></i> DASHBOARD
+            </a>
+          </li>
 
-                    <li id="Categories">
-                        <a for="categories-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
-                        </a>
-                    </li>
+          <li id="Categories">
+            <a for="categories-admin">
+              <i class="oj-navigationlist-item-icon fa fa-table"></i> CATEGORIES
+            </a>
+          </li>
 
-                    <li id="Posts">
-                        <a for="posts-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-newspaper-o"></i> POSTS
-                        </a>
-                    </li>
+          <li id="Posts">
+            <a for="posts-admin">
+              <i class="oj-navigationlist-item-icon fa fa-newspaper-o"></i> POSTS
+            </a>
+          </li>
 
-                    <li id="Tasks">
-                        <a for="tasks-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-list"></i> TASKS
-                        </a>
-                    </li>
-                    <li id="Tracks">
-                        <a for="tracks-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-road"></i> TRACKS
-                        </a>
-                    </li>
-                    <li id="Teams">
-                        <a for="teams-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-users"></i> TEAMS
-                        </a>
-                    </li>
-                    <li id="Interns">
-                        <a for="interns-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-user-o"></i> INTERNS
-                        </a>
-                    </li>
-                    <li id="Activities">
-                        <a for="activities-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-line-chart"></i> ACTIVITIES
-                        </a>
-                    </li>
-                    <li id="Summary">
-                        <a for="summary-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-archive"></i> SUMMARY
-                        </a>
-                    </li>
-                    <li id="Probation">
-                        <a for="probation-admin">
-                            <i class="oj-navigationlist-item-icon fa fa-lock"></i> PROBATION
-                        </a>
-                    </li>
-                    <li id="Status">
-                        <a for="status">
-                            <i class="oj-navigationlist-item-icon fa fa-circle-o"></i> STATUS
-                        </a>
-                    </li>
-                    <li id="Settings">
-                        <a for="admin-settings">
-                            <i class="oj-navigationlist-item-icon fa fa-cog"></i> SETTINGS
-                        </a>
-                    </li>
-                </ul>
-            </oj-navigation-list>
-        </div>
-        <div id="maincontent" style="padding: 10px; height: 100%">
-            <div id="maincontent_nav" class="w-100 position-relative">
-                <nav class="d-flex justify-content-between">
-                    <h4 class="d-flex">
-                        <i class="fa fa-bars mr-2 " data-bind="click: toggleDrawer"></i>
-                        <span data-bind="text: selectedItem"></span>
-                    </h4>
-                    <span class="d-flex ml-5">
-                        <a for="notifications-admin" id="notifi">
-                            <h4 class="position-relative" style="top:2px; cursor: pointer">
-                            <i class=" fa fa-bell-o"></i> <strong> <span data-bind="text: notificationCount"
-                                style="font-size: 15px; vertical-align: text-top; color: blue"></span> </strong>
-                            </h4>
-                        </a>
-                        <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i class="fa fa-search "></i></h4>
-                        <form id="form1" class="mx-3 oj-sm-only-hide">
-                        <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
+          <li id="Tasks">
+            <a for="tasks-admin">
+              <i class="oj-navigationlist-item-icon fa fa-list"></i> TASKS
+            </a>
+          </li>
+          <li id="Tracks">
+            <a for="tracks-admin">
+              <i class="oj-navigationlist-item-icon fa fa-road"></i> TRACKS
+            </a>
+          </li>
+          <li id="Teams">
+            <a for="teams-admin">
+              <i class="oj-navigationlist-item-icon fa fa-users"></i> TEAMS
+            </a>
+          </li>
+          <li id="Interns">
+            <a for="interns-admin">
+              <i class="oj-navigationlist-item-icon fa fa-user-o"></i> INTERNS
+            </a>
+          </li>
+          <li id="Activities">
+            <a for="activities-admin">
+              <i class="oj-navigationlist-item-icon fa fa-line-chart"></i> ACTIVITIES
+            </a>
+          </li>
+          <li id="Summary">
+            <a for="summary-admin">
+              <i class="oj-navigationlist-item-icon fa fa-archive"></i> SUMMARY
+            </a>
+          </li>
+          <li id="Probation">
+            <a for="probation-admin">
+              <i class="oj-navigationlist-item-icon fa fa-lock"></i> PROBATION
+            </a>
+          </li>
+          <li id="Status">
+            <a for="status">
+              <i class="oj-navigationlist-item-icon fa fa-circle-o"></i> STATUS
+            </a>
+          </li>
+          <li id="Settings">
+            <a for="admin-settings">
+              <i class="oj-navigationlist-item-icon fa fa-cog"></i> SETTINGS
+            </a>
+          </li>
+        </ul>
+      </oj-navigation-list>
+    </div>
+    <div id="maincontent" style="padding: 10px; height: 100%">
+      <div id="maincontent_nav" class="w-100 position-relative">
+        <nav class="d-flex justify-content-between">
+          <h4 class="d-flex">
+            <i class="fa fa-bars mr-2 " data-bind="click: toggleDrawer"></i>
+            <span data-bind="text: selectedItem"></span>
+          </h4>
+          <span class="d-flex ml-5">
+            <a for="notifications-admin" id="notifi">
+              <h4 class="position-relative" style="top:2px; cursor: pointer">
+                <i class=" fa fa-bell-o"></i> <strong> <span data-bind="text: notificationCount"
+                    style="font-size: 15px; vertical-align: text-top; color: blue"></span> </strong>
+              </h4>
+            </a>
+            <h4 class="position-relative mx-4 d-lg-none d-md-none" data-bind="click: searchbar_sm" style="top:2px"><i
+                class="fa fa-search "></i></h4>
+            <form id="form1" class="mx-3 oj-sm-only-hide">
+              <input id="inputSearch" placeholder="Search..." data-bind="ojComponent: {
                         component: 'ojInputSearch',
                         value: keyword,
                         options: tags,
                         rootAttributes: {style:'max-width: 20em'}}" />
-                        </form>
+            </form>
 
-                        <div id="dialogWrapper">
-                            <oj-dialog id="logoutModal" dialog-title="Logout" class=" position-absolute col-3 col-md-3 mt-5 p-0" modality="modal" position.at.vertical="top">
-                                <div slot="body">
-                                    <h6>Sure to exit?</h6>
-                                    <button data-bind="click: logout" class="btn btn-danger float-right">
-                                        Confirm
-                                    </button>
-                                </div>
-                            </oj-dialog>
-                            <oj-button display="icons" id="buttonOpener" chroming="full" on-click="[[open]]">
-                                <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
-                            </oj-button>
-                        </div>
-                    </span>
-                </nav>
-                <oj-bind-if test="[[sb_sm()]]">
-                    <form id="form1" class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end" style="top: 4px">
-                        <input placeholder="Search..." data-bind="ojComponent: {
+            <div id="dialogWrapper">
+              <oj-dialog id="logoutModal" dialog-title="Logout" class=" position-absolute col-3 col-md-3 mt-5 p-0"
+                modality="modal" position.at.vertical="top">
+                <div slot="body">
+                  <h6>Sure to exit?</h6>
+                  <button data-bind="click: logout" class="btn btn-danger float-right">
+                    Confirm
+                  </button>
+                </div>
+              </oj-dialog>
+              <oj-button display="icons" id="buttonOpener" chroming="full" on-click="[[open]]">
+                <span slot="startIcon" class="oj-navigationlist-item-icon fa fa-power-off"></span> Logout
+              </oj-button>
+            </div>
+          </span>
+        </nav>
+        <oj-bind-if test="[[sb_sm()]]">
+          <form id="form1" class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end" style="top: 4px">
+            <input placeholder="Search..." data-bind="ojComponent: {
                             component: 'ojInputSearch',
                             value: keyword,
                             options: tags,
                             rootAttributes: {style:'max-width: 20em'}}" />
-                    </form>
-                </oj-bind-if>
-            </div>
-            <div class="clearfix"></div>
-            <div id="maincontent_body" class="px-3 w-100">
-                <div id="overview-admin">
-                    <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
-                    <div data-bind="ojModule: 'overview'"></div>
-                </div>
-
-                <!-- Categories start -->
-                <div id="categories-admin" class="my-4">
-                    <div data-bind="ojModule: 'category'"></div>
-                </div>
-
-                <div id="posts-admin">
-                    <div data-bind="ojModule: 'post'" class="my-4"></div>
-                </div>
-
-                <div id="tasks-admin">
-                    <div data-bind="ojModule: 'tasks'"></div>
-                </div>
-                <div id="tracks-admin">
-                    <div data-bind="ojModule: 'tracks'"></div>
-                </div>
-                <div id="teams-admin">
-                    <!-- <div data-bind="ojModule: 'team'"></div> -->
-                    <div data-bind="ojModule: 'teams'"></div>
-                </div>
-                <div id="interns-admin">
-                    <div data-bind="ojModule: 'interns'"></div>
-                </div>
-                <div class="oj-flex-item" id="summary-admin">
-                    <h3>Summary of Interns</h3>
-                    <div data-bind="ojModule: 'summary'"></div>
-                </div>
-                <div class="oj-flex-item" id="probation-admin">
-                    <div data-bind="ojModule: 'probation'"></div>
-                </div>
-                <div class="oj-flex-item" id="activities-admin">
-                    <div data-bind="ojModule: 'activities'"></div>
-                </div>
-                <div class="oj-flex-item" id="notifications-admin">
-                    <h3>Notifications</h3>
-                    <div data-bind="ojModule: 'notifications'"></div>
-                </div>
-                <div class="oj-flex-item" id="status">
-
-                    <div data-bind="ojModule: 'status'"></div>
-                </div>
-                <div class="oj-flex-item" id="admin-settings">
-
-                    <div data-bind="ojModule: 'profile'"></div>
-                </div>
-            </div>
+          </form>
+        </oj-bind-if>
+      </div>
+      <div class="clearfix"></div>
+      <div id="maincontent_body" class="px-3 w-100">
+        <div id="overview-admin">
+          <h3 class="py-3">Hello <span data-bind="text: fullname"></span></h3>
+          <div data-bind="ojModule: 'overview'"></div>
         </div>
+
+        <!-- Categories start -->
+        <div id="categories-admin" class="my-4">
+          <div data-bind="ojModule: 'category'"></div>
+        </div>
+
+        <div id="posts-admin">
+          <div data-bind="ojModule: 'post'" class="my-4"></div>
+        </div>
+
+        <div id="tasks-admin">
+          <div data-bind="ojModule: 'tasks'"></div>
+        </div>
+        <div id="tracks-admin">
+          <div data-bind="ojModule: 'tracks'"></div>
+        </div>
+        <div id="teams-admin">
+          <!-- <div data-bind="ojModule: 'team'"></div> -->
+          <div data-bind="ojModule: 'teams'"></div>
+        </div>
+        <div id="interns-admin">
+          <div data-bind="ojModule: 'interns'"></div>
+        </div>
+        <div class="oj-flex-item" id="summary-admin">
+          <h3>Summary of Interns</h3>
+          <div data-bind="ojModule: 'summary'"></div>
+        </div>
+        <div class="oj-flex-item" id="probation-admin">
+          <div data-bind="ojModule: 'probation'"></div>
+        </div>
+        <div class="oj-flex-item" id="activities-admin">
+          <div data-bind="ojModule: 'activities'"></div>
+        </div>
+        <div class="oj-flex-item" id="notifications-admin">
+          <h3>Notifications</h3>
+          <div data-bind="ojModule: 'notifications'"></div>
+        </div>
+        <div class="oj-flex-item" id="status">
+
+          <div data-bind="ojModule: 'status'"></div>
+        </div>
+        <div class="oj-flex-item" id="admin-settings">
+
+          <div data-bind="ojModule: 'profile'"></div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>

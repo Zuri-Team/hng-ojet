@@ -15,6 +15,7 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojlabel",
   "ojs/ojinputtext",
+  "ojs/ojinputnumber",
   "ojs/ojformlayout",
   "ojs/ojvalidation-base",
   "ojs/ojselectcombobox",
@@ -42,19 +43,20 @@ define([
     self.task_view_toggle = () => {
       self.task_btn_toggler(!self.task_btn_toggler());
       self.task_view_title() == "New Task"
-        ? self.task_view_title("Back")
+        ? self.task_view_title("Cancel")
         : self.task_view_title("New Task");
     };
 
     self.applicationMessages = ko.observableArray();
     self.track_id = ko.observable("");
+    self.submissionId = ko.observable("");
 
 
     var tracksURL = `${api}/api/track`;
 
     var tasksURL = `${api}/api/tasks`;
 
-    var submissionURL = `${api}/api/submissions`;
+    var submissionURL = `${api}/api/submission`;
 
     self.dataProvider = ko.observable();
 
@@ -115,6 +117,11 @@ define([
       document.getElementById("deleteAllSubmissionModal").open();
     };
 
+    self.deleteSubmissionModal = function(event, context) {
+      self.submissionId(context.row.id);
+      document.getElementById("deleteSubmissionModal").open();
+    };
+
     // datetime converter
     self.formatDateTime = date => {
       var formatDateTime = oj.Validation.converterFactory(
@@ -127,6 +134,18 @@ define([
       });
 
       return formatDateTime.format(new Date(date).toISOString());
+    };
+
+    // table date converter
+    self.formatDate = date => {
+      var formatDate = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "date",
+        pattern: "dd/MM/yy"
+      });
+
+      return formatDate.format(new Date(date).toISOString());
     };
 
     function fetchTracks() {
@@ -266,6 +285,36 @@ define([
       }
     }
 
+    self.deleteSubmission = async () => {
+      let submission_id = self.submissionId();
+      try {
+        const response = await fetch(`${submissionURL}s/${submission_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        self.fetchSubmission();
+        document.getElementById("deleteSubmissionModal").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Submission deleted",
+          detail: "Task submission deleted",
+          autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "Error deleting submission",
+          detail: "An error was encountered, could not delete submission",
+          autoTimeout: parseInt("0")
+        });
+      }
+    }
+
     self.filtertask = function() {
       self.search(false);
       let trackId = self.track_id();
@@ -303,12 +352,12 @@ define([
 
     self.fetchSubmission = async () => {
       try {
-        const response = await fetch(`${submissionURL}`, {
+        const response = await fetch(`${submissionURL}s`, {
           headers: {
             Authorization: `Bearer ${userToken}`
           }
         });
-        const { data: { data } } = await response.json();
+        const { data } = await response.json();
         self.submissionDataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
@@ -317,25 +366,6 @@ define([
         console.log(err);
       }
     };
-
-  //   function fetchSubmission() {
-  //     $.ajax({
-  //       url: submissionURL,
-  //       headers: {
-  //         'Authorization': "Bearer " + userToken
-  //       },
-  //       method: "GET",
-
-  //       success: res => {
-
-  //         if (res.status == true) {
-  //           let {data} = res.data.;
-  //           self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {idAttribute: 'id'})));
-  //       }
-  //     }
-  //   });
-  // }
-
 
     fetchTracks();
     self.fetchTasks();

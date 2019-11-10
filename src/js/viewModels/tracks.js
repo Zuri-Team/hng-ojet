@@ -58,6 +58,7 @@ define(["ojs/ojcore",
 
         self.trackRequestsHidden = () => {
             self.showTrackRequests(false);
+            self.fetchPendingTrackRequests();
             
         }
 
@@ -211,8 +212,6 @@ define(["ojs/ojcore",
                 document.getElementById("editTrack").close();
                 self.fetchTracks();
 
-                console.log("track updated");
-
             } catch (err) {
 
                 console.log(err);
@@ -297,6 +296,14 @@ define(["ojs/ojcore",
             }
         };
         self.fetchPendingTrackRequests();
+
+        // listen for changes
+        let pm = ko.dataFor(document.querySelector("#admin"));
+        pm.selectedItem.subscribe(function() {
+            if (pm.selectedItem() == "Tracks") {
+              self.fetchPendingTrackRequests();
+            }
+        });
     }
     return new tracksViewModel();
 });
