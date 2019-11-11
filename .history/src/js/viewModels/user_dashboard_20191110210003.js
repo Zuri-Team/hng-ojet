@@ -474,7 +474,7 @@ define([
       //notifications click
       $("#notifi").on("click", function () {
         let attr = $(this).attr("for");
-        $("#maincontent_intern_body > div").hide();
+        $("#maincontent_intern_body > div").toggle();
         $(`#maincontent_intern_body > div[id='${attr}']`).toggle();
       });
 
