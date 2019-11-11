@@ -136,7 +136,7 @@ define([
         data: { comment },
         success: ({ status, data }) => {
           if (status == true) {
-            console.log(data);
+           
           }
         },
         error: err => console.log(err)
@@ -171,7 +171,7 @@ define([
     };
 
     //Emoji controllers
-    $(document).on("click", "#emoji-picker", function(e) {
+    $(document).on("click", "#emoji-button", function(e) {
       e.stopPropagation();
       $(".intercom-composer-emoji-popover").toggleClass("active");
     });
@@ -185,11 +185,10 @@ define([
       }
     });
 
-    $("button.emojis").hide();
-
-    $(document).on("click", ".intercom-emoji-picker-emoji", function(e) {
-      $(".emojis").append($(this).html());
-      $(".emojis").show();
+    $(document).on("click", ".intercom-emoji-picker-emoji", function() {
+      if ($(".emojis").text().includes($(this).html())) {
+        return; 
+      } $(".emojis").append($(this).text());
     });
 
     $(".intercom-composer-popover-input").on("input", function() {
