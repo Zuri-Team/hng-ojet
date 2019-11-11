@@ -186,9 +186,19 @@ define([
     });
 
     $(document).on("click", ".intercom-emoji-picker-emoji", function() {
+        var countEmoji = 0;
       if ($(".emojis").text().includes($(this).html())) {
-        return; 
-      } $(".emojis").append($(this).text());
+         countEmoji++;
+         console.log(countEmoji);
+      } $(".emojis").append($(this).html());
+      /*$(document).on("click", ".emojis", (e) => {
+        console.log(e.target.innerHTML);
+        let each = e.target.innerHTML.split("");
+        console.log(each);
+       })
+      //$(".emojis").show();
+      let each = e.target.innerHTML.split("");
+     console.log(each);*/
     });
 
     $(".intercom-composer-popover-input").on("input", function() {

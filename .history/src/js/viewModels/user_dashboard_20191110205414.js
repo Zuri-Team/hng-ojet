@@ -475,7 +475,8 @@ define([
       $("#notifi").on("click", function () {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();
-        $(`#maincontent_intern_body > div[id='${attr}']`).toggle();
+        $(`#maincontent_intern_body > div[id='${attr}']`).show();
+        $(`#maincontent_intern_body > div[id='${attr}']`).hide();
       });
 
       $("#sidebar li a").on("click", function () {

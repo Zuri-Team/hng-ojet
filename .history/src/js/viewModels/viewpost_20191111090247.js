@@ -185,10 +185,11 @@ define([
       }
     });
 
-    $(document).on("click", ".intercom-emoji-picker-emoji", function() {
-      if ($(".emojis").text().includes($(this).html())) {
-        return; 
-      } $(".emojis").append($(this).text());
+    //$("button.emojis").hide();
+
+    $(document).on("click", ".intercom-emoji-picker-emoji", function(e) {
+      $(".emojis").append($(this));
+      $(".emojis").show();
     });
 
     $(".intercom-composer-popover-input").on("input", function() {

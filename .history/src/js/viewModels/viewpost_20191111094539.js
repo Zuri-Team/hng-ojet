@@ -185,10 +185,19 @@ define([
       }
     });
 
-    $(document).on("click", ".intercom-emoji-picker-emoji", function() {
-      if ($(".emojis").text().includes($(this).html())) {
-        return; 
-      } $(".emojis").append($(this).text());
+    $(document).on("click", ".emojis", (e) => {
+     console.log(e.target.innerHTML);
+     let each = e.target.innerHTML.split("");
+     console.log(each);
+    })
+
+    //$("button.emojis").hide();
+
+    $(document).on("click", ".intercom-emoji-picker-emoji", ".emojis", function(e) {
+      $(".emojis").append($(this).html());
+      //$(".emojis").show();
+      let each = e.target.innerHTML.split("");
+     console.log(each);
     });
 
     $(".intercom-composer-popover-input").on("input", function() {
