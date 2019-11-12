@@ -86,14 +86,6 @@
 <oj-bind-if test="[[viewAllSubmissions()]]">
     <div class="oj-flex oj-sm-justify-content-center">
         <div class="oj-flex-item col-sm-12 col-md-12" style="color: #4e5769 !important">
-            <oj-dialog id="deleteAllSubmissionModal" dialog-title="Delete all submissions" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
-                <div slot="body">
-                    <p>
-                        You are about to delete ALL submissions, continue?
-                    </p>
-                    <button data-bind="click: deleteAllSubmission" class="btn btn-danger float-right">Delete All</button>
-                </div>
-            </oj-dialog>
             <oj-dialog id="deleteSubmissionModal" dialog-title="Delete submission" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
                 <div slot="body">
                     <p>
@@ -109,9 +101,6 @@
             </div>
             <div class="mt-2 mb-4">
                 <h3 class="float-left">All Submissions</h3>
-                <button class="btn btn-danger float-right" data-bind="click: deleteAllSubmissionModal">
-                    <i class="fa fa-trash mr-2"></i>Delete All
-                </button>
             </div>
             <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
                 <oj-table id="submission-table" aria-label="Submission Table" data="[[submissionDataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
@@ -176,7 +165,7 @@
                     </oj-bind-if>
 
                     <oj-bind-if test='[[cell.mode=="edit"]]'>
-                      <oj-button class="oj-button-confirm" display="icons" on-oj-action="[[handleDone]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-tick-circle"></span>Save</oj-button>
+                      <oj-button class="oj-button-confirm" display="icons" on-oj-action="[[handleDone]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-check"></span>Save</oj-button>
                     </oj-bind-if>
                   </template>
                     <template slot="editTemplate" data-oj-as="cell">
