@@ -15,7 +15,6 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojlabel",
   "ojs/ojinputtext",
-  "ojs/ojinputnumber",
   "ojs/ojformlayout",
   "ojs/ojvalidation-base",
   "ojs/ojselectcombobox",
@@ -56,7 +55,7 @@ define([
 
     var tasksURL = `${api}/api/tasks`;
 
-    var submissionURL = `${api}/api/submission`;
+    var submissionURL = `${api}/api/submissions`;
 
     self.dataProvider = ko.observable();
 
@@ -113,9 +112,6 @@ define([
       self.fetchTasks();
     };
 
-    self.deleteAllSubmissionModal = () => {
-      document.getElementById("deleteAllSubmissionModal").open();
-    };
 
     self.deleteSubmissionModal = function(event, context) {
       self.submissionId(context.row.id);
@@ -256,39 +252,10 @@ define([
       });
     };
 
-    self.deleteAllSubmission = async () => {
-      try {
-        const response = await fetch(`${submissionURL}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`
-          }
-        });
-        self.fetchSubmission();
-        document.getElementById("deleteAllSubmissionModal").close();
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "Submissions deleted",
-          detail: "Successfully deleted all submissions for this task",
-          autoTimeout: parseInt("0")
-        });
-      } catch (err) {
-        console.log(err);
-        self.applicationMessages.push({
-          severity: "error",
-          summary: "Error deleting all submissions",
-          detail: "An error was encountered, could not delete submissions",
-          autoTimeout: parseInt("0")
-        });
-      }
-    }
-
     self.deleteSubmission = async () => {
       let submission_id = self.submissionId();
       try {
-        const response = await fetch(`${submissionURL}s/${submission_id}`,
+        const response = await fetch(`${submissionURL}/${submission_id}`,
         {
           method: "DELETE",
           headers: {
@@ -352,7 +319,7 @@ define([
 
     self.fetchSubmission = async () => {
       try {
-        const response = await fetch(`${submissionURL}s`, {
+        const response = await fetch(`${submissionURL}`, {
           headers: {
             Authorization: `Bearer ${userToken}`
           }
