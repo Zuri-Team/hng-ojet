@@ -15,7 +15,6 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojlabel",
   "ojs/ojinputtext",
-  "ojs/ojinputnumber",
   "ojs/ojformlayout",
   "ojs/ojvalidation-base",
   "ojs/ojselectcombobox",

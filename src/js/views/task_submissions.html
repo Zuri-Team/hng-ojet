@@ -50,20 +50,20 @@
         </div>
     </oj-dialog>
     <oj-dialog id="deleteSubmissionModal" dialog-title="Delete submission" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
-            <div slot="body">
-                <p>
-                    You are about to delete this submission, continue?
-                </p>
-                <button data-bind="click: deleteSubmission" class="btn btn-danger float-right">Delete</button>
-            </div>
-        </oj-dialog>
+        <div slot="body">
+            <p>
+                You are about to delete this submission, continue?
+            </p>
+            <button data-bind="click: deleteSubmission" class="btn btn-danger float-right">Delete</button>
+        </div>
+    </oj-dialog>
 
 
 
     <div>
-            <oj-button class="oj-button-primary" on-oj-action="[[toTasks]]" chroming='full'>
-                    <span slot="startIcon" class="fa fa-arrow-left"></span> All Tasks
-                </oj-button>
+        <oj-button class="oj-button-primary" on-oj-action="[[toTasks]]" chroming='full'>
+            <span slot="startIcon" class="fa fa-arrow-left"></span> All Tasks
+        </oj-button>
     </div>
     <div class="oj-panel mt-2 mb-2 oj-panel-shadow-sm" style="color: #4e5769 !important">
         <div class="mb-2">
@@ -77,9 +77,12 @@
         <h4 class="oj-header-border">
             <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
         </h4>
-        <h5 class="badge badge-pill badge-info p-2">
-            <oj-bind-text value="[[track]]"></oj-bind-text>
-        </h5>
+        <div>
+            <h5 class="badge badge-pill badge-info p-2">
+                <oj-bind-text value="[[track]]"></oj-bind-text>
+            </h5>
+            <h5 data-bind="text: submission_count() + (submission_count() == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-primary p-2"></h5>
+        </div>
         <h6 class="pb-2">Deadline:
             <oj-bind-text value="[[deadline]]"></oj-bind-text>
         </h6>
@@ -98,37 +101,39 @@
         <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
             columns='[{"headerText": "Date Submitted",
         "field": "created_at",
-        "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
-                               "style":"padding:0px;text-align: center;",
+        "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center;color: #4e5769 !important",
+                               "style":"padding:0px;text-align: center;color: #4e5769 !important",
         "resizable": "enabled",
         "template": "dateTemplate",
         "className": "oj-read-only"},
-              {"headerText": "Username",
+              {"headerText": "Submitted By",
                 "field": "user.username",
-                "headerStyle": "min-width: 30em; max-width: 30em; width: 30em;text-align: center;",
+                "headerStyle": "font-weight: bold; min-width: 30em; max-width: 30em; width: 30em;text-align: center;color: #4e5769 !important",
                 "resizable": "enabled",
-                "className": "oj-read-only"},
+                "className": "oj-read-only",
+                "style": "white-space:normal;word-wrap:break-word; text-align: left;vertical-align: middle; color: #4e5769 !important"},
               {"headerText": "Submission",
                 "field": "submission_link",
                 "resizable": "enabled",
-                "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
-                               "style":"padding:0px;text-align: center;",
+                "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center;color: #4e5769 !important",
+                               "style":"padding:0px;text-align: center;color: #4e5769 !important",
                 "className": "oj-read-only",
                 "template": "submissionTemplate"},
               {"headerText": "Comment",
                 "field": "comment",
                 "resizable": "enabled",
-                "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
-                               "style":"padding:0px;text-align: center;",
-                "className": "oj-read-only"},
+                "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center;color: #4e5769 !important",
+                               "style":"padding:0px;text-align: center;color: #4e5769 !important",
+                "className": "oj-read-only",
+                "style": "white-space:normal;word-wrap:break-word; text-align: left;vertical-align: left;"},
               {"headerText": "Grade",
                 "field": "grade_score",
                 "resizable": "enabled",
-                "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
-                               "style":"padding:0px;text-align: center;",
+                "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center;color: #4e5769 !important",
+                               "style":"padding:0px;text-align: center;color: #4e5769 !important",
                 "template": "editTemplate"},
                 {"headerText": "Action",
-                               "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
+                               "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center;color: #4e5769 !important",
                                "style":"padding:0px;text-align: center;",
                                "template": "actionTemplate"}]' style="width: 100%; height: 100%;">
             <template slot="dateTemplate" data-oj-as="cell">
@@ -137,25 +142,25 @@
             <template slot="submissionTemplate" data-oj-as="cell">
                     <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
                   </template>
-                  <template slot="actionTemplate" data-oj-as="cell">
-                        <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                          <oj-button class="oj-button-primary" display="icons" on-oj-action="[[handleUpdate]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-pencil"></span>Grade</oj-button>
-                          <oj-button display="icons" on-oj-action="[[deleteSubmissionModal]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-trash"></span>Delete</oj-button>
-                        </oj-bind-if>
-
-                        <oj-bind-if test='[[cell.mode=="edit"]]'>
-                          <oj-button class="oj-button-confirm" display="icons" on-oj-action="[[handleDone]]" style="margin-bottom: 0px;"><span slot="startIcon" class="fa fa-tick-circle"></span>Save</oj-button>
-                        </oj-bind-if>
-                      </template>
-            <template slot="editTemplate" data-oj-as="cell">
+            <template slot="actionTemplate" data-oj-as="cell">
                     <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                        <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+                      <oj-button class="oj-button-primary mb-0 mr-2" display="icons" on-oj-action="[[handleUpdate]]"><span slot="startIcon" class="fa fa-pencil"></span>Grade</oj-button>
+                      <oj-button class="mb-0" display="icons" on-oj-action="[[deleteSubmissionModal]]"><span slot="startIcon" class="fa fa-trash"></span>Delete submission</oj-button>
                     </oj-bind-if>
 
                     <oj-bind-if test='[[cell.mode=="edit"]]'>
-                        <oj-input-number value="{{cell.row.grade_score}}" help.instruction="Enter a grade"></oj-input-number>
+                      <oj-button class="oj-button-confirm mb-0" display="icons" on-oj-action="[[handleDone]]"><span slot="startIcon" class="fa fa-check"></span>Save</oj-button>
                     </oj-bind-if>
                   </template>
+            <template slot="editTemplate" data-oj-as="cell">
+                        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                            <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
+                        </oj-bind-if>
+
+                        <oj-bind-if test='[[cell.mode=="edit"]]'>
+                            <oj-input-text value="{{cell.row.grade_score}}" help.instruction="Enter a grade" converter="[[numberConverter]]"></oj-input-text>
+                        </oj-bind-if>
+                      </template>
             <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
             </oj-paging-control>
         </oj-table>
