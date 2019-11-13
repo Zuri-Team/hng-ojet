@@ -77,7 +77,8 @@ function TaskSubmissionsModel(params) {
     self.editRow({rowKey: null});
     var userId = context.row.user_id
     var grade = context.row.grade_score;
-    self.gradeTask(userId, grade);
+    var graded = 1;
+    self.gradeTask(userId, grade, graded);
     };
 
     var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
@@ -154,16 +155,17 @@ function TaskSubmissionsModel(params) {
 };
 self.fetchTrack();
 
-self.gradeTask = function(userId, grade) {
+self.gradeTask = function(userId, grade, graded) {
   let grade_score = grade;
   let user_id = userId;
+  let is_graded = graded;
   $.ajax({
     method: "POST",
     url: `${api}/api/user/task/${task_id}`,
     headers: {
       Authorization: "Bearer " + userToken
         },
-    data: { grade_score, user_id },
+    data: { grade_score, user_id, is_graded },
     success: res => {
         fetchSubmission();
     },
