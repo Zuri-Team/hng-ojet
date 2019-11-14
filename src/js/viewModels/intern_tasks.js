@@ -4,6 +4,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             var self = this;
 
             self.dataProvider = ko.observable();
+            self.submissionDataProvider = ko.observable();
             self.viewSubmission = ko.observable(false);
             self.submitted = ko.observable(false);
             self.is_graded = ko.observable(false);
@@ -29,7 +30,8 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             self.applicationMessages = ko.observableArray([]);
 
             var submissionURL = `${api}/api/submissions`;
-            var gradeURL = `${api}/api/user`
+            var gradeURL = `${api}/api/user`;
+            var tasksURL = `${api}/api/task`;
 
             self.taskSelected = ko.observable({});
 
@@ -41,6 +43,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     } else {
                         self.task_id(self.taskSelected().data.id);
                         self.fetchGrade();
+                        fetchSubmission()
                         self.viewSubmission(true);
 
 
@@ -72,6 +75,18 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 });
 
                 return formatDateTime.format(new Date(date).toISOString());
+            };
+
+            // table date converter
+            self.formatDate = date => {
+                var formatDate = oj.Validation.converterFactory(
+                    oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+                ).createConverter({
+                    formatType: "date",
+                    pattern: "dd/MM/yy"
+                });
+
+                return formatDate.format(new Date(date).toISOString());
             };
 
 
@@ -116,7 +131,9 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     });
                     document.getElementById("taskURL").value = "";
                     document.getElementById("taskComment").value = "";
-                    console.log("task submitted");
+                    self.fetchGrade();
+                    self.submitted(true);
+                    self.taskSubmit({});
                 } catch (err) {
                     console.log(err);
                     self.applicationMessages.push({
@@ -169,6 +186,27 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 });
             }
 
+            function fetchSubmission() {
+                let task_id = self.task_id();
+                $.ajax({
+                    url: `${tasksURL}/${task_id}/submissions`,
+                    headers: {
+                        'Authorization': "Bearer " + userToken
+                    },
+                    method: "GET",
+
+                    success: ({ status, data }) => {
+
+                        if (status == true) {
+                            if (data.comment === null) {
+                                data.comment = 'No comment';
+                            }
+                            self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, { keyAttribute: 'user_id' })));
+                        }
+                    }
+                });
+            }
+
             self.fetchGrade = async() => {
                 let user_id = self.user_id();
                 let task_id = self.task_id();
@@ -182,8 +220,6 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
                     if (status == true && data != null && data[0].is_submitted == 1) {
                         self.submitted(true);
-                        console.log(self.submitted());
-                        console.log("submitted", data[0].is_submitted)
                         self.submitted_link(`${data[0].submission_link}`);
                         self.submitted_comment(`${data[0].comment}`);
                         if (data[0].is_graded == 1) {

@@ -169,7 +169,6 @@ define([
           }
         });
         const { data } = await response.json();
-        // console.log(data);
         self.taskDataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
