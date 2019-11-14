@@ -255,6 +255,7 @@ self.deleteAllSubmission = async () => {
       }
     });
     fetchSubmission();
+    self.fetchTask();
     document.getElementById("deleteAllSubmissionModal").close();
     self.applicationMessages.push({
       severity: "confirmation",
@@ -285,6 +286,7 @@ self.deleteSubmission = async () => {
       }
     });
     fetchSubmission();
+    self.fetchTask();
     document.getElementById("deleteSubmissionModal").close();
     self.applicationMessages.push({
       severity: "confirmation",

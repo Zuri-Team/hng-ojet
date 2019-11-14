@@ -28,7 +28,7 @@
                       </button>
     </div>
     <div class="oj-flex oj-sm-justify-content-center">
-        <div class="oj-flex-item col-sm-12 col-md-6">
+        <div class="oj-flex-item col-sm-12 col-md-5">
             <div class="oj-panel mt-2 mb-2 oj-panel-shadow-sm" style="color: #4e5769 !important">
 
                 <h5 class="pb-2" slot="header">
@@ -43,10 +43,13 @@
                 </div>
             </div>
         </div>
-        <div class="oj-flex-item col-sm-12 col-md-6">
+        <div class="oj-flex-item col-sm-12 col-md-5">
             <div class="oj-panel oj-panel-shadow-sm rounded mt-sm-0 mt-4 align-self-baseline">
                 <h5>Task submission</h5>
                 <div id="submission_feedback"></div>
+                <oj-bind-if test="[[submitted() && !is_graded()]]">
+                    <p><span class="badge badge-success">Task submitted! Check back soon to view your grade! ✌</span></p>
+                </oj-bind-if>
                 <div>
                     <div>
                         <oj-bind-if test="[[!submitted()]]">
@@ -84,48 +87,55 @@
                     </oj-bind-if>
                 </div>
             </div>
-            <!-- <oj-bind-if test="[[submitted()]]">
+        </div>
+    </div>
+    <oj-bind-if test="[[submitted()]]">
+        <div class="oj-flex oj-sm-justify-content-center">
+            <div class="oj-flex-item col-sm-12 col-md-10">
                 <div class="mt-2 mb-4">
                     <h3 class="float-left">Submissions</h3>
                 </div>
                 <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
-                    <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Date Submitted",
-                        "field": "created_at",
-                        "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
-                                               "style":"padding:0px;text-align: center;",
+                    <oj-table id="submission-table" aria-label="Submission Table" data="[[submissionDataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Submitted By",
+                        "field": "user.username",
+                        "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center; color: #4e5769 !important",
                         "resizable": "enabled",
-                        "template": "dateTemplate",
-                        "className": "oj-read-only"},
-                              {"headerText": "Username",
-                                "field": "user.username",
-                                "headerStyle": "min-width: 30em; max-width: 30em; width: 30em;text-align: center;",
-                                "resizable": "enabled",
-                                "className": "oj-read-only"},
-                              {"headerText": "Submission",
-                                "field": "submission_link",
-                                "resizable": "enabled",
-                                "headerStyle": "min-width: 20em; max-width: 20em; width: 20em;text-align: center;",
-                                               "style":"padding:0px;text-align: center;",
-                                "className": "oj-read-only",
-                                "template": "submissionTemplate"},
-                              {"headerText": "Grade",
-                                "field": "grade_score",
-                                "resizable": "enabled",
-                                "headerStyle": "min-width: 10em; max-width: 10em; width: 10em;text-align: center;",
-                                               "style":"padding:0px;text-align: center;"}]' style="width: 100%; height: 100%;">
+                        "style": "white-space:normal;word-wrap:break-word; text-align: left;vertical-align: middle; color: #4e5769 !important"},
+                        {"headerText": "Submission",
+                          "field": "submission_link",
+                          "resizable": "enabled",
+                          "headerStyle": "font-weight: bold; min-width: 15em; max-width: 15em; width: 15em;text-align: center; color: #4e5769 !important",
+                        "style":"padding:0px;text-align: center; color: #4e5769 !important",
+                          "template": "submissionTemplate"},
+                          {"headerText": "Comment",
+                            "field": "comment",
+                            "resizable": "enabled",
+                            "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center; color: #4e5769 !important",
+                            "style": "white-space:normal;word-wrap:break-word; text-align: left;vertical-align: left; color: #4e5769 !important"},
+                      {"headerText": "Date Submitted",
+                      "field": "created_at",
+                      "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center; color: #4e5769 !important",
+                                             "style":"padding:0px;text-align: center; color: #4e5769 !important",
+                      "resizable": "enabled",
+                      "template": "dateTemplate"},
+                    {"headerText": "Grade",
+                    "field": "grade_score",
+                    "resizable": "enabled",
+                    "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center; color: #4e5769 !important",
+                    "style":"padding:0px;text-align: center; color: #4e5769 !important"}]' style="width: 100%; height: 100%;">
                         <template slot="dateTemplate" data-oj-as="cell">
-                                <oj-bind-text value="[[formatDateTime(cell.data)]]"></oj-bind-text>
-                            </template>
+                                  <oj-bind-text value="[[formatDate(cell.data)]]"></oj-bind-text>
+                                </template>
                         <template slot="submissionTemplate" data-oj-as="cell">
-                                <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
-                            </template>
-                        <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
+                                  <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
+                                </template>
+                        <oj-paging-control id="paging" data="[[submissionDataProvider]]" page-size="10" slot="bottom">
                         </oj-paging-control>
                     </oj-table>
                 </div>
-            </oj-bind-if> -->
+            </div>
         </div>
-    </div>
+    </oj-bind-if>
 </oj-bind-if>
 
 <!-- Start Messages Component -->
