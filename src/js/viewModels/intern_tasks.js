@@ -3,11 +3,13 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
         function InternTaskModel() {
             var self = this;
 
-            self.dataProvider = ko.observable();
-            self.submissionDataProvider = ko.observable();
+
             self.viewSubmission = ko.observable(false);
             self.submitted = ko.observable(false);
             self.is_graded = ko.observable(false);
+            self.deadlinePassed = ko.observable(false);
+            self.dataProvider = ko.observable();
+            self.submissionDataProvider = ko.observable();
 
 
             var userToken = sessionStorage.getItem("user_token");
@@ -27,6 +29,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             self.grade_score = ko.observable("");
 
 
+
             self.applicationMessages = ko.observableArray([]);
 
             var submissionURL = `${api}/api/submissions`;
@@ -42,8 +45,9 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                         return;
                     } else {
                         self.task_id(self.taskSelected().data.id);
+                        self.deadlinePassed(self.deadlineCheck(self.taskSelected().data.deadline));
                         self.fetchGrade();
-                        fetchSubmission()
+                        fetchSubmission();
                         self.viewSubmission(true);
 
 
@@ -55,6 +59,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 self.viewSubmission(false);
                 self.submitted(false);
                 self.is_graded(false);
+                self.deadlinePassed(false);
                 self.refreshList();
             }
 
@@ -62,6 +67,12 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             self.refreshList = () => {
                 fetchTrack(user.id);
             };
+
+            self.deadlineCheck = date => {
+                var deadline = new Date(date).toISOString();
+                var currentDate = new Date(Date.now()).toISOString();
+                return (deadline < currentDate ? true : false);
+            }
 
             // datetime converter
             self.formatDateTime = date => {
@@ -218,13 +229,15 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     });
                     const { data, status } = await response.json();
 
-                    if (status == true && data != null && data[0].is_submitted == 1) {
-                        self.submitted(true);
-                        self.submitted_link(`${data[0].submission_link}`);
-                        self.submitted_comment(`${data[0].comment}`);
-                        if (data[0].is_graded == 1) {
-                            self.is_graded(true);
-                            self.grade_score(`${data[0].grade_score}`);
+                    if (status == true && data != null && data[0] != undefined) {
+                        if (data[0].is_submitted == 1) {
+                            self.submitted(true);
+                            self.submitted_link(`${data[0].submission_link}`);
+                            self.submitted_comment(`${data[0].comment}`);
+                            if (data[0].is_graded == 1) {
+                                self.is_graded(true);
+                                self.grade_score(`${data[0].grade_score}`);
+                            }
                         }
                     }
                 } catch (err) {
