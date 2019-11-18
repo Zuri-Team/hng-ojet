@@ -41,7 +41,6 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             self.taskSelectedChanged = function(event) {
                 if (event.detail.value.length != 0) {
                     let { data } = self.taskSelected();
-                    console.log(data);
                     if (data == null) {
                         return;
                     } else {
@@ -230,13 +229,15 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     });
                     const { data, status } = await response.json();
 
-                    if (status == true && data != null && data[0].is_submitted == 1) {
-                        self.submitted(true);
-                        self.submitted_link(`${data[0].submission_link}`);
-                        self.submitted_comment(`${data[0].comment}`);
-                        if (data[0].is_graded == 1) {
-                            self.is_graded(true);
-                            self.grade_score(`${data[0].grade_score}`);
+                    if (status == true && data != null && data[0] != undefined) {
+                        if (data[0].is_submitted == 1) {
+                            self.submitted(true);
+                            self.submitted_link(`${data[0].submission_link}`);
+                            self.submitted_comment(`${data[0].comment}`);
+                            if (data[0].is_graded == 1) {
+                                self.is_graded(true);
+                                self.grade_score(`${data[0].grade_score}`);
+                            }
                         }
                     }
                 } catch (err) {
