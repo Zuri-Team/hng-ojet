@@ -136,7 +136,7 @@ define([
         data: { comment },
         success: ({ status, data }) => {
           if (status == true) {
-           
+            console.log(data);
           }
         },
         error: err => console.log(err)
@@ -186,9 +186,17 @@ define([
     });
 
     $(document).on("click", ".intercom-emoji-picker-emoji", function() {
-      if ($(".emojis").text().includes($(this).html())) {
-        return; 
-      } $(".emojis").append($(this).text());
+      if (!$(".emojis").text().includes($(this).html())) {
+        $(".emojis").append($(this).html());
+      };
+      /*$(document).on("click", ".emojis", (e) => {
+        console.log(e.target.innerHTML);
+        let each = e.target.innerHTML.split("");
+        console.log(each);
+       })
+      //$(".emojis").show();
+      let each = e.target.innerHTML.split("");
+     console.log(each);*/
     });
 
     $(".intercom-composer-popover-input").on("input", function() {

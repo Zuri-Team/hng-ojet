@@ -136,7 +136,7 @@ define([
         data: { comment },
         success: ({ status, data }) => {
           if (status == true) {
-           
+            console.log(data);
           }
         },
         error: err => console.log(err)
@@ -188,7 +188,7 @@ define([
     $(document).on("click", ".intercom-emoji-picker-emoji", function() {
       if ($(".emojis").text().includes($(this).html())) {
         return; 
-      } $(".emojis").append($(this).text());
+      } $(".emojis").append($(this).html());
     });
 
     $(".intercom-composer-popover-input").on("input", function() {

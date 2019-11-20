@@ -4,9 +4,6 @@ define([
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
-  'ojs/ojpagingdataproviderview',
-  'ojs/ojpagingcontrol',
-  "ojs/ojlistview",
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -26,7 +23,7 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata",
   'ojs/ojradioset'
-], function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
+], function (oj, ko, $, api, ArrayDataProvider) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -36,8 +33,6 @@ define([
     self.user_id = ko.observable(user.id);
 
     self.selectedItem = ko.observable();
-    self.dataProvider = ko.observable();
-
 
     self.drawer =
             {
@@ -83,6 +78,7 @@ define([
     self.deadline = ko.observable();
     self.onProbation = ko.observable(false);
 
+    var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
 
     self.popModal = () => {
@@ -206,30 +202,22 @@ define([
 
     self.tasks = ko.observable({});
 
-    self.getTasks = async(id) => {
-      try {
-          const response = await fetch(`${api}/api/track/${id}/tasks`, {
-              headers: {
-                  Authorization: `Bearer ${userToken}`
-              }
-          });
-          const { data } = await response.json();
+    function getTasks(id) {
+      $.ajax({
+        type: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        },
 
-
-          self.dataProvider(
-              new PagingDataProviderView(
-                  new ArrayDataProvider(data, {
-                      keys: data.map(function(value) {
-                          value.deadline = self.formatDateTime(value.deadline);
-                          return value.title;
-                      })
-                  })
-              )
-          );
-      } catch (err) {
-          console.log(err);
-      }
-  };
+        url: `${api}/api/track/${id}/tasks`,
+        success: function (res) {
+          // console.log(res);
+          let [latest] = res.data;
+          latest.deadline = self.formatDateTime(latest.deadline);
+          self.tasks(latest);
+        }
+      });
+    }
 
     function fetchTrack(id) {
       $.ajax({
@@ -242,10 +230,61 @@ define([
         success: function (response) {
           let [{id, track_name}] = response.data.tracks;
           self.tracks(track_name);
-          self.getTasks(id);
+          getTasks(id);
         }
       });
     }
+
+    self.submitTask = async () => {
+      let user_id = self.user_id();
+      let task_id = self.tasks().id;
+      let submission_link = self.taskSubmit().submission_link;
+      let comment = self.taskSubmit().task_comment;
+
+//task submission validation
+      const feedback = document.getElementById('submission_feedback');
+      if (submission_link.match(new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi))) {
+        feedback.style.color = 'green';
+        feedback.innerHTML = 'Valid URL';
+      } else {
+        feedback.style.color = 'red';
+        feedback.innerHTML = 'Invalid URL, please check!';
+      }
+
+      try {
+        const response = await fetch(`${submissionURL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            user_id,
+            task_id,
+            submission_link,
+            comment
+          })
+        });
+
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: "Task submitted",
+          detail: "You have successfully submitted",
+          autoTimeout: parseInt("0")
+        });
+        document.getElementById("taskURL").value = "";
+        document.getElementById("taskComment").value = "";
+        console.log("task submitted");
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: "Error submitting task",
+          detail: "Error submitting task. Please try again.",
+          autoTimeout: parseInt("0")
+        });
+      }
+    };
 
     this.tags = ko.observableArray([
       {value: ".net", label: ".net"},
@@ -322,6 +361,7 @@ define([
       self.searchTimeStamp("Last search fired at: " + eventTime);
     };
 
+
     this.keyword = ko.observableArray();
 
     self.fullname = ko.observable("");
@@ -334,10 +374,37 @@ define([
       self.fileNames.push(files[i].name);
     };
 
+    //   function fetchProbatedInterns() {
+    //     $.ajax({
+    //       url: `${api}/api/probation/all`,
+    //       headers: {
+    //         Authorization: "Bearer " + userToken
+    //       },
+    //       method: "GET",
+    //       success: ({status, data}) => {
+    //         if (status == "success") {
+    //           for (index in data){
+    //             self.probated_by(data[index].probated_by);
+    //           self.probation_reason(data[index].probation_reason);
+    //           self.user_id(data[index].user_id);
+    //           self.probatedInternsId().push(self.user_id());
+    //           }
+
+    //           console.log(self.probated_by());
+    //           console.log(self.probation_reason());
+    //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
+    //       }
+
+    //     }
+    //   });
+    // }
+    // fetchProbatedInterns();
+
     //route to notifications
     self.gotoNotifications = function () {
       router.go("notifications");
     };
+
 
     self.profile_img = ko.observable('/css/images/smiley.png');
     function display_user_info(id) {

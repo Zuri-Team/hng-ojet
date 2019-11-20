@@ -103,7 +103,7 @@ self.showProfileImage = () => {
         } = await response.json();
         // console.log(data)
 
-        self.track(data.map(track => track)
+        self.tracks(data.map(track => track)
             );
     } catch (err) {
         console.log(err);

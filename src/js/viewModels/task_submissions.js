@@ -2,7 +2,6 @@ define(['ojs/ojcore', 'knockout', "jquery", "./api", "ojs/ojarraydataprovider", 
 "ojs/ojvalidation-datetime",
 "ojs/ojlabel",
 "ojs/ojinputtext",
-"ojs/ojinputnumber",
 "ojs/ojformlayout",
 "ojs/ojselectcombobox",
 "ojs/ojdatetimepicker",
@@ -22,6 +21,7 @@ function TaskSubmissionsModel(params) {
   self.body = ko.observable("");
   self.is_active = ko.observable("");
   self.track = ko.observable("");
+  self.submission_count = ko.observable("");
 
   self.editRow = ko.observable();
 
@@ -77,10 +77,14 @@ function TaskSubmissionsModel(params) {
     self.editRow({rowKey: null});
     var userId = context.row.user_id
     var grade = context.row.grade_score;
-    self.gradeTask(userId, grade);
+    var graded = 1;
+    self.gradeTask(userId, grade, graded);
     };
 
-  // datetime converter
+    var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
+    self.numberConverter = numberConverterFactory.createConverter();
+
+    // datetime converter
   self.formatDateTime = date => {
     var formatDateTime = oj.Validation.converterFactory(
       oj.ConverterFactory.CONVERTER_TYPE_DATETIME
@@ -151,16 +155,17 @@ function TaskSubmissionsModel(params) {
 };
 self.fetchTrack();
 
-self.gradeTask = function(userId, grade) {
+self.gradeTask = function(userId, grade, graded) {
   let grade_score = grade;
   let user_id = userId;
+  let is_graded = graded;
   $.ajax({
     method: "POST",
     url: `${api}/api/user/task/${task_id}`,
     headers: {
       Authorization: "Bearer " + userToken
         },
-    data: { grade_score, user_id },
+    data: { grade_score, user_id, is_graded },
     success: res => {
         fetchSubmission();
     },
@@ -250,6 +255,7 @@ self.deleteAllSubmission = async () => {
       }
     });
     fetchSubmission();
+    self.fetchTask();
     document.getElementById("deleteAllSubmissionModal").close();
     self.applicationMessages.push({
       severity: "confirmation",
@@ -280,6 +286,7 @@ self.deleteSubmission = async () => {
       }
     });
     fetchSubmission();
+    self.fetchTask();
     document.getElementById("deleteSubmissionModal").close();
     self.applicationMessages.push({
       severity: "confirmation",
@@ -313,6 +320,7 @@ self.deleteSubmission = async () => {
       self.body(`${data[0].body}`);
       self.deadline(self.formatDateTime(`${data[0].deadline}`));
       self.is_active(`${data[0].is_active}`);
+      self.submission_count(`${data[0].total_submissions}`);
     } catch (err) {
       console.log(err);
     }

@@ -3,9 +3,13 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
         function InternTaskModel() {
             var self = this;
 
-            self.dataProvider = ko.observable();
+
             self.viewSubmission = ko.observable(false);
             self.submitted = ko.observable(false);
+            self.is_graded = ko.observable(false);
+            self.deadlinePassed = ko.observable(false);
+            self.dataProvider = ko.observable();
+            self.submissionDataProvider = ko.observable();
 
 
             var userToken = sessionStorage.getItem("user_token");
@@ -16,23 +20,21 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             self.task_id = ko.observable("");
 
             // Task view observables
-            self.title = ko.observable("");
-            self.deadline = ko.observable("");
+            self.submitted_link = ko.observable("");
+            self.submitted_comment = ko.observable("");
             self.submission_link = ko.observable("");
-            self.submitted_on = ko.observable("");
-            self.task_comment = ko.observable("")
-            self.body = ko.observable("");
+            self.task_comment = ko.observable("");
             self.is_active = ko.observable("");
             self.track = ko.observable("");
+            self.grade_score = ko.observable("");
 
 
 
             self.applicationMessages = ko.observableArray([]);
 
+            var submissionURL = `${api}/api/submissions`;
+            var gradeURL = `${api}/api/user`;
             var tasksURL = `${api}/api/task`;
-
-
-
 
             self.taskSelected = ko.observable({});
 
@@ -42,18 +44,22 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     if (data == null) {
                         return;
                     } else {
-                        self.viewSubmission(true);
                         self.task_id(self.taskSelected().data.id);
-
+                        self.deadlinePassed(self.deadlineCheck(self.taskSelected().data.deadline));
+                        self.fetchGrade();
+                        fetchSubmission();
+                        self.viewSubmission(true);
 
 
                     }
                 }
             };
 
-
             self.toTasks = () => {
                 self.viewSubmission(false);
+                self.submitted(false);
+                self.is_graded(false);
+                self.deadlinePassed(false);
                 self.refreshList();
             }
 
@@ -61,6 +67,12 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             self.refreshList = () => {
                 fetchTrack(user.id);
             };
+
+            self.deadlineCheck = date => {
+                var deadline = new Date(date).toISOString();
+                var currentDate = new Date(Date.now()).toISOString();
+                return (deadline < currentDate ? true : false);
+            }
 
             // datetime converter
             self.formatDateTime = date => {
@@ -76,47 +88,49 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 return formatDateTime.format(new Date(date).toISOString());
             };
 
-            function fetchSubmission() {
-                $.ajax({
-                    url: `${tasksURL}/${self.task_id()}/submissions`,
-                    headers: {
-                        'Authorization': "Bearer " + userToken
-                    },
-                    method: "GET",
-
-                    success: ({ status, data }) => {
-
-                        if (status == true) {
-                            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, { keyAttribute: 'user_id' })));
-                        }
-                    }
+            // table date converter
+            self.formatDate = date => {
+                var formatDate = oj.Validation.converterFactory(
+                    oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+                ).createConverter({
+                    formatType: "date",
+                    pattern: "dd/MM/yy"
                 });
-            }
 
-
+                return formatDate.format(new Date(date).toISOString());
+            };
 
 
             self.submitTask = async() => {
                 let user_id = self.user_id();
                 let submission_link = self.taskSubmit().submission_link;
-                let task_comment = self.taskSubmit().task_comment;
+                let comment = self.taskSubmit().task_comment;
                 let task_id = self.task_id();
+                let is_submitted = 1;
 
                 //task submission validation
-                // if (submission_link)
+                const feedback = document.getElementById('submission_feedback');
+                if (submission_link.match(new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi))) {
+                    feedback.style.color = 'green';
+                    feedback.innerHTML = 'Valid URL';
+                } else {
+                    feedback.style.color = 'red';
+                    feedback.innerHTML = 'Invalid URL, please check!';
+                }
 
                 try {
-                    const response = await fetch(`${tasksURL}/${self.task_id()}/submissions`, {
+                    const response = await fetch(`${submissionURL}`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${userToken}`
+                            "Authorization": `Bearer ${userToken}`
                         },
                         body: JSON.stringify({
                             user_id,
                             task_id,
                             submission_link,
-                            task_comment
+                            comment,
+                            is_submitted
                         })
                     });
 
@@ -128,9 +142,9 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     });
                     document.getElementById("taskURL").value = "";
                     document.getElementById("taskComment").value = "";
+                    self.fetchGrade();
                     self.submitted(true);
-                    fetchSubmission();
-                    console.log("task submitted");
+                    self.taskSubmit({});
                 } catch (err) {
                     console.log(err);
                     self.applicationMessages.push({
@@ -151,7 +165,6 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     });
                     const { data } = await response.json();
 
-
                     self.dataProvider(
                         new PagingDataProviderView(
                             new ArrayDataProvider(data, {
@@ -167,7 +180,6 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 }
             };
 
-
             function fetchTrack(id) {
                 $.ajax({
                     type: "GET",
@@ -180,9 +192,58 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                         let id = response.data.tracks[0].id;
 
                         self.fetchTasks(id);
+
                     }
                 });
             }
+
+            function fetchSubmission() {
+                let task_id = self.task_id();
+                $.ajax({
+                    url: `${tasksURL}/${task_id}/submissions`,
+                    headers: {
+                        'Authorization': "Bearer " + userToken
+                    },
+                    method: "GET",
+
+                    success: ({ status, data }) => {
+
+                        if (status == true) {
+                            if (data.comment === null) {
+                                data.comment = 'No comment';
+                            }
+                            self.submissionDataProvider(new PagingDataProviderView(new ArrayDataProvider(data, { keyAttribute: 'user_id' })));
+                        }
+                    }
+                });
+            }
+
+            self.fetchGrade = async() => {
+                let user_id = self.user_id();
+                let task_id = self.task_id();
+                try {
+                    const response = await fetch(`${gradeURL}/${user_id}/task/${task_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${userToken}`
+                        }
+                    });
+                    const { data, status } = await response.json();
+
+                    if (status == true && data != null && data[0] != undefined) {
+                        if (data[0].is_submitted == 1) {
+                            self.submitted(true);
+                            self.submitted_link(`${data[0].submission_link}`);
+                            self.submitted_comment(`${data[0].comment}`);
+                            if (data[0].is_graded == 1) {
+                                self.is_graded(true);
+                                self.grade_score(`${data[0].grade_score}`);
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            };
 
             fetchTrack(user.id);
 
