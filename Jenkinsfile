@@ -1,18 +1,28 @@
 pipeline{
     agent{
-        label "node"
+        docker {
+            image 'node'
+            args   '-p 3000:3000'
+        }
     }
     stages{
-        stage("A"){
+        stage("Update") {
             steps{
-                echo "========executing A========"
+                echo "====++++Pulling Updates++++===="
+                sh   'git pull'
+            }
+        }
+        stage("Build"){
+            steps{
+                echo "========executing Build========"
+                sh   'npm install'
             }
             post{
                 always{
                     echo "========always========"
                 }
                 success{
-                    echo "========A executed successfully========"
+                    echo "======== executed successfully========"
                 }
                 failure{
                     echo "========A execution failed========"
