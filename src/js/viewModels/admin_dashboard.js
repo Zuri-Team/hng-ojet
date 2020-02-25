@@ -19,15 +19,8 @@ define([
   "ojs/ojformlayout",
   "ojs/ojbutton",
   "ojs/ojchart",
-  'ojs/ojdialog'
-], function(
-  oj,
-  ko,
-  $,
-  ArrayDataProvider,
-  Components,
-  api
-) {
+  "ojs/ojdialog"
+], function(oj, ko, $, ArrayDataProvider, Components, api) {
   function AdminDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -35,17 +28,15 @@ define([
 
     self.selectedItem = ko.observable();
 
-    self.drawer =
-    {
-      "displayMode": "overlay",
-      "selector": "#sidebar",
-      "content": "#maincontent",
+    self.drawer = {
+      displayMode: "overlay",
+      selector: "#sidebar",
+      content: "#maincontent"
     };
-  
-    self.toggleDrawer = function()
-        {
-          return oj.OffcanvasUtils.toggle(self.drawer);
-        };
+
+    self.toggleDrawer = function() {
+      return oj.OffcanvasUtils.toggle(self.drawer);
+    };
 
     self.tags = [
       { value: ".net", label: ".net" },
@@ -186,17 +177,17 @@ define([
       self.clickedButton(event.currentTarget.id);
       return true;
     };
-    
+
     self.open = function(event) {
-      document.getElementById('logoutModal').open();
+      document.getElementById("logoutModal").open();
     };
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
     };
     self.close = function(event) {
-      document.getElementById('logoutModal').close();
-      };
+      document.getElementById("logoutModal").close();
+    };
 
     //route to notifications
     self.gotoNotifications = function() {
