@@ -210,10 +210,18 @@ define([
       self.fetchCount();
 
       //notifications click
+
+      let shownotif = false;
       $("#notifi").on("click", function() {
         let attr = $(this).attr("for");
-        $("#maincontent_body > div").hide();
-        $(`#maincontent_body > div[id='${attr}']`).show();
+        shownotif = !shownotif; // This ensures that we toggle the notification panel effectively;
+        if (shownotif) {
+          $("#maincontent_body > div").hide();
+          $(`#maincontent_body > div[id='${attr}']`).show();
+        } else {
+          $("#maincontent_body > div").show();
+          $(`#maincontent_body > div[id='${attr}']`).hide();
+        }
       });
 
       $("#sidebar li a").on("click", function() {
