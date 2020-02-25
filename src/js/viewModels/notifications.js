@@ -5,6 +5,7 @@ define([
   "./api",
   "ojs/ojknockout-keyset",
   "ojs/ojpagingdataproviderview",
+  "jquery",
   "ojs/ojknockout",
   "ojs/ojlistview",
   "ojs/ojbutton",
@@ -13,9 +14,8 @@ define([
   "ojs/ojinputtext",
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
-  "ojs/ojpagingcontrol",
-  "jquery"
-], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView) {
+  "ojs/ojpagingcontrol"
+], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView, $) {
   function notificationsViewModel() {
     var self = this;
 
@@ -105,6 +105,10 @@ define([
     };
     self.fetchNotifications();
 
+    self.goBack = () => {
+      location.reload();
+    };
+
     //mark all notifications as read
     self.markNotificationsAsRead = async () => {
       try {
@@ -153,7 +157,7 @@ define([
         self.applicationMessages.push({
           severity: "confirmation",
           summary: "All Notifications cleared",
-          detail: "All Notifications has been successfully cleared",
+          detail: "All Notifications have been successfully cleared",
           autoTimeout: parseInt("0")
         });
 
