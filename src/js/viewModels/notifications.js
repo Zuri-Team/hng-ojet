@@ -19,6 +19,8 @@ define([
   function notificationsViewModel() {
     var self = this;
 
+    var router = oj.Router.rootInstance;
+
     var notificationsURL = `${api}/api/notifications`;
 
     var userToken = sessionStorage.getItem("user_token");
@@ -106,7 +108,8 @@ define([
     self.fetchNotifications();
 
     self.goBack = () => {
-      location.reload();
+      router.go("admin_dashboard");
+      // location.reload();
     };
 
     //mark all notifications as read
