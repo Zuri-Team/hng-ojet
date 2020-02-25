@@ -81,7 +81,8 @@ define([
         var userId = context.row.user_id
         var grade = context.row.grade_score;
         var taskId = context.row.task_id;
-        self.gradeTask(userId, grade, taskId);
+        var graded = 1;
+        self.gradeTask(userId, grade, taskId, graded);
         };
 
     self.taskSelectedChanged = function(event) {
@@ -168,7 +169,6 @@ define([
           }
         });
         const { data } = await response.json();
-        // console.log(data);
         self.taskDataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
@@ -184,17 +184,18 @@ define([
       }
     };
 
-    self.gradeTask = function(userId, grade, taskId) {
+    self.gradeTask = function(userId, grade, taskId, graded) {
       let grade_score = grade;
       let user_id = userId;
       let task_id = taskId;
+      let is_graded = graded;
       $.ajax({
         method: "POST",
         url: `${api}/api/user/task/${task_id}`,
         headers: {
           Authorization: "Bearer " + userToken
             },
-        data: { grade_score, user_id },
+        data: { grade_score, user_id, is_graded },
         success: res => {
             self.fetchSubmission();
         },
