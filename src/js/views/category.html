@@ -112,7 +112,7 @@
       </h5>
     </div>
     <div style="word-wrap: break-word">
-      <oj-bind-text value="[[postData().post_body]]"></oj-bind-text>
+      <div data-bind='html: postData().post_body'></div>
     </div>
     <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
       <oj-bind-text value="[[postData().created_at]]"></oj-bind-text>
