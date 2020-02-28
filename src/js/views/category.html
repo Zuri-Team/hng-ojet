@@ -105,16 +105,17 @@
 <oj-dialog id="viewPost" title="View post" class=" position-absolute col-12 col-md-9 mt-5 p-0" modality="modal"
   position.at.vertical="top">
   <div slot="body">
-    <div>
-      <h5>
-        <oj-bind-text class="oj-text-secondary-color" value="[[postData().post_title]]"></oj-bind-text> <small> By Me
-        </small>
+    <div class="my-3">
+      <h5 class="mx-auto w-75 text-center">
+        <strong><oj-bind-text class="oj-text-secondary-color" value="[[postData().post_title]]"></oj-bind-text></strong>
       </h5>
+      <small class="d-block mx-auto mt-1 text-center"> By Me
+      </small>
     </div>
-    <div style="word-wrap: break-word">
+    <div style="word-wrap: break-word; margin: 1.5rem 0; padding: 1rem;" class="d-block mx-auto text-center">
       <div data-bind='html: postData().post_body'></div>
     </div>
-    <p class="h6 mt-3 mb-0"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
+    <p class="h6 mt-3 mb-0 pull-right"> <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2"></i>
       <oj-bind-text value="[[postData().created_at]]"></oj-bind-text>
     </p>
   </div>
