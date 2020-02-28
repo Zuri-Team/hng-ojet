@@ -36,6 +36,7 @@ define([
     };
 
     self.toggleDrawer = function() {
+      self.isNotify(false);
       return oj.OffcanvasUtils.toggle(self.drawer);
     };
 
@@ -191,9 +192,9 @@ define([
     };
 
     //route to notifications
-    self.gotoNotifications = function() {
-      router.go("notifications");
-    };
+    // self.gotoNotifications = function() {
+    //   router.go("notifications");
+    // };
 
     self.connected = function() {
       //new
@@ -210,14 +211,45 @@ define([
       //notifications unread count
       self.fetchCount();
 
-      //notifications click
-      
-      self.toggleNotify = () => {
-        shownotif = !shownotif;
-        self.isNotify(!self.isNotify()); 
-      }
+      // Go back to the dashboard
 
-      let shownotif = false;
+      self.dashboard = () => {
+        self.isNotify(false);
+      };
+
+    
+
+     //  Fetch all tracks
+    self.fetchNotifications = async () => {
+      try {
+        const response = await fetch(`${notificationsURL}`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        // const {
+        //   data: { data }
+        // } = await response.json();
+        var data = await response.json();
+
+        self.dataProvider(
+          new PagingDataProviderView(
+            new ArrayDataProvider(data.data, { keyAttributes: "id" })
+          )
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+
+      //notifications click
+
+      self.toggleNotify = () => {
+        self.isNotify(!self.isNotify());
+      };
+
+      // let shownotif = false;
       // $("#notifi").on("click", function() {
       //   let attr = $(this).attr("for");
       //   shownotif = !shownotif;

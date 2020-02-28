@@ -16,10 +16,8 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojpagingcontrol"
 ], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView, $) {
-  function notificationsViewModel(params) {
+  function NotificationsViewModel() {
     var self = this;
-
-    var router = oj.Router.rootInstance;
 
     var notificationsURL = `${api}/api/notifications`;
 
@@ -107,7 +105,7 @@ define([
     };
     self.fetchNotifications();
 
-    self.goBack = () => {
+    self.goBack = function() {
       console.log(params);
       // location.reload();
     };
@@ -155,20 +153,19 @@ define([
           //     track_id
           //   })
         });
-
         // send a success message notification to the tracks view
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "All Notifications cleared",
-          detail: "All Notifications have been successfully cleared",
-          autoTimeout: parseInt("0")
-        });
-
+        if (response && response.status == 200) {
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "All Notifications cleared",
+            detail: "All Notifications have been successfully cleared",
+            autoTimeout: parseInt("0")
+          });
+        }
         document.getElementById("deleteNotifications").close();
         self.fetchNotifications();
       } catch (err) {
         console.log(err);
-
         // send an error message notification to the tracks view
         self.applicationMessages.push({
           severity: "error",
@@ -185,5 +182,5 @@ define([
       // self.fetchCount();
     };
   }
-  return notificationsViewModel();
+  return new NotificationsViewModel();
 });

@@ -220,12 +220,19 @@
           </div>
         </oj-bind-if>
         <oj-bind-if test="[[isNotify()]]">
-          <div class="oj-flex-item" style="display: block !important;">
-            <h3>Notifications</h3>
-            <div
-              data-bind="ojModule: { name:'notifications', params: { notify: isNotify } }"
-            ></div>
+          <h3>Notifications</h3>
+          <div style="display: block;">
+            <span
+              class="btn btn-success m-4 pull-left"
+              data-bind="click: dashboard"
+              ><i class="fa fa-arrow-left mr-2"></i>Go Back</span
+            >
           </div>
+          <div
+            data-bind="ojModule: { name:'notifications'}"
+            class="oj-flex-item"
+            style="display: block !important;"
+          ></div>
         </oj-bind-if>
         <oj-bind-if test="[[!isNotify()]]">
           <div class="oj-flex-item" id="status">
