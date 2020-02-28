@@ -16,7 +16,7 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojpagingcontrol"
 ], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView, $) {
-  function notificationsViewModel() {
+  function notificationsViewModel(params) {
     var self = this;
 
     var router = oj.Router.rootInstance;
@@ -108,7 +108,7 @@ define([
     self.fetchNotifications();
 
     self.goBack = () => {
-      router.go("admin_dashboard");
+      console.log(params);
       // location.reload();
     };
 
@@ -185,5 +185,5 @@ define([
       // self.fetchCount();
     };
   }
-  return new notificationsViewModel();
+  return notificationsViewModel();
 });

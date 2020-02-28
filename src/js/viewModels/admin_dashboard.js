@@ -27,6 +27,7 @@ define([
     var userToken = sessionStorage.getItem("user_token");
 
     self.selectedItem = ko.observable();
+    self.isNotify = ko.observable(false);
 
     self.drawer = {
       displayMode: "overlay",
@@ -210,19 +211,25 @@ define([
       self.fetchCount();
 
       //notifications click
+      
+      self.toggleNotify = () => {
+        shownotif = !shownotif;
+        self.isNotify(!self.isNotify()); 
+      }
 
       let shownotif = false;
-      $("#notifi").on("click", function() {
-        let attr = $(this).attr("for");
-        shownotif = !shownotif; // This ensures that we toggle the notification panel effectively;
-        if (shownotif) {
-          $("#maincontent_body > div").hide();
-          $(`#maincontent_body > div[id='${attr}']`).show();
-        } else {
-          $("#maincontent_body > div").show();
-          $(`#maincontent_body > div[id='${attr}']`).hide();
-        }
-      });
+      // $("#notifi").on("click", function() {
+      //   let attr = $(this).attr("for");
+      //   shownotif = !shownotif;
+      //   self.isNotify(shownotif); // This ensures that we toggle the notification panel effectively;
+      //   if (shownotif) {
+      //     $("#maincontent_body > div").hide();
+      //     $(`#maincontent_body > div[id='${attr}']`).show();
+      //   } else {
+      //     $("#maincontent_body > div").show();
+      //     $(`#maincontent_body > div[id='${attr}']`).hide();
+      //   }
+      // });
 
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
