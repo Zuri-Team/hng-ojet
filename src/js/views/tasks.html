@@ -68,7 +68,7 @@
               <oj-bind-if test="[[item.data.is_active == '0']]">
                 <p class="badge badge-pill badge-warning p-2">Draft</p>
               </oj-bind-if>
-              <oj-bind-if test="[[item.data.total_submissions >= 1]]">
+              <oj-bind-if test="[[item.data.total_submissions >= 1 && item.data.submissions.filter(e => e.is_graded == 1).length == 0]]">
                 <p data-bind="text: item.data.total_submissions + (item.data.total_submissions == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-primary p-2"></p>
               </oj-bind-if>
               <p class="font-weight-bold ml-2 mb-2 text-capitalize">

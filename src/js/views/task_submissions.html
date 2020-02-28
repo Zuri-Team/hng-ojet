@@ -81,7 +81,7 @@
             <h5 class="badge badge-pill badge-info p-2">
                 <oj-bind-text value="[[track]]"></oj-bind-text>
             </h5>
-            <h5 data-bind="text: submission_count() + (submission_count() == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-primary p-2"></h5>
+            <h5 data-bind="text: submission_count() == 0 ? 'no submission' : submission_count() + (submission_count() == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-primary p-2"></h5>
         </div>
         <h6 class="pb-2">Deadline:
             <oj-bind-text value="[[deadline]]"></oj-bind-text>

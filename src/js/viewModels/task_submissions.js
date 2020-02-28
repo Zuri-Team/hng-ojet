@@ -108,12 +108,12 @@ function TaskSubmissionsModel(params) {
           method: "GET",
 
           success: ({status, data}) => {
-
             if (status == true) {
               if (data.comment === null){
                 data.comment = 'No comment';
               }
-              self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
+              const submissions = data.filter(datum => datum.is_graded !== 1);
+              self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(submissions, {keyAttribute: 'user_id'})));
           }
         }
       });
@@ -320,7 +320,7 @@ self.deleteSubmission = async () => {
       self.body(`${data[0].body}`);
       self.deadline(self.formatDateTime(`${data[0].deadline}`));
       self.is_active(`${data[0].is_active}`);
-      self.submission_count(`${data[0].total_submissions}`);
+      self.submission_count(`${data[0].submissions.filter(e => e.is_graded != 1) > 0 ? data[0].total_submissions : ''}`);
     } catch (err) {
       console.log(err);
     }

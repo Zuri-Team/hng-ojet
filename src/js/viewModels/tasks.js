@@ -6,11 +6,11 @@ define([
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
   "ojs/ojvalidation-base",
-  'ojs/ojknockout',
+  "ojs/ojknockout",
   "ojs/ojmodel",
   "ojs/ojlistview",
   "ojs/ojbutton",
-  'ojs/ojtable',
+  "ojs/ojtable",
   "ojs/ojdialog",
   "ojs/ojvalidation-datetime",
   "ojs/ojlabel",
@@ -22,12 +22,19 @@ define([
   "ojs/ojmessages",
   "ojs/ojpagingcontrol",
   "ojs/ojtimezonedata"
-], function(oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase) {
+], function(
+  oj,
+  ko,
+  $,
+  api,
+  ArrayDataProvider,
+  PagingDataProviderView,
+  ValidationBase
+) {
   function taskModel() {
     var self = this;
 
     var userToken = sessionStorage.getItem("user_token");
-
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 
@@ -50,7 +57,6 @@ define([
     self.track_id = ko.observable("");
     self.submissionId = ko.observable("");
 
-
     var tracksURL = `${api}/api/track`;
 
     var tasksURL = `${api}/api/tasks`;
@@ -69,50 +75,50 @@ define([
 
     const RESTurl = `${api}/api/track/list`;
 
-    var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
-      self.numberConverter = numberConverterFactory.createConverter();
+    var numberConverterFactory = ValidationBase.Validation.converterFactory(
+      "number"
+    );
+    self.numberConverter = numberConverterFactory.createConverter();
 
-      self.handleUpdate = function(event, context) {
-        self.editRow({rowKey: context.key});
-      };
+    self.handleUpdate = function(event, context) {
+      self.editRow({ rowKey: context.key });
+    };
 
-      self.handleDone = function(event, context) {
-        self.editRow({rowKey: null});
-        var userId = context.row.user_id
-        var grade = context.row.grade_score;
-        var taskId = context.row.task_id;
-        var graded = 1;
-        self.gradeTask(userId, grade, taskId, graded);
-        };
+    self.handleDone = function(event, context) {
+      self.editRow({ rowKey: null });
+      var userId = context.row.user_id;
+      var grade = context.row.grade_score;
+      var taskId = context.row.task_id;
+      var graded = 1;
+      self.gradeTask(userId, grade, taskId, graded);
+    };
 
     self.taskSelectedChanged = function(event) {
       if (event.detail.value.length != 0) {
         let { data } = self.taskSelected();
-      if (data == null) {
-        return;
-      } else {
-        self.viewSubmission(true);
-      }
-
+        if (data == null) {
+          return;
+        } else {
+          self.viewSubmission(true);
+        }
       }
     };
 
     self.toAllSubmissions = () => {
       self.fetchSubmission();
       self.viewAllSubmissions(true);
-    }
+    };
 
     self.toTasks = () => {
       self.viewAllSubmissions(false);
       self.refreshList();
-    }
+    };
 
     //refresh list
     self.refreshList = () => {
       self.search(false);
       self.fetchTasks();
     };
-
 
     self.deleteSubmissionModal = function(event, context) {
       self.submissionId(context.row.id);
@@ -160,7 +166,6 @@ define([
       });
     }
 
-
     self.fetchTasks = async () => {
       try {
         const response = await fetch(`${tasksURL}`, {
@@ -194,16 +199,16 @@ define([
         url: `${api}/api/user/task/${task_id}`,
         headers: {
           Authorization: "Bearer " + userToken
-            },
+        },
         data: { grade_score, user_id, is_graded },
         success: res => {
-            self.fetchSubmission();
+          self.fetchSubmission();
         },
         error: err => {
           console.log(err);
         }
       });
-    }
+    };
 
     self.createTask = () => {
       let track_id = self.track_id();
@@ -233,14 +238,14 @@ define([
         dataType: "json",
         //processData: true,
         success: res => {
-            self.newTask({});
-            self.fetchTasks();
-            self.task_view_toggle();
-            self.applicationMessages.push({
-              severity: "confirmation",
-              summary: "Task created successfully",
-              autoTimeout: parseInt("0")
-            });
+          self.newTask({});
+          self.fetchTasks();
+          self.task_view_toggle();
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "Task created successfully",
+            autoTimeout: parseInt("0")
+          });
         },
         error: err => {
           console.log(err);
@@ -256,8 +261,7 @@ define([
     self.deleteSubmission = async () => {
       let submission_id = self.submissionId();
       try {
-        const response = await fetch(`${submissionURL}/${submission_id}`,
-        {
+        const response = await fetch(`${submissionURL}/${submission_id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -281,7 +285,7 @@ define([
           autoTimeout: parseInt("0")
         });
       }
-    }
+    };
 
     self.filtertask = function() {
       self.search(false);
@@ -294,7 +298,7 @@ define([
       }
     };
 
-    self.tasks_under_track = async (track_id) => {
+    self.tasks_under_track = async track_id => {
       try {
         const response = await fetch(`${api}/api/track/${track_id}/tasks`, {
           headers: {
@@ -329,7 +333,10 @@ define([
         self.submissionDataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
-              idAttribute: 'id' })))
+              idAttribute: "id"
+            })
+          )
+        );
       } catch (err) {
         console.log(err);
       }
