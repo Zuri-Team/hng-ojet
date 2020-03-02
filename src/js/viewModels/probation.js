@@ -36,7 +36,6 @@
         if (data == null) {
           return;
         } else {
-         console.log("clicked");
          self.isUserProfile(true);
         }
       }

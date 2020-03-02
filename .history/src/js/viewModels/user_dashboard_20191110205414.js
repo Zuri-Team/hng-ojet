@@ -274,7 +274,6 @@ define([
         });
         document.getElementById("taskURL").value = "";
         document.getElementById("taskComment").value = "";
-        console.log("task submitted");
       } catch (err) {
         console.log(err);
         self.applicationMessages.push({

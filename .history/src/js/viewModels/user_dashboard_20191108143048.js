@@ -213,7 +213,6 @@ self.fetchTracks();
 
         url: `${api}/api/track/${id}/tasks`,
         success: function(res) {
-          // console.log(res);
           let [latest] = res.data;
           latest.deadline = self.formatDateTime(latest.deadline);
           self.tasks(latest);
@@ -412,8 +411,8 @@ self.fetchTracks();
         router.go("login");
       }
       let user = sessionStorage.getItem("user");
-      user = JSON.parse(user);
-      // console.log(user);
+
+  
 
       function fetchIfProbated() {
         $.ajax({

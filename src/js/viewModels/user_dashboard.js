@@ -364,7 +364,6 @@ define([
       }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-      // console.log(user);
 
       function fetchIfProbated() {
         $.ajax({

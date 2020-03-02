@@ -126,7 +126,7 @@ define([
 
     self.edit_comment = () => {
       let id = self.comment().id;
-      console.log(id);
+
       $.ajax({
         url: `${RESTurl}/comment/${id}`,
         headers: {

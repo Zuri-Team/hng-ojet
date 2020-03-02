@@ -75,11 +75,11 @@ define([
         // If selection, populate and display Category details
         // Populate items list observable using firstSelectedXxx API
         let { data } = self.firstSelectedTeamMember();
-        console.log(data)
+    
         if (data == null) {
           return;
         } else {
-         console.log("clicked")
+
          self.isUserProfile(true);
         }
       }
@@ -166,7 +166,6 @@ define([
       let team_name = self.firstSelectedTeam().data.team_name;
       let max_team_mates = self.firstSelectedTeam().data.max_team_mates;
       let team_description = self.firstSelectedTeam().data.team_description;
-      console.log(teamId, team_name, max_team_mates, team_description);
       $.ajax({
         url: `${RESTurl}/${teamId}`,
         headers: {

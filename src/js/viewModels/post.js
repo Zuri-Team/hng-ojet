@@ -105,7 +105,6 @@ define([
       let category_id = self.category_id();
       let post_title = self.post_title();
       let post_body = self.editor().getData();
-      console.log(post_body);
       $.ajax({
         url: `${RESTurl}`,
         headers: {

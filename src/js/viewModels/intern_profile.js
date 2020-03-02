@@ -156,7 +156,6 @@ define([
         const { data } = await response.json();
 
         self.team(data.teams.map(team => team));
-        console.log(self.team());
       } catch (err) {
         console.log(err);
       }
@@ -575,8 +574,7 @@ define([
               });
               const { message } = await response.json();
 
-              console.log(message);
-              console.log(response);
+          
               // self.fetchTeam();
               // self.fetchTeams();
               self.onProbation(true);
@@ -631,7 +629,6 @@ define([
         }
       }
     };
-    console.log(self.selectedMenuItem());
 
     self.fetchUserProfile = async () => {
       try {
@@ -641,7 +638,6 @@ define([
           }
         });
         const { data } = await response.json();
-        console.log(data);
         self.profile_img(`${data.profile_img}`);
         self.fullName(`${data.firstname} ${data.lastname}`);
         self.teamName(data.teams.map(teams => `  ${teams.team_name}`));
@@ -691,7 +687,6 @@ define([
     self.Home = () => {
       self.hideProfile(params.hideProfile(false));
     };
-    console.log(params.userModel().key, params.hideProfile());
   }
   return UserProfileModel;
 });

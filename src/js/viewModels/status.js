@@ -43,7 +43,7 @@ define([
             var criteria = event.detail.value;
             if (criteria) {
                 //   this.executeSort(criteria.key, criteria.direction);
-                console.log(criteria)
+                // console.log(criteria)
             } else {
                 //   this.handleFilterChanged(event,ui);
             }

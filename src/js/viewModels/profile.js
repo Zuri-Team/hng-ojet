@@ -47,7 +47,6 @@ define(['ojs/ojcore',
               self.editing(false);
             };
             self.update = () => {
-              console.log("updating...");
               const form = {
                 firstname: self.firstname(),
                 lastname: self.lastname(),

@@ -105,11 +105,6 @@ define([
     };
     self.fetchNotifications();
 
-    self.goBack = function() {
-      console.log(params);
-      // location.reload();
-    };
-
     //mark all notifications as read
     self.markNotificationsAsRead = async () => {
       try {

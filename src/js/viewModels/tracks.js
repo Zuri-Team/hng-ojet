@@ -34,7 +34,6 @@ define(["ojs/ojcore",
             return formatDateTime.format(new Date(date).toISOString());
         };
 
-        // console.log(self.formatDateTime(date));
 
         self.trackData = ko.observable(""); //holds data for the track details
         self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
@@ -153,8 +152,6 @@ define(["ojs/ojcore",
                 document.getElementById("createNewDesc").value = "";
                 document.getElementById("createTrack").close();
                 self.fetchTracks();
-
-                console.log("track created");
 
             } catch (err) {
 

@@ -177,7 +177,7 @@ self.fetchTracks();
           }
         });
         var data = await response.json();
-        // console.log(data);
+    
 
         if (data.data.notification_count > 0)
           self.notificationCount(data.data.notification_count);
@@ -211,7 +211,7 @@ self.fetchTracks();
 
         url: `${api}/api/track/${id}/tasks`,
         success: function(res) {
-          // console.log(res);
+  
           let [latest] = res.data;
           latest.deadline = self.formatDateTime(latest.deadline);
           self.tasks(latest);
@@ -274,7 +274,7 @@ self.fetchTracks();
         });
         document.getElementById("taskURL").value = "";
         document.getElementById("taskComment").value = "";
-        console.log("task submitted");
+
       } catch (err) {
         console.log(err);
         self.applicationMessages.push({

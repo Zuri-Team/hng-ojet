@@ -21,7 +21,7 @@ define([
     self.category = ko.observable('');
     self.title = ko.observable('');
     let data = params.post()
-    console.log(data)
+ 
     self.category(data.category.title);
     self.title(data.post_title);
 
@@ -83,7 +83,6 @@ define([
         success: ({ status, data }) => {
           if (status == true) {
             self.no_of_comments(data.length);
-            console.log(data);
             self.commentsProvider(
               new Paging(
                 new ArrayDataProvider(data, {
@@ -126,7 +125,6 @@ define([
 
     self.edit_comment = () => {
       let id = self.comment().id;
-      console.log(id);
       $.ajax({
         url: `${RESTurl}/comment/${id}`,
         headers: {
@@ -136,7 +134,8 @@ define([
         data: { comment },
         success: ({ status, data }) => {
           if (status == true) {
-            console.log(data);
+
+            // console.log(data); 
           }
         },
         error: err => console.log(err)
