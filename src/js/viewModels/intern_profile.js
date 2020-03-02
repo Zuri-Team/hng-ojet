@@ -263,11 +263,7 @@ define([
             })
           }
         );
-        const res = await response.json();
-
-        const data = response.data;
-
-        console.log(res);
+        const { data } = await response.json();
 
         self.fetchUserProfile();
         document.getElementById("updateStage").close();
@@ -528,7 +524,8 @@ define([
                   team_id
                 })
               });
-              const { message } = await response.json();
+              const message  = await response.json();
+              console.log(message);
 
               self.fetchTeam();
               self.fetchTeams();
@@ -537,7 +534,7 @@ define([
               self.applicationMessages.push({
                 severity: "confirmation",
                 summary: `Add to team`,
-                detail: `${message}`,
+                detail: ``,
                 autoTimeout: parseInt("0")
               });
             } catch (err) {
@@ -666,6 +663,7 @@ define([
           }
         });
         const { data } = await response.json();
+        console.log(data);
         self.profile_img(`${data.profile_img}`);
         self.fullName(`${data.firstname} ${data.lastname}`);
         self.teamName(data.teams.map(teams => `  ${teams.team_name}`));
