@@ -194,12 +194,20 @@ define([
         const { data } = await response.json();
 
         self.fetchUserProfile();
-        self.applicationMessages.push({
+
+         self.applicationMessages.push({
           severity: "confirmation",
-          summary: `Promote ${data.role}`,
-          detail: `${data.role} ${data.username} successfully promoted to stage ${data.stage}`,
+          summary: `Promote user`,
+          detail: `Successfully promoted user to the next stage`,
           autoTimeout: parseInt("0")
         });
+
+        // self.applicationMessages.push({
+        //   severity: "confirmation",
+        //   summary: `Promote ${data.role}`,
+        //   detail: `${data.role} ${data.username} successfully promoted to stage ${data.stage}`,
+        //   autoTimeout: parseInt("0")
+        // });
       } catch (err) {
         console.log(err);
       }
@@ -216,12 +224,20 @@ define([
         const { data } = await response.json();
 
         self.fetchUserProfile();
+
         self.applicationMessages.push({
           severity: "confirmation",
-          summary: `Demote ${data.role}`,
-          detail: `${data.role} ${data.username} successfully demoted to stage ${data.stage}`,
+          summary: `Demote user`,
+          detail: `Successfully demoted user to the previous stage`,
           autoTimeout: parseInt("0")
         });
+
+        // self.applicationMessages.push({
+        //   severity: "confirmation",
+        //   summary: `Demote ${data.role}`,
+        //   detail: `${data.role} ${data.username} successfully demoted to stage ${data.stage}`,
+        //   autoTimeout: parseInt("0")
+        // });
       } catch (err) {
         console.log(err);
       }
@@ -247,16 +263,28 @@ define([
             })
           }
         );
-        const { data } = await response.json();
+        const res = await response.json();
+
+        const data = response.data;
+
+        console.log(res);
 
         self.fetchUserProfile();
         document.getElementById("updateStage").close();
-        self.applicationMessages.push({
+
+        // Using this now because the backend returns an error due to the unavailability of a slack channel.
+          self.applicationMessages.push({
           severity: "confirmation",
-          summary: `Update ${data.role}`,
-          detail: `${data.role} ${data.username} successfully updated to stage ${data.stage}`,
+          summary: `Update stage`,
+          detail: `Successfully updated user's stage`,
           autoTimeout: parseInt("0")
         });
+        // self.applicationMessages.push({
+        //   severity: "confirmation",
+        //   summary: `Update ${data.role}`,
+        //   detail: `${data.role} ${data.username} successfully updated to stage ${data.stage}`,
+        //   autoTimeout: parseInt("0")
+        // });
       } catch (err) {
         console.log(err);
       }

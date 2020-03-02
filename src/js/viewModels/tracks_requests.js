@@ -82,13 +82,13 @@ define([
 
     //    let { track: { track_name }, user : { firstname, lastname  } }
     //    = self.trackData();
-        self.action = async(actionn, request) => {
+        self.action = async(action, request) => {
 
             let key = self.trackData().id
 
             try {
 
-                const response = await fetch(`${RESTurl}/${actionn}/${key}`, {
+                const response = await fetch(`${RESTurl}/${action}/${key}`, {
                     method: `${request}`,
                     headers: {
                         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ define([
                     return;
                 }
 
-                if (actionn === "accept") {
+                if (action === "accept") {
                 // send a success message notification to the tracks view
                 self.applicationMessages.push({
 
