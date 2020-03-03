@@ -213,15 +213,24 @@ to make this accessible. -->
       <oj-label class="oj-label oj-label-inline">Tasks</oj-label>
       <select
           data-bind="options: task, optionsText: 'title',  optionsValue:'id', optionsCaption: 'Select a task', value: task_id,"
+          required
           class="form-control">
       </select>
     </div>
       <oj-label class="oj-label oj-label-inline" for="submitTask">Submit a valid URL</oj-label>
       <input
       id="submitTask"
+      required
           class="form-control" data-bind="textInput: taskURL">
       </input>
+      <oj-label class="oj-label oj-label-inline" for="submitTask">Leave a comment</oj-label>
+      <textarea
+      id="submitTask"
+      required
+          class="form-control" data-bind="textInput: comment">
+      </textarea>
     </div>
+
   </div>
   <div slot="footer">
     <oj-button id="submitBtn" on-oj-action="[[submitTask]]">Submit</oj-button>

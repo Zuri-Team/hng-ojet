@@ -81,6 +81,7 @@ define([
     self.taskURL = ko.observable('');
     self.task = ko.observableArray([]);
     self.task_id = ko.observable();
+    self.comment = ko.observable();
 
     self.notificationCount = ko.observable("");
     self.probated_by = ko.observable();
@@ -146,7 +147,8 @@ define([
       const task_id = self.task_id();
       const user_id = self.user_id();
       const submission_link = self.taskURL();
-      console.log(task_id, user_id, submission_link);
+      const comment = self.comment();
+      console.log(task_id, user_id, submission_link, comment);
       try {
         const response = await fetch(`${api}/api/submissions`, {
           method: "POST",
@@ -157,7 +159,8 @@ define([
           body: JSON.stringify({
             task_id,
             user_id,
-            submission_link
+            submission_link,
+            comment
           })
         });
         const message  = await response.json();
