@@ -104,8 +104,13 @@
               If you are not unprobated on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
             </div>
           </oj-bind-if>
-          <div class="mb-5">
-            <button class="btn btn-success float-right" data-bind="click: popModal">Change Track</button>
+          <div class="d-flex justify-content-end">
+             <div class="mb-5">
+            <button class="btn btn-success" data-bind="click: popModal">Change Track</button>
+          </div>
+          <div class="mb-5 ml-4">
+            <button class="btn btn-warning" data-bind="click: revealModal">Submit Task</button>
+          </div>
           </div>
 
           <oj-train id="train" class="oj-train-stretch col-sm-10 col-12 p-sm-0 p-0 mx-sm-auto my-3"
@@ -196,5 +201,29 @@ to make this accessible. -->
   </div>
   <div slot="footer">
     <oj-button id="submitBtn" on-oj-action="[[submitRequest]]">Submit</oj-button>
+  </div>
+</oj-dialog>
+
+<!-- Task Submission Modal -->
+
+<oj-dialog id="submitDialog" style="display:none" title="Make a task submission">
+  <div slot="body">
+    <div class="form-group">
+       <div class="form-group">
+      <oj-label class="oj-label oj-label-inline">Tasks</oj-label>
+      <select
+          data-bind="options: task, optionsText: 'title',  optionsValue:'id', optionsCaption: 'Select a task', value: task_id,"
+          class="form-control">
+      </select>
+    </div>
+      <oj-label class="oj-label oj-label-inline" for="submitTask">Submit a valid URL</oj-label>
+      <input
+      id="submitTask"
+          class="form-control" data-bind="textInput: taskURL">
+      </input>
+    </div>
+  </div>
+  <div slot="footer">
+    <oj-button id="submitBtn" on-oj-action="[[submitTask]]">Submit</oj-button>
   </div>
 </oj-dialog>

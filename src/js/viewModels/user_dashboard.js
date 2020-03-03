@@ -77,6 +77,11 @@ define([
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observable({});
 
+    // tasks specific observables
+    self.taskURL = ko.observable('');
+    self.task = ko.observableArray([]);
+    self.task_id = ko.observable();
+
     self.notificationCount = ko.observable("");
     self.probated_by = ko.observable();
     self.probation_reason = ko.observable();
@@ -88,6 +93,10 @@ define([
     self.popModal = () => {
       document.getElementById("requestDialog").open();
     }
+
+    self.revealModal = () => {
+      document.getElementById("submitDialog").open();
+    };
 
     self.submitRequest = async() => {
       const track_id = self.tracks_id();
@@ -133,6 +142,43 @@ define([
     }
 
 
+    self.submitTask = async () => {
+      const task_id = self.task_id();
+      const user_id = self.user_id();
+      const submission_link = self.taskURL();
+      console.log(task_id, user_id, submission_link);
+      try {
+        const response = await fetch(`${api}/api/submissions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            task_id,
+            user_id,
+            submission_link
+          })
+        });
+        const message  = await response.json();
+        document.getElementById("submitDialog").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: `Track Request`,
+          detail: ``,
+          autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: `Error sending request`,
+          detail: ``,
+          autoTimeout: parseInt("0")
+        });
+      }
+    };
+
     //  Fetch all tracks
     self.fetchTracks = async() => {
       try {
@@ -152,6 +198,23 @@ define([
       }
     };
     self.fetchTracks();
+
+    self.fetchTasks = async () => {
+      try {
+        const response = await fetch(`${api}/api/tasks`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        // return console.log(await response.json());
+        const { data } = await response.json();
+
+        self.task(data.map(task => task));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    self.fetchTasks();
 
     self.stepArray = ko.observableArray([
       {id: "1"},
