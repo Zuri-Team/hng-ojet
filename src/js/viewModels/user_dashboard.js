@@ -38,6 +38,7 @@ define([
     self.selectedItem = ko.observable();
     self.dataProvider = ko.observable();
 
+    self.tracksArray = ko.observable([]);
 
     self.drawer =
             {
@@ -163,7 +164,7 @@ define([
             comment
           })
         });
-        const message  = await response.json();
+        // const message  = await response.json();
         document.getElementById("submitDialog").close();
         self.applicationMessages.push({
           severity: "confirmation",
@@ -280,6 +281,7 @@ define([
               }
           });
           const { data } = await response.json();
+          console.log(data);
 
 
           self.dataProvider(
@@ -308,6 +310,9 @@ define([
         success: function (response) {
           let [{id, track_name}] = response.data.tracks;
           self.tracks(track_name);
+          self.tracksArray(
+            response.data.tracks.map(tracks => `   ${tracks.track_name}`)
+          );
           self.getTasks(id);
         }
       });

@@ -89,7 +89,7 @@
           <header class="d-flex" style=" color: #768093">
             <div class="w-100">
               <h4 class="py-1 text-capitalize"><span data-bind="text: fullname"></span></h4>
-              <p class="badge badge-dark p-2" data-bind="text: tracks"></p><br/>
+              <p class="badge badge-dark p-2" data-bind="text: tracksArray"></p><br/>
 
             </div>
             <div class="w-100 text-right">
@@ -108,7 +108,7 @@
              <div class="mb-5">
             <button class="btn btn-success" data-bind="click: popModal">Change Track</button>
           </div>
-          <div class="mb-5 ml-4">
+          <div class="mb-5 ml-3">
             <button class="btn btn-warning" data-bind="click: revealModal">Submit Task</button>
           </div>
           </div>
@@ -117,7 +117,7 @@
                     on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}" steps="[[stepArray]]">
           </oj-train>
 
-          <h5 data-bind="text:  ' Latest tasks '"></h5>
+          <h5 data-bind="text:  'Latest tasks '"></h5>
 
           <div class="oj-flex oj-sm-justify-content-center">
             <div class="col-sm-12 col-md-11">
