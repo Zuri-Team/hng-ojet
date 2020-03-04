@@ -162,6 +162,7 @@ define([
           }
         });
         var data = await response.json();
+        // console.log(data);
 
         if (data.data.notification_count > 0)
           self.notificationCount(data.data.notification_count);
