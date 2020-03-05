@@ -224,8 +224,9 @@ to make this accessible. -->
       <oj-label class="oj-label oj-label-inline" for="submitTask">Submit a valid URL</oj-label>
       <input
       id="submitTask"
+      type="url"
       required
-          class="form-control" data-bind="textInput: taskURL">
+          class="form-control" data-bind="textInput: taskURL().url">
       </input>
       <oj-label class="oj-label oj-label-inline" for="submitTask">Leave a comment</oj-label>
       <textarea

@@ -80,7 +80,7 @@ define([
     self.taskSubmit = ko.observable({});
 
     // tasks specific observables
-    self.taskURL = ko.observable("");
+    self.taskURL = ko.observable({});
     self.task = ko.observableArray([]);
     self.task_id = ko.observable();
     self.comment = ko.observable();
@@ -142,8 +142,20 @@ define([
     self.submitTask = async () => {
       const task_id = self.task_id();
       const user_id = self.user_id();
-      const submission_link = self.taskURL();
+      const submission_link = self.taskURL().url;
       const comment = self.comment();
+
+      console.log(
+        submission_link,
+        JSON.parse(
+          JSON.stringify({
+            user_id: 16,
+            task_id: 7,
+            submission_link: "https://api.start.ng/api/submissions",
+            comment: "Hello Everyone"
+          })
+        )
+      );
 
       try {
         const response = await fetch(`${api}/api/submissions`, {
