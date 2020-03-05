@@ -34,7 +34,6 @@ define(["ojs/ojcore",
             return formatDateTime.format(new Date(date).toISOString());
         };
 
-        // console.log(self.formatDateTime(date));
 
         self.trackData = ko.observable(""); //holds data for the track details
         self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
@@ -58,6 +57,7 @@ define(["ojs/ojcore",
 
         self.trackRequestsHidden = () => {
             self.showTrackRequests(false);
+            self.fetchPendingTrackRequests();
             
         }
 
@@ -153,8 +153,6 @@ define(["ojs/ojcore",
                 document.getElementById("createTrack").close();
                 self.fetchTracks();
 
-                console.log("track created");
-
             } catch (err) {
 
 
@@ -210,8 +208,6 @@ define(["ojs/ojcore",
                 });
                 document.getElementById("editTrack").close();
                 self.fetchTracks();
-
-                console.log("track updated");
 
             } catch (err) {
 
@@ -297,6 +293,14 @@ define(["ojs/ojcore",
             }
         };
         self.fetchPendingTrackRequests();
+
+        // listen for changes
+        let pm = ko.dataFor(document.querySelector("#admin"));
+        pm.selectedItem.subscribe(function() {
+            if (pm.selectedItem() == "Tracks") {
+              self.fetchPendingTrackRequests();
+            }
+        });
     }
     return new tracksViewModel();
 });

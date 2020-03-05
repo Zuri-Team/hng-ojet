@@ -1,7 +1,7 @@
   define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout',
   'ojs/ojavatar', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
   function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
-  { 
+  {
   function probationViewModel() {
     var self = this;
     self.interns = ko.observableArray([]);
@@ -22,7 +22,7 @@
 
     self.dataProvider = ko.observable();
 
-    
+
 
     var userToken = sessionStorage.getItem("user_token");
 
@@ -36,7 +36,6 @@
         if (data == null) {
           return;
         } else {
-         console.log("clicked");
          self.isUserProfile(true);
         }
       }
@@ -54,12 +53,11 @@
                 // console.log(data);
             }
         }
-      });  
-      setTimeout(fetchdashboard, 15000);
+      });
     }
-  
+
   fetchdashboard();
- 
+
     function fetchProbatedInterns() {
       $.ajax({
         url: `${api}/api/probation/all`,
@@ -75,10 +73,9 @@
             }
             self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'user_id'})));
         }
-  
+
       }
-    }); 
-    setTimeout(fetchProbatedInterns, 15000); 
+    });
   }
   fetchProbatedInterns();
 

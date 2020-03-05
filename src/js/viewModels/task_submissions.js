@@ -21,6 +21,7 @@ function TaskSubmissionsModel(params) {
   self.body = ko.observable("");
   self.is_active = ko.observable("");
   self.track = ko.observable("");
+  self.submission_count = ko.observable("");
 
   self.editRow = ko.observable();
 
@@ -35,6 +36,7 @@ function TaskSubmissionsModel(params) {
   self.track_id = ko.observable();
   self.task = ko.observableArray([]);
   self.tasks = ko.observableArray([]);
+  self.submissionId = ko.observable("");
 
   var tracksURL = `${api}/api/track`;
   var tasksURL = `${api}/api/task`;
@@ -44,9 +46,6 @@ function TaskSubmissionsModel(params) {
   self.dataProvider = ko.observable()
 
   var userToken = sessionStorage.getItem("user_token");
-
-  var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
-      self.numberConverter = numberConverterFactory.createConverter();
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));
@@ -65,6 +64,11 @@ function TaskSubmissionsModel(params) {
     document.getElementById("deleteAllSubmissionModal").open();
   };
 
+  self.deleteSubmissionModal = function(event, context) {
+    self.submissionId(context.row.id);
+    document.getElementById("deleteSubmissionModal").open();
+  };
+
   self.handleUpdate = function(event, context) {
     self.editRow({rowKey: context.key});
   };
@@ -73,10 +77,14 @@ function TaskSubmissionsModel(params) {
     self.editRow({rowKey: null});
     var userId = context.row.user_id
     var grade = context.row.grade_score;
-    self.gradeTask(userId, grade);
+    var graded = 1;
+    self.gradeTask(userId, grade, graded);
     };
 
-  // datetime converter
+    var numberConverterFactory = ValidationBase.Validation.converterFactory("number");
+    self.numberConverter = numberConverterFactory.createConverter();
+
+    // datetime converter
   self.formatDateTime = date => {
     var formatDateTime = oj.Validation.converterFactory(
       oj.ConverterFactory.CONVERTER_TYPE_DATETIME
@@ -100,13 +108,12 @@ function TaskSubmissionsModel(params) {
           method: "GET",
 
           success: ({status, data}) => {
-
             if (status == true) {
-              console.log(data);
               if (data.comment === null){
                 data.comment = 'No comment';
               }
-              self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttribute: 'user_id'})));
+              const submissions = data.filter(datum => datum.is_graded !== 1);
+              self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(submissions, {keyAttribute: 'user_id'})));
           }
         }
       });
@@ -148,16 +155,17 @@ function TaskSubmissionsModel(params) {
 };
 self.fetchTrack();
 
-self.gradeTask = function(userId, grade) {
+self.gradeTask = function(userId, grade, graded) {
   let grade_score = grade;
   let user_id = userId;
+  let is_graded = graded;
   $.ajax({
     method: "POST",
     url: `${api}/api/user/task/${task_id}`,
     headers: {
       Authorization: "Bearer " + userToken
         },
-    data: { grade_score, user_id },
+    data: { grade_score, user_id, is_graded },
     success: res => {
         fetchSubmission();
     },
@@ -247,6 +255,7 @@ self.deleteAllSubmission = async () => {
       }
     });
     fetchSubmission();
+    self.fetchTask();
     document.getElementById("deleteAllSubmissionModal").close();
     self.applicationMessages.push({
       severity: "confirmation",
@@ -260,6 +269,37 @@ self.deleteAllSubmission = async () => {
       severity: "error",
       summary: "Error deleting all submissions",
       detail: "An error was encountered, could not delete submissions",
+      autoTimeout: parseInt("0")
+    });
+  }
+}
+
+self.deleteSubmission = async () => {
+  let submission_id = self.submissionId();
+  try {
+    const response = await fetch(`${api}/api/submissions/${submission_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`
+      }
+    });
+    fetchSubmission();
+    self.fetchTask();
+    document.getElementById("deleteSubmissionModal").close();
+    self.applicationMessages.push({
+      severity: "confirmation",
+      summary: "Submission deleted",
+      detail: "Task submission deleted",
+      autoTimeout: parseInt("0")
+    });
+  } catch (err) {
+    console.log(err);
+    self.applicationMessages.push({
+      severity: "error",
+      summary: "Error deleting submission",
+      detail: "An error was encountered, could not delete submission",
       autoTimeout: parseInt("0")
     });
   }
@@ -280,6 +320,7 @@ self.deleteAllSubmission = async () => {
       self.body(`${data[0].body}`);
       self.deadline(self.formatDateTime(`${data[0].deadline}`));
       self.is_active(`${data[0].is_active}`);
+      self.submission_count(`${data[0].submissions.filter(e => e.is_graded != 1) > 0 ? data[0].total_submissions : ''}`);
     } catch (err) {
       console.log(err);
     }

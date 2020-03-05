@@ -5,6 +5,7 @@ define([
   "./api",
   "ojs/ojknockout-keyset",
   "ojs/ojpagingdataproviderview",
+  "jquery",
   "ojs/ojknockout",
   "ojs/ojlistview",
   "ojs/ojbutton",
@@ -13,10 +14,9 @@ define([
   "ojs/ojinputtext",
   "ojs/ojmessages",
   "ojs/ojvalidation-datetime",
-  "ojs/ojpagingcontrol",
-  "jquery"
-], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView) {
-  function notificationsViewModel() {
+  "ojs/ojpagingcontrol"
+], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView, $) {
+  function NotificationsViewModel() {
     var self = this;
 
     var notificationsURL = `${api}/api/notifications`;
@@ -148,20 +148,19 @@ define([
           //     track_id
           //   })
         });
-
         // send a success message notification to the tracks view
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "All Notifications cleared",
-          detail: "All Notifications has been successfully cleared",
-          autoTimeout: parseInt("0")
-        });
-
+        if (response && response.status == 200) {
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: "All Notifications cleared",
+            detail: "All Notifications have been successfully cleared",
+            autoTimeout: parseInt("0")
+          });
+        }
         document.getElementById("deleteNotifications").close();
         self.fetchNotifications();
       } catch (err) {
         console.log(err);
-
         // send an error message notification to the tracks view
         self.applicationMessages.push({
           severity: "error",
@@ -178,5 +177,5 @@ define([
       // self.fetchCount();
     };
   }
-  return new notificationsViewModel();
+  return new NotificationsViewModel();
 });

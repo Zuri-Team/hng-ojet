@@ -150,7 +150,6 @@ self.fetchTeam = async() => {
 
         self.team(data.teams.map(team => team)
             );
-            console.log(self.team())
     } catch (err) {
         console.log(err);
     }
@@ -561,7 +560,6 @@ self.fetchTeam();
     }
     }
 }
-    console.log(self.selectedMenuItem())
 
 
 
@@ -580,7 +578,7 @@ self.fetchTeam();
             self.role(`${data.role}`)
             self.tracksArray(data.tracks.map(tracks => `  ${tracks.track_name}`))
 
-            // console.log(data.tracks, data.role, data.active)
+    
 
             // hide the make admin and show the make user button if admin or superadmin
             if(data.role == "admin" || data.role == "superadmin"){

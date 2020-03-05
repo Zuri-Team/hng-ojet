@@ -4,8 +4,9 @@ define([
   "jquery",
   "./api",
   "ojs/ojarraydataprovider",
-  "ojs/ojresponsiveutils",
-  "ojs/ojresponsiveknockoututils",
+  'ojs/ojpagingdataproviderview',
+  'ojs/ojpagingcontrol',
+  "ojs/ojlistview",
   "ojs/ojinputtext",
   "ojs/ojknockout",
   "ojs/ojselectcombobox",
@@ -25,7 +26,7 @@ define([
   "ojs/ojvalidation-datetime",
   "ojs/ojtimezonedata",
   'ojs/ojradioset'
-], function(oj, ko, $, api, ArrayDataProvider, ResponsiveUtils, ResponsiveKnockoutUtils) {
+], function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView) {
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
@@ -34,29 +35,37 @@ define([
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
 
+    self.selectedItem = ko.observable();
+    self.dataProvider = ko.observable();
 
+    self.tracksArray = ko.observable([]);
+
+     self.isNotify = ko.observable(false);
+
+    self.drawer =
+            {
+              "displayMode": "overlay",
+              "selector": "#sidebar",
+              "content": "#maincontent",
+            };
+
+    self.toggleDrawer = function ()
+    {
+      self.isNotify(false);
+      return oj.OffcanvasUtils.toggle(self.drawer);
+    };
 
     //logout button
     self.open = function (event) {
       document.getElementById('logoutModal').open();
     };
-    self.logout = function() {
+    self.logout = function () {
       sessionStorage.clear();
       router.go("login");
     };
-    self.selectedItem = ko.observable();
 
-    self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
-      ResponsiveUtils.getFrameworkQuery(
-        ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
-      )
-    );
-    // toggle hambuger on navbar
-    self.toggleDrawer = function() {
-      $("#maincontent, #sidebar").toggleClass("smactive");
-    };
     self.sb_sm = ko.observable(false);
-    self.searchbar_sm = function() {
+    self.searchbar_sm = function () {
       self.sb_sm(!self.sb_sm());
     };
 
@@ -72,94 +81,159 @@ define([
     self.notifsCount = ko.observable();
     self.taskSubmit = ko.observable({});
 
+    // tasks specific observables
+    self.taskURL = ko.observable('');
+    self.task = ko.observableArray([]);
+    self.task_id = ko.observable();
+    self.comment = ko.observable();
+
     self.notificationCount = ko.observable("");
     self.probated_by = ko.observable();
     self.probation_reason = ko.observable();
     self.deadline = ko.observable();
     self.onProbation = ko.observable(false);
 
-    var submissionURL = `${api}/api/submissions`;
     var notificationsURL = `${api}/api/notifications`;
 
-    self.popModal = () => {     
+    self.popModal = () => {
       document.getElementById("requestDialog").open();
     }
 
-    self.submitRequest =  async() => {
-        const track_id = self.tracks_id();
-        const user_id = self.user_id();
-        const reason = self.newTrack.reason;
-        const action = self.chosenAction();
-        try {
-            const response = await fetch(`${api}/api/track-requests/send-request`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${userToken}`
-                },
-                body: JSON.stringify({
-                    track_id,
-                    user_id,
-                    action,
-                    reason
-                })
-            });
-            const { message } = await response.json();
-            document.getElementById("requestDialog").close();
-            self.applicationMessages.push({
+    self.revealModal = () => {
+      document.getElementById("submitDialog").open();
+    };
 
-                severity: "confirmation",
-                summary: `Track Request`,
-                detail: `${message}`,
-                autoTimeout: parseInt("0")
+    self.submitRequest = async() => {
+      const track_id = self.tracks_id();
+      const user_id = self.user_id();
+      const reason = self.newTrack.reason;
+      const action = self.chosenAction();
+      try {
+        const response = await fetch(`${api}/api/track-requests/send-request`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            track_id,
+            user_id,
+            action,
+            reason
+          })
+        });
+        const {message} = await response.json();
+        document.getElementById("requestDialog").close();
+        self.applicationMessages.push({
 
-            });
-        } catch (err) {
-            console.log(err);
-            self.applicationMessages.push({
+          severity: "confirmation",
+          summary: `Track Request`,
+          detail: `${message}`,
+          autoTimeout: parseInt("0")
 
-              severity: "error",
-              summary: `Error sending request`,
-              detail: `${message}`,
-              autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
 
-          });
-        }
-    
+          severity: "error",
+          summary: `Error sending request`,
+          detail: `${message}`,
+          autoTimeout: parseInt("0")
+
+        });
+      }
+
     }
 
 
+    self.submitTask = async () => {
+      const task_id = self.task_id();
+      const user_id = self.user_id();
+      const submission_link = self.taskURL();
+      const comment = self.comment();
+   
+      try {
+        const response = await fetch(`${api}/api/submissions`, {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            task_id,
+            user_id,
+            submission_link,
+            comment
+          })
+        });
+        // const message  = await response.json();
+        document.getElementById("submitDialog").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: `Track Request`,
+          detail: ``,
+          autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: `Error sending request`,
+          detail: ``,
+          autoTimeout: parseInt("0")
+        });
+      }
+    };
+
     //  Fetch all tracks
-   self.fetchTracks = async() => {
-    try {
+    self.fetchTracks = async() => {
+      try {
         const response = await fetch(`${api}/api/track/all`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`
-            }
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
         });
         const {
-            data: { data }
+          data: {data}
         } = await response.json();
 
         self.track(data.map(track => track)
-            );
-    } catch (err) {
+                );
+      } catch (err) {
         console.log(err);
-    }
-};
-self.fetchTracks();
+      }
+    };
+    self.fetchTracks();
+
+    self.fetchTasks = async () => {
+      try {
+        const response = await fetch(`${api}/api/tasks`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        // return console.log(await response.json());
+        const { data } = await response.json();
+
+        self.task(data.map(task => task));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    self.fetchTasks();
 
     self.stepArray = ko.observableArray([
-      { id: "1" },
-      { id: "2" },
-      { id: "3" },
-      { id: "4" },
-      { id: "5" },
-      { id: "6" },
-      { id: "7" },
-      { id: "8" },
-      { id: "9" },
-      { id: "10" }
+      {id: "1"},
+      {id: "2"},
+      {id: "3"},
+      {id: "4"},
+      {id: "5"},
+      {id: "6"},
+      {id: "7"},
+      {id: "8"},
+      {id: "9"},
+      {id: "10"}
     ]);
     self.updateLabelText = event => {
       var train = document.getElementById("train");
@@ -189,8 +263,8 @@ self.fetchTracks();
     // datetime converter
     self.formatDateTime = date => {
       var formatDateTime = oj.Validation.converterFactory(
-        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-      ).createConverter({
+              oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+              ).createConverter({
         formatType: "datetime",
         dateFormat: "medium",
         timeFormat: "short",
@@ -202,22 +276,31 @@ self.fetchTracks();
 
     self.tasks = ko.observable({});
 
-    function getTasks(id) {
-      $.ajax({
-        type: "GET",
-        headers: {
-          Authorization: `Bearer ${userToken}`
-        },
+    self.getTasks = async(id) => {
+      try {
+          const response = await fetch(`${api}/api/track/${id}/tasks`, {
+              headers: {
+                  Authorization: `Bearer ${userToken}`
+              }
+          });
+          const { data } = await response.json();
+          // console.log(data);
 
-        url: `${api}/api/track/${id}/tasks`,
-        success: function(res) {
-          // console.log(res);
-          let [latest] = res.data;
-          latest.deadline = self.formatDateTime(latest.deadline);
-          self.tasks(latest);
-        }
-      });
-    }
+
+          self.dataProvider(
+              new PagingDataProviderView(
+                  new ArrayDataProvider(data, {
+                      keys: data.map(function(value) {
+                          value.deadline = self.formatDateTime(value.deadline);
+                          return value.title;
+                      })
+                  })
+              )
+          );
+      } catch (err) {
+          console.log(err);
+      }
+  };
 
     function fetchTrack(id) {
       $.ajax({
@@ -227,109 +310,61 @@ self.fetchTracks();
         },
 
         url: `${api}/api/user-profile/${id}`,
-        success: function(response) {
-          let [{ id, track_name }] = response.data.tracks;
+        success: function (response) {
+          let [{id, track_name}] = response.data.tracks;
           self.tracks(track_name);
-          getTasks(id);
+          self.tracksArray(
+            response.data.tracks.map(tracks => `   ${tracks.track_name}`)
+          );
+          self.getTasks(id);
         }
       });
     }
 
-    self.submitTask = async () => {
-      let user_id = self.user_id();
-      let task_id = self.tasks().id;
-      let submission_link = self.taskSubmit().submission_link;
-      let comment = self.taskSubmit().task_comment;
-      
-//task submission validation
-      const feedback = document.getElementById('submission_feedback');
-      if (submission_link.match(new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi))){
-        feedback.style.color = 'green';
-        feedback.innerHTML = 'Valid URL';
-      } else {
-        feedback.style.color = 'red';
-        feedback.innerHTML = 'Invalid URL, please check!';
-      }
-
-      try {
-        const response = await fetch(`${submissionURL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`
-          },
-          body: JSON.stringify({
-            user_id,
-            task_id,
-            submission_link,
-            comment
-          })
-        });
-
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: "Task submitted",
-          detail: "You have successfully submitted",
-          autoTimeout: parseInt("0")
-        });
-        document.getElementById("taskURL").value = "";
-        document.getElementById("taskComment").value = "";
-        console.log("task submitted");
-      } catch (err) {
-        console.log(err);
-        self.applicationMessages.push({
-          severity: "error",
-          summary: "Error submitting task",
-          detail: "Error submitting task. Please try again.",
-          autoTimeout: parseInt("0")
-        });
-      }
-    };
-
     this.tags = ko.observableArray([
-      { value: ".net", label: ".net" },
-      { value: "Accounting", label: "Accounting" },
-      { value: "ADE", label: "ADE" },
-      { value: "Adf", label: "Adf" },
-      { value: "Adfc", label: "Adfc" },
-      { value: "Adfm", label: "Adfm" },
-      { value: "Android", label: "Android" },
-      { value: "Aria", label: "Aria" },
-      { value: "C", label: "C" },
-      { value: "C#", label: "C#" },
-      { value: "C++", label: "C++" },
-      { value: "Chrome", label: "Chrome" },
-      { value: "Cloud", label: "Cloud" },
-      { value: "CSS3", label: "CSS3" },
-      { value: "DBA", label: "DBA" },
-      { value: "Eclipse", label: "Eclipse" },
-      { value: "Firefox", label: "Firefox" },
-      { value: "Git", label: "Git" },
-      { value: "Hibernate", label: "Hibernate" },
-      { value: "HTML", label: "HTML" },
-      { value: "HTML5", label: "HTML5" },
-      { value: "IE", label: "IE" },
-      { value: "IOS", label: "IOS" },
-      { value: "Java", label: "Java" },
-      { value: "Javascript", label: "Javascript" },
-      { value: "JDeveloper", label: "JDeveloper" },
-      { value: "Jet", label: "jet" },
-      { value: "JQuery", label: "JQuery" },
-      { value: "JQueryUI", label: "JQueryUI" },
-      { value: "JS", label: "JS" },
-      { value: "Knockout", label: "Knockout" },
-      { value: "MAF", label: "MAF" },
-      { value: "Maven", label: "Maven" },
-      { value: "MCS", label: "MCS" },
-      { value: "MySql", label: "MySql" },
-      { value: "Netbeans", label: "Netbeans" },
-      { value: "Oracle", label: "Oracle" },
-      { value: "Solaris", label: "solaris" },
-      { value: "Spring", label: "spring" },
-      { value: "Svn", label: "Svn" },
-      { value: "UX", label: "UX" },
-      { value: "xhtml", label: "xhtml" },
-      { value: "XML", label: "XML" }
+      {value: ".net", label: ".net"},
+      {value: "Accounting", label: "Accounting"},
+      {value: "ADE", label: "ADE"},
+      {value: "Adf", label: "Adf"},
+      {value: "Adfc", label: "Adfc"},
+      {value: "Adfm", label: "Adfm"},
+      {value: "Android", label: "Android"},
+      {value: "Aria", label: "Aria"},
+      {value: "C", label: "C"},
+      {value: "C#", label: "C#"},
+      {value: "C++", label: "C++"},
+      {value: "Chrome", label: "Chrome"},
+      {value: "Cloud", label: "Cloud"},
+      {value: "CSS3", label: "CSS3"},
+      {value: "DBA", label: "DBA"},
+      {value: "Eclipse", label: "Eclipse"},
+      {value: "Firefox", label: "Firefox"},
+      {value: "Git", label: "Git"},
+      {value: "Hibernate", label: "Hibernate"},
+      {value: "HTML", label: "HTML"},
+      {value: "HTML5", label: "HTML5"},
+      {value: "IE", label: "IE"},
+      {value: "IOS", label: "IOS"},
+      {value: "Java", label: "Java"},
+      {value: "Javascript", label: "Javascript"},
+      {value: "JDeveloper", label: "JDeveloper"},
+      {value: "Jet", label: "jet"},
+      {value: "JQuery", label: "JQuery"},
+      {value: "JQueryUI", label: "JQueryUI"},
+      {value: "JS", label: "JS"},
+      {value: "Knockout", label: "Knockout"},
+      {value: "MAF", label: "MAF"},
+      {value: "Maven", label: "Maven"},
+      {value: "MCS", label: "MCS"},
+      {value: "MySql", label: "MySql"},
+      {value: "Netbeans", label: "Netbeans"},
+      {value: "Oracle", label: "Oracle"},
+      {value: "Solaris", label: "solaris"},
+      {value: "Spring", label: "spring"},
+      {value: "Svn", label: "Svn"},
+      {value: "UX", label: "UX"},
+      {value: "xhtml", label: "xhtml"},
+      {value: "XML", label: "XML"}
     ]);
 
     self.tagsDataProvider = new ArrayDataProvider(this.tags, {
@@ -339,7 +374,7 @@ self.fetchTracks();
     self.searchTerm = ko.observable();
     self.searchTimeStamp = ko.observable();
 
-    self.search = function(event) {
+    self.search = function (event) {
       var eventTime = getCurrentTime();
       var trigger = event.type;
       var term;
@@ -361,7 +396,6 @@ self.fetchTracks();
       self.searchTimeStamp("Last search fired at: " + eventTime);
     };
 
-
     this.keyword = ko.observableArray();
 
     self.fullname = ko.observable("");
@@ -369,49 +403,41 @@ self.fetchTracks();
     self.slack = ko.observable("");
     self.fileNames = ko.observableArray([]);
 
-    self.selectListener = function(event) {
+    self.selectListener = function (event) {
       var files = event.detail.files;
       self.fileNames.push(files[i].name);
     };
 
-  //   function fetchProbatedInterns() {
-  //     $.ajax({
-  //       url: `${api}/api/probation/all`,
-  //       headers: {
-  //         Authorization: "Bearer " + userToken
-  //       },
-  //       method: "GET",
-  //       success: ({status, data}) => {
-  //         if (status == "success") {
-  //           for (index in data){
-  //             self.probated_by(data[index].probated_by);
-  //           self.probation_reason(data[index].probation_reason);
-  //           self.user_id(data[index].user_id);
-  //           self.probatedInternsId().push(self.user_id());
-  //           }
-
-  //           console.log(self.probated_by());
-  //           console.log(self.probation_reason());
-  //           // self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'id'})));
-  //       }
-
-  //     }
-  //   });
-  // }
-  // fetchProbatedInterns();
-
     //route to notifications
-    self.gotoNotifications = function() {
+    self.gotoNotifications = function () {
       router.go("notifications");
     };
 
-    self.connected = function() {
+    self.profile_img = ko.observable('/css/images/smiley.png');
+    function display_user_info(id) {
+      $.ajax({
+        url: `${api}/api/profile/${id}`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: res => {
+          const [...data] = res.data
+          const [user, profile] = data
+          const {firstname, lastname, username, } = user;
+          const {profile_img} = profile;
+          self.profile_img(profile_img);
+          self.fullname(`${firstname} ${lastname}`);
+        }
+      });
+    }
+
+    self.connected = function () {
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-      // console.log(user);
 
       function fetchIfProbated() {
         $.ajax({
@@ -422,23 +448,23 @@ self.fetchTracks();
           method: "GET",
           success: ({status, data}) => {
             if (status == "success") {
-              if (data.probator !== undefined){
+              if (data.probator !== undefined) {
                 self.onProbation(data.status);
-                self.probated_by(data.probator.firstname+' '+data.probator.lastname);
-                    self.probation_reason(data.probation_reason);
-                    self.deadline(data.exit_on);
+                self.probated_by(data.probator.firstname + ' ' + data.probator.lastname);
+                self.probation_reason(data.probation_reason);
+                self.deadline(data.exit_on);
               } else {
                 self.onProbation(false)
               }
           }
 
-        }
-      });
-    }
-    fetchIfProbated();
+          }
+        });
+      }
 
+      fetchIfProbated();
       fetchTrack(user.id);
-      self.fullname(`${user.firstname} ${user.lastname}`);
+      display_user_info(user.id)
       self.stepArray().map((stage, i) => {
         stage.disabled = true;
         if (i + 1 == user.stage) {
@@ -451,19 +477,34 @@ self.fetchTracks();
       //notifications unread count
       self.fetchCount();
 
-      //notifications click
-      $("#notifi").on("click", function() {
-        let attr = $(this).attr("for");
-        $("#maincontent_intern_body > div").hide();
-        $(`#maincontent_intern_body > div[id='${attr}']`).show();
-      });
+      // Go back to dashboard
 
-      $("#sidebar li a").on("click", function() {
+       self.dashboard = () => {
+         self.isNotify(false);
+       };
+
+        self.toggleNotify = () => {
+          self.isNotify(!self.isNotify());
+        };
+
+      // //notifications click
+      // $("#notifi").on("click", function () {
+      //   let attr = $(this).attr("for");
+      //   $("#maincontent_intern_body > div").hide();
+      //   $(`#maincontent_intern_body > div[id='${attr}']`).toggle();
+      // });
+
+      $("#sidebar li a").on("click", function () {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();
         $(`#maincontent_intern_body > div[id='${attr}']`).show();
+        oj.OffcanvasUtils.close(self.drawer);
+        if (attr == "overview-intern") {
+          display_user_info(user.id);
+        }
       });
     };
+
   }
   return new UserDashboardViewModel();
 });

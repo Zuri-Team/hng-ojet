@@ -187,11 +187,12 @@ src="[[profile_img]]">
                       </span>
                     </div>
                     <div class="oj-flex mt-4 oj-sm-12">
+                      <oj-bind-if test="[[!onProbation()]]">
                       <div class="">
                         <button
                           id="createButton"
                           class="btn btn-outline-success mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: promote, disable:  lastStage(), disable:onProbation()"
+                          data-bind="click: promote, disable:  lastStage()"
                         >
                           Promote
                         </button>
@@ -200,7 +201,7 @@ src="[[profile_img]]">
                         <button
                           id="createButton"
                           class="btn btn-outline-danger mr-2 oj-sm-margin-4x-bottom"
-                          data-bind="click: demote, disable: firstStage(), disable:onProbation()"
+                          data-bind="click: demote, disable: firstStage()"
                         >
                           Demote
                         </button>
@@ -214,6 +215,10 @@ src="[[profile_img]]">
                           Update Stage
                         </button>
                       </div>
+                      </oj-bind-if>
+                      <oj-bind-if test="[[onProbation()]]">
+                        <p class="font-weight-bolder text-danger">This intern is on probation. You cannot promote, demote or update their stage</p>
+                      </oj-bind-if>
                       <div id="menubutton-container">
                         <oj-menu-button id="menuButton">
                           More Actions

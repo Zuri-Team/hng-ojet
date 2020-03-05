@@ -3,8 +3,6 @@ define([
   "knockout",
   "jquery",
   "ojs/ojarraydataprovider",
-  "ojs/ojresponsiveutils",
-  "ojs/ojresponsiveknockoututils",
   "ojs/ojcomponentcore",
   "./api",
   "ojs/ojinputtext",
@@ -21,29 +19,26 @@ define([
   "ojs/ojformlayout",
   "ojs/ojbutton",
   "ojs/ojchart",
-  'ojs/ojdialog'
-], function(
-  oj,
-  ko,
-  $,
-  ArrayDataProvider,
-  ResponsiveUtils,
-  ResponsiveKnockoutUtils,
-  Components,
-  api
-) {
+  "ojs/ojdialog"
+], function(oj, ko, $, ArrayDataProvider, Components, api) {
   function AdminDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
     var userToken = sessionStorage.getItem("user_token");
 
     self.selectedItem = ko.observable();
+    self.isNotify = ko.observable(false);
 
-    self.isSmall = ResponsiveKnockoutUtils.createMediaQueryObservable(
-      ResponsiveUtils.getFrameworkQuery(
-        ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
-      )
-    );
+    self.drawer = {
+      displayMode: "overlay",
+      selector: "#sidebar",
+      content: "#maincontent"
+    };
+
+    self.toggleDrawer = function() {
+      self.isNotify(false);
+      return oj.OffcanvasUtils.toggle(self.drawer);
+    };
 
     self.tags = [
       { value: ".net", label: ".net" },
@@ -167,6 +162,7 @@ define([
           }
         });
         var data = await response.json();
+        // console.log(data);
 
         if (data.data.notification_count > 0)
           self.notificationCount(data.data.notification_count);
@@ -175,10 +171,6 @@ define([
       }
     };
 
-    // toggle hambuger on navbar
-    self.toggleDrawer = function() {
-      $("#maincontent, #sidebar").toggleClass("smactive");
-    };
     self.sb_sm = ko.observable(false);
     self.searchbar_sm = function() {
       self.sb_sm(!self.sb_sm());
@@ -188,22 +180,22 @@ define([
       self.clickedButton(event.currentTarget.id);
       return true;
     };
-    
+
     self.open = function(event) {
-      document.getElementById('logoutModal').open();
+      document.getElementById("logoutModal").open();
     };
     self.logout = function() {
       sessionStorage.clear();
       router.go("login");
     };
     self.close = function(event) {
-      document.getElementById('logoutModal').close();
-      };
+      document.getElementById("logoutModal").close();
+    };
 
     //route to notifications
-    self.gotoNotifications = function() {
-      router.go("notifications");
-    };
+    // self.gotoNotifications = function() {
+    //   router.go("notifications");
+    // };
 
     self.connected = function() {
       //new
@@ -220,17 +212,63 @@ define([
       //notifications unread count
       self.fetchCount();
 
+      // Go back to the dashboard
+
+      self.dashboard = () => {
+        self.isNotify(false);
+      };
+
+    
+
+     //  Fetch all tracks
+    self.fetchNotifications = async () => {
+      try {
+        const response = await fetch(`${notificationsURL}`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        // const {
+        //   data: { data }
+        // } = await response.json();
+        var data = await response.json();
+
+        self.dataProvider(
+          new PagingDataProviderView(
+            new ArrayDataProvider(data.data, { keyAttributes: "id" })
+          )
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+
       //notifications click
-      $("#notifi").on("click", function() {
-        let attr = $(this).attr("for");
-        $("#maincontent_body > div").hide();
-        $(`#maincontent_body > div[id='${attr}']`).show();
-      });
+
+      self.toggleNotify = () => {
+        self.isNotify(!self.isNotify());
+      };
+
+      // let shownotif = false;
+      // $("#notifi").on("click", function() {
+      //   let attr = $(this).attr("for");
+      //   shownotif = !shownotif;
+      //   self.isNotify(shownotif); // This ensures that we toggle the notification panel effectively;
+      //   if (shownotif) {
+      //     $("#maincontent_body > div").hide();
+      //     $(`#maincontent_body > div[id='${attr}']`).show();
+      //   } else {
+      //     $("#maincontent_body > div").show();
+      //     $(`#maincontent_body > div[id='${attr}']`).hide();
+      //   }
+      // });
 
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_body > div").hide();
         $(`#maincontent_body > div[id='${attr}']`).show();
+        oj.OffcanvasUtils.close(self.drawer);
       });
     };
   }
