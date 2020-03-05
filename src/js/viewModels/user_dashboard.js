@@ -157,7 +157,7 @@ define([
         const response = await fetch(`${api}/api/submissions`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Accept": "application/json",
             Authorization: `Bearer ${userToken}`
           },
           body: JSON.stringify({
