@@ -154,7 +154,7 @@ define([
       const comment = self.comment();
       console.log(task_id, user_id, submission_link, comment);
       try {
-        const response = await fetch(`${api}/api/submit`, {
+        const response = await fetch(`${api}/api/submissions`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
