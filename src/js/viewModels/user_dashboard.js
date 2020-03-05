@@ -152,7 +152,7 @@ define([
       const user_id = self.user_id();
       const submission_link = self.taskURL();
       const comment = self.comment();
-      console.log(task_id, user_id, submission_link, comment);
+   
       try {
         const response = await fetch(`${api}/api/submissions`, {
           method: "POST",
@@ -215,7 +215,6 @@ define([
         });
         // return console.log(await response.json());
         const { data } = await response.json();
-        console.log(data);
 
         self.task(data.map(task => task));
       } catch (err) {
