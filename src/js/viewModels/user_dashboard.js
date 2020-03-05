@@ -40,6 +40,8 @@ define([
 
     self.tracksArray = ko.observable([]);
 
+     self.isNotify = ko.observable(false);
+
     self.drawer =
             {
               "displayMode": "overlay",
@@ -49,6 +51,7 @@ define([
 
     self.toggleDrawer = function ()
     {
+      self.isNotify(false);
       return oj.OffcanvasUtils.toggle(self.drawer);
     };
 
@@ -474,12 +477,22 @@ define([
       //notifications unread count
       self.fetchCount();
 
-      //notifications click
-      $("#notifi").on("click", function () {
-        let attr = $(this).attr("for");
-        $("#maincontent_intern_body > div").hide();
-        $(`#maincontent_intern_body > div[id='${attr}']`).toggle();
-      });
+      // Go back to dashboard
+
+       self.dashboard = () => {
+         self.isNotify(false);
+       };
+
+        self.toggleNotify = () => {
+          self.isNotify(!self.isNotify());
+        };
+
+      // //notifications click
+      // $("#notifi").on("click", function () {
+      //   let attr = $(this).attr("for");
+      //   $("#maincontent_intern_body > div").hide();
+      //   $(`#maincontent_intern_body > div[id='${attr}']`).toggle();
+      // });
 
       $("#sidebar li a").on("click", function () {
         let attr = $(this).attr("for");

@@ -42,7 +42,7 @@
           </h4>
           <span class="d-flex ml-5">
             <a for="notifications-admin" id="notifi">
-              <h4 class="position-relative" style="top:1px; right: 8px; cursor: pointer"><i class=" fa fa-bell-o"></i>
+              <h4 class="position-relative" style="top:1px; right: 8px; cursor: pointer"><i class=" fa fa-bell-o" data-bind="click: toggleNotify"></i>
                 <span style="font-size: small; position: absolute; top: -8px; right: -8px;" class="badge badge-danger"
                       data-bind="text: notificationCount"></span>
               </h4>
@@ -84,9 +84,9 @@
       </div>
       <div class="clearfix"></div>
       <div id="maincontent_intern_body" class="px-3 w-100">
-
+        <oj-bind-if test="[[!isNotify()]]">
         <div id="overview-intern" class="mt-2">
-          <header class="d-flex" style=" color: #768093">
+          <header class="d-flex" style=" color: #768093; display: block;">
             <div class="w-100">
               <h4 class="py-1 text-capitalize"><span data-bind="text: fullname"></span></h4>
               <p class="badge badge-info p-2" data-bind="text: tracksArray"></p><br/>
@@ -156,13 +156,18 @@
           <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
           <div data-bind="ojModule: 'profile'"></div>
         </div>
-
-
-        <div class="oj-flex-item" id="notifications-admin">
+        </oj-bind-if>
+        <oj-bind-if test="[[isNotify()]]">
           <h3>Notifications</h3>
-          <div data-bind="ojModule: 'notifications'"></div>
-        </div>
-
+          <div style="display: block;">
+            <span
+              class="btn btn-success m-4 pull-left"
+              data-bind="click: dashboard"
+              ><i class="fa fa-arrow-left mr-2"></i>Go Back</span
+            >
+          </div>
+          <div data-bind="ojModule: 'notifications'" style="display: block !important;"></div>
+        </oj-bind-if>
       </div>
     </div>
 
