@@ -215,6 +215,7 @@ define([
         });
         // return console.log(await response.json());
         const { data } = await response.json();
+        console.log(data);
 
         self.task(data.map(task => task));
       } catch (err) {

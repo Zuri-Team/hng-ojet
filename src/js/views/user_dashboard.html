@@ -101,7 +101,7 @@
           <oj-bind-if test="[[onProbation()]]">
             <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded bg-danger text-white p-2">
               You are on Probation! You were probated by <span data-bind="text: probated_by"></span> for the following reason: <span data-bind="text: probation_reason"></span>.<br/><br/>
-              If you are not unprobated on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
+              If you are not taken out of probabtion on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
             </div>
           </oj-bind-if>
           <div class="d-flex justify-content-end">
@@ -133,7 +133,6 @@
     </div>
     </template>
                 </oj-list-view>
-
                 <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
                 </oj-paging-control>
             </div>

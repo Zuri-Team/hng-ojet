@@ -35,7 +35,7 @@
                     <oj-bind-text value="[[taskSelected().data.title]]"></oj-bind-text>
                 </h5>
                 <oj-bind-if test="[[!submitted() && deadlinePassed()]]">
-                    <p><span class="badge badge-danger">❌SUBMISSION DEADLINE HAS PASSED!!!❌</span></p>
+                    <p><span class="badge badge-danger">Sorry, submissions are no longer accepted as the deadline has elapsed !!!</span></p>
                 </oj-bind-if>
                 <h6 class="pb-2">Deadline:
                     <oj-bind-text value="[[formatDateTime(taskSelected().data.deadline)]]"></oj-bind-text>
@@ -53,8 +53,11 @@
                 <oj-bind-if test="[[submitted() && !is_graded()]]">
                     <p><span class="badge badge-success">Task submitted! Check back soon to view your grade! ✌</span></p>
                 </oj-bind-if>
+                 <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
+                    <p><span class="badge badge-warning">You have made no submission yet, please do before the deadline elapses !!!</span></p>
+                </oj-bind-if>
                 <oj-bind-if test="[[!submitted() && deadlinePassed()]]">
-                    <p><span class="badge badge-danger">❌SUBMISSION NOT FOUND!!!❌</span></p>
+                    <p><span class="badge badge-danger">You made no submissions and the deadline has elapsed</span></p>
                 </oj-bind-if>
                 <div>
                     <div>
