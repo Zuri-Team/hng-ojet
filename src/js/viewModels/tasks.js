@@ -99,7 +99,6 @@ define([
         if (data == null) {
           return;
         } else {
-          console.log("selected");
           self.viewSubmission(true);
         }
       }

@@ -183,6 +183,7 @@ self.gradeTask = function(userId, grade, graded) {
     let body = self.body();
     let deadline = self.deadline();
     let is_active = self.is_active();
+    console.log(track_id, title, body, deadline, is_active);
 
     $.ajax({
       method: "PUT",
