@@ -145,18 +145,6 @@ define([
       const submission_link = self.taskURL().url;
       const comment = self.comment();
 
-      console.log(
-        submission_link,
-        JSON.parse(
-          JSON.stringify({
-            user_id: 16,
-            task_id: 7,
-            submission_link: "https://api.start.ng/api/submissions",
-            comment: "Hello Everyone"
-          })
-        )
-      );
-
       try {
         const response = await fetch(`${api}/api/submissions`, {
           method: "POST",
