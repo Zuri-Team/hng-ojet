@@ -146,7 +146,7 @@ define([
       const comment = self.comment();
 
       try {
-        const response = await fetch(`${api}/api/submissions`, {
+        const response = await fetch(`${api}/api/submit`, {
           method: "POST",
           headers: {
             Accept: "application/json",
