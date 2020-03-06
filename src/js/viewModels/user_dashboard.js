@@ -142,7 +142,7 @@ define([
     self.submitTask = async () => {
       const task_id = self.task_id();
       const user_id = self.user_id();
-      const submission_link = self.taskURL().url;
+      const submission_link = String(self.taskURL().url);
       const comment = self.comment();
 
       try {
@@ -161,7 +161,7 @@ define([
         });
         const { message, status } = await response.json();
         document.getElementById("submitDialog").close();
-        if (status == 200) {
+        if (status == true) {
           self.applicationMessages.push({
             severity: "confirmation",
             summary: `Track Request`,
