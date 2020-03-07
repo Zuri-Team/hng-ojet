@@ -150,7 +150,7 @@ define([
       const comment = self.comment();
       console.log(task_id, user_id, submission_link, comment);
       try {
-        const response = await fetch(`${api}/api/submissions`, {
+        const response = await fetch(`${api}/api/submit`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -163,19 +163,46 @@ define([
             comment
           })
         });
+
         const message  = await response.json();
+        console.log(message);
+
         document.getElementById("submitDialog").close();
-        self.applicationMessages.push({
-          severity: "confirmation",
-          summary: `Track Request`,
-          detail: ``,
-          autoTimeout: parseInt("0")
-        });
+
+        if(message.status){
+          self.applicationMessages.push({
+            severity: "confirmation",
+            summary: `Task successfully submitted`,
+            detail: ``,
+            autoTimeout: parseInt("0")
+          });
+        }else{
+          let errorMsg = '';
+          if(message.data.submission_link){
+            errorMsg = message.data.submission_link[0];
+          }else if(message.data.task_id){
+            errorMsg = message.data.task_id;
+          }else if(message.data.user_id){
+            errorMsg = message.data.user_id;
+          }else if(message.data.comment){
+            errorMsg = message.data.comment;
+          }else{
+            errorMsg = message.message;
+          }
+          self.applicationMessages.push({
+            severity: "error",
+            summary: errorMsg,
+            detail: ``,
+            autoTimeout: parseInt("0")
+          });
+        }
+
+        
       } catch (err) {
         console.log(err);
         self.applicationMessages.push({
           severity: "error",
-          summary: `Error sending request`,
+          summary: `Error submitting Task`,
           detail: ``,
           autoTimeout: parseInt("0")
         });

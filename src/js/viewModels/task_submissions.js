@@ -40,6 +40,7 @@ function TaskSubmissionsModel(params) {
 
   var tracksURL = `${api}/api/track`;
   var tasksURL = `${api}/api/task`;
+  var submitURL = `${api}/api/submit`;
 
   var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
