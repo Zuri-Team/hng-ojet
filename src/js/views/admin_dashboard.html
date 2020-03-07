@@ -99,7 +99,7 @@
           </h4>
           <span class="d-flex ml-5">
             <a for="notifications-admin" id="notifi">
-              <h4 class="position-relative" style="top:2px; cursor: pointer">
+              <h4 class="position- mr-4" style="top:2px; cursor: pointer">
                 <i class=" fa fa-bell-o" data-bind="click: toggleNotify"></i>
                 <strong>
                   <span
@@ -109,7 +109,7 @@
                 </strong>
               </h4>
             </a>
-            <h4
+            <!-- <h4
               class="position-relative mx-4 d-lg-none d-md-none"
               data-bind="click: searchbar_sm"
               style="top:2px"
@@ -126,7 +126,7 @@
                         options: tags,
                         rootAttributes: {style:'max-width: 20em'}}"
               />
-            </form>
+            </form> -->
 
             <div id="dialogWrapper">
               <oj-dialog
@@ -146,18 +146,22 @@
                   </button>
                 </div>
               </oj-dialog>
-              <oj-button
+              <!-- <oj-button
                 display="icons"
                 id="buttonOpener"
+                class="btn btn-sm btn-danger"
                 chroming="full"
                 on-click="[[open]]"
               >
                 <span
                   slot="startIcon"
-                  class="oj-navigationlist-item-icon fa fa-power-off"
+                  class="oj-navigationlist-item-icon fa fa-sign-out"
                 ></span>
                 Logout
-              </oj-button>
+              </oj-button> -->
+                <button class="btn btn-sm btn-danger" id="buttonOpener" data-bind="click: open">
+                <i class="fa fa-sign-out"></i>
+              </button>
             </div>
           </span>
         </nav>

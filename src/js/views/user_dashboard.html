@@ -42,7 +42,7 @@
           </h4>
           <span class="d-flex ml-5">
             <a for="notifications-admin" id="notifi">
-              <h4 class="position-relative" style="top:1px; right: 8px; cursor: pointer"><i class=" fa fa-bell-o"></i>
+              <h4 class="position-relative" style="top:1px; right: 8px; cursor: pointer"><i class=" fa fa-bell-o" data-bind="click: toggleNotify"></i>
                 <span style="font-size: small; position: absolute; top: -8px; right: -8px;" class="badge badge-danger"
                       data-bind="text: notificationCount"></span>
               </h4>
@@ -84,12 +84,12 @@
       </div>
       <div class="clearfix"></div>
       <div id="maincontent_intern_body" class="px-3 w-100">
-
+        <oj-bind-if test="[[!isNotify()]]">
         <div id="overview-intern" class="mt-2">
-          <header class="d-flex" style=" color: #768093">
+          <header class="d-flex" style=" color: #768093; display: block;">
             <div class="w-100">
               <h4 class="py-1 text-capitalize"><span data-bind="text: fullname"></span></h4>
-              <p class="badge badge-dark p-2" data-bind="text: tracks"></p><br/>
+              <p class="badge badge-info p-2" data-bind="text: tracksArray"></p><br/>
 
             </div>
             <div class="w-100 text-right">
@@ -101,14 +101,14 @@
           <oj-bind-if test="[[onProbation()]]">
             <div class="oj-panel oj-panel-shadow-sm mr-5 w-100 rounded bg-danger text-white p-2">
               You are on Probation! You were probated by <span data-bind="text: probated_by"></span> for the following reason: <span data-bind="text: probation_reason"></span>.<br/><br/>
-              If you are not unprobated on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
+              If you are not taken out of probabtion on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
             </div>
           </oj-bind-if>
           <div class="d-flex justify-content-end">
              <div class="mb-5">
             <button class="btn btn-success" data-bind="click: popModal">Change Track</button>
           </div>
-          <div class="mb-5 ml-4">
+          <div class="mb-5 ml-3">
             <button class="btn btn-warning" data-bind="click: revealModal">Submit Task</button>
           </div>
           </div>
@@ -117,7 +117,7 @@
                     on-selected-step-changed="[[updateLabelText]]" selected-step="{{selectedStepValue}}" steps="[[stepArray]]">
           </oj-train>
 
-          <h5 data-bind="text:  ' Latest tasks '"></h5>
+          <h5 data-bind="text:  'Latest tasks '"></h5>
 
           <div class="oj-flex oj-sm-justify-content-center">
             <div class="col-sm-12 col-md-11">
@@ -133,7 +133,6 @@
     </div>
     </template>
                 </oj-list-view>
-
                 <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
                 </oj-paging-control>
             </div>
@@ -156,13 +155,18 @@
           <!-- <div data-bind="ojModule: 'intern/profile'"></div> -->
           <div data-bind="ojModule: 'profile'"></div>
         </div>
-
-
-        <div class="oj-flex-item" id="notifications-admin">
+        </oj-bind-if>
+        <oj-bind-if test="[[isNotify()]]">
           <h3>Notifications</h3>
-          <div data-bind="ojModule: 'notifications'"></div>
-        </div>
-
+          <div style="display: block;">
+            <span
+              class="btn btn-success m-4 pull-left"
+              data-bind="click: dashboard"
+              ><i class="fa fa-arrow-left mr-2"></i>Go Back</span
+            >
+          </div>
+          <div data-bind="ojModule: 'notifications'" style="display: block !important;"></div>
+        </oj-bind-if>
       </div>
     </div>
 
@@ -220,8 +224,9 @@ to make this accessible. -->
       <oj-label class="oj-label oj-label-inline" for="submitTask">Submit a valid URL</oj-label>
       <input
       id="submitTask"
+      type="url"
       required
-          class="form-control" data-bind="textInput: taskURL">
+          class="form-control" data-bind="textInput: taskURL().url">
       </input>
       <oj-label class="oj-label oj-label-inline" for="submitTask">Leave a comment</oj-label>
       <textarea
