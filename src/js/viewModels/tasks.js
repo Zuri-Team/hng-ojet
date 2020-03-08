@@ -222,10 +222,10 @@ define([
         url: `${tasksURL}`,
         headers: {
           Authorization: "Bearer " + userToken,
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Methods": "*",
-          "Access-Control-Allow-Headers": "*"
+          // "Access-Control-Allow-Origin": "*",
+          Accept: "application/json",
+          // "Access-Control-Allow-Methods": "*",
+          // "Access-Control-Allow-Headers": "*"
         },
         data: JSON.stringify({
           track_id: track_id,
@@ -234,7 +234,7 @@ define([
           deadline: deadline,
           is_active: is_active
         }),
-        //contentType: "application/json",
+        // contentType: "application/json",
         dataType: "json",
         //processData: true,
         success: res => {
