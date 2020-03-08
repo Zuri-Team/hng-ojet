@@ -237,7 +237,7 @@ define([
         // return console.log(await response.json());
         const { data } = await response.json();
 
-        // self.task(data.map(task => task));
+        self.task(data.map(task => task));
       } catch (err) {
         console.log(err);
       }
@@ -299,16 +299,15 @@ define([
 
     self.getTasks = async id => {
       try {
-        const response = await fetch(`${api}/api/user/task`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-            "Content-Type": "application/json",
-            Accept: "application/json"
-          }
-        });
+        // const response = await fetch(`${api}/api/track/${id}/tasks`, {
+          const response = await fetch(`${api}/api/tasks`, {
+            headers: {
+              Authorization: `Bearer ${userToken}`
+            }
+          });
         const { data } = await response.json();
-        console.log(data);
-        self.task(data.map(task => task));
+        // console.log(data);
+        // self.task(data.map(task => task));
         self.dataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
@@ -451,9 +450,10 @@ define([
              if (i + 1 == self.localUser().stage) {
                stage.disabled = false;
                self.selectedStepValue(String(self.localUser().stage));
-               self.selectedStepLabel(String(self.localUser().stage));
+               self.selectedStepLabel(self.localUser().stage);
              }
            });
+          //  console.log(self.localUser().stage);
           const [...data] = res.data;
           const [user, profile] = data;
           const { firstname, lastname, username } = user;
