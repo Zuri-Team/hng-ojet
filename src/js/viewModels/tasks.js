@@ -217,8 +217,6 @@ define([
       let deadline = self.newTask().deadline;
       let is_active = self.newTask().is_active;
 
-      console.log(track_id, title, body, deadline);
-
       $.ajax({
         method: "POST",
         url: `${tasksURL}`,
