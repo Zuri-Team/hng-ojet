@@ -299,11 +299,9 @@ define([
 
     self.getTasks = async id => {
       try {
-        const response = await fetch(`${api}/api/user/task`, {
+        const response = await fetch(`${api}/api/track/${id}/tasks`, {
           headers: {
-            Authorization: `Bearer ${userToken}`,
-            "Content-Type": "application/json",
-            Accept: "application/json"
+            Authorization: `Bearer ${userToken}`
           }
         });
         const { data } = await response.json();
@@ -451,9 +449,10 @@ define([
              if (i + 1 == self.localUser().stage) {
                stage.disabled = false;
                self.selectedStepValue(String(self.localUser().stage));
-               self.selectedStepLabel(String(self.localUser().stage));
+               self.selectedStepLabel(self.localUser().stage);
              }
            });
+           console.log(self.localUser().stage);
           const [...data] = res.data;
           const [user, profile] = data;
           const { firstname, lastname, username } = user;
