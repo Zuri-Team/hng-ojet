@@ -159,29 +159,47 @@ define([
             comment
           })
         });
-        const { message, status } = await response.json();
+
+        const message  = await response.json();
+        console.log(message);
+
         document.getElementById("submitDialog").close();
-        if (status == true) {
+
+        if(message.status){
           self.applicationMessages.push({
             severity: "confirmation",
-            summary: `Track Request`,
-            detail: `${message}`,
+            summary: `Task successfully submitted`,
+            detail: ``,
             autoTimeout: parseInt("0")
           });
-        } else {
+        }else{
+          let errorMsg = '';
+          if(message.data.submission_link){
+            errorMsg = message.data.submission_link[0];
+          }else if(message.data.task_id){
+            errorMsg = message.data.task_id;
+          }else if(message.data.user_id){
+            errorMsg = message.data.user_id;
+          }else if(message.data.comment){
+            errorMsg = message.data.comment;
+          }else{
+            errorMsg = message.message;
+          }
           self.applicationMessages.push({
             severity: "error",
-            summary: `Error sending request`,
-            detail: `${message}`,
+            summary: errorMsg,
+            detail: ``,
             autoTimeout: parseInt("0")
           });
         }
+
+        
       } catch (err) {
         console.log(err);
         self.applicationMessages.push({
           severity: "error",
-          summary: `Error sending request`,
-          detail: `${message}`,
+          summary: `Error submitting Task`,
+          detail: ``,
           autoTimeout: parseInt("0")
         });
       }
