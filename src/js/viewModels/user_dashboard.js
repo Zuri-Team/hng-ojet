@@ -33,6 +33,9 @@ define([
     var userToken = sessionStorage.getItem("user_token");
     var user = sessionStorage.getItem("user");
     user = JSON.parse(user);
+
+    self.localUser = ko.observable(user);
+    self.user = ko.observable('');
     self.user_id = ko.observable(user.id);
 
     self.selectedItem = ko.observable();
@@ -234,7 +237,7 @@ define([
         // return console.log(await response.json());
         const { data } = await response.json();
 
-        self.task(data.map(task => task));
+        // self.task(data.map(task => task));
       } catch (err) {
         console.log(err);
       }
@@ -302,8 +305,8 @@ define([
           }
         });
         const { data } = await response.json();
-        // console.log(data);
-
+        console.log(data);
+        self.task(data.map(task => task));
         self.dataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
@@ -431,7 +434,7 @@ define([
     };
 
     self.profile_img = ko.observable("/css/images/smiley.png");
-    function display_user_info(id) {
+    self.display_user_info = function(id) {
       $.ajax({
         url: `${api}/api/profile/${id}`,
         headers: {
@@ -439,6 +442,16 @@ define([
         },
         method: "GET",
         success: res => {
+          self.user(res.data);
+          self.localUser().stage = self.user()[0].stage;
+           self.stepArray().map((stage, i) => {
+             stage.disabled = true;
+             if (i + 1 == self.localUser().stage) {
+               stage.disabled = false;
+               self.selectedStepValue(String(self.localUser().stage));
+               self.selectedStepLabel(String(self.localUser().stage));
+             }
+           });
           const [...data] = res.data;
           const [user, profile] = data;
           const { firstname, lastname, username } = user;
@@ -482,15 +495,7 @@ define([
 
       fetchIfProbated();
       fetchTrack(user.id);
-      display_user_info(user.id);
-      self.stepArray().map((stage, i) => {
-        stage.disabled = true;
-        if (i + 1 == user.stage) {
-          stage.disabled = false;
-          self.selectedStepValue(stage.id);
-          self.selectedStepLabel = ko.observable(stage.id);
-        }
-      });
+      self.display_user_info(user.id);
 
       //notifications unread count
       self.fetchCount();
@@ -512,6 +517,7 @@ define([
       //   $(`#maincontent_intern_body > div[id='${attr}']`).toggle();
       // });
 
+      window.onload = self.display_user_info(user.id);
       $("#sidebar li a").on("click", function() {
         let attr = $(this).attr("for");
         $("#maincontent_intern_body > div").hide();

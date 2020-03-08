@@ -663,7 +663,6 @@ define([
           }
         });
         const { data } = await response.json();
-        console.log(data);
         self.profile_img(`${data.profile_img}`);
         self.fullName(`${data.firstname} ${data.lastname}`);
         self.teamName(data.teams.map(teams => `  ${teams.team_name}`));
