@@ -224,6 +224,7 @@ define([
           Authorization: "Bearer " + userToken,
           // "Access-Control-Allow-Origin": "*",
           Accept: "application/json",
+          // "Content_Type": "application/json"
           // "Access-Control-Allow-Methods": "*",
           // "Access-Control-Allow-Headers": "*"
         },

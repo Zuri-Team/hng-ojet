@@ -299,9 +299,11 @@ define([
 
     self.getTasks = async id => {
       try {
-        const response = await fetch(`${api}/api/track/${id}/tasks`, {
+        const response = await fetch(`${api}/api/user/task`, {
           headers: {
-            Authorization: `Bearer ${userToken}`
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+            Accept: "application/json"
           }
         });
         const { data } = await response.json();
