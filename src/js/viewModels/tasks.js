@@ -217,6 +217,8 @@ define([
       let deadline = self.newTask().deadline;
       let is_active = self.newTask().is_active;
 
+      console.log(track_id, title, body, deadline);
+
       $.ajax({
         method: "POST",
         url: `${tasksURL}`,
@@ -228,13 +230,13 @@ define([
           // "Access-Control-Allow-Methods": "*",
           // "Access-Control-Allow-Headers": "*"
         },
-        data: JSON.stringify({
-          track_id: track_id,
-          title: title,
-          body: body,
-          deadline: deadline,
-          is_active: is_active
-        }),
+        data: {
+          track_id,
+          title,
+          body,
+          deadline,
+          is_active
+        },
         contentType: "application/json",
         dataType: "json",
         //processData: true,
