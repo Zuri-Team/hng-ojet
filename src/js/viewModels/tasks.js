@@ -237,7 +237,7 @@ define([
           deadline,
           is_active
         },
-        contentType: "application/json",
+        // contentType: "application/json",
         dataType: "json",
         //processData: true,
         success: res => {
