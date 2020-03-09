@@ -147,6 +147,7 @@ define([
       const user_id = self.user_id();
       const submission_link = String(self.taskURL().url);
       const comment = self.comment();
+      console.log(user_id, task_id, submission_link, comment);
 
       try {
         const response = await fetch(`${api}/api/submit`, {
