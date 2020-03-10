@@ -35,12 +35,49 @@ define([
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
 
+    self.profile_img = ko.observable('/css/images/smiley.png');
+
     self.selectedItem = ko.observable();
     self.dataProvider = ko.observable();
 
     self.tracksArray = ko.observable([]);
 
      self.isNotify = ko.observable(false);
+
+    var slackId = user.slack_id;
+    var slackImg;
+    var boardImg;
+    var slackInfo;
+
+    // fetch slack profile info
+    if (slackId) {
+      var settings = {
+        "url": `${api}/api/slacks/profile`,
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": {
+          "slack_id": slackId
+        }
+      };
+      
+      $.ajax(settings).done(function (response) {
+        if (response.status){
+          slackInfo = response.SlackUser.user;
+          console.log(slackInfo)
+          var { profile } = slackInfo;
+          const profileImg = profile.image_original;
+          slackImg = profileImg;
+          self.profile_img(profile.image_original);
+          console.log(self.profile_img())
+          sessionStorage.setItem('slackImg', self.profile_img());
+          checkUserImage();
+        }
+      });
+    }
+
 
     self.drawer =
             {
@@ -413,7 +450,7 @@ define([
       router.go("notifications");
     };
 
-    self.profile_img = ko.observable('/css/images/smiley.png');
+    var userData;
     function display_user_info(id) {
       $.ajax({
         url: `${api}/api/profile/${id}`,
@@ -423,14 +460,59 @@ define([
         method: "GET",
         success: res => {
           const [...data] = res.data
-          const [user, profile] = data
+          const [user, profile] = data;
+          userData = user;
           const {firstname, lastname, username, } = user;
           const {profile_img} = profile;
-          self.profile_img(profile_img);
+          boardImg = profile_img;
+          console.log(user)
           self.fullname(`${firstname} ${lastname}`);
         }
       });
     }
+
+    // check if user slack img url matches the board image and update if it doesn't
+    function checkUserImage () {
+      if (slackImg !== boardImg){
+        console.log(userData)
+        console.log(boardImg)
+        console.log(slackImg)
+        try {
+          var form = new FormData();
+          form.append("location", userData.location);
+          form.append("profile_img", slackImg);
+          form.append("gender", userData.gender);
+          form.append("bio", slackInfo.profile.title);
+          form.append("url", userData.url);
+          console.log(user.id)
+          var settings = {
+            "url": `${api}/api/profile/${user.id}/edit`,
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+              Accept: 'application/json',
+              // "Content-Type": "application/x-www-form-urlencoded",
+              Authorization: "Bearer " + userToken
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            contentType: 'application/x-www-form-urlencoded',
+            // "contentType": false,
+            type: 'POST',
+            data: form
+          };
+
+          $.ajax(settings).done(function (response) {
+            response = JSON.parse(response);
+            console.log(response);
+            console.log(response.data);
+          });
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    }
+
 
     self.connected = function () {
       if (sessionStorage.getItem("user_token") == null) {
