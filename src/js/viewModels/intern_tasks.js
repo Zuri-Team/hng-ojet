@@ -134,6 +134,8 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                         })
                     });
 
+                    console.log(response.json());
+
                     self.applicationMessages.push({
                         severity: "confirmation",
                         summary: "Task submitted",
