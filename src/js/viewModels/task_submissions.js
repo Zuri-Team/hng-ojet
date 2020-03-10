@@ -40,6 +40,7 @@ function TaskSubmissionsModel(params) {
 
   var tracksURL = `${api}/api/track`;
   var tasksURL = `${api}/api/task`;
+  var submitURL = `${api}/api/submit`;
 
   var submissionURL = `${tasksURL}/${task_id}/submissions`;
 
@@ -183,11 +184,13 @@ self.gradeTask = function(userId, grade, graded) {
     let body = self.body();
     let deadline = self.deadline();
     let is_active = self.is_active();
+  
 
     $.ajax({
       method: "PUT",
       url: `${tasksURL}s/${task_id}`,
       headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: "Bearer " + userToken
       },
       data: { track_id, title, body, deadline, is_active },

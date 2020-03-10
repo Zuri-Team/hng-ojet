@@ -217,26 +217,30 @@ define([
       let deadline = self.newTask().deadline;
       let is_active = self.newTask().is_active;
 
+      console.log(track_id, title, body, deadline, is_active);
+
       $.ajax({
         method: "POST",
         url: `${tasksURL}`,
         headers: {
           Authorization: "Bearer " + userToken,
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Methods": "*",
-          "Access-Control-Allow-Headers": "*"
+          // "Access-Control-Allow-Origin": "*",
+          Accept: "application/json",
+          // "Content_Type": "application/json"
+          // "Access-Control-Allow-Methods": "*",
+          // "Access-Control-Allow-Headers": "*"
         },
-        data: JSON.stringify({
-          track_id: track_id,
-          title: title,
-          body: body,
-          deadline: deadline,
-          is_active: is_active
-        }),
-        //contentType: "application/json",
-        dataType: "json",
-        //processData: true,
+        
+        data: {
+          track_id,
+          title,
+          body,
+          deadline,
+          is_active
+        },
+        // contentType: "application/json",
+        // dataType: "json",
+        // processData: true,
         success: res => {
           self.newTask({});
           self.fetchTasks();
