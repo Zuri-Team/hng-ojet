@@ -32,7 +32,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
             self.applicationMessages = ko.observableArray([]);
 
-            var submissionURL = `${api}/api/submissions`;
+            var submissionURL = `${api}/api/submit`;
             var gradeURL = `${api}/api/user`;
             var tasksURL = `${api}/api/task`;
 
