@@ -134,7 +134,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                         })
                     });
 
-                    console.log(response.json());
+                    console.log(response);
 
                     self.applicationMessages.push({
                         severity: "confirmation",
