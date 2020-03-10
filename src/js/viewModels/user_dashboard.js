@@ -66,12 +66,12 @@ define([
       $.ajax(settings).done(function (response) {
         if (response.status){
           slackInfo = response.SlackUser.user;
-          console.log(slackInfo)
+          // console.log(slackInfo)
           var { profile } = slackInfo;
           const profileImg = profile.image_original;
           slackImg = profileImg;
           self.profile_img(profile.image_original);
-          console.log(self.profile_img())
+          // console.log(self.profile_img())
           sessionStorage.setItem('slackImg', self.profile_img());
           checkUserImage();
         }
@@ -465,7 +465,7 @@ define([
           const {firstname, lastname, username, } = user;
           const {profile_img} = profile;
           boardImg = profile_img;
-          console.log(user)
+          // console.log(user)
           self.fullname(`${firstname} ${lastname}`);
         }
       });
@@ -474,9 +474,6 @@ define([
     // check if user slack img url matches the board image and update if it doesn't
     function checkUserImage () {
       if (slackImg !== boardImg){
-        console.log(userData)
-        console.log(boardImg)
-        console.log(slackImg)
         try {
           var form = new FormData();
           form.append("location", userData.location);
@@ -484,7 +481,6 @@ define([
           form.append("gender", userData.gender);
           form.append("bio", slackInfo.profile.title);
           form.append("url", userData.url);
-          console.log(user.id)
           var settings = {
             "url": `${api}/api/profile/${user.id}/edit`,
             "method": "POST",
@@ -504,8 +500,8 @@ define([
 
           $.ajax(settings).done(function (response) {
             response = JSON.parse(response);
-            console.log(response);
-            console.log(response.data);
+            // console.log(response);
+            // console.log(response.data);
           });
         } catch (err) {
           console.log(err)
