@@ -108,9 +108,9 @@
              <div class="mb-5">
             <button class="btn btn-success" data-bind="click: popModal">Change Track</button>
           </div>
-          <div class="mb-5 ml-3">
+          <!-- <div class="mb-5 ml-3">
             <button class="btn btn-warning" data-bind="click: revealModal">Submit Task</button>
-          </div>
+          </div> -->
           </div>
 
           <oj-train id="train" class="oj-train-stretch col-sm-10 col-12 p-sm-0 p-0 mx-sm-auto my-3"
@@ -118,9 +118,13 @@
           </oj-train>
 
           <h5 data-bind="text:  'Latest tasks '"></h5>
+          
 
           <div class="oj-flex oj-sm-justify-content-center">
             <div class="col-sm-12 col-md-11">
+              <br/>
+              <b>NOTE: **Check your Task Tab to submit Task</b>
+              <br/>
                 <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]">
                     <template slot="itemTemplate" data-oj-as="item" class="border-0">
     <div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">

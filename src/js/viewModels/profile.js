@@ -114,7 +114,8 @@ define(['ojs/ojcore',
 
                   let profileImg = document.getElementsByClassName('profile_img');
                   for (i = 0; i < profileImg.length; i++) {
-                    profileImg[i].src = profile_img;
+                    profileImg[i].src = sessionStorage.getItem('slackImg');
+                    // profileImg[i].src = profile_img;
                   }
                 }
               });
