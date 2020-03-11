@@ -38,12 +38,48 @@ define([
     self.user = ko.observable('');
     self.user_id = ko.observable(user.id);
 
+    self.profile_img = ko.observable('/css/images/smiley.png');
+
     self.selectedItem = ko.observable();
     self.dataProvider = ko.observable();
 
     self.tracksArray = ko.observable([]);
 
     self.isNotify = ko.observable(false);
+
+    var slackId = user.slack_id;
+    var slackImg;
+    var boardImg;
+    var slackInfo;
+
+    // fetch slack profile info
+    if (slackId) {
+      var settings = {
+        "url": `${api}/api/slacks/profile`,
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": {
+          "slack_id": slackId
+        }
+      };
+      
+      $.ajax(settings).done(function (response) {
+        if (response.status){
+          slackInfo = response.SlackUser.user;
+          // console.log(slackInfo)
+          var { profile } = slackInfo;
+          const profileImg = profile.image_original;
+          slackImg = profileImg;
+          self.profile_img(profile.image_original);
+          // console.log(self.profile_img())
+          sessionStorage.setItem('slackImg', self.profile_img());
+          checkUserImage();
+        }
+      });
+    }
 
     self.drawer = {
       displayMode: "overlay",
@@ -434,6 +470,7 @@ define([
       router.go("notifications");
     };
 
+    var userData;
     self.profile_img = ko.observable("/css/images/smiley.png");
     self.display_user_info = function(id) {
       $.ajax({
@@ -458,13 +495,54 @@ define([
           const [user, profile] = data;
           const { firstname, lastname, username } = user;
           const { profile_img } = profile;
-          self.profile_img(profile_img);
+          boardImg = profile_img;
+          userData = user;
+          // self.profile_img(profile_img);
           self.fullname(`${firstname} ${lastname}`);
         }
       });
     }
 
-    self.connected = function() {
+    // check if user slack img url matches the board image and update if it doesn't
+    function checkUserImage () {
+      if (slackImg !== boardImg){
+        try {
+          var form = new FormData();
+          form.append("location", userData.location);
+          form.append("profile_img", slackImg);
+          form.append("gender", userData.gender);
+          form.append("bio", slackInfo.profile.title);
+          form.append("url", userData.url);
+          var settings = {
+            "url": `${api}/api/profile/${user.id}/edit`,
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+              Accept: 'application/json',
+              "Content-Type": "application/x-www-form-urlencoded",
+              Authorization: "Bearer " + userToken
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            // contentType: 'application/x-www-form-urlencoded',
+            "contentType": false,
+            type: 'POST',
+            data: form
+          };
+
+          $.ajax(settings).done(function (response) {
+            response = JSON.parse(response);
+            // console.log(response);
+            // console.log(response.data);
+          });
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    }
+
+
+    self.connected = function () {
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
@@ -526,7 +604,7 @@ define([
         $(`#maincontent_intern_body > div[id='${attr}']`).show();
         oj.OffcanvasUtils.close(self.drawer);
         if (attr == "overview-intern") {
-          display_user_info(user.id);
+          self.display_user_info(user.id);
         }
       });
     };
