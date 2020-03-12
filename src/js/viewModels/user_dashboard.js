@@ -337,20 +337,20 @@ define([
     self.getTasks = async id => {
       try {
         // const response = await fetch(`${api}/api/track/${id}/tasks`, {
-          const response = await fetch(`${api}/api/tasks`, {
+          const response = await fetch(`${api}/api/posts`, {
             headers: {
               Authorization: `Bearer ${userToken}`
             }
           });
-        const { data } = await response.json();
-        // console.log(data);
+        const { data : { data } } = await response.json();
+        console.log(data);
         // self.task(data.map(task => task));
         self.dataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
               keys: data.map(function(value) {
-                value.deadline = self.formatDateTime(value.deadline);
-                return value.title;
+                value.deadline = self.formatDateTime(value.created_at);
+                return value.post_title;
               })
             })
           )

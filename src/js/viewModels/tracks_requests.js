@@ -73,9 +73,8 @@ define([
 
                 const { data }  = await response.json();
                 const newData = data.filter(datum => datum.approved == 0);
-                console.log(newData);
                 self.dataProvider(
-                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
+                    new PagingDataProviderView(new ArrayDataProvider(newData, { keyAttributes: "id" })));
             } catch (err) {
                 console.log(err);
             }
