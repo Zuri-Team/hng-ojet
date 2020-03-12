@@ -63,7 +63,6 @@ define([
                 sessionStorage.setItem("user", JSON.stringify(user));
                 sessionStorage.setItem("user_token", token);
                 redirect_user(user.role);
-                console.log(user);
               }
             })
             .fail(err => {
