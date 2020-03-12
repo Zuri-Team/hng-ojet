@@ -99,6 +99,8 @@ define([
         let user = sessionStorage.getItem("user");
         user = JSON.parse(user);
         redirect_user(user.role);
+      } else {
+        router.go("login")
       }
     };
 
