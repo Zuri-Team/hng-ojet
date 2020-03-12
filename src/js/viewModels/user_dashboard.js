@@ -343,7 +343,6 @@ define([
             }
           });
         const { data : { data } } = await response.json();
-        console.log(data);
         // self.task(data.map(task => task));
         self.dataProvider(
           new PagingDataProviderView(
