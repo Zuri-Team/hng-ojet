@@ -82,7 +82,7 @@ define([
 
         function redirect_user(role) {
             setTimeout(function() {
-                if (role == "superadmin") {
+                if (role == ("superadmin" || "admin")) {
                     router.go("admin_dashboard");
                 } else {
                     router.go("user_dashboard");
