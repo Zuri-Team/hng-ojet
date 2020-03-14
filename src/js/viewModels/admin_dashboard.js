@@ -218,31 +218,28 @@ define([
         self.isNotify(false);
       };
 
-    
+      //  Fetch all tracks
+      self.fetchNotifications = async () => {
+        try {
+          const response = await fetch(`${notificationsURL}`, {
+            headers: {
+              Authorization: `Bearer ${userToken}`
+            }
+          });
+          // const {
+          //   data: { data }
+          // } = await response.json();
+          var data = await response.json();
 
-     //  Fetch all tracks
-    self.fetchNotifications = async () => {
-      try {
-        const response = await fetch(`${notificationsURL}`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          }
-        });
-        // const {
-        //   data: { data }
-        // } = await response.json();
-        var data = await response.json();
-
-        self.dataProvider(
-          new PagingDataProviderView(
-            new ArrayDataProvider(data.data, { keyAttributes: "id" })
-          )
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
+          self.dataProvider(
+            new PagingDataProviderView(
+              new ArrayDataProvider(data.data, { keyAttributes: "id" })
+            )
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
       //notifications click
 

@@ -72,8 +72,9 @@ define([
                 });
 
                 const { data }  = await response.json();
+                const newData = data.filter(datum => datum.approved == 0);
                 self.dataProvider(
-                    new PagingDataProviderView(new ArrayDataProvider(data, { keyAttributes: "id" })));
+                    new PagingDataProviderView(new ArrayDataProvider(newData, { keyAttributes: "id" })));
             } catch (err) {
                 console.log(err);
             }
@@ -108,6 +109,7 @@ define([
                         autoTimeout: parseInt("0")
     
                     });
+                    self.fetchTrackRequests();
                     return;
                 }
 
@@ -122,6 +124,7 @@ define([
                     autoTimeout: parseInt("0")
 
                 });
+                self.fetchTrackRequests();
             } else {
                  // send a success message notification to the tracks view
                  self.applicationMessages.push({
@@ -133,6 +136,7 @@ define([
                     autoTimeout: parseInt("0")
 
                 });
+                self.fetchTrackRequests();
             }
                 self.fetchTrackRequests();
 

@@ -525,7 +525,7 @@ define([
                 })
               });
               const message  = await response.json();
-              console.log(message);
+              // console.log(message);
 
               self.fetchTeam();
               self.fetchTeams();

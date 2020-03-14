@@ -57,6 +57,7 @@ require([
   "ojs/ojtoolbar"
 ], function(Bootstrap, ko, app, Router, Logger) {
   // this callback gets executed when all required modules are loaded
+  self.router = Router.rootInstance;
   Bootstrap.whenDocumentReady().then(function() {
     function init() {
       Router.sync().then(
@@ -64,6 +65,9 @@ require([
           app.loadModule();
           // Bind your ViewModel for the content of the whole page body.
           ko.applyBindings(app, document.getElementById("globalBody"));
+          if (sessionStorage.getItem("user_token") == null) {
+           router.go("login");
+          } 
         },
         function(error) {
           Logger.error("Error in root start: " + error.message);
