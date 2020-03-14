@@ -65,9 +65,9 @@ require([
           app.loadModule();
           // Bind your ViewModel for the content of the whole page body.
           ko.applyBindings(app, document.getElementById("globalBody"));
-          if (sessionStorage.getItem("user_token") == null) {
-           router.go("login");
-          } 
+          // if (sessionStorage.getItem("user_token") == null) {
+          //  router.go("login");
+          // } 
         },
         function(error) {
           Logger.error("Error in root start: " + error.message);
