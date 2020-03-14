@@ -36,6 +36,8 @@
                     let password = self.pass();
                     let confirm_password = self.rpass();
 
+                    console.log(email, password, confirm_password);
+
                     const form = {
                         email,
                         password,
@@ -54,12 +56,10 @@
                         method: 'POST',
                         type: 'POST',
                         success: function(data) {
-
                             router.go("login");
                         },
                         error: function(error) {
                             console.log(error)
-
                         }
                     });
 
