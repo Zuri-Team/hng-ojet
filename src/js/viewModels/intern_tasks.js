@@ -156,24 +156,26 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 }
             };
 
-            self.fetchTasks = async(track_id) => {
+            self.fetchTasks = async() => {
                 try {
-                    const response = await fetch(`${api}/api/track/${track_id}/tasks`, {
+                    const response = await fetch(`${api}/api/user/task/`, {
                         headers: {
                             Authorization: `Bearer ${userToken}`
                         }
                     });
-                    const { data } = await response.json();
-                    return data;
+                    const  data  = await response.json();
+                    const newData = [...data.data].flat();
                     self.dataProvider(
-                        new PagingDataProviderView(
-                            new ArrayDataProvider(data, {
-                                keys: data.map(function(value) {
-                                    value.deadline = self.formatDateTime(value.deadline);
-                                    return value.title;
-                                })
-                            })
-                        )
+                      new PagingDataProviderView(
+                        new ArrayDataProvider(newData, {
+                          keys: newData.map(function(value) {
+                            value.deadline = self.formatDateTime(
+                              value.deadline
+                            );
+                            return value.title;
+                          })
+                        })
+                      )
                     );
                 } catch (err) {
                     console.log(err);
@@ -200,7 +202,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                             return taskResolution;
                         }
                         const tasks = await tasksLoop();
-                        self.fetchTasks(id);
+                        self.fetchTasks();
 
                     }
                 });
