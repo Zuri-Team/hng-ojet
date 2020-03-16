@@ -63,13 +63,16 @@
                     <div>
                         <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
                             <label class="col-form-label">Link</label>
-                            <input id="taskURL" type="url" data-bind="textInput: taskSubmit().submission_link" class="form-control">
+                            <input id="taskURL" type="text" data-bind="textInput: taskSubmit().submission_link" class="form-control">
                         </oj-bind-if>
                         <oj-bind-if test="[[submitted()]]">
                             <h6 class="font-weight-bold mb-0 pb-2 ">Link:
-                                <a :href="[[submitted_link]]" target="_blank">
-                                    <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
+                                <a data-bind="attr: { href: submitted_link, title: submitted_link }" target="_blank">
+                                     <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
                                 </a>
+                                <!-- <a :href="[[submitted_link]]" target="">
+                                    <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
+                                </a> -->
                             </h6>
                         </oj-bind-if>
                     </div>

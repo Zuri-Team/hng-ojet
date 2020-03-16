@@ -199,17 +199,17 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
                     url: `${api}/api/user-profile/${id}`,
                     success: async function(response) {
-                        let id = response.data.tracks[0].id;
-                        const tasksLoop = async _ => {
-                            const tasksPromise = response.data.tracks.map(
-                              async (track, id) => await self.fetchTasks(track.id)
-                            );
-                            const taskResolution = await Promise.all(
-                              tasksPromise
-                            );
-                            return taskResolution;
-                        }
-                        const tasks = await tasksLoop();
+                        // let id = response.data.tracks[0].id;
+                        // const tasksLoop = async _ => {
+                        //     const tasksPromise = response.data.tracks.map(
+                        //       async (track, id) => await self.fetchTasks(track.id)
+                        //     );
+                        //     const taskResolution = await Promise.all(
+                        //       tasksPromise
+                        //     );
+                        //     return taskResolution;
+                        // }
+                        // const tasks = await tasksLoop();
                         self.fetchTasks();
 
                     }
@@ -226,7 +226,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     method: "GET",
 
                     success: ({ status, data }) => {
-
+                        console.log(data);
                         if (status == true) {
                             if (data.comment === null) {
                                 data.comment = 'No comment';
