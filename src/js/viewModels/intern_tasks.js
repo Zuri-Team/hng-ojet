@@ -124,6 +124,12 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 } else {
                     feedback.style.color = 'red';
                     feedback.innerHTML = 'Invalid URL, please check!';
+                    return;
+                }
+                if(!submission_link.startsWith('https://')) {
+                    feedback.style.color = "red";
+                    feedback.innerHTML = "Your submission link needs to start with https://";
+                    return;
                 }
 
                 try {
@@ -219,7 +225,7 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             function fetchSubmission() {
                 let task_id = self.task_id();
                 $.ajax({
-                    url: `${tasksURL}/${task_id}/submissions`,
+                    url: `${tasksURL}/${task_id}/intern_submissions`,
                     headers: {
                         'Authorization': "Bearer " + userToken
                     },
