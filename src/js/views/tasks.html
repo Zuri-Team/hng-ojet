@@ -163,7 +163,7 @@
                                "style":"padding:0px;text-align: center;",
                                "template": "actionTemplate"}]' style="width: 100%; height: 100%;">
                     <template slot="dateTemplate" data-oj-as="cell">
-                    <oj-bind-text value="[[formatDate(cell.data)]]"></oj-bind-text>
+                    <oj-bind-text value="[[cell.data]]"></oj-bind-text>
                   </template>
                     <template slot="submissionTemplate" data-oj-as="cell">
                     <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
