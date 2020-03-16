@@ -62,8 +62,7 @@ define([
         timeZone: "Africa/Lagos"
       });
 
-      var date = "2013-05-12 20:00:00",
-        values = date.split(/[^0-9]/),
+        var values = date.split(/[^0-9]/),
         year = parseInt(values[0], 10),
         month = parseInt(values[1], 10) - 1, // Month is zero based, so subtract 1
         day = parseInt(values[2], 10),
