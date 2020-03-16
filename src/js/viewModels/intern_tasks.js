@@ -226,7 +226,6 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     method: "GET",
 
                     success: ({ status, data }) => {
-                        console.log(data);
                         if (status == true) {
                             if (data.comment === null) {
                                 data.comment = 'No comment';
