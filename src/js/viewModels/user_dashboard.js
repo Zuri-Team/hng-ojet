@@ -319,6 +319,7 @@ define([
     };
 
     // datetime converter
+   // datetime converter
     self.formatDateTime = date => {
       var formatDateTime = oj.Validation.converterFactory(
         oj.ConverterFactory.CONVERTER_TYPE_DATETIME
@@ -338,7 +339,6 @@ define([
         seconds = parseInt(values[5], 10);
 
       return formatDateTime.format(new Date(year, month, day, hours, minutes, seconds).toISOString());
-
       // return formatDateTime.format(new Date(date).toISOString());
     };
 

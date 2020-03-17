@@ -75,19 +75,27 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             }
 
             // datetime converter
-            self.formatDateTime = date => {
-                var formatDateTime = oj.Validation.converterFactory(
-                    oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-                ).createConverter({
-                    formatType: "datetime",
-                    dateFormat: "medium",
-                    timeFormat: "short",
-                    timeZone: "Africa/Lagos"
-                });
+    self.formatDateTime = date => {
+      var formatDateTime = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "datetime",
+        dateFormat: "medium",
+        timeFormat: "short",
+        timeZone: "Africa/Lagos"
+      });
 
-                return formatDateTime.format(new Date(date).toISOString());
-            };
+      var values = date.split(/[^0-9]/),
+        year = parseInt(values[0], 10),
+        month = parseInt(values[1], 10) - 1, // Month is zero based, so subtract 1
+        day = parseInt(values[2], 10),
+        hours = parseInt(values[3], 10),
+        minutes = parseInt(values[4], 10),
+        seconds = parseInt(values[5], 10);
 
+      return formatDateTime.format(new Date(year, month, day, hours, minutes, seconds).toISOString());
+      // return formatDateTime.format(new Date(date).toISOString());
+    };
             // table date converter
             self.formatDate = date => {
                 var formatDate = oj.Validation.converterFactory(
@@ -116,6 +124,12 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 } else {
                     feedback.style.color = 'red';
                     feedback.innerHTML = 'Invalid URL, please check!';
+                    return;
+                }
+                if(!submission_link.startsWith('https://')) {
+                    feedback.style.color = "red";
+                    feedback.innerHTML = "Your submission link needs to start with https://";
+                    return;
                 }
 
                 try {
@@ -191,17 +205,17 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
 
                     url: `${api}/api/user-profile/${id}`,
                     success: async function(response) {
-                        let id = response.data.tracks[0].id;
-                        const tasksLoop = async _ => {
-                            const tasksPromise = response.data.tracks.map(
-                              async (track, id) => await self.fetchTasks(track.id)
-                            );
-                            const taskResolution = await Promise.all(
-                              tasksPromise
-                            );
-                            return taskResolution;
-                        }
-                        const tasks = await tasksLoop();
+                        // let id = response.data.tracks[0].id;
+                        // const tasksLoop = async _ => {
+                        //     const tasksPromise = response.data.tracks.map(
+                        //       async (track, id) => await self.fetchTasks(track.id)
+                        //     );
+                        //     const taskResolution = await Promise.all(
+                        //       tasksPromise
+                        //     );
+                        //     return taskResolution;
+                        // }
+                        // const tasks = await tasksLoop();
                         self.fetchTasks();
 
                     }
@@ -211,14 +225,13 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
             function fetchSubmission() {
                 let task_id = self.task_id();
                 $.ajax({
-                    url: `${tasksURL}/${task_id}/submissions`,
+                    url: `${tasksURL}/${task_id}/intern_submissions`,
                     headers: {
                         'Authorization': "Bearer " + userToken
                     },
                     method: "GET",
 
                     success: ({ status, data }) => {
-
                         if (status == true) {
                             if (data.comment === null) {
                                 data.comment = 'No comment';
