@@ -35,10 +35,10 @@ define([
     user = JSON.parse(user);
 
     self.localUser = ko.observable(user);
-    self.user = ko.observable('');
+    self.user = ko.observable("");
     self.user_id = ko.observable(user.id);
 
-    self.profile_img = ko.observable('/css/images/smiley.png');
+    self.profile_img = ko.observable("/css/images/smiley.png");
 
     self.selectedItem = ko.observable();
     self.dataProvider = ko.observable();
@@ -55,19 +55,19 @@ define([
     // fetch slack profile info
     if (slackId) {
       var settings = {
-        "url": `${api}/api/slacks/profile`,
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
+        url: `${api}/api/slacks/profile`,
+        method: "POST",
+        timeout: 0,
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        "data": {
-          "slack_id": slackId
+        data: {
+          slack_id: slackId
         }
       };
-      
-      $.ajax(settings).done(function (response) {
-        if (response.status){
+
+      $.ajax(settings).done(function(response) {
+        if (response.status) {
           slackInfo = response.SlackUser.user;
           // console.log(slackInfo)
           var { profile } = slackInfo;
@@ -75,7 +75,7 @@ define([
           slackImg = profileImg;
           self.profile_img(profile.image_original);
           // console.log(self.profile_img())
-          sessionStorage.setItem('slackImg', self.profile_img());
+          sessionStorage.setItem("slackImg", self.profile_img());
           checkUserImage();
         }
       });
@@ -145,6 +145,37 @@ define([
       const user_id = self.user_id();
       const reason = self.newTrack.reason;
       const action = self.chosenAction();
+
+       if ((reason == undefined || reason == "") && action == "") {
+        self.applicationMessages.push({
+          severity: "warning",
+          summary: `Request not sent`,
+          detail: `Please choose an action and a reason`,
+          autoTimeout: parseInt("0")
+        });
+        return;
+      }
+
+      if (action == "") {
+        self.applicationMessages.push({
+          severity: "warning",
+          summary: `Request not sent`,
+          detail: `Please choose an action`,
+          autoTimeout: parseInt("0")
+        });
+        return;
+      }
+
+      if (reason == undefined || reason == "") {
+        self.applicationMessages.push({
+          severity: "warning",
+          summary: `Request not sent`,
+          detail: `Please choose a reason`,
+          autoTimeout: parseInt("0")
+        });
+        return;
+      }
+
       try {
         const response = await fetch(`${api}/api/track-requests/send-request`, {
           method: "POST",
@@ -200,29 +231,29 @@ define([
           })
         });
 
-        const message  = await response.json();
+        const message = await response.json();
         console.log(message);
 
         document.getElementById("submitDialog").close();
 
-        if(message.status){
+        if (message.status) {
           self.applicationMessages.push({
             severity: "confirmation",
             summary: `Task successfully submitted`,
             detail: ``,
             autoTimeout: parseInt("0")
           });
-        }else{
-          let errorMsg = '';
-          if(message.data.submission_link){
+        } else {
+          let errorMsg = "";
+          if (message.data.submission_link) {
             errorMsg = message.data.submission_link[0];
-          }else if(message.data.task_id){
+          } else if (message.data.task_id) {
             errorMsg = message.data.task_id;
-          }else if(message.data.user_id){
+          } else if (message.data.user_id) {
             errorMsg = message.data.user_id;
-          }else if(message.data.comment){
+          } else if (message.data.comment) {
             errorMsg = message.data.comment;
-          }else{
+          } else {
             errorMsg = message.message;
           }
           self.applicationMessages.push({
@@ -232,8 +263,6 @@ define([
             autoTimeout: parseInt("0")
           });
         }
-
-        
       } catch (err) {
         console.log(err);
         self.applicationMessages.push({
@@ -319,7 +348,7 @@ define([
     };
 
     // datetime converter
-   // datetime converter
+    // datetime converter
     self.formatDateTime = date => {
       var formatDateTime = oj.Validation.converterFactory(
         oj.ConverterFactory.CONVERTER_TYPE_DATETIME
@@ -338,7 +367,9 @@ define([
         minutes = parseInt(values[4], 10),
         seconds = parseInt(values[5], 10);
 
-      return formatDateTime.format(new Date(year, month, day, hours, minutes, seconds).toISOString());
+      return formatDateTime.format(
+        new Date(year, month, day, hours, minutes, seconds).toISOString()
+      );
       // return formatDateTime.format(new Date(date).toISOString());
     };
 
@@ -347,12 +378,14 @@ define([
     self.getTasks = async id => {
       try {
         // const response = await fetch(`${api}/api/track/${id}/tasks`, {
-          const response = await fetch(`${api}/api/posts`, {
-            headers: {
-              Authorization: `Bearer ${userToken}`
-            }
-          });
-        const { data : { data } } = await response.json();
+        const response = await fetch(`${api}/api/posts`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`
+          }
+        });
+        const {
+          data: { data }
+        } = await response.json();
         // self.task(data.map(task => task));
         self.dataProvider(
           new PagingDataProviderView(
@@ -492,14 +525,14 @@ define([
         success: res => {
           self.user(res.data);
           self.localUser().stage = self.user()[0].stage;
-           self.stepArray().map((stage, i) => {
-             stage.disabled = true;
-             if (i + 1 == self.localUser().stage) {
-               stage.disabled = false;
-               self.selectedStepValue(String(self.localUser().stage));
-               self.selectedStepLabel(self.localUser().stage);
-             }
-           });
+          self.stepArray().map((stage, i) => {
+            stage.disabled = true;
+            if (i + 1 == self.localUser().stage) {
+              stage.disabled = false;
+              self.selectedStepValue(String(self.localUser().stage));
+              self.selectedStepLabel(self.localUser().stage);
+            }
+          });
           //  console.log(self.localUser().stage);
           const [...data] = res.data;
           const [user, profile] = data;
@@ -511,11 +544,11 @@ define([
           self.fullname(`${firstname} ${lastname}`);
         }
       });
-    }
+    };
 
     // check if user slack img url matches the board image and update if it doesn't
-    function checkUserImage () {
-      if (slackImg !== boardImg){
+    function checkUserImage() {
+      if (slackImg !== boardImg) {
         try {
           var form = new FormData();
           form.append("location", userData.location);
@@ -524,35 +557,34 @@ define([
           form.append("bio", slackInfo.profile.title);
           form.append("url", userData.url);
           var settings = {
-            "url": `${api}/api/profile/${user.id}/edit`,
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-              Accept: 'application/json',
+            url: `${api}/api/profile/${user.id}/edit`,
+            method: "POST",
+            timeout: 0,
+            headers: {
+              Accept: "application/json",
               "Content-Type": "application/x-www-form-urlencoded",
               Authorization: "Bearer " + userToken
             },
-            "processData": false,
-            "mimeType": "multipart/form-data",
+            processData: false,
+            mimeType: "multipart/form-data",
             // contentType: 'application/x-www-form-urlencoded',
-            "contentType": false,
-            type: 'POST',
+            contentType: false,
+            type: "POST",
             data: form
           };
 
-          $.ajax(settings).done(function (response) {
+          $.ajax(settings).done(function(response) {
             response = JSON.parse(response);
             // console.log(response);
             // console.log(response.data);
           });
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
       }
     }
 
-
-    self.connected = function () {
+    self.connected = function() {
       if (sessionStorage.getItem("user_token") == null) {
         router.go("login");
       }
