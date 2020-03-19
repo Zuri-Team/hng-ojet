@@ -47,6 +47,8 @@ define([
 
     self.isNotify = ko.observable(false);
 
+    // self.guidebook = ko.observable(``)
+
     var slackId = user.slack_id;
     var slackImg;
     var boardImg;
@@ -76,7 +78,7 @@ define([
           self.profile_img(profile.image_original);
           // console.log(self.profile_img())
           sessionStorage.setItem('slackImg', self.profile_img());
-          checkUserImage();
+          // checkUserImage();
         }
       });
     }
@@ -507,6 +509,7 @@ define([
           const { profile_img } = profile;
           boardImg = profile_img;
           userData = user;
+          console.log(userData)
           // self.profile_img(profile_img);
           self.fullname(`${firstname} ${lastname}`);
         }
@@ -514,42 +517,43 @@ define([
     }
 
     // check if user slack img url matches the board image and update if it doesn't
-    function checkUserImage () {
-      if (slackImg !== boardImg){
-        try {
-          var form = new FormData();
-          form.append("location", userData.location);
-          form.append("profile_img", slackImg);
-          form.append("gender", userData.gender);
-          form.append("bio", slackInfo.profile.title);
-          form.append("url", userData.url);
-          var settings = {
-            "url": `${api}/api/profile/${user.id}/edit`,
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-              Accept: 'application/json',
-              "Content-Type": "application/x-www-form-urlencoded",
-              Authorization: "Bearer " + userToken
-            },
-            "processData": false,
-            "mimeType": "multipart/form-data",
-            // contentType: 'application/x-www-form-urlencoded',
-            "contentType": false,
-            type: 'POST',
-            data: form
-          };
+    // function checkUserImage () {
+    //   if (slackImg !== boardImg){
+    //     try {
+    //       console.log(userData)
+    //       var form = new FormData();
+    //       form.append("location", userData.location);
+    //       form.append("profile_img", slackImg);
+    //       form.append("gender", userData.gender);
+    //       form.append("bio", slackInfo.profile.title);
+    //       form.append("url", userData.url);
+    //       var settings = {
+    //         "url": `${api}/api/profile/${user.id}/edit`,
+    //         "method": "POST",
+    //         "timeout": 0,
+    //         "headers": {
+    //           Accept: 'application/json',
+    //           "Content-Type": "application/x-www-form-urlencoded",
+    //           Authorization: "Bearer " + userToken
+    //         },
+    //         "processData": false,
+    //         "mimeType": "multipart/form-data",
+    //         // contentType: 'application/x-www-form-urlencoded',
+    //         "contentType": false,
+    //         type: 'POST',
+    //         data: form
+    //       };
 
-          $.ajax(settings).done(function (response) {
-            response = JSON.parse(response);
-            // console.log(response);
-            // console.log(response.data);
-          });
-        } catch (err) {
-          console.log(err)
-        }
-      }
-    }
+    //       $.ajax(settings).done(function (response) {
+    //         response = JSON.parse(response);
+    //         // console.log(response);
+    //         // console.log(response.data);
+    //       });
+    //     } catch (err) {
+    //       console.log(err)
+    //     }
+    //   }
+    // }
 
 
     self.connected = function () {

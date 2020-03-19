@@ -948,3 +948,14 @@ body {
         -webkit-transform: scale(1);
     }
 }
+
+/* User dashboard */
+ hr {
+    border-top: solid #cccccc 5px;
+    width: 5rem;
+    margin: auto;
+}
+.guidebook {
+    border-left: #cccccc 5px solid;
+    padding-left: 20px;
+}
