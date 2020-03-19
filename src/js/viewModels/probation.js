@@ -1,7 +1,17 @@
-  define(['knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview',  'ojs/ojpagingcontrol', 'ojs/ojknockout',
-  'ojs/ojavatar', 'ojs/ojtable',  "ojs/ojlistview", "ojs/ojlabel",],
-  function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView)
-  {
+define([
+  "knockout",
+  "jquery",
+  "./api",
+  "ojs/ojbootstrap",
+  "ojs/ojarraydataprovider",
+  "ojs/ojpagingdataproviderview",
+  "ojs/ojpagingcontrol",
+  "ojs/ojknockout",
+  "ojs/ojavatar",
+  "ojs/ojtable",
+  "ojs/ojlistview",
+  "ojs/ojlabel"
+], function(ko, $, api, Bootstrap, ArrayDataProvider, PagingDataProviderView) {
   function probationViewModel() {
     var self = this;
     self.interns = ko.observableArray([]);
@@ -12,7 +22,7 @@
     self.lastname = ko.observable();
     self.username = ko.observable();
     self.isUserProfile = ko.observable(false);
-    self.totalInterns = ko.observable('');
+    self.totalInterns = ko.observable("");
     self.user_id = ko.observable();
     self.probated_by = ko.observable();
     self.probation_reason = ko.observable();
@@ -22,8 +32,6 @@
 
     self.dataProvider = ko.observable();
 
-
-
     var userToken = sessionStorage.getItem("user_token");
 
     self.selectedInternChanged = function(event) {
@@ -32,55 +40,59 @@
         // If selection, populate and display interns
         // Populate iterns list observable using firstSelectedXxx API
         let { data } = self.firstSelectedIntern();
-        console.log(data)
         if (data == null) {
           return;
         } else {
-         self.isUserProfile(true);
+          self.isUserProfile(true);
         }
       }
     };
-    function fetchdashboard () {
-      $.ajax({
-        url: `${api}/api/probation/all`,
-        headers:{
-          Authorization: "Bearer " + userToken
-        },
-        method: "GET",
-        success: ({status, data}) => {
-            if (status == "success") {
-                self.totalInterns(data.length);
-                // console.log(data);
-            }
-        }
-      });
-    }
-
-  fetchdashboard();
-
-    function fetchProbatedInterns() {
+    self.fetchdashboard = function() {
       $.ajax({
         url: `${api}/api/probation/all`,
         headers: {
           Authorization: "Bearer " + userToken
         },
         method: "GET",
-        success: ({status, data}) => {
+        success: ({ status, data }) => {
           if (status == "success") {
+            self.totalInterns(data.length);
             // console.log(data);
-            for (index in data){
+          }
+        }
+      });
+    };
+
+    self.fetchdashboard();
+
+    self.fetchProbatedInterns = function() {
+      $.ajax({
+        url: `${api}/api/probation/all`,
+        headers: {
+          Authorization: "Bearer " + userToken
+        },
+        method: "GET",
+        success: ({ status, data }) => {
+          if (status == "success") {
+            console.log(data);
+            for (index in data) {
               data[index].id = data[index].user_id;
             }
-            self.dataProvider(new PagingDataProviderView(new ArrayDataProvider(data, {keyAttributes: 'user_id'})));
+            self.dataProvider(
+              new PagingDataProviderView(
+                new ArrayDataProvider(data, { keyAttributes: "user_id" })
+              )
+            );
+          }
         }
+      });
+    };
+    self.fetchProbatedInterns();
 
-      }
-    });
+    self.connected = function() {
+      self.fetchProbatedInterns();
+    };
   }
-  fetchProbatedInterns();
-
-
-}
 
   return new probationViewModel();
-  });
+});

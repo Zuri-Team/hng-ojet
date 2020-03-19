@@ -26,18 +26,28 @@ define([
 
 
         // datetime converter
-        self.formatDateTime = date => {
-            var formatDateTime = oj.Validation.converterFactory(
-                oj.ConverterFactory.CONVERTER_TYPE_DATETIME
-            ).createConverter({
-                formatType: "datetime",
-                dateFormat: "medium",
-                timeFormat: "short",
-                timeZone: "Africa/Lagos"
-            });
+     // datetime converter
+    self.formatDateTime = date => {
+      var formatDateTime = oj.Validation.converterFactory(
+        oj.ConverterFactory.CONVERTER_TYPE_DATETIME
+      ).createConverter({
+        formatType: "datetime",
+        dateFormat: "medium",
+        timeFormat: "short",
+        timeZone: "Africa/Lagos"
+      });
 
-            return formatDateTime.format(new Date(date).toISOString());
-        };
+      var values = date.split(/[^0-9]/),
+        year = parseInt(values[0], 10),
+        month = parseInt(values[1], 10) - 1, // Month is zero based, so subtract 1
+        day = parseInt(values[2], 10),
+        hours = parseInt(values[3], 10),
+        minutes = parseInt(values[4], 10),
+        seconds = parseInt(values[5], 10);
+
+      return formatDateTime.format(new Date(year, month, day, hours, minutes, seconds).toISOString());
+      // return formatDateTime.format(new Date(date).toISOString());
+    };
 
 
         self.activityToView.subscribe(function(newValue) {

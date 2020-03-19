@@ -45,9 +45,9 @@ define([
                 masterPromise.then(function(values) {
                     self.moduleConfig({ view: values[0], viewModel: values[1] });
                 });
-                 if (sessionStorage.getItem("user_token") == null) {
-                   router.go("login");
-                 } 
+                //  if (sessionStorage.getItem("user_token") == null) {
+                //    router.go("login");
+                //  } 
             });
         };
     }

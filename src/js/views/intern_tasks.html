@@ -38,7 +38,7 @@
                     <p><span class="badge badge-danger">Sorry, submissions are no longer accepted as the deadline has elapsed !!!</span></p>
                 </oj-bind-if>
                 <h6 class="pb-2">Deadline:
-                    <oj-bind-text value="[[formatDateTime(taskSelected().data.deadline)]]"></oj-bind-text>
+                    <oj-bind-text value="[[taskSelected().data.deadline]]"></oj-bind-text>
                 </h6>
                 <div>
                     <p class="font-weight-bold mb-0 pb-2 ">Description</p>
@@ -63,13 +63,16 @@
                     <div>
                         <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
                             <label class="col-form-label">Link</label>
-                            <input id="taskURL" type="url" data-bind="textInput: taskSubmit().submission_link" class="form-control">
+                            <input id="taskURL" type="text" data-bind="textInput: taskSubmit().submission_link" class="form-control">
                         </oj-bind-if>
                         <oj-bind-if test="[[submitted()]]">
                             <h6 class="font-weight-bold mb-0 pb-2 ">Link:
-                                <a :href="[[submitted_link]]" target="_blank">
-                                    <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
+                                <a data-bind="attr: { href: submitted_link, title: submitted_link }" target="_blank">
+                                     <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
                                 </a>
+                                <!-- <a :href="[[submitted_link]]" target="">
+                                    <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
+                                </a> -->
                             </h6>
                         </oj-bind-if>
                     </div>
@@ -133,7 +136,7 @@
                     "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center; color: #4e5769 !important",
                     "style":"padding:0px;text-align: center; color: #4e5769 !important"}]' style="width: 100%; height: 100%;">
                         <template slot="dateTemplate" data-oj-as="cell">
-                                  <oj-bind-text value="[[formatDate(cell.data)]]"></oj-bind-text>
+                                  <oj-bind-text value="[[cell.data]]"></oj-bind-text>
                                 </template>
                         <template slot="submissionTemplate" data-oj-as="cell">
                                   <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
