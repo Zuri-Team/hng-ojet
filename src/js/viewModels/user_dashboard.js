@@ -542,7 +542,6 @@ define([
           const { profile_img } = profile;
           boardImg = profile_img;
           userData = user;
-          console.log(userData)
           // self.profile_img(profile_img);
           self.fullname(`${firstname} ${lastname}`);
         }

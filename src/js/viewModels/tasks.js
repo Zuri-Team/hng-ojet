@@ -195,25 +195,51 @@ define([
       });
     }
 
+    self.fetchTrack = async(id) => {
+            try {
+                const response = await fetch(
+                  `https://api.start.ng/api/track/${id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${userToken}`
+                    }
+                  }
+                );
+                const {
+                    data
+                } = await response.json();
+                return data;
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
     self.fetchTasks = async () => {
       try {
-        const response = await fetch(`${tasksURL}`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          }
-        });
-        const { data } = await response.json();
-        self.taskDataProvider(
-          new PagingDataProviderView(
-            new ArrayDataProvider(data, {
-              keys: data.map(function(value) {
-                value.deadline = self.formatDateTime(value.deadline);
-                return value.title;
-              })
-            })
-          )
-        );
-      } catch (err) {
+            const response = await fetch(`${tasksURL}`, {
+              headers: {
+                Authorization: `Bearer ${userToken}`
+              }
+            });
+            const { data } = await response.json();
+                const tracksPromise = data.map(
+                  async (track) => await self.fetchTrack(track.track_id)
+                );
+                const trackResolution = await Promise.all(
+                  tracksPromise
+                );
+               trackResolution.map((track, i) => data[i]["track_name"] = track);
+            self.taskDataProvider(
+              new PagingDataProviderView(
+                new ArrayDataProvider(data, {
+                  keys: data.map(function(value) {
+                    value.deadline = self.formatDateTime(value.deadline);
+                    return value.title;
+                  })
+                })
+              )
+            );
+          } catch (err) {
         console.log(err);
       }
     };
@@ -337,7 +363,7 @@ define([
           }
         });
         const { data } = await response.json();
-
+       
         self.taskDataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {

@@ -63,14 +63,17 @@
           <div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
             <div>
               <oj-bind-if test="[[!search()]]">
-                <p data-bind="text: [[item.data.track_id]]" class="badge badge-pill badge-info ml-2 mt-2 p-2"></p>
+                <p data-bind="text: [[item.data.track_name.track_name]]" class="badge badge-pill badge-success ml-2 mt-2 p-2"></p>
               </oj-bind-if>
               <oj-bind-if test="[[item.data.is_active == '0']]">
                 <p class="badge badge-pill badge-warning p-2">Draft</p>
               </oj-bind-if>
-              <oj-bind-if test="[[item.data.total_submissions >= 1 && item.data.submissions.filter(e => e.is_graded == 1).length == 0]]">
-                <p data-bind="text: item.data.total_submissions + (item.data.total_submissions == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-primary p-2"></p>
-              </oj-bind-if>
+              <oj-bind-if test="[[item.data.total_submissions >= 1 && item.data.submissions.filter(e => e.is_submitted == 1).length > 0]]">
+                <p data-bind="text: item.data.total_submissions + (item.data.total_submissions == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-warning p-2"></p>
+                <oj-bind-if test="[[item.data.total_submissions >= 1 && item.data.submissions.filter(e => e.is_graded == 1).length > 0]]"></oj-bind-if>
+                <p data-bind="text: item.data.submissions.filter(e => e.is_graded == 1).length + (item.data.submissions.filter(e => e.is_graded == 1).length <= 1 ? ' graded item' : ' graded items')" class="badge badge-pill badge-primary p-2"></p>
+             </oj-bind-if>  
+            </oj-bind-if>
               <p class="font-weight-bold ml-2 mb-2 text-capitalize">
                 <oj-bind-text value="[[item.data.title]]"></oj-bind-text></p>
             </div>
