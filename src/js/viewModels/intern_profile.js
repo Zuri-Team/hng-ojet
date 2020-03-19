@@ -27,6 +27,7 @@ define([
     self.teamName = ko.observable("");
     self.stage = ko.observable("");
     self.role = ko.observable("");
+    self.email = ko.observable("");
     self.tracksArray = ko.observableArray([]);
     self.firstStage = ko.observable(false);
     self.lastStage = ko.observable(false);
@@ -668,9 +669,11 @@ define([
         self.teamName(data.teams.map(teams => `  ${teams.team_name}`));
         self.stage(`${data.stage}`);
         self.role(`${data.role}`);
+        self.email(`${data.email}`);
         self.tracksArray(data.tracks.map(tracks => `  ${tracks.track_name}`));
 
         // console.log(data.tracks, data.role, data.active)
+        // console.log(data)
 
         // hide the make admin and show the make user button if admin or superadmin
         if (data.role == "admin" || data.role == "superadmin") {
