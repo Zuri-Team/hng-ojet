@@ -5,6 +5,7 @@ define([
   "./api",
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
+  "../ckeditor",
   "ojs/ojvalidation-base",
   "ojs/ojknockout",
   "ojs/ojmodel",
@@ -29,6 +30,7 @@ define([
   api,
   ArrayDataProvider,
   PagingDataProviderView,
+  ClassicEditor,
   ValidationBase
 ) {
   function taskModel() {
@@ -51,6 +53,23 @@ define([
       self.task_view_title() == "New Task"
         ? self.task_view_title("Cancel")
         : self.task_view_title("New Task");
+        
+      console.log(document.getElementById("taskBody"));
+        ClassicEditor.create(document.getElementById("taskBody"), {
+          simpleUpload: {
+            // The URL the images are uploaded to.
+            uploadUrl: "http://example.com",
+  
+            // Headers sent along with the XMLHttpRequest to the upload server.
+            headers: {
+              "X-CSRF-TOKEN": "CSFR-Token",
+              Authorization: "Bearer " + userToken
+            }
+          }
+        }).then(editor => self.editor(editor))
+        .catch( error => {
+          console.error( error );
+        } );
     };
 
     self.applicationMessages = ko.observableArray();
