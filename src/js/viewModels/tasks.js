@@ -40,7 +40,9 @@ define([
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 
-    self.newTask = ko.observable({}); //holds data for the create task dialog
+    self.newTask = ko.observable({}); //holds data for the create task dialog//  integrated wysiwyg editor is stored as an observable
+    self.editor = ko.observable();
+    // var taskDescription = document.getElementById("taskBody"); // gets the task-body text editor
 
     self.viewSubmission = ko.observable(false);
     self.viewAllSubmissions = ko.observable(false);
@@ -54,7 +56,7 @@ define([
         ? self.task_view_title("Cancel")
         : self.task_view_title("New Task");
         
-      console.log(document.getElementById("taskBody"));
+      // if (document.getElementById("taskBody") !== null) {
         ClassicEditor.create(document.getElementById("taskBody"), {
           simpleUpload: {
             // The URL the images are uploaded to.
@@ -69,7 +71,8 @@ define([
         }).then(editor => self.editor(editor))
         .catch( error => {
           console.error( error );
-        } );
+        });
+      // }
     };
 
     self.applicationMessages = ko.observableArray();
@@ -242,9 +245,11 @@ define([
     self.createTask = () => {
       let track_id = self.track_id();
       let title = self.newTask().title;
-      let body = self.newTask().body;
+      // let body = self.newTask().body;
+      let body = self.editor().getData();
       let deadline = self.newTask().deadline;
       let is_active = self.newTask().is_active;
+      console.log(body); 
 
       $.ajax({
         method: "POST",
