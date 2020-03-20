@@ -116,6 +116,39 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 let task_id = self.task_id();
                 let is_submitted = 1;
 
+                if (
+                  (submission_link == undefined || submission_link == "") &&
+                  comment == ""
+                ) {
+                  self.applicationMessages.push({
+                    severity: "warning",
+                    summary: `Request not sent`,
+                    detail: `Please include a submission link and a comment`,
+                    autoTimeout: parseInt("0")
+                  });
+                  return;
+                }
+
+                if (submission_link == "") {
+                  self.applicationMessages.push({
+                    severity: "warning",
+                    summary: `Request not sent`,
+                    detail: `Please include a submission link`,
+                    autoTimeout: parseInt("0")
+                  });
+                  return;
+                }
+
+                if (comment == undefined || comment == "") {
+                  self.applicationMessages.push({
+                    severity: "warning",
+                    summary: `Request not sent`,
+                    detail: `Please leave a comment`,
+                    autoTimeout: parseInt("0")
+                  });
+                  return;
+                }
+
                 //task submission validation
                 const feedback = document.getElementById('submission_feedback');
                 if (submission_link.match(new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi))) {

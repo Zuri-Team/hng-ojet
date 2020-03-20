@@ -1,7 +1,7 @@
 <oj-bind-if test="[[!viewSubmission()]]">
     <div class="oj-flex oj-sm-justify-content-center">
-        <h5 class="text-center mt-3 px-5"><strong>NOTE:</strong> In a case where you belong to more than one track and see the same task across the different tracks you belong to, consider it a <strong>GENERAL TASK</strong> and make <strong>ONE submission only</strong>. 
-            That is, just <strong>ONE submission</strong> to cover all the tracks you belong to and not one submission per track. <strong>Failure to comply to this will result in you scoring 0 automatically for the task</strong></h5>
+        <!-- <h5 class="text-center mt-3 px-5"><strong>NOTE:</strong> In a case where you belong to more than one track and see the same task across the different tracks you belong to, consider it a <strong>GENERAL TASK</strong> and make <strong>ONE submission only</strong>. 
+            That is, just <strong>ONE submission</strong> to cover all the tracks you belong to and not one submission per track. <strong>Failure to comply to this will result in you scoring 0 automatically for the task</strong></h5> -->
         <div class="col-sm-12 col-md-11">
             <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
                 <template slot="itemTemplate" data-oj-as="item" class="border-0">
@@ -45,7 +45,8 @@
                 </h6>
                 <div>
                     <p class="font-weight-bold mb-0 pb-2 ">Description</p>
-                    <oj-bind-text value="[[taskSelected().data.body]]"></oj-bind-text>
+                    <!-- <oj-bind-text value="[[taskSelected().data.body]]"></oj-bind-text> -->
+                    <p data-bind="html: taskSelected().data.body"></p>
                 </div>
             </div>
         </div>

@@ -333,7 +333,7 @@ self.deleteSubmission = async () => {
       self.body(`${data[0].body}`);
       self.deadline(self.formatDateTime(`${data[0].deadline}`));
       self.is_active(`${data[0].is_active}`);
-      self.submission_count(`${data[0].submissions.filter(e => e.is_graded != 1) > 0 ? data[0].total_submissions : ''}`);
+      self.submission_count(`${data[0].submissions.filter(e => e.is_submitted == 1).length > 0 ? data[0].submissions.filter(e => e.is_submitted == 1).length : ''}`);
     } catch (err) {
       console.log(err);
     }

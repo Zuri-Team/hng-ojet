@@ -74,7 +74,6 @@ define([
         method: "GET",
         success: ({ status, data }) => {
           if (status == "success") {
-            console.log(data);
             for (index in data) {
               data[index].id = data[index].user_id;
             }

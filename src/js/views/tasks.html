@@ -1,5 +1,5 @@
 <oj-bind-if test="[[task_btn_toggler()]]">
-    <div class="oj-flex oj-sm-justify-content-center mt-2">
+    <!-- <div class="oj-flex oj-sm-justify-content-center mt-2">
         <div class="col-sm-12 col-md-11">
             <div>
                 <h4 class="float-left">Create a new task</h4>
@@ -34,7 +34,48 @@
                 <input data-bind="click: createTask" type="submit" class="btn btn-success" value="Create task" />
             </div>
         </div>
+    </div> -->
+  <div class="row">
+    <div class="col-sm-12 pd container">
+  <div class="d-flex justify-content-between">
+    <h4>Create a new task</h4>
+    <span class="fa-stack" data-bind="click: task_view_toggle">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-close fa-stack-1x bg-warning text-light rounded-circle"></i>
+    </span>
+  </div>
+  <div class="my-3">
+    <p>Track</p>
+    <select
+      data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id,"
+      class="form-control">
+    </select>
+  </div>
+  <div class="my-3">
+    <p>Title</p>
+    <input data-bind="textInput: newTask().title" type="text" class="form-control">
+  </div>
+  <div class="my-3">
+    <p>Description</p>
+    <textarea id="taskbody" class="form-control my-3 h-50" placeholder="Task description here"></textarea>
+  </div>
+  <div class="my-3">
+        <p>Deadline</p>
+                <oj-input-date-time id="datetime" value="{{newTask().deadline}}"> </oj-input-date-time>
     </div>
+    <div class="my-3">
+    <p>Status</p>
+                <oj-select-one id="basicSelect" value="{{newTask().is_active}}">
+                    <oj-option value="">Select...</oj-option>
+                    <oj-option value="1">Publish</oj-option>
+                    <oj-option value="0">Draft</oj-option>
+                </oj-select-one>
+    </div>
+  <button data-bind="click: createTask" class="btn btn-success">
+    Create Task
+  </button>
+</div>
+</div>
 </oj-bind-if>
 <oj-bind-if test="[[!viewAllSubmissions() && !viewSubmission() && !task_btn_toggler()]]">
     <div class="oj-flex oj-sm-justify-content-center">
