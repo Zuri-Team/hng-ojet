@@ -5,6 +5,7 @@ define([
   "./api",
   "ojs/ojarraydataprovider",
   "ojs/ojpagingdataproviderview",
+  "../ckeditor",
   "ojs/ojvalidation-base",
   "ojs/ojknockout",
   "ojs/ojmodel",
@@ -29,6 +30,7 @@ define([
   api,
   ArrayDataProvider,
   PagingDataProviderView,
+  ClassicEditor,
   ValidationBase
 ) {
   function taskModel() {
@@ -38,6 +40,8 @@ define([
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 
+    self.editor = ko.observable();
+     self.edit = ko.observable();
     self.newTask = ko.observable({}); //holds data for the create task dialog
 
     self.viewSubmission = ko.observable(false);
@@ -51,6 +55,19 @@ define([
       self.task_view_title() == "New Task"
         ? self.task_view_title("Cancel")
         : self.task_view_title("New Task");
+        
+     ClassicEditor.create(document.getElementById("taskbody"), {
+       simpleUpload: {
+         // The URL the images are uploaded to.
+         uploadUrl: "http://example.com",
+
+         // Headers sent along with the XMLHttpRequest to the upload server.
+         headers: {
+           "X-CSRF-TOKEN": "CSFR-Token",
+           Authorization: "Bearer " + userToken
+         }
+       }
+     }).then(editor => self.editor(editor));
     };
 
     self.applicationMessages = ko.observableArray();
@@ -176,25 +193,51 @@ define([
       });
     }
 
+    self.fetchTrack = async(id) => {
+            try {
+                const response = await fetch(
+                  `https://api.start.ng/api/track/${id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${userToken}`
+                    }
+                  }
+                );
+                const {
+                    data
+                } = await response.json();
+                return data;
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
     self.fetchTasks = async () => {
       try {
-        const response = await fetch(`${tasksURL}`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          }
-        });
-        const { data } = await response.json();
-        self.taskDataProvider(
-          new PagingDataProviderView(
-            new ArrayDataProvider(data, {
-              keys: data.map(function(value) {
-                value.deadline = self.formatDateTime(value.deadline);
-                return value.title;
-              })
-            })
-          )
-        );
-      } catch (err) {
+            const response = await fetch(`${tasksURL}`, {
+              headers: {
+                Authorization: `Bearer ${userToken}`
+              }
+            });
+            const { data } = await response.json();
+                const tracksPromise = data.map(
+                  async (track) => await self.fetchTrack(track.track_id)
+                );
+                const trackResolution = await Promise.all(
+                  tracksPromise
+                );
+               trackResolution.map((track, i) => data[i]["track_name"] = track);
+            self.taskDataProvider(
+              new PagingDataProviderView(
+                new ArrayDataProvider(data, {
+                  keys: data.map(function(value) {
+                    value.deadline = self.formatDateTime(value.deadline);
+                    return value.title;
+                  })
+                })
+              )
+            );
+          } catch (err) {
         console.log(err);
       }
     };
@@ -223,7 +266,7 @@ define([
     self.createTask = () => {
       let track_id = self.track_id();
       let title = self.newTask().title;
-      let body = self.newTask().body;
+      let body = self.editor().getData();
       let deadline = self.newTask().deadline;
       let is_active = self.newTask().is_active;
 
@@ -318,7 +361,7 @@ define([
           }
         });
         const { data } = await response.json();
-
+       
         self.taskDataProvider(
           new PagingDataProviderView(
             new ArrayDataProvider(data, {
@@ -356,6 +399,21 @@ define([
 
     fetchTracks();
     self.fetchTasks();
+
+    // self.handleAttached = () => {
+    //   ClassicEditor.create(document.getElementById("taskBody"), {
+    //     simpleUpload: {
+    //       // The URL the images are uploaded to.
+    //       uploadUrl: "http://example.com",
+
+    //       // Headers sent along with the XMLHttpRequest to the upload server.
+    //       headers: {
+    //         "X-CSRF-TOKEN": "CSFR-Token",
+    //         Authorization: "Bearer " + userToken
+    //       }
+    //     }
+    //   }).then(editor => self.editor(editor));
+    // };
   }
   return new taskModel();
 });

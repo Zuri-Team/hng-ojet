@@ -116,6 +116,39 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 let task_id = self.task_id();
                 let is_submitted = 1;
 
+                if (
+                  (submission_link == undefined || submission_link == "") &&
+                  comment == ""
+                ) {
+                  self.applicationMessages.push({
+                    severity: "warning",
+                    summary: `Request not sent`,
+                    detail: `Please include a submission link and a comment`,
+                    autoTimeout: parseInt("0")
+                  });
+                  return;
+                }
+
+                if (submission_link == "") {
+                  self.applicationMessages.push({
+                    severity: "warning",
+                    summary: `Request not sent`,
+                    detail: `Please include a submission link`,
+                    autoTimeout: parseInt("0")
+                  });
+                  return;
+                }
+
+                if (comment == undefined || comment == "") {
+                  self.applicationMessages.push({
+                    severity: "warning",
+                    summary: `Request not sent`,
+                    detail: `Please leave a comment`,
+                    autoTimeout: parseInt("0")
+                  });
+                  return;
+                }
+
                 //task submission validation
                 const feedback = document.getElementById('submission_feedback');
                 if (submission_link.match(new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi))) {
@@ -170,6 +203,23 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                 }
             };
 
+            self.fetchTrack = async id => {
+              try {
+                const response = await fetch(
+                  `https://api.start.ng/api/track/${id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${userToken}`
+                    }
+                  }
+                );
+                const { data } = await response.json();
+                return data;
+              } catch (err) {
+                console.log(err);
+              }
+            };
+
             self.fetchTasks = async() => {
                 try {
                     const response = await fetch(`${api}/api/user/task/`, {
@@ -179,6 +229,13 @@ define(["ojs/ojcore", 'knockout', "jquery", "./api", 'ojs/ojbootstrap', 'ojs/oja
                     });
                     const  data  = await response.json();
                     const newData = [...data.data].flat();
+                    const tracksPromise = newData.map(
+                      async track => await self.fetchTrack(track.track_id)
+                    );
+                    const trackResolution = await Promise.all(tracksPromise);
+                    trackResolution.map(
+                      (track, i) => (newData[i]["track_name"] = track)
+                    );
                     self.dataProvider(
                       new PagingDataProviderView(
                         new ArrayDataProvider(newData, {

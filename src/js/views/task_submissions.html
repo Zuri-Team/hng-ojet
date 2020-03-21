@@ -1,105 +1,183 @@
 <div class="oj-flex-item col-sm-12 col-md-4">
-    <oj-dialog id="editTaskModal" dialog-title="Edit task" class=" position-absolute col-sm-12 col-md-8 mt-5 p-0" modality="modal" position.at.vertical="top">
-        <div slot="body">
-            <div class="form-group">
-                <oj-label class="oj-label oj-label-inline">Track</oj-label>
-                <select data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id," class="form-control">
-          </select>
-            </div>
-            <div class="form-group">
-                <oj-label class="oj-label oj-label-inline">Task Title</oj-label>
-                <input data-bind="textInput: title" type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <oj-label class="oj-label oj-label-inline">Task Details</oj-label>
-                <textarea data-bind="textInput: body" class="form-control" rows="5"></textarea>
-            </div>
-            <div class="form-group">
-                <oj-label for="datetime">Deadline</oj-label>
-                <oj-input-date-time id="datetime" value="{{deadline}}" style="min-width: 5em;"></oj-input-date-time>
-            </div>
-            <div class="form-group">
-                <oj-label for="basicSelect">Status</oj-label>
-                <oj-select-one id="basicSelect" value="{{parseInt(is_active)}}" style="max-width:20em">
-                    <oj-option value="">Select...</oj-option>
-                    <oj-option value="1">Publish</oj-option>
-                    <oj-option value="0">Draft</oj-option>
-                </oj-select-one>
-            </div>
-            <button data-bind="click: updateTask" class="btn btn-success">
-          Update
-        </button>
-        </div>
-    </oj-dialog>
+  <oj-dialog
+    id="editTaskModal"
+    dialog-title="Edit task"
+    class=" position-absolute col-sm-12 col-md-8 mt-5 p-0"
+    modality="modal"
+    position.at.vertical="top"
+  >
+    <div slot="body">
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Track</oj-label>
+        <select
+          data-bind="options: tracks, optionsText: 'track_name',  optionsValue:'id', optionsCaption: 'Select track', value: track_id,"
+          class="form-control"
+        >
+        </select>
+      </div>
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Task Title</oj-label>
+        <input data-bind="textInput: title" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <oj-label class="oj-label oj-label-inline">Task Details</oj-label>
+        <textarea
+          data-bind="html: body"
+          class="form-control"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <oj-label for="datetime">Deadline</oj-label>
+        <oj-input-date-time
+          id="datetime"
+          value="{{deadline}}"
+          style="min-width: 5em;"
+        ></oj-input-date-time>
+      </div>
+      <div class="form-group">
+        <oj-label for="basicSelect">Status</oj-label>
+        <oj-select-one
+          id="basicSelect"
+          value="{{parseInt(is_active)}}"
+          style="max-width:20em"
+        >
+          <oj-option value="">Select...</oj-option>
+          <oj-option value="1">Publish</oj-option>
+          <oj-option value="0">Draft</oj-option>
+        </oj-select-one>
+      </div>
+      <button data-bind="click: updateTask" class="btn btn-success">
+        Update
+      </button>
+    </div>
+  </oj-dialog>
 
-    <oj-dialog id="deleteTaskModal" dialog-title="Delete task" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
-        <div slot="body">
-            <p>
-                Confirm you want to delete this task?
-            </p>
-            <button data-bind="click: deleteTask" class="btn btn-danger float-right">Delete task</button>
-        </div>
-    </oj-dialog>
+  <oj-dialog
+    id="deleteTaskModal"
+    dialog-title="Delete task"
+    position.at.vertical="top"
+    class="position-absolute col-3 col-md-3 mt-5 p-0"
+    modality="modal"
+  >
+    <div slot="body">
+      <p>
+        Confirm you want to delete this task?
+      </p>
+      <button data-bind="click: deleteTask" class="btn btn-danger float-right">
+        Delete task
+      </button>
+    </div>
+  </oj-dialog>
 
-    <oj-dialog id="deleteAllSubmissionModal" dialog-title="Delete all submissions" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
-        <div slot="body">
-            <p>
-                You are about to delete all submissions for this task, continue?
-            </p>
-            <button data-bind="click: deleteAllSubmission" class="btn btn-danger float-right">Delete All</button>
-        </div>
-    </oj-dialog>
-    <oj-dialog id="deleteSubmissionModal" dialog-title="Delete submission" position.at.vertical="top" class="position-absolute col-3 col-md-3 mt-5 p-0" modality="modal">
-        <div slot="body">
-            <p>
-                You are about to delete this submission, continue?
-            </p>
-            <button data-bind="click: deleteSubmission" class="btn btn-danger float-right">Delete</button>
-        </div>
-    </oj-dialog>
+  <oj-dialog
+    id="deleteAllSubmissionModal"
+    dialog-title="Delete all submissions"
+    position.at.vertical="top"
+    class="position-absolute col-3 col-md-3 mt-5 p-0"
+    modality="modal"
+  >
+    <div slot="body">
+      <p>
+        You are about to delete all submissions for this task, continue?
+      </p>
+      <button
+        data-bind="click: deleteAllSubmission"
+        class="btn btn-danger float-right"
+      >
+        Delete All
+      </button>
+    </div>
+  </oj-dialog>
+  <oj-dialog
+    id="deleteSubmissionModal"
+    dialog-title="Delete submission"
+    position.at.vertical="top"
+    class="position-absolute col-3 col-md-3 mt-5 p-0"
+    modality="modal"
+  >
+    <div slot="body">
+      <p>
+        You are about to delete this submission, continue?
+      </p>
+      <button
+        data-bind="click: deleteSubmission"
+        class="btn btn-danger float-right"
+      >
+        Delete
+      </button>
+    </div>
+  </oj-dialog>
 
-
-
+  <div>
+    <oj-button
+      class="oj-button-primary"
+      on-oj-action="[[toTasks]]"
+      chroming="full"
+    >
+      <span slot="startIcon" class="fa fa-arrow-left"></span> All Tasks
+    </oj-button>
+  </div>
+  <div
+    class="oj-panel mt-2 mb-2 oj-panel-shadow-sm"
+    style="color: #4e5769 !important"
+  >
+    <div class="mb-2">
+      <button
+        class="btn btn-outline-dark mr-1"
+        data-bind="click: editTaskModal"
+      >
+        Edit
+      </button>
+      <button class="btn btn-outline-danger float-right" data-bind="click: deleteTaskModal">
+        Delete
+      </button>
+    </div>
+    <h4 class="oj-header-border">
+      <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
+    </h4>
     <div>
-        <oj-button class="oj-button-primary" on-oj-action="[[toTasks]]" chroming='full'>
-            <span slot="startIcon" class="fa fa-arrow-left"></span> All Tasks
-        </oj-button>
+      <h5 class="badge badge-pill badge-info p-2">
+        <oj-bind-text value="[[track]]"></oj-bind-text>
+      </h5>
+      <h5
+        data-bind="text: submission_count() == 0 ? 'no submission' : submission_count() + (submission_count() == 1 ? ' submission' : ' submissions')"
+        class="badge badge-pill badge-primary p-2"
+      ></h5>
     </div>
-    <div class="oj-panel mt-2 mb-2 oj-panel-shadow-sm" style="color: #4e5769 !important">
-        <div class="mb-2">
-            <button class="btn btn-outline-dark mr-1" data-bind="click: editTaskModal">
-                    Edit
-                  </button>
-            <button class="btn btn-outline-danger" data-bind="click: deleteTaskModal">
-                    Delete
-                  </button>
-        </div>
-        <h4 class="oj-header-border">
-            <oj-bind-text class="pb-2" value="[[title]]"></oj-bind-text>
-        </h4>
-        <div>
-            <h5 class="badge badge-pill badge-info p-2">
-                <oj-bind-text value="[[track]]"></oj-bind-text>
-            </h5>
-            <h5 data-bind="text: submission_count() == 0 ? 'no submission' : submission_count() + (submission_count() == 1 ? ' submission' : ' submissions')" class="badge badge-pill badge-primary p-2"></h5>
-        </div>
-        <h6 class="pb-2">Deadline:
-            <oj-bind-text value="[[deadline]]"></oj-bind-text>
-        </h6>
-        <p class="font-weight-bold mb-0 pb-2">Description</p>
-        <oj-bind-text value="[[body]]"></oj-bind-text>
-    </div>
+    <h6 class="pb-2">
+      Deadline:
+      <oj-bind-text value="[[deadline]]"></oj-bind-text>
+    </h6>
+    <p class="font-weight-bold mb-0 pb-2">Description</p>
+    <!-- <oj-bind-text value="[[body]]"></oj-bind-text> -->
+    <p data-bind="html: body"></p>
+  </div>
 </div>
 <div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important">
-    <div class="mt-2 mb-4">
-        <h3 class="float-left">Submissions</h3>
-        <button class="btn btn-danger float-right" data-bind="click: deleteAllSubmissionModal">
-                <i class="fa fa-trash mr-2"></i>Delete All
-            </button>
-    </div>
-    <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
-        <oj-table id="submission-table" aria-label="Submission Table" data="[[dataProvider]]" selection-mode='{"row": "single", "column": "single"}' edit-mode='rowEdit' edit-row='{{editRow}}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll"
-            columns='[{"headerText": "Date Submitted",
+  <div class="mt-2 mb-4">
+    <h3 class="float-left">Submissions</h3>
+    <button
+      class="btn btn-danger float-right"
+      data-bind="click: deleteAllSubmissionModal"
+    >
+      <i class="fa fa-trash mr-2"></i>Delete All
+    </button>
+  </div>
+  <div
+    class="mt-4"
+    style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;"
+  >
+    <oj-table
+      id="submission-table"
+      aria-label="Submission Table"
+      data="[[dataProvider]]"
+      selection-mode='{"row": "single", "column": "single"}'
+      edit-mode="rowEdit"
+      edit-row="{{editRow}}"
+      dnd='{"reorder": {"columns": "enabled"}}'
+      scroll-policy="loadMoreOnScroll"
+      columns='[{"headerText": "Date Submitted",
         "field": "created_at",
         "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center;color: #4e5769 !important",
                                "style":"padding:0px;text-align: center;color: #4e5769 !important",
@@ -134,45 +212,83 @@
                 {"headerText": "Action",
                 "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center;color: #4e5769 !important",
                 "style":"padding:0px;text-align: center;",
-                "template": "actionTemplate"}]' style="width: 100%; height: 100%;">
-            <template slot="dateTemplate" data-oj-as="cell">
-                    <oj-bind-text value="[[cell.data]]"></oj-bind-text>
-                  </template>
-            <template slot="submissionTemplate" data-oj-as="cell">
-                    <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
-                  </template>
-            <template slot="actionTemplate" data-oj-as="cell">
-                    <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                      <oj-button class="oj-button-primary mb-0 mr-2" display="icons" on-oj-action="[[handleUpdate]]"><span slot="startIcon" class="fa fa-pencil"></span>Grade</oj-button>
-                      <oj-button class="mb-0" display="icons" on-oj-action="[[deleteSubmissionModal]]"><span slot="startIcon" class="fa fa-trash"></span>Delete submission</oj-button>
-                    </oj-bind-if>
+                "template": "actionTemplate"}]'
+      style="width: 100%; height: 100%;"
+    >
+      <template slot="dateTemplate" data-oj-as="cell">
+        <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+      </template>
+      <template slot="submissionTemplate" data-oj-as="cell">
+        <oj-bind-text
+          ><a :href="[[cell.data]]" target="_blank"
+            >Submission Link</a
+          ></oj-bind-text
+        >
+      </template>
+      <template slot="actionTemplate" data-oj-as="cell">
+        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+          <oj-button
+            class="oj-button-primary mb-0 mr-2"
+            display="icons"
+            on-oj-action="[[handleUpdate]]"
+            ><span slot="startIcon" class="fa fa-pencil"></span>Grade</oj-button
+          >
+          <oj-button
+            class="mb-0"
+            display="icons"
+            on-oj-action="[[deleteSubmissionModal]]"
+            ><span slot="startIcon" class="fa fa-trash"></span>Delete
+            submission</oj-button
+          >
+        </oj-bind-if>
 
-                    <oj-bind-if test='[[cell.mode=="edit"]]'>
-                      <oj-button class="oj-button-confirm mb-0" display="icons" on-oj-action="[[handleDone]]"><span slot="startIcon" class="fa fa-check"></span>Save</oj-button>
-                    </oj-bind-if>
-                  </template>
-            <template slot="editTemplate" data-oj-as="cell">
-                        <oj-bind-if test='[[cell.mode=="navigation"]]'>
-                            <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
-                        </oj-bind-if>
+        <oj-bind-if test='[[cell.mode=="edit"]]'>
+          <oj-button
+            class="oj-button-confirm mb-0"
+            display="icons"
+            on-oj-action="[[handleDone]]"
+            ><span slot="startIcon" class="fa fa-check"></span>Save</oj-button
+          >
+        </oj-bind-if>
+      </template>
+      <template slot="editTemplate" data-oj-as="cell">
+        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+          <oj-bind-text
+            value="[[numberConverter.format(cell.data)]]"
+          ></oj-bind-text>
+        </oj-bind-if>
 
-                        <oj-bind-if test='[[cell.mode=="edit"]]'>
-                            <oj-input-text value="{{cell.row.grade_score}}" help.instruction="Enter a grade" converter="[[numberConverter]]"></oj-input-text>
-                        </oj-bind-if>
-                      </template>
-            <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
-            </oj-paging-control>
-        </oj-table>
-    </div>
+        <oj-bind-if test='[[cell.mode=="edit"]]'>
+          <oj-input-text
+            value="{{cell.row.grade_score}}"
+            help.instruction="Enter a grade"
+            converter="[[numberConverter]]"
+          ></oj-input-text>
+        </oj-bind-if>
+      </template>
+      <oj-paging-control
+        id="paging"
+        data="[[dataProvider]]"
+        page-size="10"
+        slot="bottom"
+      >
+      </oj-paging-control>
+    </oj-table>
+  </div>
 </div>
 
 <!-- Start Messages Component -->
 
-<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+<oj-messages
+  id="application-messages"
+  messages="{{applicationMessages}}"
+  display="notification"
+  position='{
 "my": {"vertical" : "bottom", "horizontal": "end"},
 "at": {"vertical": "bottom", "horizontal": "end"},
 "of": "window"
-}'>
+}'
+>
 </oj-messages>
 
 <!-- End Messages Component -->
