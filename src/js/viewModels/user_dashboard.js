@@ -77,7 +77,7 @@ define([
           slackImg = profileImg;
           self.profile_img(profile.image_original);
           // console.log(self.profile_img())
-          sessionStorage.setItem('slackImg', self.profile_img());
+          sessionStorage.setItem("slackImg", self.profile_img());
           // checkUserImage();
         }
       });
@@ -148,7 +148,7 @@ define([
       const reason = self.newTrack.reason;
       const action = self.chosenAction();
 
-       if ((reason == undefined || reason == "") && action == "") {
+      if ((reason == undefined || reason == "") && action == "") {
         self.applicationMessages.push({
           severity: "warning",
           summary: `Request not sent`,
@@ -288,7 +288,11 @@ define([
           data: { data }
         } = await response.json();
 
-        self.track(data.map(track => track));
+        self.track(
+          data.filter(
+            track => track.track_name.toLowerCase() !== "Coding".toLowerCase()
+          )
+        );
       } catch (err) {
         console.log(err);
       }
