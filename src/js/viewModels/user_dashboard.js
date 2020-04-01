@@ -142,74 +142,74 @@ define([
       document.getElementById("submitDialog").open();
     };
 
-    // self.submitRequest = async () => {
-    //   const track_id = self.tracks_id();
-    //   const user_id = self.user_id();
-    //   const reason = self.newTrack.reason;
-    //   const action = self.chosenAction();
+    self.submitRequest = async () => {
+      const track_id = self.tracks_id();
+      const user_id = self.user_id();
+      const reason = self.newTrack.reason;
+      const action = self.chosenAction();
 
-    //   if ((reason == undefined || reason == "") && action == "") {
-    //     self.applicationMessages.push({
-    //       severity: "warning",
-    //       summary: `Request not sent`,
-    //       detail: `Please choose an action and a reason`,
-    //       autoTimeout: parseInt("0")
-    //     });
-    //     return;
-    //   }
+      if ((reason == undefined || reason == "") && action == "") {
+        self.applicationMessages.push({
+          severity: "warning",
+          summary: `Request not sent`,
+          detail: `Please choose an action and a reason`,
+          autoTimeout: parseInt("0")
+        });
+        return;
+      }
 
-    //   if (action == "") {
-    //     self.applicationMessages.push({
-    //       severity: "warning",
-    //       summary: `Request not sent`,
-    //       detail: `Please choose an action`,
-    //       autoTimeout: parseInt("0")
-    //     });
-    //     return;
-    //   }
+      if (action == "") {
+        self.applicationMessages.push({
+          severity: "warning",
+          summary: `Request not sent`,
+          detail: `Please choose an action`,
+          autoTimeout: parseInt("0")
+        });
+        return;
+      }
 
-    //   if (reason == undefined || reason == "") {
-    //     self.applicationMessages.push({
-    //       severity: "warning",
-    //       summary: `Request not sent`,
-    //       detail: `Please choose a reason`,
-    //       autoTimeout: parseInt("0")
-    //     });
-    //     return;
-    //   }
+      if (reason == undefined || reason == "") {
+        self.applicationMessages.push({
+          severity: "warning",
+          summary: `Request not sent`,
+          detail: `Please choose a reason`,
+          autoTimeout: parseInt("0")
+        });
+        return;
+      }
 
-    //   try {
-    //     const response = await fetch(`${api}/api/track-requests/send-request`, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${userToken}`
-    //       },
-    //       body: JSON.stringify({
-    //         track_id,
-    //         user_id,
-    //         action,
-    //         reason
-    //       })
-    //     });
-    //     const { message } = await response.json();
-    //     document.getElementById("requestDialog").close();
-    //     self.applicationMessages.push({
-    //       severity: "confirmation",
-    //       summary: `Track Request`,
-    //       detail: `${message}`,
-    //       autoTimeout: parseInt("0")
-    //     });
-    //   } catch (err) {
-    //     console.log(err);
-    //     self.applicationMessages.push({
-    //       severity: "error",
-    //       summary: `Error sending request`,
-    //       detail: `${message}`,
-    //       autoTimeout: parseInt("0")
-    //     });
-    //   }
-    // };
+      try {
+        const response = await fetch(`${api}/api/track-requests/send-request`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`
+          },
+          body: JSON.stringify({
+            track_id,
+            user_id,
+            action,
+            reason
+          })
+        });
+        const { message } = await response.json();
+        document.getElementById("requestDialog").close();
+        self.applicationMessages.push({
+          severity: "confirmation",
+          summary: `Track Request`,
+          detail: `${message}`,
+          autoTimeout: parseInt("0")
+        });
+      } catch (err) {
+        console.log(err);
+        self.applicationMessages.push({
+          severity: "error",
+          summary: `Error sending request`,
+          detail: `${message}`,
+          autoTimeout: parseInt("0")
+        });
+      }
+    };
 
     self.submitTask = async () => {
       const task_id = self.task_id();
