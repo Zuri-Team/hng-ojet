@@ -312,6 +312,7 @@ define(["ojs/ojcore",
         pm.selectedItem.subscribe(function() {
             if (pm.selectedItem() == "Tracks") {
               self.fetchPendingTrackRequests();
+              self.fetchTracks();
             }
         });
     }

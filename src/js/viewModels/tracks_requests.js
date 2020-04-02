@@ -178,6 +178,7 @@ define([
         pm.selectedItem.subscribe(function() {
             if (pm.selectedItem() == "Tracks") {
               self.selectedTrackRequest();
+              self.fetchTrackRequests();
             }
         });
     }

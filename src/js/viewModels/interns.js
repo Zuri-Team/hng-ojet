@@ -45,7 +45,7 @@ define([
       }
     };
 
-    function fetchinterns() {
+    self.fetchinterns = function() {
       $.ajax({
         url: `${api}/api/interns`,
         headers: {
@@ -65,7 +65,7 @@ define([
         }
       });
     }
-    fetchinterns();
+    self.fetchinterns();
 
     self.handleAttached = () => {
       $("#searchForUser").keyup(() => {
@@ -88,11 +88,16 @@ define([
             }
           });
         } else {
-          fetchinterns();
+          self.fetchinterns();
         }
       });
     };
+    let pm = ko.dataFor(document.querySelector("#admin"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Interns") {
+        self.fetchinterns();
+      }
+    });
   }
-
   return new internModel();
 });

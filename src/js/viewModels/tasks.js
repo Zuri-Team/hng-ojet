@@ -414,6 +414,15 @@ define([
     //     }
     //   }).then(editor => self.editor(editor));
     // };
-  }
+    let pm = ko.dataFor(document.querySelector("#admin"));
+    pm.selectedItem.subscribe(function() {
+      if (pm.selectedItem() == "Tasks") {
+
+        fetchTracks();
+        self.fetchTasks();
+
+      }
+  })
+}
   return new taskModel();
 });
