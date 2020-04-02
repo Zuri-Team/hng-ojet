@@ -26,6 +26,17 @@ define([
     var router = oj.Router.rootInstance;
     var userToken = sessionStorage.getItem("user_token");
 
+    var user = sessionStorage.getItem("user");
+    user = JSON.parse(user);
+
+    if (user == null) {
+      router.go("login");
+    }
+
+    if (user.role == "intern") {
+      router.go("user_dashboard");
+    } 
+
     self.selectedItem = ko.observable();
     self.isNotify = ko.observable(false);
 
@@ -199,15 +210,20 @@ define([
 
     self.connected = function() {
       //new
-
-      Components.subtreeHidden(document.getElementById("summary-admin"));
-
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-      if (sessionStorage.getItem("user_token") == null) {
+      if (user == null) {
         router.go("login");
+      } else {
+        if (user.role == "intern") {
+          router.go("user_dashboard");
+        } 
+        router.go("admin_dashboard");
       }
+
       self.fullname(`${user.firstname} ${user.lastname}`);
+
+      Components.subtreeHidden(document.getElementById("summary-admin"));
 
       //notifications unread count
       self.fetchCount();
@@ -267,6 +283,18 @@ define([
         $(`#maincontent_body > div[id='${attr}']`).show();
         oj.OffcanvasUtils.close(self.drawer);
       });
+    };
+    self.handleAttached = function() {
+      let user = sessionStorage.getItem("user");
+      user = JSON.parse(user);
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
+      }
+      if (user.role == "intern") {
+        router.go("user_dashboard");
+      } 
+      self.fetchCount();
+      self.fetchNotifications();
     };
   }
 

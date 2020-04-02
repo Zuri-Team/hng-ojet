@@ -105,10 +105,13 @@
               If you are not taken out of probabtion on/before <span data-bind="text: deadline"></span>, you will be deactivated from the internship.
             </div>
           </oj-bind-if>
+  
           <div class="d-flex justify-content-end">
+            <oj-bind-if test="[[!onProbation()]]">
              <div class="mb-5">
             <button class="btn btn-success" disabled="true" data-bind="click: ''">Change Track</button>
           </div>
+            </oj-bind-if>
           <!-- <div class="mb-5 ml-3">
             <button class="btn btn-warning" data-bind="click: revealModal">Submit Task</button>
           </div> -->

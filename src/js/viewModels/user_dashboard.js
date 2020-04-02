@@ -34,6 +34,13 @@ define([
     var user = sessionStorage.getItem("user");
     user = JSON.parse(user);
 
+    if (user == null) {
+      router.go("login");
+    }
+    if (user.role !== "intern") {
+      router.go("admin_dashboard");
+    } 
+
     self.localUser = ko.observable(user);
     self.user = ko.observable("");
     self.user_id = ko.observable(user.id);
@@ -281,7 +288,8 @@ define([
       try {
         const response = await fetch(`${api}/api/track/all`, {
           headers: {
-            Authorization: `Bearer ${userToken}`
+            Authorization: `Bearer ${userToken}`,
+            Accept: "application/json"
           }
         });
         const {
@@ -303,7 +311,8 @@ define([
       try {
         const response = await fetch(`${api}/api/tasks`, {
           headers: {
-            Authorization: `Bearer ${userToken}`
+            Authorization: `Bearer ${userToken}`,
+            Accept: "application/json"
           }
         });
         // return console.log(await response.json());
@@ -340,7 +349,8 @@ define([
       try {
         const response = await fetch(`${notificationsURL}/notification_count`, {
           headers: {
-            Authorization: `Bearer ${userToken}`
+            Authorization: `Bearer ${userToken}`,
+            Accept: "application/json"
           }
         });
         var data = await response.json();
@@ -386,7 +396,8 @@ define([
         // const response = await fetch(`${api}/api/track/${id}/tasks`, {
         const response = await fetch(`${api}/api/posts`, {
           headers: {
-            Authorization: `Bearer ${userToken}`
+            Authorization: `Bearer ${userToken}`,
+            Accept: "application/json"
           }
         });
         const {
@@ -412,7 +423,8 @@ define([
       $.ajax({
         type: "GET",
         headers: {
-          Authorization: `Bearer ${userToken}`
+          Authorization: `Bearer ${userToken}`,
+          Accept: "application/json"
         },
 
         url: `${api}/api/user-profile/${id}`,
@@ -525,7 +537,8 @@ define([
       $.ajax({
         url: `${api}/api/profile/${id}`,
         headers: {
-          Authorization: "Bearer " + userToken
+          Authorization: "Bearer " + userToken,
+          Accept: "application/json"
         },
         method: "GET",
         success: res => {
@@ -592,17 +605,25 @@ define([
     // }
 
     self.connected = function() {
-      if (sessionStorage.getItem("user_token") == null) {
-        router.go("login");
-      }
+      // if (sessionStorage.getItem("user_token") == null) {
+      //   router.go("login");
+      // }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-
+       if (user == null) {
+         router.go("login");
+       } else {
+         if (user.role !== "intern") {
+           router.go("admin_dashboard");
+         } 
+         router.go("user_dashboard");
+       }
       function fetchIfProbated() {
         $.ajax({
           url: `${api}/api/probation/status/${user.id}`,
           headers: {
-            Authorization: "Bearer " + userToken
+            Authorization: "Bearer " + userToken,
+            Accept: "application/json"
           },
           method: "GET",
           success: ({ status, data }) => {
@@ -657,6 +678,22 @@ define([
         }
       });
     };
+     // listen for changes
+    
+      self.handleAttached = function(){
+        let user = sessionStorage.getItem("user");
+        user = JSON.parse(user);
+        if (sessionStorage.getItem("user_token") == null) {
+          router.go("login");
+        } 
+        if (user.role !== "intern") {
+          router.go("admin_dashboard");
+        }
+        fetchIfProbated();
+        fetchTrack(user.id);
+        self.display_user_info(user.id);
+      }
+  
   }
   return new UserDashboardViewModel();
 });

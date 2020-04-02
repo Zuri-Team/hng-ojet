@@ -1,8 +1,12 @@
 <oj-bind-if test="[[!viewSubmission()]]">
     <div class="oj-flex oj-sm-justify-content-center">
+        <oj-bind-if test="[[onProbation()]]">
+            <h5 class="text-center mt-3 px-5 text-danger">You are currently on probation, thus, you cannot view or submit tasks!</h5>
+        </oj-bind-if>
         <!-- <h5 class="text-center mt-3 px-5"><strong>NOTE:</strong> In a case where you belong to more than one track and see the same task across the different tracks you belong to, consider it a <strong>GENERAL TASK</strong> and make <strong>ONE submission only</strong>. 
             That is, just <strong>ONE submission</strong> to cover all the tracks you belong to and not one submission per track. <strong>Failure to comply to this will result in you scoring 0 automatically for the task</strong></h5> -->
-        <div class="col-sm-12 col-md-11">
+        <oj-bind-if test="[[!onProbation()]]">
+            <div class="col-sm-12 col-md-11">
             <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
                 <template slot="itemTemplate" data-oj-as="item" class="border-0">
 <div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
@@ -20,6 +24,7 @@
             <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
             </oj-paging-control>
         </div>
+        </oj-bind-if>
     </div>
 </oj-bind-if>
 
