@@ -1,123 +1,207 @@
 <oj-bind-if test="[[!viewSubmission()]]">
-    <div class="oj-flex oj-sm-justify-content-center">
-        <oj-bind-if test="[[onProbation()]]">
-            <h5 class="text-center mt-3 px-5 text-danger">You are currently on probation, thus, you cannot view or submit tasks!</h5>
-        </oj-bind-if>
-        <!-- <h5 class="text-center mt-3 px-5"><strong>NOTE:</strong> In a case where you belong to more than one track and see the same task across the different tracks you belong to, consider it a <strong>GENERAL TASK</strong> and make <strong>ONE submission only</strong>. 
+  <div class="oj-flex oj-sm-justify-content-center">
+    <oj-bind-if test="[[onProbation()]]">
+      <h5 class="text-center mt-3 px-5 text-danger">
+        You are currently on probation, thus, you cannot view or submit tasks!
+      </h5>
+    </oj-bind-if>
+    <!-- <h5 class="text-center mt-3 px-5"><strong>NOTE:</strong> In a case where you belong to more than one track and see the same task across the different tracks you belong to, consider it a <strong>GENERAL TASK</strong> and make <strong>ONE submission only</strong>. 
             That is, just <strong>ONE submission</strong> to cover all the tracks you belong to and not one submission per track. <strong>Failure to comply to this will result in you scoring 0 automatically for the task</strong></h5> -->
-        <oj-bind-if test="[[!onProbation()]]">
-            <div class="col-sm-12 col-md-11">
-            <oj-list-view id="Taskmodel-task-list" class="mx-auto overflow-hidden bg-light p-0" data="[[dataProvider]]" selection-mode="single" on-selected-changed="[[taskSelectedChanged]]" first-selected-item="{{taskSelected}}">
-                <template slot="itemTemplate" data-oj-as="item" class="border-0">
-<div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
-<div>
-    <p data-bind="text: 'For ' + item.data.track_name.track_name + ' Only'" class="badge badge-pill badge-success ml-2 mt-2 p-2"></p>
-<p class="font-weight-bold ml-2 mb-2 text-capitalize">
-<oj-bind-text value="[[item.data.title]]"></oj-bind-text></p>
-</div>
-<i class="oj-fwk-icon oj-fwk-icon-calendar mr-2 mt-2 pl-2 pb-2"></i>
-<span class="mb-0 mt-2 pb-2" data-bind="text: 'Deadline: ' + item.data.deadline"></span>
-</div>
-</template>
-            </oj-list-view>
+    <oj-bind-if test="[[!onProbation()]]">
+      <div class="col-sm-12 col-md-11">
+        <oj-list-view
+          id="Taskmodel-task-list"
+          class="mx-auto overflow-hidden bg-light p-0"
+          data="[[dataProvider]]"
+          selection-mode="single"
+          on-selected-changed="[[taskSelectedChanged]]"
+          first-selected-item="{{taskSelected}}"
+        >
+          <template slot="itemTemplate" data-oj-as="item" class="border-0">
+            <div
+              class="p-2 border rounded bg-light"
+              style="width: 100%; color: #4e5769 !important"
+            >
+              <div>
+                <p
+                  data-bind="text: 'For ' + item.data.track_name.track_name + ' Only'"
+                  class="badge badge-pill badge-success ml-2 mt-2 p-2"
+                ></p>
+                <p class="font-weight-bold ml-2 mb-2 text-capitalize">
+                  <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                </p>
+              </div>
+              <i
+                class="oj-fwk-icon oj-fwk-icon-calendar mr-2 mt-2 pl-2 pb-2"
+              ></i>
+              <span
+                class="mb-0 mt-2 pb-2"
+                data-bind="text: 'Deadline: ' + item.data.deadline"
+              ></span>
+            </div>
+          </template>
+        </oj-list-view>
 
-            <oj-paging-control id="paging" data="[[dataProvider]]" page-size="10" slot="bottom">
-            </oj-paging-control>
-        </div>
-        </oj-bind-if>
-    </div>
+        <oj-paging-control
+          id="paging"
+          data="[[dataProvider]]"
+          page-size="10"
+          slot="bottom"
+        >
+        </oj-paging-control>
+      </div>
+    </oj-bind-if>
+  </div>
 </oj-bind-if>
 
-
 <oj-bind-if test="[[viewSubmission()]]">
-    <div>
-        <oj-button class="oj-button-primary" on-oj-action="[[toTasks]]" chroming='full'>
-            <span slot="startIcon" class="fa fa-arrow-left"></span> Go back
-        </oj-button>
-    </div>
-    <div class="oj-flex oj-sm-justify-content-center">
-        <div class="oj-flex-item col-sm-12 col-md-5">
-            <div class="oj-panel mt-2 mb-2 oj-panel-shadow-sm rounded" style="color: #4e5769 !important">
-
-                <h5 class="pb-2" slot="header">
-                    <oj-bind-text value="[[taskSelected().data.title]]"></oj-bind-text>
-                </h5>
-                <oj-bind-if test="[[!submitted() && deadlinePassed()]]">
-                    <p><span class="badge badge-danger">Sorry, submissions are no longer accepted as the deadline has elapsed !!!</span></p>
-                </oj-bind-if>
-                <h6 class="pb-2">Deadline:
-                    <oj-bind-text value="[[taskSelected().data.deadline]]"></oj-bind-text>
-                </h6>
-                <div>
-                    <p class="font-weight-bold mb-0 pb-2 ">Description</p>
-                    <!-- <oj-bind-text value="[[taskSelected().data.body]]"></oj-bind-text> -->
-                    <p data-bind="html: taskSelected().data.body"></p>
-                </div>
-            </div>
+  <div>
+    <oj-button
+      class="oj-button-primary"
+      on-oj-action="[[toTasks]]"
+      chroming="full"
+    >
+      <span slot="startIcon" class="fa fa-arrow-left"></span> Go back
+    </oj-button>
+  </div>
+  <div class="oj-flex oj-sm-justify-content-center">
+    <div class="oj-flex-item col-sm-12 col-md-5">
+      <div
+        class="oj-panel mt-2 mb-2 oj-panel-shadow-sm rounded"
+        style="color: #4e5769 !important"
+      >
+        <h5 class="pb-2" slot="header">
+          <oj-bind-text value="[[taskSelected().data.title]]"></oj-bind-text>
+        </h5>
+        <oj-bind-if test="[[!submitted() && deadlinePassed()]]">
+          <p>
+            <span class="badge badge-danger"
+              >Sorry, submissions are no longer accepted as the deadline has
+              elapsed !!!</span
+            >
+          </p>
+        </oj-bind-if>
+        <h6 class="pb-2">
+          Deadline:
+          <oj-bind-text value="[[taskSelected().data.deadline]]"></oj-bind-text>
+        </h6>
+        <div>
+          <p class="font-weight-bold mb-0 pb-2 ">Description</p>
+          <!-- <oj-bind-text value="[[taskSelected().data.body]]"></oj-bind-text> -->
+          <p data-bind="html: taskSelected().data.body"></p>
         </div>
-        <div class="oj-flex-item col-sm-12 col-md-5">
-            <div class="oj-panel oj-panel-shadow-sm rounded mt-2 align-self-baseline" style="color: #4e5769 !important">
-                <h5>Task submission</h5>
-                <div id="submission_feedback"></div>
-                <oj-bind-if test="[[submitted() && !is_graded()]]">
-                    <p><span class="badge badge-success">Task submitted! Check back soon to view your grade! ✌</span></p>
-                </oj-bind-if>
-                 <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
-                    <p><span class="badge badge-warning">You have made no submission yet, please do before the deadline elapses !!!</span></p>
-                </oj-bind-if>
-                <oj-bind-if test="[[!submitted() && deadlinePassed()]]">
-                    <p><span class="badge badge-danger">You made no submissions and the deadline has elapsed</span></p>
-                </oj-bind-if>
-                <div>
-                    <div>
-                        <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
-                            <label class="col-form-label">Link</label>
-                            <input id="taskURL" type="text" data-bind="textInput: taskSubmit().submission_link" class="form-control">
-                        </oj-bind-if>
-                        <oj-bind-if test="[[submitted()]]">
-                            <h6 class="font-weight-bold mb-0 pb-2 ">Link:
-                                <a data-bind="attr: { href: submitted_link, title: submitted_link }" target="_blank">
-                                     <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
-                                </a>
-                                <!-- <a :href="[[submitted_link]]" target="">
+      </div>
+    </div>
+    <div class="oj-flex-item col-sm-12 col-md-5">
+      <div
+        class="oj-panel oj-panel-shadow-sm rounded mt-2 align-self-baseline"
+        style="color: #4e5769 !important"
+      >
+        <h5>Task submission</h5>
+        <div id="submission_feedback"></div>
+        <oj-bind-if test="[[submitted() && !is_graded()]]">
+          <p>
+            <span class="badge badge-success"
+              >Task submitted! Check back soon to view your grade! ✌</span
+            >
+          </p>
+        </oj-bind-if>
+        <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
+          <p>
+            <span class="badge badge-warning"
+              >You have made no submission yet, please do before the deadline
+              elapses !!!</span
+            >
+          </p>
+        </oj-bind-if>
+        <oj-bind-if test="[[!submitted() && deadlinePassed()]]">
+          <p>
+            <span class="badge badge-danger"
+              >You made no submissions and the deadline has elapsed</span
+            >
+          </p>
+        </oj-bind-if>
+        <div>
+          <div>
+            <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
+              <label class="col-form-label">Link</label>
+              <input
+                id="taskURL"
+                type="text"
+                data-bind="textInput: taskSubmit().submission_link"
+                class="form-control"
+              />
+            </oj-bind-if>
+            <oj-bind-if test="[[submitted()]]">
+              <h6 class="font-weight-bold mb-0 pb-2 ">
+                Link:
+                <a
+                  data-bind="attr: { href: submitted_link, title: submitted_link }"
+                  target="_blank"
+                >
+                  <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
+                </a>
+                <!-- <a :href="[[submitted_link]]" target="">
                                     <oj-bind-text value="[[submitted_link]]"></oj-bind-text>
                                 </a> -->
-                            </h6>
-                        </oj-bind-if>
-                    </div>
-                    <div class="form-group">
-                        <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
-                            <label class="col-form-label">Comment</label>
-                            <textarea id="taskComment" class="form-control" data-bind="textInput: taskSubmit().task_comment" rows="5"></textarea>
-                        </oj-bind-if>
-                        <oj-bind-if test="[[submitted()]]">
-                            <h6 class="font-weight-bold mb-0 pb-2 ">Comment:
-                                <oj-bind-text value="[[submitted_comment]]"></oj-bind-text>
-                            </h6>
-                        </oj-bind-if>
-                    </div>
-                    <div class="clearfix"></div>
-                    <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
-                        <button class="btn btn-sm text-light float-right" data-bind="click: submitTask" style=" background-color: #5882BE !important">Submit
-                            </button>
-                    </oj-bind-if>
-                    <oj-bind-if test="[[is_graded()]]">
-                        <h6 class="font-weight-bold">Grade:
-                            <oj-bind-text value="[[grade_score]]"></oj-bind-text>
-                        </h6>
-                    </oj-bind-if>
-                </div>
-            </div>
+              </h6>
+            </oj-bind-if>
+          </div>
+          <div class="form-group">
+            <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
+              <label class="col-form-label">Comment</label>
+              <textarea
+                id="taskComment"
+                class="form-control"
+                data-bind="textInput: taskSubmit().task_comment"
+                rows="5"
+              ></textarea>
+            </oj-bind-if>
+            <oj-bind-if test="[[submitted()]]">
+              <h6 class="font-weight-bold mb-0 pb-2 ">
+                Comment:
+                <oj-bind-text value="[[submitted_comment]]"></oj-bind-text>
+              </h6>
+            </oj-bind-if>
+          </div>
+          <div class="clearfix"></div>
+          <oj-bind-if test="[[!submitted() && !deadlinePassed()]]">
+            <button
+              class="btn btn-sm text-light float-right"
+              data-bind="click: submitTask"
+              style=" background-color: #5882BE !important"
+            >
+              Submit
+            </button>
+          </oj-bind-if>
+          <oj-bind-if test="[[is_graded()]]">
+            <h6 class="font-weight-bold">
+              Grade:
+              <oj-bind-text value="[[grade_score]]"></oj-bind-text>
+            </h6>
+          </oj-bind-if>
         </div>
+      </div>
     </div>
-    <oj-bind-if test="[[submitted()]]">
-        <div class="oj-flex oj-sm-justify-content-center">
-            <div class="oj-flex-item col-sm-12 col-md-10">
-                <div class="mt-2 mb-4">
-                    <h3 class="float-left">Submissions</h3>
-                </div>
-                <div class="mt-4" style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;">
-                    <oj-table id="submission-table" aria-label="Submission Table" data="[[submissionDataProvider]]" selection-mode='{"row": "single", "column": "single"}' dnd='{"reorder": {"columns": "enabled"}}' scroll-policy="loadMoreOnScroll" columns='[{"headerText": "Submitted By",
+  </div>
+  <oj-bind-if test="[[submitted()]]">
+    <div class="oj-flex oj-sm-justify-content-center">
+      <div class="oj-flex-item col-sm-12 col-md-10">
+        <div class="mt-2 mb-4">
+          <h3 class="float-left">Submissions</h3>
+        </div>
+        <div
+          class="mt-4"
+          style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;"
+        >
+          <oj-table
+            id="submission-table"
+            aria-label="Submission Table"
+            data="[[submissionDataProvider]]"
+            selection-mode='{"row": "single", "column": "single"}'
+            dnd='{"reorder": {"columns": "enabled"}}'
+            scroll-policy="loadMoreOnScroll"
+            columns='[{"headerText": "Submitted By",
                         "field": "user.username",
                         "headerStyle": "font-weight: bold; min-width: 20em; max-width: 20em; width: 20em;text-align: center; color: #4e5769 !important",
                         "resizable": "enabled",
@@ -143,29 +227,45 @@
                     "field": "grade_score",
                     "resizable": "enabled",
                     "headerStyle": "font-weight: bold; min-width: 10em; max-width: 10em; width: 10em;text-align: center; color: #4e5769 !important",
-                    "style":"padding:0px;text-align: center; color: #4e5769 !important"}]' style="width: 100%; height: 100%;">
-                        <template slot="dateTemplate" data-oj-as="cell">
-                                  <oj-bind-text value="[[cell.data]]"></oj-bind-text>
-                                </template>
-                        <template slot="submissionTemplate" data-oj-as="cell">
-                                  <oj-bind-text><a :href="[[cell.data]]" target="_blank">Submission Link</a></oj-bind-text>
-                                </template>
-                        <oj-paging-control id="paging" data="[[submissionDataProvider]]" page-size="10" slot="bottom">
-                        </oj-paging-control>
-                    </oj-table>
-                </div>
-            </div>
+                    "style":"padding:0px;text-align: center; color: #4e5769 !important"}]'
+            style="width: 100%; height: 100%;"
+          >
+            <template slot="dateTemplate" data-oj-as="cell">
+              <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+            </template>
+            <template slot="submissionTemplate" data-oj-as="cell">
+              <oj-bind-text
+                ><a :href="[[cell.data]]" target="_blank"
+                  >Submission Link</a
+                ></oj-bind-text
+              >
+            </template>
+            <oj-paging-control
+              id="paging"
+              data="[[submissionDataProvider]]"
+              page-size="10"
+              slot="bottom"
+            >
+            </oj-paging-control>
+          </oj-table>
         </div>
-    </oj-bind-if>
+      </div>
+    </div>
+  </oj-bind-if>
 </oj-bind-if>
 
 <!-- Start Messages Component -->
 
-<oj-messages id="application-messages" messages="{{applicationMessages}}" display="notification" position='{
+<oj-messages
+  id="application-messages"
+  messages="{{applicationMessages}}"
+  display="notification"
+  position='{
     "my": {"vertical" : "bottom", "horizontal": "end"},
     "at": {"vertical": "bottom", "horizontal": "end"},
     "of": "window"
-    }'>
+    }'
+>
 </oj-messages>
 
 <!-- End Messages Component -->

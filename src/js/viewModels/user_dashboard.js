@@ -39,7 +39,7 @@ define([
     }
     if (user.role !== "intern") {
       router.go("admin_dashboard");
-    } 
+    }
 
     self.localUser = ko.observable(user);
     self.user = ko.observable("");
@@ -610,14 +610,14 @@ define([
       // }
       let user = sessionStorage.getItem("user");
       user = JSON.parse(user);
-       if (user == null) {
-         router.go("login");
-       } else {
-         if (user.role !== "intern") {
-           router.go("admin_dashboard");
-         } 
-         router.go("user_dashboard");
-       }
+      if (user == null) {
+        router.go("login");
+      } else {
+        if (user.role !== "intern") {
+          router.go("admin_dashboard");
+        }
+        router.go("user_dashboard");
+      }
       function fetchIfProbated() {
         $.ajax({
           url: `${api}/api/probation/status/${user.id}`,
@@ -678,22 +678,21 @@ define([
         }
       });
     };
-     // listen for changes
-    
-      self.handleAttached = function(){
-        let user = sessionStorage.getItem("user");
-        user = JSON.parse(user);
-        if (sessionStorage.getItem("user_token") == null) {
-          router.go("login");
-        } 
-        if (user.role !== "intern") {
-          router.go("admin_dashboard");
-        }
-        fetchIfProbated();
-        fetchTrack(user.id);
-        self.display_user_info(user.id);
+    // listen for changes
+
+    self.handleAttached = function() {
+      let user = sessionStorage.getItem("user");
+      user = JSON.parse(user);
+      if (sessionStorage.getItem("user_token") == null) {
+        router.go("login");
       }
-  
+      if (user.role !== "intern") {
+        router.go("admin_dashboard");
+      }
+      fetchIfProbated();
+      fetchTrack(user.id);
+      self.display_user_info(user.id);
+    };
   }
   return new UserDashboardViewModel();
 });
