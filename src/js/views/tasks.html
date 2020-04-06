@@ -104,7 +104,7 @@
           <div class="p-2 border rounded bg-light" style="width: 100%; color: #4e5769 !important">
             <div>
               <oj-bind-if test="[[!search()]]">
-                <p data-bind="text: [[item.data.track_name.track_name]]" class="badge badge-pill badge-success ml-2 mt-2 p-2"></p>
+                <p data-bind="text: [[item.data.track_name]]" class="badge badge-pill badge-success ml-2 mt-2 p-2"></p>
               </oj-bind-if>
               <oj-bind-if test="[[item.data.is_active == '0']]">
                 <p class="badge badge-pill badge-warning p-2">Draft</p>

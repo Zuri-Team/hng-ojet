@@ -121,10 +121,10 @@ define([
           }
           if (password.length < 4 || confirm_password.length < 4) {
             validated = false;
-            sect.html(feedback("Password should be minimum 4 characters"));
+            sect.html(feedback("Passwords should be minimum 4 characters"));
           } else {
             if (password !== confirm_password) {
-              sect.html(feedback("Passwords does not match"));
+              sect.html(feedback("Passwords do not match"));
               validated = false;
             }
           }

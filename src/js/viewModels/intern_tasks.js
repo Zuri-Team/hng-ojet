@@ -255,23 +255,35 @@ define([
 
     self.fetchTasks = async () => {
       try {
-        const response = await fetch(`${api}/api/user/task/`, {
+        const tasks_tracks = await Promise.all([fetch(`${api}/api/user/task/`, {
           headers: {
-            Authorization: `Bearer ${userToken}`,
-            Accept: "application/json"
+            Authorization: `Bearer ${userToken}`
           }
-        });
-        const data = await response.json();
-        const newData = [...data.data].flat();
-        const tracksPromise = newData.map(
-          async track => await self.fetchTrack(track.track_id)
-        );
-        const trackResolution = await Promise.all(tracksPromise);
-        trackResolution.map((track, i) => (newData[i]["track_name"] = track));
+        }), fetch(
+          `https://api.start.ng/api/track/all`,
+          {
+            headers: {
+              Authorization: `Bearer ${userToken}`
+            }
+          }
+        )]);
+
+        const tasks = await tasks_tracks[0].json();
+        const tracks = await tasks_tracks[1].json();
+
+        const taskResponse = tasks.data.flat();
+        const trackResponse = tracks && tracks.data && tracks.data.data;
+        for (let i = 0; i < taskResponse.length; i++) {
+          for (let j = 0; j < trackResponse.length; j++) {
+            if (taskResponse[i].track_id == trackResponse[j].id) {
+              taskResponse[i]["track_name"] = trackResponse[j].track_name;
+            }
+          }
+        }
         self.dataProvider(
           new PagingDataProviderView(
-            new ArrayDataProvider(newData, {
-              keys: newData.map(function(value) {
+            new ArrayDataProvider(taskResponse, {
+              keys: taskResponse.map(function(value) {
                 value.deadline = self.formatDateTime(value.deadline);
                 return value.title;
               })
