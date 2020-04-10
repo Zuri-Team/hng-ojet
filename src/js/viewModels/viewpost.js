@@ -32,8 +32,8 @@ define([
 
     self.editor = ko.observable();
     let RESTurl = `${api}/api/post-comment`;
-    let userToken = sessionStorage.getItem("user_token");
-    let user = sessionStorage.getItem("user");
+    let userToken = localStorage.getItem("user_token");
+    let user = localStorage.getItem("user");
     user = JSON.parse(user);
 
     self.commentsProvider = ko.observable();

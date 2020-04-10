@@ -24,9 +24,9 @@ define([
   function AdminDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
-    var user = sessionStorage.getItem("user");
+    var user = localStorage.getItem("user");
     user = JSON.parse(user);
 
     if (user == null) {
@@ -196,7 +196,7 @@ define([
       document.getElementById("logoutModal").open();
     };
     self.logout = function() {
-      sessionStorage.clear();
+      localStorage.clear();
       router.go("login");
     };
     self.close = function(event) {
@@ -210,7 +210,7 @@ define([
 
     self.connected = function() {
       //new
-      let user = sessionStorage.getItem("user");
+      let user = localStorage.getItem("user");
       user = JSON.parse(user);
       if (user == null) {
         router.go("login");
@@ -285,9 +285,9 @@ define([
       });
     };
     self.handleAttached = function() {
-      let user = sessionStorage.getItem("user");
+      let user = localStorage.getItem("user");
       user = JSON.parse(user);
-      if (sessionStorage.getItem("user_token") == null) {
+      if (localStorage.getItem("user_token") == null) {
         router.go("login");
       }
       if (user.role == "intern") {

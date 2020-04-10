@@ -28,7 +28,7 @@ define([
     }, self);
 
     
-  var userToken = sessionStorage.getItem("user_token");
+  var userToken = localStorage.getItem("user_token");
     // initialize the router
     const router = oj.Router.rootInstance;
 
@@ -115,9 +115,9 @@ define([
     };
 
     self.connected = () => {
-      let user = sessionStorage.getItem("user");
+      let user = localStorage.getItem("user");
       user = JSON.parse(user);
-      if (sessionStorage.getItem("user_token") == null) {
+      if (localStorage.getItem("user_token") == null) {
         router.go("login");
       }
       self.taskHeading(

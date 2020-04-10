@@ -80,7 +80,7 @@ define([
     ]);
 
     // Get auth token from session storage
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     // base URL
     const userProfileURL = `${api}/api/user-profile`;

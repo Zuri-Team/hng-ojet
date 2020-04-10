@@ -32,7 +32,7 @@ self.applicationMessages = ko.observableArray([]);
 
 var RESTurl = `${api}/api/posts`;
 
-  var userToken = sessionStorage.getItem("user_token");
+  var userToken = localStorage.getItem("user_token");
 
   self.toPosts = () => {
     self.hidePost(params.hidePost(false));

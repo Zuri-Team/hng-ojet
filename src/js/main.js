@@ -65,7 +65,7 @@ require([
           app.loadModule();
           // Bind your ViewModel for the content of the whole page body.
           ko.applyBindings(app, document.getElementById("globalBody"));
-          // if (sessionStorage.getItem("user_token") == null) {
+          // if (localStorage.getItem("user_token") == null) {
           //  router.go("login");
           // } 
         },

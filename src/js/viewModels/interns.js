@@ -27,7 +27,7 @@ define([
 
     self.dataProvider = ko.observable();
 
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     self.selectedInternChanged = function(event) {
       // Check whether click is a category selection or deselection

@@ -46,7 +46,7 @@ function TaskSubmissionsModel(params) {
 
   self.dataProvider = ko.observable()
 
-  var userToken = sessionStorage.getItem("user_token");
+  var userToken = localStorage.getItem("user_token");
 
   self.toTasks = () => {
     self.hideSubmissions(params.hideSubmissions(false));

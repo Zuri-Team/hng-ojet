@@ -40,8 +40,8 @@ define([
     self.submissionDataProvider = ko.observable();
     self.onProbation = ko.observable(false);
 
-    var userToken = sessionStorage.getItem("user_token");
-    var user = sessionStorage.getItem("user");
+    var userToken = localStorage.getItem("user_token");
+    var user = localStorage.getItem("user");
     user = JSON.parse(user);
     self.user_id = ko.observable(user.id);
     self.taskSubmit = ko.observable({});

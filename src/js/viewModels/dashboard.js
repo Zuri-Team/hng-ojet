@@ -93,14 +93,14 @@ define([
     };
 
     self.logout = function() {
-      sessionStorage.clear();
+      localStorage.clear();
       router.go("login");
     };
 
     self.connected = function() {
-      let user = sessionStorage.getItem("user");
+      let user = localStorage.getItem("user");
       user = JSON.parse(user);
-      if (sessionStorage.getItem("user_token") == null) {
+      if (localStorage.getItem("user_token") == null) {
         router.go("login");
       }
       self.fullname(`${user.firstname} ${user.lastname}`);

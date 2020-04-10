@@ -16,7 +16,7 @@ define([
 
     /* chart data */
 
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     function fetchsummary() {
       $.ajax({

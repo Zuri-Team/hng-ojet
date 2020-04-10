@@ -17,7 +17,7 @@ define([
     function trackRequestsModel() {
         let self = this;
         let RESTurl = `${api}/api/track-requests`;
-        let userToken = sessionStorage.getItem("user_token");
+        let userToken = localStorage.getItem("user_token");
 
       
         self.searchQuery = ko.observable('');

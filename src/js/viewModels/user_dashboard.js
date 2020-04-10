@@ -30,8 +30,8 @@ define([
   function UserDashboardViewModel() {
     var self = this;
     var router = oj.Router.rootInstance;
-    var userToken = sessionStorage.getItem("user_token");
-    var user = sessionStorage.getItem("user");
+    var userToken = localStorage.getItem("user_token");
+    var user = localStorage.getItem("user");
     user = JSON.parse(user);
 
     if (user == null) {
@@ -84,7 +84,7 @@ define([
           slackImg = profileImg;
           self.profile_img(profile.image_original);
           // console.log(self.profile_img())
-          sessionStorage.setItem("slackImg", self.profile_img());
+          localStorage.setItem("slackImg", self.profile_img());
           // checkUserImage();
         }
       });
@@ -106,7 +106,7 @@ define([
       document.getElementById("logoutModal").open();
     };
     self.logout = function() {
-      sessionStorage.clear();
+      localStorage.clear();
       router.go("login");
     };
 
@@ -605,10 +605,10 @@ define([
     // }
 
     self.connected = function() {
-      // if (sessionStorage.getItem("user_token") == null) {
+      // if (localStorage.getItem("user_token") == null) {
       //   router.go("login");
       // }
-      let user = sessionStorage.getItem("user");
+      let user = localStorage.getItem("user");
       user = JSON.parse(user);
       if (user == null) {
         router.go("login");
@@ -681,9 +681,9 @@ define([
     // listen for changes
 
     self.handleAttached = function() {
-      let user = sessionStorage.getItem("user");
+      let user = localStorage.getItem("user");
       user = JSON.parse(user);
-      if (sessionStorage.getItem("user_token") == null) {
+      if (localStorage.getItem("user_token") == null) {
         router.go("login");
       }
       if (user.role !== "intern") {

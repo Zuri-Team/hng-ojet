@@ -60,8 +60,8 @@ define([
             .done(({ status, user, token }) => {
               // start user session with token
               if (status == true) {
-                sessionStorage.setItem("user", JSON.stringify(user));
-                sessionStorage.setItem("user_token", token);
+                localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("user_token", token);
                 redirect_user(user.role);
               }
             })
@@ -95,8 +95,8 @@ define([
       }, 0);
     }
     self.connected = function() {
-      if (sessionStorage.getItem("user_token") !== null) {
-        let user = sessionStorage.getItem("user");
+      if (localStorage.getItem("user_token") !== null) {
+        let user = localStorage.getItem("user");
         user = JSON.parse(user);
         redirect_user(user.role);
       } else {

@@ -26,7 +26,7 @@ define([
 
         self.dataProvider = ko.observable();
 
-        var userToken = sessionStorage.getItem("user_token");
+        var userToken = localStorage.getItem("user_token");
 
         self.close = function(event) {
             document.getElementById("summary-modal").close();
@@ -41,7 +41,7 @@ define([
         // }
 
         // console.log(document.getElementById('summary-modal'))
-        var userToken = sessionStorage.getItem("user_token");
+        var userToken = localStorage.getItem("user_token");
 
         self.totalPosts = ko.observable("");
         self.totalTeams = ko.observable("");

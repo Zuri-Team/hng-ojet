@@ -37,7 +37,7 @@ define([
     var RESTurl = `${api}/api/teams`;
 
     //User Token
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     self.showCreateDialog = function(event) {
       document.getElementById("createTeamDialog").open();

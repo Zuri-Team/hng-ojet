@@ -16,7 +16,7 @@ define([
     function activityModel() {
         let self = this;
         let RESTurl = `${api}/api/activity`;
-        let userToken = sessionStorage.getItem("user_token");
+        let userToken = localStorage.getItem("user_token");
 
         self.activityToView = ko.observable('all');
         self.searchQuery = ko.observable('');

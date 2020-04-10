@@ -36,7 +36,7 @@ define([
   function taskModel() {
     var self = this;
 
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     self.taskDataProvider = ko.observable(); //gets data for tasks list
 

@@ -21,7 +21,7 @@ define([
 
     var notificationsURL = `${api}/api/notifications`;
 
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     // var date = "2019-10-09 00:22:40";
     // date = date.toISOString();

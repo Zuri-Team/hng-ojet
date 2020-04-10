@@ -9,8 +9,8 @@ define(['ojs/ojcore',
           function ProfileViewModel() {
             var self = this;
             var RESTurl = `${api}/api/profile`;
-            var userToken = sessionStorage.getItem("user_token");
-            const user = JSON.parse(sessionStorage.getItem("user"));
+            var userToken = localStorage.getItem("user_token");
+            const user = JSON.parse(localStorage.getItem("user"));
             const id = user.id
 
             // notification messages observable
@@ -114,7 +114,7 @@ define(['ojs/ojcore',
 
                   let profileImg = document.getElementsByClassName('profile_img');
                   for (i = 0; i < profileImg.length; i++) {
-                    profileImg[i].src = sessionStorage.getItem('slackImg');
+                    profileImg[i].src = localStorage.getItem('slackImg');
                     // profileImg[i].src = profile_img;
                   }
                 }

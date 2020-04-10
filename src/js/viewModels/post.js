@@ -16,7 +16,7 @@ define([
   function postModel() {
     let self = this;
     var RESTurl = `${api}/api/posts`;
-    var userToken = sessionStorage.getItem("user_token");
+    var userToken = localStorage.getItem("user_token");
 
     //  integrated wysiwyg editor is stored as an observable
     self.editor = ko.observable();

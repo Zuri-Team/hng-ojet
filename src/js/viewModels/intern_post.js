@@ -14,7 +14,7 @@ define([
   function postModel() {
     let self = this;
     let RESTurl = `${api}/api/posts`;
-    let userToken = sessionStorage.getItem("user_token");
+    let userToken = localStorage.getItem("user_token");
 
     self.postSelected = ko.observable();
     self.post = ko.observable({});
