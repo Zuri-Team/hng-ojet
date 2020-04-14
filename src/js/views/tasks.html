@@ -51,6 +51,15 @@
       class="form-control">
     </select>
   </div>
+
+  <div class="my-3">
+    <p>Track</p>
+    <select
+      data-bind="options: courses, optionsText: 'name',  optionsValue:'id', optionsCaption: 'Select course', value: course_id,"
+      class="form-control">
+    </select>
+  </div>
+
   <div class="my-3">
     <p>Title</p>
     <input data-bind="textInput: newTask().title" type="text" class="form-control">
@@ -105,6 +114,9 @@
             <div>
               <oj-bind-if test="[[!search()]]">
                 <p data-bind="text: [[item.data.track_name]]" class="badge badge-pill badge-success ml-2 mt-2 p-2"></p>
+              </oj-bind-if>
+              <oj-bind-if test="[[!search()]]">
+                <p data-bind="text: [[item.data.course.name]]" class="badge badge-pill badge-info mt-2 p-2"></p>
               </oj-bind-if>
               <oj-bind-if test="[[item.data.is_active == '0']]">
                 <p class="badge badge-pill badge-warning p-2">Draft</p>
