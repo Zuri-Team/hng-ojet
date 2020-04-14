@@ -7,103 +7,96 @@
  * Your login ViewModel code goes here
  */
 define([
-    "knockout",
-    "./api",
-    "jquery",
-    "ojs/ojrouter",
-    "ojs/ojresponsiveutils",
-    "ojs/ojresponsiveknockoututils",
-    "ojs/ojknockout",
-    "ojs/ojinputtext",
-    "ojs/ojbutton",
-    "ojs/ojformlayout",
+  'knockout',
+  './api',
+  'jquery',
+  'ojs/ojrouter',
+  'ojs/ojresponsiveutils',
+  'ojs/ojresponsiveknockoututils',
+  'ojs/ojknockout',
+  'ojs/ojinputtext',
+  'ojs/ojbutton',
+  'ojs/ojformlayout'
 
-], function(ko, api, ResponsiveUtils, ResponsiveKnockoutUtils, ) {
-    function PasswordRequestModel() {
-        var self = this;
+], function (ko, api, ResponsiveUtils, ResponsiveKnockoutUtils) {
+  function PasswordRequestModel () {
+    var self = this
 
-        var router = oj.Router.rootInstance;
-        self.user = ko.observable();
+    var router = oj.Router.rootInstance
+    self.user = ko.observable()
 
-        function feedback(text, color) {
-
-            return `<div class=" mt-2 alert alert-${color} h6 show fb_alert" role="alert">
+    function feedback (text, color) {
+      return `<div class=" mt-2 alert alert-${color} h6 show fb_alert" role="alert">
                 <small>${text}</small>
-              </div>`;
-        };
+              </div>`
+    };
 
-
-        var progressbar = function() {
-            return `<div class="progress position-relative mb-3 ">
+    var progressbar = function () {
+      return `<div class="progress position-relative mb-3 ">
               <div class="position-absolute h-100 w-100 progress-bar progress-bar-striped progress-bar-animated bg-success">
                 <span class="oj-text-sm font-weight-bold">Sending request</span>
               </div>
-            </div>`;
-        };
+            </div>`
+    }
 
-        self.reset = function() {
+    self.reset = function () {
+      const sect = $('#fbk')
+      const email = self.user()
 
-            let sect = $("#fbk");
-            let email = self.user();
+      if ((email) !== undefined) {
+        if (!(email.match(/([@])/) && email.match(/([.])/))) {
+          sect.html(feedback('Please enter a valid email'))
+        } else {
+          sect.html(progressbar())
 
-            if ((email) !== undefined) {
-                if (!(email.match(/([@])/) && email.match(/([.])/))) {
+          $.post(`${api}/api/password/forgot`, {
+            email
+          })
+            .done(({ status, message }) => {
+              if (status == 'success') {
+                const success = 'success'
 
+                sect.html(feedback(message, success))
+              }
+            })
+            .fail((res) => {
+              const result = JSON.parse(res.responseText)
+              const danger = 'danger'
+              sect.html(feedback(result.message, danger))
+            })
+        }
+      } else {
+        const danger = 'danger'
+        sect.html(feedback('Enter a valid email', danger))
+      }
+    }
 
-                    sect.html(feedback("Please enter a valid email"));
-                } else {
-                    sect.html(progressbar());
+    self.login = function () {
+      router.go('login')
+    }
 
+    self.connected = function () {}
 
-                    $.post(`${api}/api/password/forgot`, {
-                            email,
-                        })
-                        .done(({ status, message, }) => {
-
-                            if (status == 'success') {
-                                const success = 'success'
-
-                                sect.html(feedback(message, success));
-                            }
-                        })
-                        .fail((res) => {
-                            const result = JSON.parse(res.responseText)
-                            const danger = 'danger'
-                            sect.html(feedback(result.message, danger));
-                        });
-                }
-            } else {
-                const danger = 'danger'
-                sect.html(feedback("Enter a valid email", danger));
-            }
-        };
-
-        self.login = function() {
-            router.go("login");
-        };
-
-        self.connected = function() {};
-
-        /**
+    /**
          * Optional ViewModel method invoked after the View is disconnected from the DOM.
          */
-        self.disconnected = function() {
-            // Implement if needed
-        };
+    self.disconnected = function () {
+      // Implement if needed
+    }
 
-        /**
+    /**
          * Optional ViewModel method invoked after transition to the new View is complete.
          * That includes any possible animation between the old and the new View.
          */
-        self.transitionCompleted = function() {
-            // Implement if needed
-        };
+    self.transitionCompleted = function () {
+      // Implement if needed
     }
+  }
 
-    /*
+  /*
      * Returns a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.  Return an instance of the ViewModel if
      * only one instance of the ViewModel is needed.
      */
-    return new PasswordRequestModel();
-});
+  return new PasswordRequestModel()
+})

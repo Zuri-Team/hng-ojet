@@ -1,27 +1,27 @@
 define([
-  "ojs/ojcore",
-  "knockout",
-  "ojs/ojarraydataprovider",
-  "./api",
-  "ojs/ojknockout-keyset",
-  "ojs/ojpagingdataproviderview",
-  "jquery",
-  "ojs/ojknockout",
-  "ojs/ojlistview",
-  "ojs/ojbutton",
-  "ojs/ojswitch",
-  "ojs/ojdialog",
-  "ojs/ojinputtext",
-  "ojs/ojmessages",
-  "ojs/ojvalidation-datetime",
-  "ojs/ojpagingcontrol"
-], function(oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView, $) {
-  function NotificationsViewModel() {
-    var self = this;
+  'ojs/ojcore',
+  'knockout',
+  'ojs/ojarraydataprovider',
+  './api',
+  'ojs/ojknockout-keyset',
+  'ojs/ojpagingdataproviderview',
+  'jquery',
+  'ojs/ojknockout',
+  'ojs/ojlistview',
+  'ojs/ojbutton',
+  'ojs/ojswitch',
+  'ojs/ojdialog',
+  'ojs/ojinputtext',
+  'ojs/ojmessages',
+  'ojs/ojvalidation-datetime',
+  'ojs/ojpagingcontrol'
+], function (oj, ko, ArrayDataProvider, api, keySet, PagingDataProviderView, $) {
+  function NotificationsViewModel () {
+    var self = this
 
-    var notificationsURL = `${api}/api/notifications`;
+    var notificationsURL = `${api}/api/notifications`
 
-    var userToken = localStorage.getItem("user_token");
+    var userToken = localStorage.getItem('user_token')
 
     // var date = "2019-10-09 00:22:40";
     // date = date.toISOString();
@@ -30,69 +30,69 @@ define([
       var formatDateTime = oj.Validation.converterFactory(
         oj.ConverterFactory.CONVERTER_TYPE_DATETIME
       ).createConverter({
-        formatType: "datetime",
-        dateFormat: "medium",
-        timeFormat: "short",
-        timeZone: "Africa/Lagos"
-      });
+        formatType: 'datetime',
+        dateFormat: 'medium',
+        timeFormat: 'short',
+        timeZone: 'Africa/Lagos'
+      })
 
-      var values = date.split(/[^0-9]/),
-        year = parseInt(values[0], 10),
-        month = parseInt(values[1], 10) - 1, // Month is zero based, so subtract 1
-        day = parseInt(values[2], 10),
-        hours = parseInt(values[3], 10),
-        minutes = parseInt(values[4], 10),
-        seconds = parseInt(values[5], 10);
+      var values = date.split(/[^0-9]/)
+      var year = parseInt(values[0], 10)
+      var month = parseInt(values[1], 10) - 1 // Month is zero based, so subtract 1
+      var day = parseInt(values[2], 10)
+      var hours = parseInt(values[3], 10)
+      var minutes = parseInt(values[4], 10)
+      var seconds = parseInt(values[5], 10)
 
       return formatDateTime.format(
         new Date(year, month, day, hours, minutes, seconds).toISOString()
-      );
+      )
       // return formatDateTime.format(new Date(date).toISOString());
-    };
+    }
 
     // console.log(self.formatDateTime(date));
 
-    self.trackData = ko.observable(""); //holds data for the track details
-    self.newTrack = ko.observableArray([]); //newItem holds data for the create track dialog
-    self.selectedItems = new keySet.ObservableKeySet(); // observable bound to selection option to monitor current selections
-    self.selectedSelectionRequired = ko.observable(false);
-    self.firstSelectedItem = ko.observable();
+    self.trackData = ko.observable('') // holds data for the track details
+    self.newTrack = ko.observableArray([]) // newItem holds data for the create track dialog
+    self.selectedItems = new keySet.ObservableKeySet() // observable bound to selection option to monitor current selections
+    self.selectedSelectionRequired = ko.observable(false)
+    self.firstSelectedItem = ko.observable()
 
     // notification messages observable
-    self.applicationMessages = ko.observableArray([]);
+    self.applicationMessages = ko.observableArray([])
 
     // Relevant observables
-    self.selectedIds = ko.observableArray([]);
-    self.currentItemId = ko.observable();
-    self.dataProvider = ko.observable();
+    self.selectedIds = ko.observableArray([])
+    self.currentItemId = ko.observable()
+    self.dataProvider = ko.observable()
 
-    self.handleSelectionChanged = function(event) {
-      self.selectedIds(event.detail.value); // show selected list item elements' ids
+    self.handleSelectionChanged = function (event) {
+      self.selectedIds(event.detail.value) // show selected list item elements' ids
 
       if (event.detail.value.length != 0) {
         // Populate tracks list observable using firstSelectedXxx API
-        let { data } = self.firstSelectedItem();
-        self.trackData(data);
+        const { data } = self.firstSelectedItem()
+        self.trackData(data)
       }
-    };
+    }
 
-    self.handleCurrentItemChanged = function(event) {
-      var itemId = event.detail.value;
+    self.handleCurrentItemChanged = function (event) {
+      var itemId = event.detail.value
       // Access current item via ui.item
-      self.currentItemId(itemId);
-    };
+      self.currentItemId(itemId)
+    }
 
     // Show dialogs
-    self.showCreateTrack = function(event) {
-      document.getElementById("createTrack").open();
-    };
+    self.showCreateTrack = function (event) {
+      document.getElementById('createTrack').open()
+    }
 
-    self.showEditTrack = function(event) {
-      document.getElementById("editTrack").open();
-    };
-    self.showDeleteNotifications = function(event) {
-      document.getElementById("deleteNotifications").open();
-    };
+    self.showEditTrack = function (event) {
+      document.getElementById('editTrack').open()
+    }
+    self.showDeleteNotifications = function (event) {
+      document.getElementById('deleteNotifications').open()
+    }
 
     //  Fetch all tracks
     self.fetchNotifications = async () => {
@@ -101,35 +101,35 @@ define([
           headers: {
             Authorization: `Bearer ${userToken}`
           }
-        });
+        })
         // const {
         //   data: { data }
         // } = await response.json();
-        var data = await response.json();
+        var data = await response.json()
 
         self.dataProvider(
           new PagingDataProviderView(
-            new ArrayDataProvider(data.data, { keyAttributes: "id" })
+            new ArrayDataProvider(data.data, { keyAttributes: 'id' })
           )
-        );
+        )
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
-    };
-    self.fetchNotifications();
+    }
+    self.fetchNotifications()
 
-    //mark all notifications as read
+    // mark all notifications as read
     self.markNotificationsAsRead = async () => {
       try {
         const response = await fetch(`${notificationsURL}/markasread`, {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${userToken}`
           }
-        });
+        })
         const {
           data: { data }
-        } = await response.json();
+        } = await response.json()
         // console.log(data)
 
         // self.dataProvider(
@@ -138,9 +138,9 @@ define([
         //   )
         // );
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
-    };
+    }
 
     self.clearNotifications = async () => {
       // Get the id of the selected element
@@ -152,43 +152,43 @@ define([
 
       try {
         const response = await fetch(`${notificationsURL}`, {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${userToken}`
           }
           //   body: JSON.stringify({
           //     track_id
           //   })
-        });
+        })
         // send a success message notification to the tracks view
         if (response && response.status == 200) {
           self.applicationMessages.push({
-            severity: "confirmation",
-            summary: "All Notifications cleared",
-            detail: "All Notifications have been successfully cleared",
-            autoTimeout: parseInt("0")
-          });
+            severity: 'confirmation',
+            summary: 'All Notifications cleared',
+            detail: 'All Notifications have been successfully cleared',
+            autoTimeout: parseInt('0')
+          })
         }
-        document.getElementById("deleteNotifications").close();
-        self.fetchNotifications();
+        document.getElementById('deleteNotifications').close()
+        self.fetchNotifications()
       } catch (err) {
-        console.log(err);
+        console.log(err)
         // send an error message notification to the tracks view
         self.applicationMessages.push({
-          severity: "error",
-          summary: "Error clearing notifications",
-          detail: "Error trying to clear all notifications",
-          autoTimeout: parseInt("0")
-        });
+          severity: 'error',
+          summary: 'Error clearing notifications',
+          detail: 'Error trying to clear all notifications',
+          autoTimeout: parseInt('0')
+        })
       }
-    };
+    }
 
-    self.connected = function() {
+    self.connected = function () {
       // self.markNotificationsAsRead();
-      self.fetchNotifications();
+      self.fetchNotifications()
       // self.fetchCount();
-    };
+    }
   }
-  return new NotificationsViewModel();
-});
+  return new NotificationsViewModel()
+})

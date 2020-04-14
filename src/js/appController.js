@@ -7,49 +7,49 @@
  * Your application specific code will go here
  */
 define([
-    "knockout",
-    "ojs/ojmodule-element-utils",
-    "ojs/ojrouter",
-    "ojs/ojmodule-element",
-    "ojs/ojknockout"
-], function(ko, moduleUtils, Router) {
-    function ControllerViewModel() {
-        var self = this;
+  'knockout',
+  'ojs/ojmodule-element-utils',
+  'ojs/ojrouter',
+  'ojs/ojmodule-element',
+  'ojs/ojknockout'
+], function (ko, moduleUtils, Router) {
+  function ControllerViewModel () {
+    var self = this
 
-        // Router setup
-        self.router = Router.rootInstance;
-        self.router.configure({
-            dashboard: { label: "Dashboard" },
-            admin_dashboard: { label: "Admin_dashboard" },
-            user_dashboard: { label: "User_dashboard" },
-            register: { label: "Register" },
-            login: { label: "Login", isDefault: true },
-            tasks: { label: "Tasks" },
-            tracks: { label: "Tracks" },
-            password_request: { label: "Forgot password" },
-            password_reset: { label: "Reset password" },
-        });
-        Router.defaults["urlAdapter"] = new Router.urlParamAdapter();
+    // Router setup
+    self.router = Router.rootInstance
+    self.router.configure({
+      dashboard: { label: 'Dashboard' },
+      admin_dashboard: { label: 'Admin_dashboard' },
+      user_dashboard: { label: 'User_dashboard' },
+      register: { label: 'Register' },
+      login: { label: 'Login', isDefault: true },
+      tasks: { label: 'Tasks' },
+      tracks: { label: 'Tracks' },
+      password_request: { label: 'Forgot password' },
+      password_reset: { label: 'Reset password' }
+    })
+    Router.defaults.urlAdapter = new Router.urlParamAdapter()
 
-        self.moduleConfig = ko.observable({ view: [], viewModel: null });
+    self.moduleConfig = ko.observable({ view: [], viewModel: null })
 
-        self.loadModule = function() {
-            ko.computed(function() {
-                var name = self.router.moduleConfig.name();
-                var viewPath = "views/" + name + ".html";
-                var modelPath = "viewModels/" + name;
-                var masterPromise = Promise.all([
-                    moduleUtils.createView({ viewPath: viewPath }),
-                    moduleUtils.createViewModel({ viewModelPath: modelPath })
-                ]);
-                masterPromise.then(function(values) {
-                    self.moduleConfig({ view: values[0], viewModel: values[1] });
-                });
-                //  if (localStorage.getItem("user_token") == null) {
-                //    router.go("login");
-                //  } 
-            });
-        };
+    self.loadModule = function () {
+      ko.computed(function () {
+        var name = self.router.moduleConfig.name()
+        var viewPath = 'views/' + name + '.html'
+        var modelPath = 'viewModels/' + name
+        var masterPromise = Promise.all([
+          moduleUtils.createView({ viewPath: viewPath }),
+          moduleUtils.createViewModel({ viewModelPath: modelPath })
+        ])
+        masterPromise.then(function (values) {
+          self.moduleConfig({ view: values[0], viewModel: values[1] })
+        })
+        //  if (localStorage.getItem("user_token") == null) {
+        //    router.go("login");
+        //  }
+      })
     }
-    return new ControllerViewModel();
-});
+  }
+  return new ControllerViewModel()
+})

@@ -2,13 +2,13 @@
   <!-- outer offcanvas wrapper -->
   <div
     class="oj-offcanvas-outer-wrapper"
-    style="border: 1px solid #d1e6f9; height:100%;"
+    style="border: 1px solid #d1e6f9; height: 100%;"
   >
     <!-- start offcanvas -->
     <div
       id="sidebar"
       class="oj-offcanvas-start oj-panel oj-panel-alt5 oj-offcanvas-overlay-shadow"
-      style="position: fixed; overflow-y : scroll; width: 200px; height: 100%;"
+      style="position: fixed; overflow-y: scroll; width: 200px; height: 100%;"
     >
       <h5 class="my-4 text-light logo text-center">
         <i
@@ -90,21 +90,25 @@
         </ul>
       </oj-navigation-list>
     </div>
-    <div id="maincontent" style="padding: 10px; height: 100%">
+    <div id="maincontent" style="padding: 10px; height: 100%;">
       <div id="maincontent_nav" class="w-100 position-relative">
         <nav class="d-flex justify-content-between">
-          <h4 class="d-flex" style="cursor: pointer">
-            <i class="fa fa-bars mr-2 " data-bind="click: toggleDrawer"></i>
+          <h4 class="d-flex" style="cursor: pointer;">
+            <i class="fa fa-bars mr-2" data-bind="click: toggleDrawer"></i>
             <span data-bind="text: selectedItem"></span>
           </h4>
           <span class="d-flex ml-5">
             <a for="notifications-admin" id="notifi">
-              <h4 class="position- mr-4" style="top:2px; cursor: pointer">
-                <i class=" fa fa-bell-o" data-bind="click: toggleNotify"></i>
+              <h4 class="position- mr-4" style="top: 2px; cursor: pointer;">
+                <i class="fa fa-bell-o" data-bind="click: toggleNotify"></i>
                 <strong>
                   <span
                     data-bind="text: notificationCount"
-                    style="font-size: 15px; vertical-align: text-top; color: blue"
+                    style="
+                      font-size: 15px;
+                      vertical-align: text-top;
+                      color: blue;
+                    "
                   ></span>
                 </strong>
               </h4>
@@ -132,7 +136,7 @@
               <oj-dialog
                 id="logoutModal"
                 dialog-title="Logout"
-                class=" position-absolute col-3 col-md-3 mt-5 p-0"
+                class="position-absolute col-3 col-md-3 mt-5 p-0"
                 modality="modal"
                 position.at.vertical="top"
               >
@@ -159,7 +163,11 @@
                 ></span>
                 Logout
               </oj-button> -->
-                <button class="btn btn-sm btn-danger" id="buttonOpener" data-bind="click: open">
+              <button
+                class="btn btn-sm btn-danger"
+                id="buttonOpener"
+                data-bind="click: open"
+              >
                 <i class="fa fa-sign-out"></i>
               </button>
             </div>
@@ -169,7 +177,7 @@
           <form
             id="form1"
             class="position-relative d-lg-none d-md-none d-sm-flex justify-content-end"
-            style="top: 4px"
+            style="top: 4px;"
           >
             <input
               placeholder="Search..."
