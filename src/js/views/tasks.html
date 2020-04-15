@@ -116,7 +116,7 @@
                 <p data-bind="text: [[item.data.track_name]]" class="badge badge-pill badge-success ml-2 mt-2 p-2"></p>
               </oj-bind-if>
               <oj-bind-if test="[[!search()]]">
-                <p data-bind="text: [[item.data.course.name]]" class="badge badge-pill badge-info mt-2 p-2"></p>
+                <p data-bind="text: [[item.data.course && item.data.course.name]]" class="badge badge-pill badge-info mt-2 p-2"></p>
               </oj-bind-if>
               <oj-bind-if test="[[item.data.is_active == '0']]">
                 <p class="badge badge-pill badge-warning p-2">Draft</p>

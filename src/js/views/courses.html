@@ -1,0 +1,184 @@
+<div class="oj-flex oj-sm-justify-content-center">
+  <div class="col-sm-12 col-md-11">
+    <div>
+      <oj-bind-if test="[[!showTrackRequests() && requestCount() > 0]]">
+        <p
+          class="btn btn-warning text-white mt-2 float-left"
+          data-bind="click: trackRequestsShown"
+        >
+          View Course Requests (<span data-bind="text: requestCount"></span>)
+        </p>
+      </oj-bind-if>
+      <oj-bind-if test="[[!showTrackRequests() && requestCount() == 0]]">
+        <p
+          class="btn btn-secondary mt-2 float-left"
+          data-bind="click: trackRequestsShown"
+        >
+          No Course Requests (<span data-bind="text: requestCount"></span>)
+        </p>
+      </oj-bind-if>
+      <oj-bind-if test="[[showTrackRequests()]]">
+        <p
+          class="btn btn-secondary mt-2 float-left"
+          data-bind="click: trackRequestsHidden"
+        >
+          Go Back
+        </p>
+      </oj-bind-if>
+      <!-- <oj-bind-if test="[[!showTrackRequests()]]">
+        <p
+          class="btn btn-warning mt-2 text-white float-right"
+          data-bind="click: showCreateTrack"
+        >
+          <i class="fa fa-plus mr-2"></i>New Course
+        </p>
+      </oj-bind-if> -->
+    </div>
+    <div class="clearfix"></div>
+    <oj-bind-if test="[[!showTrackRequests()]]">
+      <oj-list-view
+        id="listview"
+        class="mx-auto overflow-hidden bg-light p-0"
+        aria-label="listview with paging control"
+        data="[[dataProvider]]"
+        selected="{{selectedItems}}"
+        selection-required="[[selectedSelectionRequired]]"
+        selection-mode="multiple"
+        on-selected-changed="[[handleSelectionChanged]]"
+        on-current-item-changed="[[handleCurrentItemChanged]]"
+        first-selected-item="{{firstSelectedItem}}"
+      >
+        <template slot="itemTemplate" data-oj-as="item">
+          <!-- template for items -->
+          <div
+            class="p-2 border rounded bg-light"
+            style="width: 100%; color: #4e5769 !important;"
+          >
+            <!-- <i
+              class="fa fa-pencil pencil float-right mt-2"
+              data-bind="click: showEditTrack"
+            ></i
+            ><i
+              class="fa fa-trash trash float-right mt-2"
+              data-bind="click: showDeleteTrack"
+            ></i> -->
+            <h5>
+              <span
+                class="badge badge-pill badge-warning text-white ml-2 mt-2 p-2"
+              >
+                <oj-bind-text value="[[item.data.name]]"></oj-bind-text
+              ></span>
+            </h5>
+            <p class="ml-2 mb-2 text-capitalize">
+              <oj-bind-text value="[[item.data.description]]"></oj-bind-text>
+            </p>
+            <i class="oj-fwk-icon oj-fwk-icon-calendar mr-2 mt-2 pl-2 pb-2"></i>
+            <span
+              class="mb-0 mt-2 pb-2"
+              data-bind="text: 'Created: ' + formatDateTime(item.data.created_at)"
+            ></span>
+          </div>
+        </template>
+      </oj-list-view>
+      <oj-paging-control
+        id="paging"
+        data="[[dataProvider]]"
+        page-size="5"
+        slot="bottom"
+      >
+      </oj-paging-control>
+    </oj-bind-if>
+
+    <!-- create new  track modal -->
+    <oj-dialog id="createTrack" style="display: none;" title="Create New Track">
+      <div slot="body">
+        <oj-label class="oj-label oj-label-inline" for="createNewTitle"
+          >Title</oj-label
+        >
+        <oj-input-text
+          id="createNewTitle"
+          value="{{newTrack.name}}"
+        ></oj-input-text>
+        <oj-label class="oj-label oj-label-inline" for="createNewDesc"
+          >Description</oj-label
+        >
+        <oj-input-text
+          id="createNewDesc"
+          value="{{newTrack.description}}"
+        ></oj-input-text>
+      </div>
+      <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[createTrack]]"
+          >Submit</oj-button
+        >
+      </div>
+    </oj-dialog>
+
+    <!-- update track modal, if track is selected -->
+
+    <oj-dialog
+      id="editTrack"
+      style="display: none;"
+      title="Update track Details"
+    >
+      <div slot="body">
+        <oj-label class="oj-label oj-label-inline" for="newName"
+          >Title</oj-label
+        >
+        <oj-input-text
+          id="newName"
+          value="{{trackData().name}}"
+        ></oj-input-text>
+        <oj-label class="oj-label oj-label-inline" for="newDesc"
+          >Description</oj-label
+        >
+        <oj-input-text
+          id="newDesc"
+          value="{{trackData().description}}"
+        ></oj-input-text>
+      </div>
+      <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[editTrack]]"
+          >Update
+        </oj-button>
+      </div>
+    </oj-dialog>
+    <!-- delete track modal -->
+    <oj-dialog id="deleteTrack" style="display: none;" title="Delete track">
+      <div slot="body">
+        <p>
+          Confirm you want to delete the track
+          <span data-bind="text: trackData().name"></span>?
+        </p>
+      </div>
+      <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[deleteTrack]]"
+          >Delete
+        </oj-button>
+      </div>
+    </oj-dialog>
+  </div>
+</div>
+
+<oj-bind-if test="[[showTrackRequests()]]">
+  <div
+    data-bind="ojModule: { name: 'course_requests'
+        }"
+  ></div>
+</oj-bind-if>
+
+<!-- Start Messages Component -->
+
+<oj-messages
+  id="application-messages"
+  messages="{{applicationMessages}}"
+  display="notification"
+  position='{
+      "my": {"vertical" : "bottom", "horizontal": "end"},
+      "at": {"vertical": "bottom", "horizontal": "end"},
+      "of": "window"
+      }'
+>
+</oj-messages>
+
+<!-- End Messages Component -->
