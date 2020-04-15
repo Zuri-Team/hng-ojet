@@ -15,7 +15,7 @@ requirejs.config({
   // Path mappings for the logical module names
   // Update the main-release-paths.json for release mode when updating the mappings
   paths:
-    // injector:mainReleasePaths
+    //injector:mainReleasePaths
     {
       knockout: 'libs/knockout/knockout-3.5.0.debug',
       jquery: 'libs/jquery/jquery-3.4.1',
@@ -34,7 +34,7 @@ requirejs.config({
       touchr: 'libs/touchr/touchr',
       'rm-emoji-picker': 'libs/rm-emoji-picker/rm-emoji-picker.js'
     }
-  // endinjector
+  //endinjector
 })
 
 /**
