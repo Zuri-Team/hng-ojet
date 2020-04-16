@@ -2,7 +2,7 @@
   <oj-dialog
     id="editTaskModal"
     dialog-title="Edit task"
-    class=" position-absolute col-sm-12 col-md-8 mt-5 p-0"
+    class="position-absolute col-sm-12 col-md-8 mt-5 p-0"
     modality="modal"
     position.at.vertical="top"
   >
@@ -22,7 +22,7 @@
       <div class="form-group">
         <oj-label class="oj-label oj-label-inline">Task Details</oj-label>
         <textarea
-          data-bind="html: body"
+          id="taskbody"
           class="form-control"
           rows="5"
         ></textarea>
@@ -40,7 +40,7 @@
         <oj-select-one
           id="basicSelect"
           value="{{parseInt(is_active)}}"
-          style="max-width:20em"
+          style="max-width: 20em;"
         >
           <oj-option value="">Select...</oj-option>
           <oj-option value="1">Publish</oj-option>
@@ -120,7 +120,7 @@
   </div>
   <div
     class="oj-panel mt-2 mb-2 oj-panel-shadow-sm"
-    style="color: #4e5769 !important"
+    style="color: #4e5769 !important;"
   >
     <div class="mb-2">
       <button
@@ -129,7 +129,10 @@
       >
         Edit
       </button>
-      <button class="btn btn-outline-danger float-right" data-bind="click: deleteTaskModal">
+      <button
+        class="btn btn-outline-danger float-right"
+        data-bind="click: deleteTaskModal"
+      >
         Delete
       </button>
     </div>
@@ -154,7 +157,7 @@
     <p data-bind="html: body"></p>
   </div>
 </div>
-<div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important">
+<div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important;">
   <div class="mt-2 mb-4">
     <h3 class="float-left">Submissions</h3>
     <button
@@ -166,7 +169,12 @@
   </div>
   <div
     class="mt-4"
-    style="width: 1px; min-width: 100%; min-height: 100%; color: #4e5769 !important;"
+    style="
+      width: 1px;
+      min-width: 100%;
+      min-height: 100%;
+      color: #4e5769 !important;
+    "
   >
     <oj-table
       id="submission-table"

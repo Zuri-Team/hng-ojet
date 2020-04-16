@@ -1,4 +1,4 @@
-define(['ojs/ojcore', 'knockout', 'jquery', './api', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview', 'ojs/ojvalidation-base', 'ojs/ojmessages', 'ojs/ojdialog',
+define(['ojs/ojcore', 'knockout', 'jquery', './api', 'ojs/ojarraydataprovider', 'ojs/ojpagingdataproviderview', 'ojs/ojvalidation-base',  "../ckeditor", 'ojs/ojmessages', 'ojs/ojdialog',
   'ojs/ojvalidation-datetime',
   'ojs/ojlabel',
   'ojs/ojinputtext',
@@ -7,7 +7,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', './api', 'ojs/ojarraydataprovider', 
   'ojs/ojdatetimepicker',
   'ojs/ojbutton',
   'ojs/ojtable', 'ojs/ojoption', 'ojs/ojtimezonedata'],
-function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase) {
+function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationBase, ClassicEditor) {
   function TaskSubmissionsModel (params) {
     var self = this
     self.hideSubmissions = ko.observable()
@@ -19,6 +19,7 @@ function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationB
     self.submission_link = ko.observable('')
     self.submitted_on = ko.observable('')
     self.body = ko.observable('')
+    self.edit = ko.observable();
     self.is_active = ko.observable('')
     self.track = ko.observable('')
     self.submission_count = ko.observable('')
@@ -59,6 +60,7 @@ function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationB
 
     self.editTaskModal = () => {
       document.getElementById('editTaskModal').open()
+      self.edit().setData(self.body())
     }
 
     self.deleteAllSubmissionModal = () => {
@@ -190,7 +192,7 @@ function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationB
     self.updateTask = function (event) {
       const track_id = self.track_id()
       const title = self.title()
-      const body = self.body()
+      const body = self.edit().getData()
       const deadline = self.deadline()
       const is_active = self.is_active()
 
@@ -335,6 +337,12 @@ function (oj, ko, $, api, ArrayDataProvider, PagingDataProviderView, ValidationB
       }
     }
     self.fetchTask()
+
+    self.handleAttached = () => {
+      ClassicEditor.create(document.getElementById("taskbody")).then((editor) =>
+        self.edit(editor)
+      );  
+    };
   }
 
   return TaskSubmissionsModel

@@ -7,54 +7,54 @@
  * Your incidents ViewModel code goes here
  */
 define([
-  'knockout',
-  'jquery',
-  'ojs/ojformlayout',
-  'ojs/ojselectcombobox',
-  'ojs/ojresponsiveknockoututils',
-  'ojs/ojinputtext'
+  "knockout",
+  "jquery",
+  "ojs/ojformlayout",
+  "ojs/ojselectcombobox",
+  "ojs/ojresponsiveknockoututils",
+  "ojs/ojinputtext",
 ], function (ko, $) {
-  function SubmissionComponentModel (context) {
-    var self = this
+  function SubmissionComponentModel(context) {
+    var self = this;
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
       oj.ResponsiveUtils.getFrameworkQuery(
         oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY
       )
-    )
+    );
     // For small screens: labels on top
     // For medium or bigger: labels inline
     self.labelEdge = ko.computed(function () {
-      return self.isSmall() ? 'top' : 'start'
-    }, self)
+      return self.isSmall() ? "top" : "start";
+    }, self);
 
-    var userToken = localStorage.getItem('user_token')
+    var userToken = localStorage.getItem("user_token");
     // initialize the router
-    const router = oj.Router.rootInstance
+    const router = oj.Router.rootInstance;
 
     // Form Input Observables
-    self.firstName = ko.observable('')
-    self.lastName = ko.observable('')
-    self.email = ko.observable('')
-    self.hngCode = ko.observable('')
-    self.stack = ko.observableArray([])
-    self.url = ko.observable('')
-    self.taskDescription = ko.observable('')
-    self.taskHeading = ko.observable('')
-    const RESTurl = 'https://api.start.ng/api/submissions'
+    self.firstName = ko.observable("");
+    self.lastName = ko.observable("");
+    self.email = ko.observable("");
+    self.hngCode = ko.observable("");
+    self.stack = ko.observableArray([]);
+    self.url = ko.observable("");
+    self.taskDescription = ko.observable("");
+    self.taskHeading = ko.observable("");
+    const RESTurl = "https://api.start.ng/api/submissions";
 
-    const showMessage = (message, color = 'error') => {
-      const span = document.querySelector('.message')
-      span.classList.add(`${color}`)
-      span.innerHTML = `${message}`
-      span.style.display = 'block'
+    const showMessage = (message, color = "error") => {
+      const span = document.querySelector(".message");
+      span.classList.add(`${color}`);
+      span.innerHTML = `${message}`;
+      span.style.display = "block";
       setTimeout(() => {
-        span.style.display = 'none'
-      }, 3000)
-    }
+        span.style.display = "none";
+      }, 3000);
+    };
 
     self.cancel = () => {
-      router.go('dashboard')
-    }
+      router.go("dashboard");
+    };
 
     self.submit = () => {
       // We do not have to prevent the form's default submission behaviour, knockout js enforces that as default behaviour. Pretty cool yeah !
@@ -62,15 +62,15 @@ define([
       // We need to, first of all, check that the user does not submit any empty fields;
 
       if (
-        self.firstName() === '' ||
-        self.lastName() === '' ||
-        self.email() === '' ||
-        self.hngCode() === '' ||
-        self.url() === '' ||
-        self.taskDescription() === ''
+        self.firstName() === "" ||
+        self.lastName() === "" ||
+        self.email() === "" ||
+        self.hngCode() === "" ||
+        self.url() === "" ||
+        self.taskDescription() === ""
       ) {
-        showMessage('Please fill all fields')
-        return
+        showMessage("Please fill all fields");
+        return;
       }
 
       // Then, we do some awesome validation just to make sure our database is not cluttered with unwanted info.
@@ -85,43 +85,43 @@ define([
         email: self.email(),
         hng_code: self.hngCode(),
         url: self.url(),
-        task_description: self.taskDescription()
-      }
-      console.log(task)
+        task_description: self.taskDescription(),
+      };
+      console.log(task);
 
-      const submit = async (RESTurl = '', data = {}) => {
+      const submit = async (RESTurl = "", data = {}) => {
         const response = await fetch(RESTurl, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkyNjk5YjdkY2M4MjFjM2YyYmJhM2I5Zjg5OTliOTgwOWRlMWFhMDE3OTc3YTJlMmZhNjM3OWQ4ZTBmZGJjMjRkMGU3NDBiMWZhZTY3NmY3In0'
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage["user_token"],
           },
-          body: JSON.stringify(data)
-        })
-        return await response.json()
-      }
+          body: JSON.stringify(data),
+        });
+        return await response.json();
+      };
       try {
-        const data = submit(RESTurl, task)
-        console.log(JSON.stringify(data)) // JSON-string from `response.json()` call
+        const data = submit(RESTurl, task);
+        console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
 
       // User is redirected to the dashboard on submit.
-      router.go('dashboard')
-    }
+      router.go("dashboard");
+    };
 
     self.connected = () => {
-      let user = localStorage.getItem('user')
-      user = JSON.parse(user)
-      if (localStorage.getItem('user_token') == null) {
-        router.go('login')
+      let user = localStorage.getItem("user");
+      user = JSON.parse(user);
+      if (localStorage.getItem("user_token") == null) {
+        router.go("login");
       }
       self.taskHeading(
         `Dear ${user.firstname}, please Submit Your Task(s) Here`
-      )
-    }
+      );
+    };
   }
 
-  return new SubmissionComponentModel()
-})
+  return new SubmissionComponentModel();
+});
