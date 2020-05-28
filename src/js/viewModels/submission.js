@@ -40,7 +40,7 @@ define([
     self.url = ko.observable("");
     self.taskDescription = ko.observable("");
     self.taskHeading = ko.observable("");
-    const RESTurl = "https://api.start.ng/api/submissions";
+    const RESTurl = "http://test.hng.tech/api/submissions";
 
     const showMessage = (message, color = "error") => {
       const span = document.querySelector(".message");

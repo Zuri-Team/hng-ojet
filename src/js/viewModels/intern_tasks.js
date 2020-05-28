@@ -239,7 +239,7 @@ define([
 
     self.fetchTrack = async id => {
       try {
-        const response = await fetch(`https://api.start.ng/api/track/${id}`, {
+        const response = await fetch(`http://test.hng.tech/api/track/${id}`, {
           credentials: 'include',
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -255,18 +255,18 @@ define([
 
     self.fetchTasks = async () => {
       try {
-        const tasks_tracks = await Promise.all([fetch(`${api}/api/user/task/`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`
-          }
-        }), fetch(
-          'https://api.start.ng/api/track/all',
-          {
+        const tasks_tracks = await Promise.all([
+          fetch(`${api}/api/user/task/`, {
             headers: {
-              Authorization: `Bearer ${userToken}`
-            }
-          }
-        )])
+              Authorization: `Bearer ${userToken}`,
+            },
+          }),
+          fetch("http://test.hng.tech/api/track/all", {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+            },
+          }),
+        ]);
 
         const tasks = await tasks_tracks[0].json()
         const tracks = await tasks_tracks[1].json()

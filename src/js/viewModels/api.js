@@ -1,6 +1,6 @@
-var settings = "https://api.start.ng";
+var settings = "http://test.hng.tech";
 //  settings = "http://127.0.0.1:8000";
 
-define(function() {
+define(function () {
   return settings;
 });

@@ -106,7 +106,7 @@ define([
     //  Fetch all tracks
     self.fetchTracks = async () => {
       try {
-        const response = await fetch(`https://api.start.ng/api/course/all`, {
+        const response = await fetch(`http://test.hng.tech/api/course/all`, {
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
