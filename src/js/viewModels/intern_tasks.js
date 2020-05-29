@@ -239,7 +239,7 @@ define([
 
     self.fetchTrack = async id => {
       try {
-        const response = await fetch(`http://test.hng.tech/api/track/${id}`, {
+        const response = await fetch(`https://test.hng.tech/api/track/${id}`, {
           credentials: 'include',
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -261,7 +261,7 @@ define([
               Authorization: `Bearer ${userToken}`,
             },
           }),
-          fetch("http://test.hng.tech/api/track/all", {
+          fetch("https://test.hng.tech/api/track/all", {
             headers: {
               Authorization: `Bearer ${userToken}`,
             },

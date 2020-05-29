@@ -1,4 +1,4 @@
-var settings = "http://test.hng.tech";
+var settings = "https://test.hng.tech";
 //  settings = "http://127.0.0.1:8000";
 
 define(function () {
