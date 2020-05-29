@@ -51,12 +51,12 @@ define([
       // return formatDateTime.format(new Date(date).toISOString());
     };
 
-    self.trackData = ko.observable(""); // holds data for the track details
-    self.newTrack = ko.observableArray([]); // newItem holds data for the create track dialog
+    self.courseData = ko.observable(""); // holds data for the course details
+    self.newCourse = ko.observableArray([]); // newItem holds data for the create course dialog
     self.selectedItems = new keySet.ObservableKeySet(); // observable bound to selection option to monitor current selections
     self.selectedSelectionRequired = ko.observable(false);
     self.firstSelectedItem = ko.observable();
-    self.showTrackRequests = ko.observable(false);
+    self.showCourseRequests = ko.observable(false);
 
     // notification messages observable
     self.applicationMessages = ko.observableArray([]);
@@ -66,13 +66,13 @@ define([
     self.currentItemId = ko.observable();
     self.dataProvider = ko.observable();
 
-    self.trackRequestsShown = () => {
-      self.showTrackRequests(true);
+    self.courseRequestsShown = () => {
+      self.showCourseRequests(true);
     };
 
-    self.trackRequestsHidden = () => {
-      self.showTrackRequests(false);
-      self.fetchPendingTrackRequests();
+    self.courseRequestsHidden = () => {
+      self.showCourseRequests(false);
+      self.fetchPendingCourseRequests();
     };
 
     self.handleSelectionChanged = function (event) {
@@ -81,7 +81,7 @@ define([
       if (event.detail.value.length != 0) {
         // Populate tracks list observable using firstSelectedXxx API
         const { data } = self.firstSelectedItem();
-        self.trackData(data);
+        self.courseData(data);
       }
     };
 
@@ -92,19 +92,19 @@ define([
     };
 
     // Show dialogs
-    self.showCreateTrack = function (event) {
-      document.getElementById("createTrack").open();
+    self.showCreateCourse = function (event) {
+      document.getElementById("createCourse").open();
     };
 
-    self.showEditTrack = function (event) {
-      document.getElementById("editTrack").open();
+    self.showEditCourse = function (event) {
+      document.getElementById("editCourse").open();
     };
-    self.showDeleteTrack = function (event) {
-      document.getElementById("deleteTrack").open();
+    self.showDeleteCourse = function (event) {
+      document.getElementById("deleteCourse").open();
     };
 
     //  Fetch all tracks
-    self.fetchTracks = async () => {
+    self.fetchCourses = async () => {
       try {
         const response = await fetch(`http://test.hng.tech/api/course/all`, {
           headers: {
@@ -122,12 +122,12 @@ define([
         console.log(err);
       }
     };
-    self.fetchTracks();
+    self.fetchCourses();
 
     // Create tracks
-    self.createTrack = async () => {
-      const track_name = self.newTrack.track_name;
-      const track_description = self.newTrack.track_description;
+    self.createCourse = async () => {
+      const course_name = self.newCourse.course_name;
+      const course_description = self.newCourse.course_description;
 
       try {
         const response = await fetch(`${courseURL}/create`, {
@@ -137,44 +137,44 @@ define([
             Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({
-            track_name,
-            track_description,
+            course_name,
+            course_description,
           }),
         });
 
         // send a success message notification to the tracks view
         self.applicationMessages.push({
           severity: "confirmation",
-          summary: "New track created",
-          detail: "The new track " + track_name + " has been created",
+          summary: "New Course created",
+          detail: "The new course " + course_name + " has been created",
           autoTimeout: parseInt("0"),
         });
 
         document.getElementById("createNewTitle").value = "";
         document.getElementById("createNewDesc").value = "";
-        document.getElementById("createTrack").close();
-        self.fetchTracks();
+        document.getElementById("createCourse").close();
+        self.fetchCourses();
       } catch (err) {
         console.log(err);
 
         // send an error message notification to the tracks view
         self.applicationMessages.push({
           severity: "error",
-          summary: "Error creating track",
-          detail: "Error trying to create new track",
+          summary: "Error creating course",
+          detail: "Error trying to create new course",
           autoTimeout: parseInt("0"),
         });
       }
     };
 
     // edit tracks
-    self.editTrack = async () => {
+    self.editCourse = async () => {
       // This is plain es6 object destructuring. Sorry it is so nested.
       const {
-        data: { id, track_description, track_name },
+        data: { id, course_description, course_name },
       } = self.firstSelectedItem();
 
-      const track_id = id; // Form data needs id as track_id
+      const course_id = id; // Form data needs id as track_id
 
       try {
         const response = await fetch(`${courseURL}/edit`, {
@@ -184,40 +184,40 @@ define([
             Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({
-            track_id,
-            track_name,
-            track_description,
+            course_id,
+            course_name,
+            course_description,
           }),
         });
 
         // send a success message notification to the tracks view
         self.applicationMessages.push({
           severity: "confirmation",
-          summary: track_name + " updated",
-          detail: "Track " + track_name + " has been updated",
+          summary: course_name + " updated",
+          detail: "Course " + course_name + " has been updated",
           autoTimeout: parseInt("0"),
         });
-        document.getElementById("editTrack").close();
-        self.fetchTracks();
+        document.getElementById("editCourse").close();
+        self.fetchCourses();
       } catch (err) {
         console.log(err);
 
         // send an error message notification to the tracks view
         self.applicationMessages.push({
           severity: "error",
-          summary: "Error updating track",
-          detail: "Error trying to update track " + track_name,
+          summary: "Error updating course",
+          detail: "Error trying to update course " + course_name,
           autoTimeout: parseInt("0"),
         });
       }
     };
 
-    self.deleteTrack = async () => {
+    self.deleteCourse = async () => {
       // Get the id of the selected element
-      const track_id = self.currentItemId();
+      const course_id = self.currentItemId();
 
       const {
-        data: { track_name },
+        data: { course_name },
       } = self.firstSelectedItem();
 
       try {
@@ -228,35 +228,35 @@ define([
             Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({
-            track_id,
+            course_id,
           }),
         });
 
         // send a success message notification to the tracks view
         self.applicationMessages.push({
           severity: "confirmation",
-          summary: track_name + " deleted",
-          detail: "Track " + track_name + " has been deleted",
+          summary: course_name + " deleted",
+          detail: "Course " + course_name + " has been deleted",
           autoTimeout: parseInt("0"),
         });
 
-        document.getElementById("deleteTrack").close();
-        self.fetchTracks();
+        document.getElementById("deleteCourse").close();
+        self.fetchCourses();
       } catch (err) {
         console.log(err);
 
         // send an error message notification to the tracks view
         self.applicationMessages.push({
           severity: "error",
-          summary: "Error deleting track",
-          detail: "Error trying to delete track " + track_name,
+          summary: "Error deleting course",
+          detail: "Error trying to delete course " + course_name,
           autoTimeout: parseInt("0"),
         });
       }
     };
 
     self.requestCount = ko.observable("");
-    self.fetchPendingTrackRequests = async () => {
+    self.fetchPendingCourseRequests = async () => {
       try {
         const response = await fetch(
           `${api}/api/course-requests/request-count`,
@@ -275,14 +275,14 @@ define([
         console.log(err);
       }
     };
-    self.fetchPendingTrackRequests();
+    self.fetchPendingCourseRequests();
 
     // listen for changes
     const pm = ko.dataFor(document.querySelector("#admin"));
     pm.selectedItem.subscribe(function () {
       if (pm.selectedItem() == "Courses") {
-        self.fetchPendingTrackRequests();
-        self.fetchTracks();
+        self.fetchPendingCoursekRequests();
+        self.fetchCourses();
       }
     });
   }

@@ -1,31 +1,31 @@
 <div class="oj-flex oj-sm-justify-content-center">
   <div class="col-sm-12 col-md-11">
     <div>
-      <oj-bind-if test="[[!showTrackRequests() && requestCount() > 0]]">
+      <oj-bind-if test="[[!showCourseRequests() && requestCount() > 0]]">
         <p
           class="btn btn-warning text-white mt-2 float-left"
-          data-bind="click: trackRequestsShown"
+          data-bind="click: courseRequestsShown"
         >
           View Course Requests (<span data-bind="text: requestCount"></span>)
         </p>
       </oj-bind-if>
-      <oj-bind-if test="[[!showTrackRequests() && requestCount() == 0]]">
+      <oj-bind-if test="[[!showCourseRequests() && requestCount() == 0]]">
         <p
           class="btn btn-secondary mt-2 float-left"
-          data-bind="click: trackRequestsShown"
+          data-bind="click: courseRequestsShown"
         >
           No Course Requests (<span data-bind="text: requestCount"></span>)
         </p>
       </oj-bind-if>
-      <oj-bind-if test="[[showTrackRequests()]]">
+      <oj-bind-if test="[[showCourseRequests()]]">
         <p
           class="btn btn-secondary mt-2 float-left"
-          data-bind="click: trackRequestsHidden"
+          data-bind="click: courseRequestsHidden"
         >
           Go Back
         </p>
       </oj-bind-if>
-      <!-- <oj-bind-if test="[[!showTrackRequests()]]">
+      <!-- <oj-bind-if test="[[!showCourseRequests()]]">
         <p
           class="btn btn-warning mt-2 text-white float-right"
           data-bind="click: showCreateTrack"
@@ -35,7 +35,7 @@
       </oj-bind-if> -->
     </div>
     <div class="clearfix"></div>
-    <oj-bind-if test="[[!showTrackRequests()]]">
+    <oj-bind-if test="[[!showCourseRequests()]]">
       <oj-list-view
         id="listview"
         class="mx-auto overflow-hidden bg-light p-0"
@@ -90,25 +90,25 @@
     </oj-bind-if>
 
     <!-- create new  track modal -->
-    <oj-dialog id="createTrack" style="display: none;" title="Create New Track">
+    <oj-dialog id="createCourse" style="display: none;" title="Create New Course">
       <div slot="body">
         <oj-label class="oj-label oj-label-inline" for="createNewTitle"
           >Title</oj-label
         >
         <oj-input-text
           id="createNewTitle"
-          value="{{newTrack.name}}"
+          value="{{newCourse.name}}"
         ></oj-input-text>
         <oj-label class="oj-label oj-label-inline" for="createNewDesc"
           >Description</oj-label
         >
         <oj-input-text
           id="createNewDesc"
-          value="{{newTrack.description}}"
+          value="{{newCourse.description}}"
         ></oj-input-text>
       </div>
       <div slot="footer">
-        <oj-button id="submitBtn" on-oj-action="[[createTrack]]"
+        <oj-button id="submitBtn" on-oj-action="[[createCourse]]"
           >Submit</oj-button
         >
       </div>
@@ -119,7 +119,7 @@
     <oj-dialog
       id="editTrack"
       style="display: none;"
-      title="Update track Details"
+      title="Update Course Details"
     >
       <div slot="body">
         <oj-label class="oj-label oj-label-inline" for="newName"
@@ -127,32 +127,32 @@
         >
         <oj-input-text
           id="newName"
-          value="{{trackData().name}}"
+          value="{{courseData().name}}"
         ></oj-input-text>
         <oj-label class="oj-label oj-label-inline" for="newDesc"
           >Description</oj-label
         >
         <oj-input-text
           id="newDesc"
-          value="{{trackData().description}}"
+          value="{{courseData().description}}"
         ></oj-input-text>
       </div>
       <div slot="footer">
-        <oj-button id="submitBtn" on-oj-action="[[editTrack]]"
+        <oj-button id="submitBtn" on-oj-action="[[editCourse]]"
           >Update
         </oj-button>
       </div>
     </oj-dialog>
     <!-- delete track modal -->
-    <oj-dialog id="deleteTrack" style="display: none;" title="Delete track">
+    <oj-dialog id="deleteCourse" style="display: none;" title="Delete course">
       <div slot="body">
         <p>
-          Confirm you want to delete the track
-          <span data-bind="text: trackData().name"></span>?
+          Confirm you want to delete the course
+          <span data-bind="text: courseData().name"></span>?
         </p>
       </div>
       <div slot="footer">
-        <oj-button id="submitBtn" on-oj-action="[[deleteTrack]]"
+        <oj-button id="submitBtn" on-oj-action="[[deleteCourse]]"
           >Delete
         </oj-button>
       </div>
@@ -160,7 +160,7 @@
   </div>
 </div>
 
-<oj-bind-if test="[[showTrackRequests()]]">
+<oj-bind-if test="[[showCourseRequests()]]">
   <div
     data-bind="ojModule: { name: 'course_requests'
         }"
