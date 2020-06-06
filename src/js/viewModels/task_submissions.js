@@ -206,7 +206,7 @@ define([
 
       if (query.length == 0) {
         submissions = submissionsArr;
-      }
+      } else {
       submissions = submissionsArr.filter(
         (data) =>
           data.grade_score === query ||
@@ -214,7 +214,7 @@ define([
           data.user.lastname.trim().toLowerCase().startsWith(query) ||
           data.user.username.trim().toLowerCase().startsWith(query)
       );
-      console.log(submissions);
+      }
       self.dataProvider(
         new PagingDataProviderView(
           new ArrayDataProvider(submissions, { keyAttribute: "user_id" })
