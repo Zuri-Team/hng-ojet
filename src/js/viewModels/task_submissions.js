@@ -49,6 +49,7 @@ define([
     self.editRow = ko.observable();
 
     self.tasksToView = ko.observable("all");
+    self.searchQuery = ko.observable("");
 
     // extract the task ID we have to work with
     const task_id = params.taskModel().data.id;
@@ -196,6 +197,31 @@ define([
         }
       }
     });
+
+    self.searchActivity = async () => {
+      const query = !Number.isNaN(+self.searchQuery())
+        ? self.searchQuery()
+        : self.searchQuery().trim().toLowerCase();
+      let submissions;
+
+      if (query.length == 0) {
+        submissions = submissionsArr;
+        return;
+      }
+      submissions = submissionsArr.filter(
+        (data) =>
+          data.grade_score === query ||
+          data.user.firstname.trim().toLowerCase().startsWith(query) ||
+          data.user.lastname.trim().toLowerCase().startsWith(query) ||
+          data.user.username.trim().toLowerCase().startsWith(query)
+      );
+      console.log(submissions);
+      self.dataProvider(
+        new PagingDataProviderView(
+          new ArrayDataProvider(submissions, { keyAttribute: "user_id" })
+        )
+      );
+    };
 
     fetchSubmission();
 

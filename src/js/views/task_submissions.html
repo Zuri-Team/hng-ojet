@@ -155,7 +155,7 @@
 </div>
 <div class="oj-flex-item col-sm-12 col-md-8" style="color: #4e5769 !important;">
   <div id="taskId" class="mt-2 mb-4">
-    <h3 class="float-left  mr-4">Submissions</h3>
+    <h3 class="float-left mr-4">Submissions</h3>
     <div class="ml-5">
       <oj-radioset
         id="inlineSet"
@@ -167,6 +167,17 @@
         <oj-option id="ld" value="graded">Graded</oj-option>
         <oj-option id="rs" value="not-graded">Not Graded</oj-option>
       </oj-radioset>
+    </div>
+    <div class="form-group oj-flex oj-flex-item col-md-6 col-sm-12">
+      <div class="col-sm-12">
+        <input
+          data-bind="textInput: searchQuery, event: { keyup: searchActivity }"
+          placeholder=" &nbsp; Search by grade or name..."
+          style="width: 80%;"
+          class="oj-flex-item ml-0 pl-0"
+        />
+        <!-- <button class="btn ml-3" data-bind="click: searchActivity"><i class="fa fa-search"></i></button> -->
+      </div>
     </div>
     <button
       class="btn btn-danger float-right"
