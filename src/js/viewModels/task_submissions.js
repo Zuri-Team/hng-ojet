@@ -206,7 +206,6 @@ define([
 
       if (query.length == 0) {
         submissions = submissionsArr;
-        return;
       }
       submissions = submissionsArr.filter(
         (data) =>
