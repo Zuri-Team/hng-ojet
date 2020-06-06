@@ -153,10 +153,10 @@ define([
               data.comment = "No comment";
             }
             submissionsArr = data;
-            const submissions = data.filter((datum) => datum.is_graded !== 1);
+            // const submissions = data.filter((datum) => datum.is_graded !== 1);
             self.dataProvider(
               new PagingDataProviderView(
-                new ArrayDataProvider(submissions, { keyAttribute: "user_id" })
+                new ArrayDataProvider(data, { keyAttribute: "user_id" })
               )
             );
           }
