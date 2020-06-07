@@ -48,7 +48,7 @@ define([
 
     self.editRow = ko.observable();
 
-    self.tasksToView = ko.observable("all");
+    self.tasksToView = ko.observable("not-graded");
     self.searchQuery = ko.observable("");
 
     // extract the task ID we have to work with
@@ -205,15 +205,17 @@ define([
       let submissions;
 
       if (query.length == 0) {
-        submissions = submissionsArr;
+        submissions =
+          self.tasksToView("not-graded") ||
+          submissionsArr.filter((datum) => datum.is_graded !== 1);
       } else {
-      submissions = submissionsArr.filter(
-        (data) =>
-          data.grade_score === query ||
-          data.user.firstname.trim().toLowerCase().startsWith(query) ||
-          data.user.lastname.trim().toLowerCase().startsWith(query) ||
-          data.user.username.trim().toLowerCase().startsWith(query)
-      );
+        submissions = submissionsArr.filter(
+          (data) =>
+            data.grade_score === query ||
+            data.user.firstname.trim().toLowerCase().startsWith(query) ||
+            data.user.lastname.trim().toLowerCase().startsWith(query) ||
+            data.user.username.trim().toLowerCase().startsWith(query)
+        );
       }
       self.dataProvider(
         new PagingDataProviderView(
