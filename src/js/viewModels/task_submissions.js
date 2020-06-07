@@ -200,7 +200,7 @@ define([
 
     self.searchActivity = async () => {
       const query = !Number.isNaN(+self.searchQuery())
-        ? self.searchQuery()
+        ? Math.floor(self.searchQuery())
         : self.searchQuery().trim().toLowerCase();
       let submissions;
 
