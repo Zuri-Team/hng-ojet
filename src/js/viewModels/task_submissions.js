@@ -48,7 +48,7 @@ define([
 
     self.editRow = ko.observable();
 
-    self.tasksToView = ko.observable("all");
+    self.tasksToView = ko.observable("not-graded");
     self.searchQuery = ko.observable("");
 
     // extract the task ID we have to work with
@@ -154,10 +154,10 @@ define([
               data.comment = "No comment";
             }
             submissionsArr = data;
-            // const submissions = data.filter((datum) => datum.is_graded !== 1);
+            const submissions = data.filter((datum) => datum.is_graded !== 1);
             self.dataProvider(
               new PagingDataProviderView(
-                new ArrayDataProvider(data, { keyAttribute: "user_id" })
+                new ArrayDataProvider(submissions, { keyAttribute: "user_id" })
               )
             );
           }
