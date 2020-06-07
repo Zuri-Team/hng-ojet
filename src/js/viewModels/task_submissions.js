@@ -205,9 +205,7 @@ define([
       let submissions;
 
       if (query.length == 0) {
-        submissions =
-          self.tasksToView("not-graded") ||
-          submissionsArr.filter((datum) => datum.is_graded !== 1);
+        submissions = self.tasksToView("all");
       } else {
         submissions = submissionsArr.filter(
           (data) =>
