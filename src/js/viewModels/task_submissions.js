@@ -48,7 +48,7 @@ define([
 
     self.editRow = ko.observable();
 
-    self.tasksToView = ko.observable("not-graded");
+    self.tasksToView = ko.observable("all");
     self.searchQuery = ko.observable("");
 
     // extract the task ID we have to work with
